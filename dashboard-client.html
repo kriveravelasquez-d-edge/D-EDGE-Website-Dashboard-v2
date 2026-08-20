@@ -1,0 +1,1999 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#f4f5f9]">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Streamline Portal - D-EDGE Hotel Website Platform</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              purple: '#5B1E82',
+              purpleDark: '#431362',
+              purpleLight: '#7A2CAE',
+              accentGreen: '#10B981',
+              accentGreenHover: '#059669',
+              bgLight: '#F4F5F9',
+              pillBg: '#EFEAEF',
+              cardBg: '#FFFFFF',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #c5b8d0; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #5B1E82; }
+    
+    .sidebar-collapsed {
+      width: 5rem !important;
+    }
+    .sidebar-collapsed .sidebar-text,
+    .sidebar-collapsed .sidebar-footer-card {
+      display: none !important;
+    }
+    .sidebar-collapsed .sidebar-nav-btn {
+      justify-content: center !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+  </style>
+</head>
+<body class="h-full text-slate-800 flex overflow-hidden font-sans antialiased bg-[#f4f5f9] relative">
+
+  <!-- MOBILE OVERLAY FOR SIDEBAR -->
+  <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-30 hidden md:hidden"></div>
+
+  <!-- COLLAPSIBLE SIDEBAR -->
+  <aside id="main-sidebar" class="fixed md:static inset-y-0 left-0 w-64 bg-brand-purple text-white flex flex-col justify-between shrink-0 shadow-2xl z-40 transition-all duration-300 transform -translate-x-full md:translate-x-0">
+    <div>
+      <!-- Sidebar Header -->
+      <div class="p-4 md:p-6 flex items-center justify-between border-b border-purple-900/40 relative">
+        <div class="flex items-center space-x-3 overflow-hidden">
+          <div class="bg-white/10 p-2 rounded-lg shrink-0">
+            <i data-lucide="layout-grid" class="w-5 h-5 md:w-6 md:h-6 text-white"></i>
+          </div>
+          <div class="sidebar-text">
+            <span class="font-bold text-base md:text-lg tracking-tight block whitespace-nowrap">Streamline</span>
+            <span class="text-[10px] text-purple-300 block -mt-1 whitespace-nowrap">D-EDGE Creation</span>
+          </div>
+        </div>
+        
+        <button id="sidebar-collapse-btn" onclick="toggleSidebar()" class="p-1.5 rounded-lg hover:bg-white/10 text-purple-300 hover:text-white transition shrink-0" title="Toggle Sidebar">
+          <i id="collapse-icon" data-lucide="chevron-left" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <nav class="mt-4 md:mt-6 px-3 space-y-1.5">
+        <!-- PROJECT BOARDS: STRICTLY HIDDEN FOR CLIENTS -->
+        <button onclick="switchView('boards')" id="nav-boards" title="Project Boards (Admin)" class="sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-medium text-purple-200 hover:bg-white/10 transition">
+          <i data-lucide="kanban" class="w-4 h-4 shrink-0"></i>
+          <span class="sidebar-text truncate">Project Boards (Admin)</span>
+        </button>
+        <button onclick="switchView('timeline')" id="nav-timeline" title="Timeline Axis" class="sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-semibold bg-white/15 text-white shadow-sm transition">
+          <i data-lucide="git-commit" class="w-4 h-4 shrink-0"></i>
+          <span class="sidebar-text truncate">Timeline Axis</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Sidebar Footer Card -->
+    <div class="p-4 border-t border-purple-900/40">
+      <div class="sidebar-footer-card bg-purple-900/30 p-3 rounded-xl mb-3 border border-purple-400/20 space-y-1">
+        <div class="text-xs font-bold text-white truncate" id="sb-project-name">Le Grand Hotel Paris</div>
+        <div class="text-[11px] text-purple-200" id="sb-project-pkg">SEO Essential</div>
+        <div class="inline-block bg-purple-950 text-amber-300 text-[10px] px-2 py-0.5 rounded font-mono" id="sb-evolution-tag">Template: Crystal</div>
+        <div id="sb-pm-container" class="text-[10px] text-purple-300 pt-1 block">PM: <span id="sb-pm-name" class="text-white font-semibold">Dounia</span></div>
+      </div>
+      <div class="sidebar-text text-[11px] text-purple-300 px-1">
+        Current Role: <span id="sb-role-label" class="font-bold text-white">Manager View</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT AREA -->
+  <div class="flex-1 flex flex-col h-full overflow-hidden w-full">
+
+    <!-- TOP HEADER BAR -->
+    <header class="h-16 bg-white border-b border-slate-200 px-4 md:px-8 flex items-center justify-between shrink-0 shadow-sm z-10 gap-2">
+      <div class="flex items-center space-x-2 md:space-x-4 min-w-0">
+        <h1 id="header-project-title" class="text-base md:text-xl font-bold text-brand-purple tracking-tight truncate">Le Grand Hotel Paris</h1>
+        <span id="header-evolution-badge" class="hidden sm:inline-block bg-purple-100 text-brand-purple border border-purple-200 text-xs px-2.5 py-1 rounded-md font-mono font-semibold">
+          Template: Crystal
+        </span>
+
+        <!-- PROJECT SELECTOR: HIDDEN FOR CLIENTS -->
+        <select id="project-selector" onchange="selectProject(this.value)" class="bg-slate-50 border border-slate-200 text-xs text-slate-700 rounded-lg px-2 py-1.5 font-medium outline-none focus:ring-2 focus:ring-brand-purple max-w-[120px] sm:max-w-none truncate">
+        </select>
+      </div>
+
+      <div class="flex items-center space-x-2 md:space-x-3 shrink-0">
+        <!-- EDITABLE CLIENT EMAIL -->
+        <div id="header-email-container" class="hidden lg:flex items-center space-x-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs">
+          <i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400"></i>
+          <span class="text-slate-500 font-semibold text-[11px]">Client:</span>
+          <input id="header-client-email" type="email" class="bg-transparent text-slate-800 text-xs font-medium outline-none w-36 xl:w-44 truncate">
+          <button id="btn-save-header-email" onclick="saveHeaderClientEmail()" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-2xs transition">
+            Save
+          </button>
+        </div>
+
+        <button id="btn-push-notify" onclick="openNotifyModal()" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-2.5 md:px-3 py-1.5 rounded-lg flex items-center space-x-1.5 shadow-sm transition">
+          <i data-lucide="bell" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Send Alert</span>
+        </button>
+
+        <div class="bg-slate-100 p-0.5 md:p-1 rounded-xl flex items-center border border-slate-200 text-xs font-semibold">
+          <button id="btn-pm-view" onclick="setRole('pm')" class="px-2.5 md:px-4 py-1.5 rounded-lg bg-brand-purple text-white shadow-sm transition text-[11px] md:text-xs">PM</button>
+          <button id="btn-client-view" onclick="setRole('client')" class="px-2.5 md:px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs">Client</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- WORKSPACE CANVAS -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6">
+
+      <!-- VIEW 1: TIMELINE AXIS CANVAS -->
+      <div id="view-timeline" class="space-y-6">
+        <section class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm relative min-h-[450px] md:min-h-[500px] flex flex-col justify-center overflow-x-auto">
+          
+          <!-- TIMELINE CANVAS HEADER WITH PROJECT NAME & TEMPLATE -->
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+            <div class="flex items-center space-x-3">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Project Timeline Axis:</span>
+              <h2 id="axis-project-name" class="text-sm md:text-base font-bold text-brand-purple">Le Grand Hotel Paris</h2>
+            </div>
+            <span id="axis-evolution-tag" class="bg-purple-100 text-brand-purple border border-purple-200 text-xs px-3 py-1 rounded-full font-mono font-bold">
+              Template: Crystal
+            </span>
+          </div>
+
+          <div class="min-w-[1000px] md:min-w-[1200px] py-8 md:py-12 relative">
+            <div class="absolute top-1/2 left-12 right-12 h-1 bg-slate-700 -translate-y-1/2 z-0"></div>
+            <div id="timeline-nodes-container" class="relative z-10 flex items-center justify-start space-x-8 px-12">
+            </div>
+          </div>
+        </section>
+
+        <!-- CONTENT COLLECTION SECTION -->
+        <section class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-6">
+          <div class="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <h3 class="text-sm md:text-base font-bold text-brand-purple flex items-center space-x-2">
+              <i data-lucide="palette" class="w-5 h-5 text-brand-purple"></i>
+              <span>Content Collection</span>
+            </h3>
+
+            <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+              <div class="flex items-center space-x-2">
+                <span class="text-xs font-semibold text-slate-500">Languages:</span>
+                <div id="languages-display-container" class="flex items-center space-x-1"></div>
+                <button id="btn-edit-languages" onclick="openLanguagesModal()" class="text-xs text-brand-purple hover:underline font-bold pl-1">Edit</button>
+              </div>
+
+              <button onclick="saveGraphicElements()" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center space-x-1 shadow-sm transition">
+                <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                <span>Save Elements</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 text-xs">
+            <!-- TEXTS / GOOGLE DOCS COLUMN -->
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
+                    <i data-lucide="file-text" class="w-4 h-4 text-brand-purple"></i>
+                    <span>Texts</span>
+                  </h4>
+                  <button type="button" onclick="openAddTextDocModal()" class="text-[11px] bg-purple-100 hover:bg-brand-purple text-brand-purple hover:text-white font-bold px-2.5 py-1 rounded-lg flex items-center space-x-1 transition shadow-2xs">
+                    <i data-lucide="plus" class="w-3 h-3"></i>
+                    <span>Add Link</span>
+                  </button>
+                </div>
+
+                <div class="space-y-1 text-[11px] text-slate-500 select-none pb-1">
+                  <span class="font-bold text-slate-700 block">Requirements:</span>
+                  <p>• Google Docs links for hotel page copy, amenities, rooms & translations.</p>
+                </div>
+
+                <!-- DYNAMIC LIST OF GOOGLE DOC LINKS BUTTONS -->
+                <div id="ge-text-docs-container" class="space-y-2">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+
+              <!-- PERSISTENT ADD BUTTON -->
+              <button type="button" onclick="openAddTextDocModal()" class="w-full mt-2 py-2 border border-dashed border-purple-300 hover:border-brand-purple hover:bg-purple-50/50 rounded-xl text-brand-purple font-bold text-xs flex items-center justify-center space-x-1.5 transition">
+                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                <span>+ Add Google Doc Link</span>
+              </button>
+            </div>
+
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+              <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
+                <i data-lucide="image" class="w-4 h-4 text-brand-purple"></i>
+                <span>Images & Logo</span>
+              </h4>
+
+              <div class="space-y-1 text-[11px] text-slate-500 select-none pb-1">
+                <span class="font-bold text-slate-700 block">Requirements:</span>
+                <p>• <strong>Visuals:</strong> JPEG format, Min size 2200 x 1100 px. Original visuals.</p>
+                <p>• <strong>Logos:</strong> High quality, .PNG format with transparent background.</p>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Images Google Drive Link</label>
+                <input id="ge-images-drive" type="url" placeholder="https://drive.google.com/..." class="w-full border border-slate-200 bg-white rounded-lg p-2 text-xs outline-none focus:ring-2 focus:ring-brand-purple">
+              </div>
+            </div>
+
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3.5">
+              <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
+                <i data-lucide="type" class="w-4 h-4 text-brand-purple"></i>
+                <span>Brand Identity</span>
+              </h4>
+
+              <!-- INTERACTIVE COLOR PALETTE SELECTOR -->
+              <div class="space-y-3 bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs">
+                <div class="flex items-center justify-between">
+                  <label class="block font-bold text-slate-800 text-xs flex items-center space-x-1.5">
+                    <i data-lucide="palette" class="w-3.5 h-3.5 text-brand-purple"></i>
+                    <span>Colors Palette Selection</span>
+                  </label>
+                </div>
+
+                <!-- RESPONSIVE COLOR PALETTE SELECTORS -->
+                <div class="space-y-2">
+                  <!-- PRIMARY COLOR -->
+                  <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between gap-3 hover:border-purple-200 transition">
+                    <div class="flex items-center space-x-2.5 min-w-0">
+                      <div class="relative w-8 h-8 rounded-lg border border-slate-300 overflow-hidden shrink-0 shadow-inner flex items-center justify-center bg-white cursor-pointer hover:border-brand-purple transition group" title="Click to pick Primary Color">
+                        <input type="color" id="pv-color-primary-picker" oninput="handleProjectViewColorInput('primary', this.value)" class="absolute -inset-2 w-12 h-12 cursor-pointer">
+                      </div>
+                      <div class="min-w-0">
+                        <span class="font-bold text-slate-800 text-xs block">Primary Color</span>
+                      </div>
+                    </div>
+                    <div class="w-24 sm:w-28 shrink-0">
+                      <input type="text" id="pv-color-primary-val" placeholder="#5B1E82" oninput="handleProjectViewColorInput('primary', this.value)" class="w-full border border-slate-200 bg-white rounded-lg px-2 py-1 text-xs font-mono text-center outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs">
+                    </div>
+                  </div>
+
+                  <!-- SECONDARY COLOR -->
+                  <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between gap-3 hover:border-purple-200 transition">
+                    <div class="flex items-center space-x-2.5 min-w-0">
+                      <div class="relative w-8 h-8 rounded-lg border border-slate-300 overflow-hidden shrink-0 shadow-inner flex items-center justify-center bg-white cursor-pointer hover:border-brand-purple transition group" title="Click to pick Secondary Color">
+                        <input type="color" id="pv-color-secondary-picker" oninput="handleProjectViewColorInput('secondary', this.value)" class="absolute -inset-2 w-12 h-12 cursor-pointer">
+                      </div>
+                      <div class="min-w-0">
+                        <span class="font-bold text-slate-800 text-xs block">Secondary Color</span>
+                      </div>
+                    </div>
+                    <div class="w-24 sm:w-28 shrink-0">
+                      <input type="text" id="pv-color-secondary-val" placeholder="#C5A059" oninput="handleProjectViewColorInput('secondary', this.value)" class="w-full border border-slate-200 bg-white rounded-lg px-2 py-1 text-xs font-mono text-center outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs">
+                    </div>
+                  </div>
+
+                  <!-- TERTIARY COLOR -->
+                  <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between gap-3 hover:border-purple-200 transition">
+                    <div class="flex items-center space-x-2.5 min-w-0">
+                      <div class="relative w-8 h-8 rounded-lg border border-slate-300 overflow-hidden shrink-0 shadow-inner flex items-center justify-center bg-white cursor-pointer hover:border-brand-purple transition group" title="Click to pick Tertiary Color">
+                        <input type="color" id="pv-color-tertiary-picker" oninput="handleProjectViewColorInput('tertiary', this.value)" class="absolute -inset-2 w-12 h-12 cursor-pointer">
+                      </div>
+                      <div class="min-w-0">
+                        <span class="font-bold text-slate-800 text-xs block">Tertiary Color</span>
+                      </div>
+                    </div>
+                    <div class="w-24 sm:w-28 shrink-0">
+                      <input type="text" id="pv-color-tertiary-val" placeholder="#F4F5F9" oninput="handleProjectViewColorInput('tertiary', this.value)" class="w-full border border-slate-200 bg-white rounded-lg px-2 py-1 text-xs font-mono text-center outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs">
+                    </div>
+                  </div>
+                </div>
+
+                <input type="hidden" id="ge-colors">
+              </div>
+
+              <!-- FONTS SELECTION (2 GOOGLE FONTS SELECT FIELDS) -->
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <label class="block font-semibold text-slate-700 text-xs flex items-center space-x-1.5">
+                    <i data-lucide="type" class="w-3.5 h-3.5 text-brand-purple"></i>
+                    <span>Fonts</span>
+                  </label>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <!-- TITLE & HEADINGS FONT -->
+                  <div class="space-y-1">
+                    <label class="block text-[11px] font-semibold text-slate-600">Title & Heading Font</label>
+                    <div class="relative">
+                      <select id="ge-font-title" onchange="syncProjectViewFontsToProject()" class="w-full border border-slate-200 bg-white rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer shadow-2xs appearance-none pr-7">
+                        <option value="" disabled>-- Select Title Font --</option>
+                        <optgroup label="Serif & Editorial">
+                          <option value="Playfair Display">Playfair Display</option>
+                          <option value="Cormorant Garamond">Cormorant Garamond</option>
+                          <option value="Cinzel">Cinzel</option>
+                          <option value="Bodoni Moda">Bodoni Moda</option>
+                          <option value="Prata">Prata</option>
+                          <option value="Marcellus">Marcellus</option>
+                          <option value="Castoro">Castoro</option>
+                          <option value="Lora">Lora</option>
+                          <option value="Merriweather">Merriweather</option>
+                          <option value="EB Garamond">EB Garamond</option>
+                          <option value="Spectral">Spectral</option>
+                          <option value="Libre Baskerville">Libre Baskerville</option>
+                          <option value="DM Serif Display">DM Serif Display</option>
+                          <option value="Fraunces">Fraunces</option>
+                          <option value="Italiana">Italiana</option>
+                        </optgroup>
+                        <optgroup label="Sans-Serif & Modern">
+                          <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
+                          <option value="Montserrat">Montserrat</option>
+                          <option value="Syne">Syne</option>
+                          <option value="Poppins">Poppins</option>
+                          <option value="Outfit">Outfit</option>
+                          <option value="Urbanist">Urbanist</option>
+                          <option value="Tenor Sans">Tenor Sans</option>
+                          <option value="Raleway">Raleway</option>
+                          <option value="Oswald">Oswald</option>
+                        </optgroup>
+                      </select>
+                      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
+                        <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- BODY TEXT FONT -->
+                  <div class="space-y-1">
+                    <label class="block text-[11px] font-semibold text-slate-600">Body Text Font</label>
+                    <div class="relative">
+                      <select id="ge-font-body" onchange="syncProjectViewFontsToProject()" class="w-full border border-slate-200 bg-white rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer shadow-2xs appearance-none pr-7">
+                        <option value="" disabled>-- Select Body Font --</option>
+                        <optgroup label="Sans-Serif (Clean & Legible)">
+                          <option value="Inter">Inter</option>
+                          <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
+                          <option value="Open Sans">Open Sans</option>
+                          <option value="Lato">Lato</option>
+                          <option value="Montserrat">Montserrat</option>
+                          <option value="DM Sans">DM Sans</option>
+                          <option value="Work Sans">Work Sans</option>
+                          <option value="Nunito Sans">Nunito Sans</option>
+                          <option value="Nunito">Nunito</option>
+                          <option value="Mulish">Mulish</option>
+                          <option value="Karla">Karla</option>
+                          <option value="Roboto">Roboto</option>
+                          <option value="Source Sans 3">Source Sans 3</option>
+                          <option value="Cabin">Cabin</option>
+                          <option value="Quicksand">Quicksand</option>
+                          <option value="Rubik">Rubik</option>
+                          <option value="Lexend">Lexend</option>
+                          <option value="Barlow">Barlow</option>
+                        </optgroup>
+                        <optgroup label="Serif (Refined Reading)">
+                          <option value="Lora">Lora</option>
+                          <option value="Merriweather">Merriweather</option>
+                          <option value="Source Serif 4">Source Serif 4</option>
+                          <option value="PT Serif">PT Serif</option>
+                        </optgroup>
+                      </select>
+                      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
+                        <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- THIRD PARTY INTEGRATIONS & FUNCTIONALITIES -->
+        <section class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-6">
+          <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+            <h3 class="text-sm md:text-base font-bold text-brand-purple flex items-center space-x-2">
+              <i data-lucide="layers" class="w-5 h-5 text-brand-purple"></i>
+              <span>Third Party Integrations and Functionalities</span>
+            </h3>
+          </div>
+
+          <div id="third-party-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+          </div>
+        </section>
+      </div>
+
+      <!-- VIEW 2: ADMIN PROJECT BOARDS DASHBOARD (RESTRICTED TO MANAGERS ONLY) -->
+      <div id="view-boards" class="space-y-6 hidden">
+        <div class="flex flex-col md:flex-row md:items-center justify-between bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-sm gap-4">
+          <div>
+            <h2 class="text-base md:text-lg font-bold text-brand-purple">Project Management Dashboard</h2>
+            <p class="text-xs text-slate-500">Filter, sort, and manage agency hotel website builds.</p>
+          </div>
+          <button onclick="openCreateProjectModal()" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-xs font-bold px-4 py-2.5 rounded-xl flex items-center justify-center space-x-2 transition shadow-md w-full md:w-auto">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Create New Project</span>
+          </button>
+        </div>
+
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Filter by Project Manager</label>
+            <select id="filter-pm" onchange="renderBoardsGrid()" class="w-full border border-slate-200 rounded-xl p-2 bg-slate-50 outline-none focus:ring-2 focus:ring-brand-purple font-medium">
+              <option value="ALL">All Project Managers</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Filter by Evolution Template</label>
+            <select id="filter-evolution" onchange="renderBoardsGrid()" class="w-full border border-slate-200 rounded-xl p-2 bg-slate-50 outline-none focus:ring-2 focus:ring-brand-purple font-medium">
+              <option value="ALL">All Evolution Templates</option>
+              <option value="Crystal">Crystal</option>
+              <option value="Hendricks">Hendricks</option>
+              <option value="Sequoia">Sequoia</option>
+              <option value="Fuji">Fuji</option>
+              <option value="Berlin">Berlin</option>
+              <option value="Queen">Queen</option>
+              <option value="Paprika">Paprika</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Filter by Package Tier</label>
+            <select id="filter-package" onchange="renderBoardsGrid()" class="w-full border border-slate-200 rounded-xl p-2 bg-slate-50 outline-none focus:ring-2 focus:ring-brand-purple font-medium">
+              <option value="ALL">All Website Packages</option>
+              <option value="no_seo">Template No SEO</option>
+              <option value="seo_essential">SEO Essential</option>
+              <option value="seo_content">SEO Custom (SEO Content)</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODALS -->
+  <div id="modal-notify" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-4 border border-slate-200">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-base font-bold text-brand-purple flex items-center space-x-2">
+          <i data-lucide="send" class="w-5 h-5 text-amber-500"></i>
+          <span>Send Urgent Deadline Alert</span>
+        </h3>
+        <button onclick="closeModal('modal-notify')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Recipient Client Email</label>
+          <input id="na-email" type="email" readonly class="w-full border border-slate-200 bg-slate-50 rounded-xl p-2.5 text-slate-600 font-mono">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Current Active Step Pending</label>
+          <input id="na-step" type="text" readonly class="w-full border border-slate-200 bg-slate-50 rounded-xl p-2.5 text-slate-800 font-bold">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Step Target Deadline Date</label>
+          <input id="na-date" type="text" class="w-full border border-slate-200 rounded-xl p-2.5 text-amber-600 font-mono font-bold">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Email Message Preview</label>
+          <textarea id="na-message" rows="5" class="w-full border border-slate-200 rounded-xl p-3 text-xs leading-relaxed outline-none focus:ring-2 focus:ring-brand-purple font-sans"></textarea>
+        </div>
+
+        <div class="pt-3 flex justify-end space-x-2 border-t border-slate-100">
+          <button type="button" onclick="closeModal('modal-notify')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold">Cancel</button>
+          <button onclick="sendDeadlineEmail()" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold flex items-center space-x-1.5 shadow-sm">
+            <i data-lucide="mail" class="w-4 h-4"></i>
+            <span>Dispatch Email Alert</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-project" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-xl shadow-2xl space-y-4 border border-slate-200 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div>
+          <h3 id="modal-project-title-text" class="text-base font-bold text-brand-purple">Configure Project Specs</h3>
+          <p class="text-[11px] text-slate-500">Define project details, evolution template, and website languages.</p>
+        </div>
+        <button type="button" onclick="closeModal('modal-project')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form onsubmit="handleProjectFormSubmit(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="mp-project-id">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-700 font-bold mb-1">Hotel Name</label>
+            <input required id="mp-name" type="text" placeholder="e.g. Le Grand Hotel Paris" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+          </div>
+
+          <div>
+            <label class="block text-slate-700 font-bold mb-1">Project Name</label>
+            <input required id="mp-pm-name" type="text" placeholder="e.g. Dounia" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-700 font-bold mb-1">Client Email Address</label>
+            <input required id="mp-client-email" type="email" placeholder="client@hotel.com" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+          </div>
+
+          <div>
+            <label class="block text-slate-700 font-bold mb-1">Evolution Template</label>
+            <select id="mp-evolution" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+              <option value="Crystal">Crystal</option>
+              <option value="Hendricks">Hendricks</option>
+              <option value="Sequoia">Sequoia</option>
+              <option value="Fuji">Fuji</option>
+              <option value="Berlin">Berlin</option>
+              <option value="Queen">Queen</option>
+              <option value="Paprika">Paprika</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="block text-slate-700 font-bold">Website language</label>
+            <span class="text-[10px] text-slate-400">Select all that apply</span>
+          </div>
+          <div id="mp-lang-list-container" class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-[11px] max-h-48 overflow-y-auto">
+            <!-- Populated dynamically -->
+          </div>
+          <div class="flex items-center space-x-2 mt-2">
+            <input type="text" id="mp-new-custom-lang" placeholder="Add other language (e.g. Japanese, Dutch)..." class="flex-1 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:ring-2 focus:ring-brand-purple bg-white" onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addCustomLanguageInProjectModal(); }">
+            <button type="button" onclick="addCustomLanguageInProjectModal()" class="px-3 py-1.5 bg-slate-100 hover:bg-purple-50 text-brand-purple hover:text-brand-purpleDark border border-slate-200 font-bold rounded-lg text-xs transition flex items-center space-x-1 shrink-0">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>Add</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-700 font-bold mb-1">Website Package Tier</label>
+            <select id="mp-package" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+              <option value="no_seo">Template No SEO</option>
+              <option value="seo_essential">SEO Essential Package</option>
+              <option value="seo_content">SEO Custom (SEO Content)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-slate-700 font-bold mb-1">Default Google Drive Link</label>
+            <input required id="mp-drive" type="url" value="https://drive.google.com" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+          </div>
+        </div>
+
+        <div class="pt-3 flex justify-end space-x-2 border-t border-slate-100">
+          <button type="button" onclick="closeModal('modal-project')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm transition">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modal-languages" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-4 border border-slate-200">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <i data-lucide="globe" class="w-4 h-4 text-brand-purple"></i>
+          <h3 class="text-base font-bold text-brand-purple">Manage Target Languages</h3>
+        </div>
+        <button onclick="closeModal('modal-languages')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div id="modal-lang-list" class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-60 overflow-y-auto p-1 text-xs">
+        <!-- Populated dynamically -->
+      </div>
+
+      <!-- Add Custom Language Form -->
+      <div class="flex items-center space-x-2 pt-2 border-t border-slate-100">
+        <input type="text" id="input-new-custom-lang" placeholder="Add other language (e.g. Japanese, Dutch)..." class="flex-1 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:ring-2 focus:ring-brand-purple" onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addCustomLanguageInModal(); }">
+        <button type="button" onclick="addCustomLanguageInModal()" class="px-3 py-1.5 bg-slate-100 hover:bg-purple-50 text-brand-purple hover:text-brand-purpleDark border border-slate-200 font-bold rounded-lg text-xs transition flex items-center space-x-1 shrink-0">
+          <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+          <span>Add</span>
+        </button>
+      </div>
+
+      <div class="pt-3 flex justify-end space-x-2 border-t border-slate-100">
+        <button type="button" onclick="closeModal('modal-languages')" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 text-xs transition">Cancel</button>
+        <button type="button" onclick="saveLanguages()" class="px-4 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm text-xs transition">Update Languages</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL FOR GOOGLE DOC LINKS (TEXTS) -->
+  <div id="modal-text-doc" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-4 border border-slate-200">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <i data-lucide="file-text" class="w-4 h-4 text-brand-purple"></i>
+          <h3 id="modal-text-doc-title" class="text-base font-bold text-brand-purple">Add Google Doc Link</h3>
+        </div>
+        <button onclick="closeModal('modal-text-doc')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form onsubmit="handleTextDocSubmit(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="mtd-doc-id">
+        <div>
+          <label class="block text-slate-700 font-bold mb-1">Custom Button / Doc Label</label>
+          <input required id="mtd-label" type="text" placeholder="e.g. Master Page Copy, Room Descriptions, Menu Specs" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+        </div>
+
+        <div>
+          <label class="block text-slate-700 font-bold mb-1">Google Doc URL</label>
+          <input required id="mtd-url" type="url" placeholder="https://docs.google.com/document/d/..." class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+        </div>
+
+        <div class="pt-3 flex justify-end space-x-2 border-t border-slate-100">
+          <button type="button" onclick="closeModal('modal-text-doc')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition text-xs">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm transition text-xs">Save Doc Link</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modal-add-step" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-4 border border-slate-200">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-base font-bold text-brand-purple">Add New Milestone Step</h3>
+        <button onclick="closeModal('modal-add-step')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form onsubmit="handleAddStepSubmit(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-700 font-bold mb-1">Phase Group Label</label>
+          <input required id="as-group" type="text" placeholder="e.g. Quality Assurance" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple">
+        </div>
+
+        <div>
+          <label class="block text-slate-700 font-bold mb-1">Step Title</label>
+          <input required id="as-title" type="text" placeholder="e.g. Final Security Check" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple">
+        </div>
+
+        <div>
+          <label class="block text-slate-700 font-bold mb-1">Responsibility Owner Tag</label>
+          <select id="as-owner" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-white">
+            <option value="Client">Client</option>
+            <option value="DEDGE">D-EDGE</option>
+            <option value="Both">Both</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 font-bold mb-1">Google Drive Link</label>
+          <input required id="as-drive" type="url" value="https://drive.google.com" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple">
+        </div>
+
+        <div class="pt-3 flex justify-end space-x-2 border-t border-slate-100">
+          <button type="button" onclick="closeModal('modal-add-step')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm">Append Step</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // --- PRD PACKAGE TEMPLATES ---
+    const PRD_TEMPLATES = {
+      no_seo: [
+        { id: 'ns1', group: 'Sitemap Architecture', title: 'Sitemap Validation', date: '2026-06-01', owner: 'Client', status: 'completed', drive: 'https://drive.google.com', tasks: ['PM creates Excel proposed sitemap', 'Sitemap sent to client for review', 'Client validates final sitemap version'] },
+        { id: 'ns2', group: 'Content Collection', title: 'Content Collection', date: '2026-06-10', owner: 'Both', status: 'in_progress', drive: 'https://drive.google.com', tasks: ['Text / Content', 'Images', 'Fonts', 'Colors', 'Graphic charter / brand guidelines', 'Google Analytics 4 (Optional)', 'Google Maps API Key (Optional)'] },
+        { id: 'ns3', group: 'Website Creation Phase', title: 'Website Creation', date: '2026-07-01', owner: 'DEDGE', status: 'pending', drive: 'https://drive.google.com', tasks: ['Website build (4-6 weeks)', 'Additional developments & 3rd party integrations'] },
+        { id: 'ns4', group: 'Staging & Review', title: 'Staging Link Delivery', date: '2026-07-05', owner: 'DEDGE', status: 'pending', drive: 'https://drive.google.com', tasks: ['Send staging link to client for review'] },
+        { id: 'ns5', group: 'Iteration Rounds', title: 'Iteration Round 1 & PM Review', date: '2026-07-12', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Client reviews staging site & provides changes list', 'PM implements approved changes', 'Contract addendum sent if required'] },
+        { id: 'ns6', group: 'Iteration Rounds', title: 'Iteration Round 2 & Final Revisions', date: '2026-07-18', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Client final list of requested changes', 'PM implements final approved changes'] },
+        { id: 'ns7', group: 'Multilingual Integration', title: 'Main Language Validation & Translation', date: '2026-07-25', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Client validates main language website', 'Client sends translated content/texts', 'PM integrates translated content (1-2 wks/lang)'] },
+        { id: 'ns8', group: 'Publication Milestone', title: 'Final Validation, QA & Publication', date: '2026-08-01', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Client performs final website validation', 'PM completes QA checklist', 'Client performs DNS change', 'PM completes domain mapping', '1-hour CMS training scheduled', 'Websupport post-publication email sent'] }
+      ],
+      seo_essential: [
+        { id: 'se1', group: 'SEO Preparation', title: 'SEO Questionnaire', date: '2026-05-25', owner: 'Client', status: 'completed', drive: 'https://drive.google.com', tasks: ['Client completes SEO questionnaire'] },
+        { id: 'se2', group: 'Sitemap Architecture', title: 'Sitemap Validation', date: '2026-06-01', owner: 'Client', status: 'completed', drive: 'https://drive.google.com', tasks: ['PM creates proposed sitemap Excel', 'Client reviews and validates final sitemap'] },
+        { id: 'se3', group: 'SEO Strategy Phase', title: 'SEO Audit (Main Language)', date: '2026-06-08', owner: 'DEDGE', status: 'completed', drive: 'https://drive.google.com', tasks: ['SEO team conducts audit & keyword list', 'SEO team creates meta titles & descriptions'] },
+        { id: 'se4', group: 'SEO Strategy Phase', title: 'SEO Iteration & Client Validation', date: '2026-06-12', owner: 'Client', status: 'in_progress', drive: 'https://drive.google.com', tasks: ['Hotelier checks SEO doc & requests changes', 'Client validates main language audit'] },
+        { id: 'se5', group: 'SEO Strategy Phase', title: 'SEO Audit (Second Language)', date: '2026-06-18', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['SEO team conducts 2nd language audit', 'Hotelier reviews and validates 2nd lang audit'] },
+        { id: 'se6', group: 'Content Collection', title: 'Content Collection (SEO Guided)', date: '2026-06-25', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Text/content using SEO audit keywords', 'Images & Fonts', 'Colors & Graphic charter', 'Google Analytics 4 & Maps API Key'] },
+        { id: 'se7', group: 'Website Creation Phase', title: 'Website Creation (4-6 Weeks)', date: '2026-07-15', owner: 'DEDGE', status: 'pending', drive: 'https://drive.google.com', tasks: ['Core website build & third party integrations'] },
+        { id: 'se8', group: 'Publication Milestone', title: 'Staging, QA & Publication', date: '2026-08-01', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Staging link review & iteration rounds', 'Main language & translation validation', 'Testing & QA checklist', 'DNS change & domain mapping', '1h CMS training & Websupport email'] }
+      ],
+      seo_content: [
+        { id: 'sc1', group: 'SEO Preparation', title: 'SEO Questionnaire', date: '2026-05-20', owner: 'Client', status: 'completed', drive: 'https://drive.google.com', tasks: ['Client fills out questionnaire for SEO team'] },
+        { id: 'sc2', group: 'Sitemap Architecture', title: 'Sitemap Validation', date: '2026-05-28', owner: 'Client', status: 'completed', drive: 'https://drive.google.com', tasks: ['PM creates proposed sitemap Excel', 'Client validates final sitemap version'] },
+        { id: 'sc3', group: 'SEO Strategy Phase', title: 'SEO Audit (Main Language)', date: '2026-06-05', owner: 'DEDGE', status: 'completed', drive: 'https://drive.google.com', tasks: ['Keywords, meta titles, & meta descriptions generated'] },
+        { id: 'sc4', group: 'Content Creation Phase', title: 'Content Creation & Validation (Main Lang)', date: '2026-06-15', owner: 'Both', status: 'in_progress', drive: 'https://drive.google.com', tasks: ['SEO team creates full page content', 'Client validates created content'] },
+        { id: 'sc5', group: 'Multilingual SEO', title: 'SEO Audit & Content (Second Language)', date: '2026-06-25', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Second language audit conducted', 'Hotelier reviews & validates 2nd lang audit', 'Client reviews & validates final 2nd lang content'] },
+        { id: 'sc6', group: 'Content Collection', title: 'Elements Collection', date: '2026-07-02', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Images, Fonts, Colors, Graphic charter', 'GA4 & Google Maps API key'] },
+        { id: 'sc7', group: 'Website Creation Phase', title: 'Website Creation (4-6 Weeks)', date: '2026-07-20', owner: 'DEDGE', status: 'pending', drive: 'https://drive.google.com', tasks: ['Website build & integrations'] },
+        { id: 'sc8', group: 'Publication Milestone', title: 'Staging, Iterations, QA & Launch', date: '2026-08-10', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Staging review & 2 iteration rounds', 'Final validation & QA checklist', 'DNS change, domain mapping, CMS training'] }
+      ]
+    };
+
+    // --- STATE MANAGEMENT ---
+    let projects = [
+      {
+        id: 'p1',
+        name: 'Le Grand Hotel Paris',
+        pmName: 'Dounia',
+        clientEmail: 'client@grandhotelparis.com',
+        evolutionTag: 'Crystal',
+        languages: ['English', 'French'],
+        packageTier: 'seo_essential',
+        driveUrl: 'https://drive.google.com',
+        colors: {
+          primary: '#5B1E82',
+          secondary: '#C5A059',
+          tertiary: '#F4F5F9'
+        },
+        textDocs: [
+          { id: 'td1', label: 'Main Website Copy (EN/FR)', url: 'https://docs.google.com/document/d/1GrandHotelParisMasterCopy' },
+          { id: 'td2', label: 'Rooms & Amenities Details', url: 'https://docs.google.com/document/d/2GrandHotelParisRoomsSpecs' }
+        ],
+        graphicElements: {
+          imagesDrive: 'https://drive.google.com',
+          colors: 'Primary: #5B1E82, Secondary: #C5A059, Tertiary: #F4F5F9',
+          fonts: 'Title: Playfair Display, Text: Inter'
+        },
+        thirdPartyBoxes: [
+          { id: 'tp1', title: 'Third Party Integrations', type: 'notes', description: 'e.g. Restaurant booking: Table Plus, The Fork, Zenchef. Provide scripts & docs.', value: 'TablePlus for direct dining reservations.', isEditing: false },
+          { id: 'tp2', title: 'Google Maps API Key', type: 'maps', description: 'Interactive map key with direct itinerary simulation.', value: 'AIzaSy...', isEditing: false },
+          { id: 'tp3', title: 'Google Analytics 4 (GA4)', type: 'ga4', description: 'Tracking code (Format: G-XXXXXX) for site metrics.', value: 'G-987654321', isEditing: false }
+        ],
+        steps: JSON.parse(JSON.stringify(PRD_TEMPLATES.seo_essential))
+      },
+      {
+        id: 'p2',
+        name: 'Resort Alpine & Spa',
+        pmName: 'Marc',
+        clientEmail: 'contact@alpineresort.com',
+        evolutionTag: 'Sequoia',
+        languages: ['English', 'German'],
+        packageTier: 'no_seo',
+        driveUrl: 'https://drive.google.com',
+        colors: {
+          primary: '#064E3B',
+          secondary: '#D97706',
+          tertiary: '#FEF3C7'
+        },
+        textDocs: [
+          { id: 'td1', label: 'Alpine Resort Master Copy', url: 'https://docs.google.com/document/d/1AlpineResortContentDoc' }
+        ],
+        graphicElements: {
+          imagesDrive: 'https://drive.google.com',
+          colors: 'Primary: #064E3B, Secondary: #D97706, Tertiary: #FEF3C7',
+          fonts: 'Title: Playfair Display, Text: Inter'
+        },
+        thirdPartyBoxes: [
+          { id: 'tp1', title: 'Third Party Integrations', type: 'notes', description: 'e.g. Restaurant booking: Table Plus, The Fork, Zenchef. Provide scripts & docs.', value: '', isEditing: true },
+          { id: 'tp2', title: 'Google Maps API Key', type: 'maps', description: 'Interactive map key with direct itinerary simulation.', value: '', isEditing: true },
+          { id: 'tp3', title: 'Google Analytics 4 (GA4)', type: 'ga4', description: 'Tracking code (Format: G-XXXXXX) for site metrics.', value: '', isEditing: true }
+        ],
+        steps: JSON.parse(JSON.stringify(PRD_TEMPLATES.no_seo))
+      }
+    ];
+
+    let currentProjectId = 'p1';
+    let currentRole = 'pm'; // 'pm' or 'client'
+
+    // --- INITIALIZATION ---
+    window.addEventListener('DOMContentLoaded', () => {
+      renderProjectSelector();
+      renderApp();
+      updatePmFilterOptions();
+      lucide.createIcons();
+    });
+
+    // --- SIDEBAR TOGGLE ---
+    function toggleSidebar() {
+      const sidebar = document.getElementById('main-sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      const collapseIcon = document.getElementById('collapse-icon');
+
+      if (window.innerWidth < 768) {
+        sidebar.classList.toggle('-translate-x-full');
+        overlay.classList.toggle('hidden');
+      } else {
+        sidebar.classList.toggle('sidebar-collapsed');
+        if (sidebar.classList.contains('sidebar-collapsed')) {
+          collapseIcon.setAttribute('data-lucide', 'chevron-right');
+        } else {
+          collapseIcon.setAttribute('data-lucide', 'chevron-left');
+        }
+        lucide.createIcons();
+      }
+    }
+
+    // --- ROLE-BASED ACCESS CONTROL (RBAC) CONTROLLER ---
+    function setRole(role) {
+      currentRole = role;
+      const pmBtn = document.getElementById('btn-pm-view');
+      const clientBtn = document.getElementById('btn-client-view');
+      const roleLabel = document.getElementById('sb-role-label');
+      const navBoardsBtn = document.getElementById('nav-boards');
+      const projectSelector = document.getElementById('project-selector');
+      const headerEmailContainer = document.getElementById('header-email-container');
+      const btnPushNotify = document.getElementById('btn-push-notify');
+      const sbPmContainer = document.getElementById('sb-pm-container');
+      const btnLanguages = document.getElementById('btn-edit-languages');
+
+      if (role === 'pm') {
+        pmBtn.className = 'px-2.5 md:px-4 py-1.5 rounded-lg bg-brand-purple text-white shadow-sm transition text-[11px] md:text-xs';
+        clientBtn.className = 'px-2.5 md:px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs';
+        roleLabel.textContent = 'Manager View';
+
+        navBoardsBtn.classList.remove('hidden');
+        projectSelector.classList.remove('hidden');
+        headerEmailContainer.classList.remove('hidden');
+        btnPushNotify.classList.remove('hidden');
+        sbPmContainer.classList.remove('hidden');
+        if (btnLanguages) btnLanguages.classList.remove('hidden');
+      } else {
+        clientBtn.className = 'px-2.5 md:px-4 py-1.5 rounded-lg bg-brand-purple text-white shadow-sm transition text-[11px] md:text-xs';
+        pmBtn.className = 'px-2.5 md:px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs';
+        roleLabel.textContent = 'Client View';
+
+        navBoardsBtn.classList.add('hidden');
+        projectSelector.classList.add('hidden');
+        headerEmailContainer.classList.add('hidden');
+        btnPushNotify.classList.add('hidden');
+        sbPmContainer.classList.add('hidden');
+        if (btnLanguages) btnLanguages.classList.add('hidden');
+
+        switchView('timeline');
+      }
+
+      renderApp();
+    }
+
+    function switchView(tab) {
+      if (currentRole === 'client' && tab === 'boards') {
+        tab = 'timeline';
+      }
+
+      const boardsBtn = document.getElementById('nav-boards');
+      const timelineBtn = document.getElementById('nav-timeline');
+      const viewTimeline = document.getElementById('view-timeline');
+      const viewBoards = document.getElementById('view-boards');
+
+      if (tab === 'boards') {
+        boardsBtn.className = 'sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-semibold bg-white/15 text-white shadow-sm transition';
+        timelineBtn.className = 'sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-medium text-purple-200 hover:bg-white/10 transition';
+        viewTimeline.classList.add('hidden');
+        viewBoards.classList.remove('hidden');
+        renderBoardsGrid();
+      } else {
+        timelineBtn.className = 'sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-semibold bg-white/15 text-white shadow-sm transition';
+        boardsBtn.className = 'sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-medium text-purple-200 hover:bg-white/10 transition';
+        viewBoards.classList.add('hidden');
+        viewTimeline.classList.remove('hidden');
+        renderApp();
+      }
+
+      if (window.innerWidth < 768) {
+        document.getElementById('main-sidebar').classList.add('-translate-x-full');
+        document.getElementById('sidebar-overlay').classList.add('hidden');
+      }
+    }
+
+    // --- RENDER APP ---
+    function renderApp() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+
+      document.getElementById('header-project-title').textContent = project.name;
+      document.getElementById('header-evolution-badge').textContent = `Template: ${project.evolutionTag}`;
+      document.getElementById('sb-project-name').textContent = project.name;
+      document.getElementById('sb-project-pkg').textContent = getPackageLabel(project.packageTier);
+      document.getElementById('sb-evolution-tag').textContent = `Template: ${project.evolutionTag}`;
+      document.getElementById('sb-pm-name').textContent = project.pmName || 'Dounia';
+      
+      document.getElementById('axis-project-name').textContent = project.name;
+      document.getElementById('axis-evolution-tag').textContent = `Template: ${project.evolutionTag}`;
+
+      const clientEmailInput = document.getElementById('header-client-email');
+      clientEmailInput.value = project.clientEmail || '';
+
+      const langContainer = document.getElementById('languages-display-container');
+      langContainer.innerHTML = (project.languages || ['English']).map(l => 
+        `<span class="text-[10px] bg-purple-100 text-brand-purple font-bold px-2 py-0.5 rounded border border-purple-200">${l}</span>`
+      ).join('');
+
+      document.getElementById('ge-images-drive').value = project.graphicElements?.imagesDrive || '';
+      
+      const titleFont = project.graphicElements?.fontTitle || (project.graphicElements?.fonts ? (project.graphicElements.fonts.match(/Title:\s*([^,]+)/i)?.[1]?.trim()) : null) || 'Playfair Display';
+      const bodyFont = project.graphicElements?.fontBody || (project.graphicElements?.fonts ? (project.graphicElements.fonts.match(/(?:Text|Body):\s*(.+)/i)?.[1]?.trim()) : null) || 'Inter';
+      
+      const fontTitleSelect = document.getElementById('ge-font-title');
+      const fontBodySelect = document.getElementById('ge-font-body');
+      if (fontTitleSelect) fontTitleSelect.value = titleFont;
+      if (fontBodySelect) fontBodySelect.value = bodyFont;
+
+      const pColors = project.colors || { primary: '#5B1E82', secondary: '#C5A059', tertiary: '#F4F5F9' };
+      setProjectViewColorPaletteValues(pColors.primary, pColors.secondary, pColors.tertiary);
+
+      renderTextDocs(project);
+      renderGraphicCharterSwatches(project);
+      renderThirdPartyBoxes(project);
+      renderTimelineAxis(project);
+      lucide.createIcons();
+    }
+
+    // --- TEXTS / GOOGLE DOCS MANAGEMENT ---
+    function renderTextDocs(project) {
+      const container = document.getElementById('ge-text-docs-container');
+      if (!container) return;
+
+      if (!project.textDocs || project.textDocs.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white p-3.5 rounded-lg border border-slate-200 text-center text-slate-400 text-[11px] py-4 space-y-1">
+            <i data-lucide="file-text" class="w-5 h-5 mx-auto text-slate-300"></i>
+            <p>No Google Doc links added yet.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = project.textDocs.map(doc => `
+        <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs hover:border-purple-300 transition flex items-center justify-between gap-2 group">
+          <a href="${doc.url}" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 min-w-0 flex-1 text-slate-800 hover:text-brand-purple transition" title="Open Google Doc: ${doc.label}">
+            <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center shrink-0 shadow-2xs group-hover:bg-purple-50 group-hover:text-brand-purple group-hover:border-purple-200 transition">
+              <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+            </div>
+            <div class="min-w-0 flex-1">
+              <span class="font-bold text-xs truncate block text-slate-800 group-hover:text-brand-purple">${doc.label || 'Google Doc'}</span>
+              <span class="text-[10px] text-slate-400 truncate block font-mono">${doc.url}</span>
+            </div>
+          </a>
+          <div class="flex items-center space-x-1 shrink-0">
+            <a href="${doc.url}" target="_blank" rel="noopener noreferrer" title="Open in New Tab" class="p-1 text-slate-400 hover:text-brand-purple hover:bg-purple-50 rounded transition">
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            </a>
+            ${currentRole === 'pm' ? `
+              <button type="button" onclick="openEditTextDocModal('${doc.id}')" title="Edit Link & Label" class="p-1 text-slate-400 hover:text-brand-purple hover:bg-purple-50 rounded transition">
+                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+              </button>
+              <button type="button" onclick="deleteTextDoc('${doc.id}')" title="Delete Link" class="p-1 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded transition">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openAddTextDocModal() {
+      document.getElementById('modal-text-doc-title').textContent = 'Add Google Doc Link';
+      document.getElementById('mtd-doc-id').value = '';
+      document.getElementById('mtd-label').value = '';
+      document.getElementById('mtd-url').value = '';
+      document.getElementById('modal-text-doc').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function openEditTextDocModal(docId) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project || !project.textDocs) return;
+      const doc = project.textDocs.find(d => d.id === docId);
+      if (!doc) return;
+
+      document.getElementById('modal-text-doc-title').textContent = 'Edit Google Doc Link';
+      document.getElementById('mtd-doc-id').value = doc.id;
+      document.getElementById('mtd-label').value = doc.label;
+      document.getElementById('mtd-url').value = doc.url;
+      document.getElementById('modal-text-doc').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function handleTextDocSubmit(e) {
+      e.preventDefault();
+      const docId = document.getElementById('mtd-doc-id').value;
+      const label = document.getElementById('mtd-label').value.trim();
+      const url = document.getElementById('mtd-url').value.trim();
+
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      if (!project.textDocs) project.textDocs = [];
+
+      if (docId) {
+        const doc = project.textDocs.find(d => d.id === docId);
+        if (doc) {
+          doc.label = label;
+          doc.url = url;
+        }
+      } else {
+        project.textDocs.push({
+          id: `td-${Date.now()}`,
+          label: label,
+          url: url
+        });
+      }
+
+      closeModal('modal-text-doc');
+      renderTextDocs(project);
+      lucide.createIcons();
+    }
+
+    function deleteTextDoc(docId) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project || !project.textDocs) return;
+      project.textDocs = project.textDocs.filter(d => d.id !== docId);
+      renderTextDocs(project);
+      lucide.createIcons();
+    }
+
+    function renderGraphicCharterSwatches(project) {
+      const container = document.getElementById('ge-color-swatches-display');
+      if (!container) return;
+      
+      const colors = project.colors || {
+        primary: '#5B1E82',
+        secondary: '#C5A059',
+        tertiary: '#F4F5F9'
+      };
+
+      container.innerHTML = `
+        <div class="flex items-center space-x-1.5 text-[10px] font-mono">
+          <span class="inline-flex items-center space-x-1 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-200" title="Primary: ${colors.primary}">
+            <span class="w-2.5 h-2.5 rounded-full border border-slate-300 shadow-2xs shrink-0" style="background-color: ${colors.primary}"></span>
+            <span class="font-bold text-slate-700">P</span>
+          </span>
+          <span class="inline-flex items-center space-x-1 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-200" title="Secondary: ${colors.secondary}">
+            <span class="w-2.5 h-2.5 rounded-full border border-slate-300 shadow-2xs shrink-0" style="background-color: ${colors.secondary}"></span>
+            <span class="font-bold text-slate-700">S</span>
+          </span>
+          <span class="inline-flex items-center space-x-1 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-200" title="Tertiary: ${colors.tertiary}">
+            <span class="w-2.5 h-2.5 rounded-full border border-slate-300 shadow-2xs shrink-0" style="background-color: ${colors.tertiary}"></span>
+            <span class="font-bold text-slate-700">T</span>
+          </span>
+        </div>
+      `;
+    }
+
+    function getPackageLabel(tier) {
+      if (tier === 'no_seo') return 'Template No SEO';
+      if (tier === 'seo_essential') return 'SEO Essential';
+      return 'SEO Custom Content';
+    }
+
+    function renderProjectSelector() {
+      const selector = document.getElementById('project-selector');
+      selector.innerHTML = '';
+      projects.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = `${p.name} (${getPackageLabel(p.packageTier)})`;
+        if (p.id === currentProjectId) opt.selected = true;
+        selector.appendChild(opt);
+      });
+    }
+
+    function selectProject(id) {
+      currentProjectId = id;
+      renderApp();
+    }
+
+    function saveHeaderClientEmail() {
+      const val = document.getElementById('header-client-email').value;
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project) {
+        project.clientEmail = val;
+        alert(`Client email updated to: ${val}`);
+      }
+    }
+
+    function saveGraphicElements() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project) {
+        if (!project.graphicElements) project.graphicElements = {};
+        project.graphicElements.imagesDrive = document.getElementById('ge-images-drive').value;
+        const currentPalette = getProjectViewColorPaletteValues();
+        project.colors = currentPalette;
+        project.graphicElements.colors = `Primary: ${currentPalette.primary}, Secondary: ${currentPalette.secondary}, Tertiary: ${currentPalette.tertiary}`;
+        const fontTitle = document.getElementById('ge-font-title')?.value || 'Playfair Display';
+        const fontBody = document.getElementById('ge-font-body')?.value || 'Inter';
+        project.graphicElements.fontTitle = fontTitle;
+        project.graphicElements.fontBody = fontBody;
+        project.graphicElements.fonts = `Title: ${fontTitle}, Text: ${fontBody}`;
+        
+        renderGraphicCharterSwatches(project);
+        alert('Graphic Elements successfully saved!');
+      }
+    }
+
+    // --- THIRD PARTY BOXES ---
+    function renderThirdPartyBoxes(project) {
+      const grid = document.getElementById('third-party-grid');
+      grid.innerHTML = '';
+
+      if (!project.thirdPartyBoxes) project.thirdPartyBoxes = [];
+
+      project.thirdPartyBoxes.forEach((box, idx) => {
+        const card = document.createElement('div');
+        card.className = 'bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 relative group';
+
+        let icon = 'layers';
+        if (box.type === 'maps') icon = 'map-pin';
+        if (box.type === 'ga4') icon = 'bar-chart-2';
+
+        let extraLink = '';
+        if (box.type === 'ga4') {
+          extraLink = `
+            <a href="https://drive.google.com/file/d/1Vt12fEY4MJKNbOMyDAO-hn1uQ-q6lIgV/view?usp=drive_link" target="_blank" class="text-brand-purple font-bold text-[10px] underline flex items-center space-x-1 pt-1">
+              <i data-lucide="external-link" class="w-3 h-3"></i>
+              <span>View GA4 Setup Tutorial</span>
+            </a>
+          `;
+        }
+
+        let inlinePlusBtn = '';
+        if (box.type === 'notes') {
+          inlinePlusBtn = `
+            <button onclick="addNewThirdPartyBox()" class="mt-2 w-full py-1.5 bg-brand-purple/10 hover:bg-brand-purple text-brand-purple hover:text-white border border-brand-purple/30 rounded-lg font-bold text-xs flex items-center justify-center space-x-1 transition shadow-2xs">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>Add Custom Integration</span>
+            </button>
+          `;
+        }
+
+        const isEditing = box.isEditing !== false;
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
+              <i data-lucide="${icon}" class="w-4 h-4 text-brand-purple"></i>
+              <span>${box.title}</span>
+            </h4>
+            <div class="flex items-center space-x-1">
+              ${isEditing ? `
+                <button onclick="saveThirdPartyBox(${idx})" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-[10px] font-bold px-2 py-0.5 rounded transition">
+                  Save
+                </button>
+              ` : `
+                <button onclick="editThirdPartyBox(${idx})" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded transition">
+                  Edit
+                </button>
+              `}
+              ${currentRole === 'pm' ? `
+                <button onclick="deleteThirdPartyBox(${idx})" class="text-slate-300 hover:text-rose-500 transition pl-1">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+
+          <p class="text-slate-600 text-[11px] leading-relaxed select-none bg-white p-2 rounded border border-slate-200">${box.description}</p>
+          ${inlinePlusBtn}
+
+          <textarea id="tp-box-input-${idx}" rows="2" ${!isEditing ? 'readonly' : ''} class="w-full border border-slate-200 ${!isEditing ? 'bg-slate-100 text-slate-500' : 'bg-white text-slate-800'} rounded-lg p-2 text-xs outline-none focus:ring-2 focus:ring-brand-purple font-mono">${box.value || ''}</textarea>
+          ${extraLink}
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function saveThirdPartyBox(idx) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project && project.thirdPartyBoxes[idx]) {
+        const val = document.getElementById(`tp-box-input-${idx}`).value;
+        project.thirdPartyBoxes[idx].value = val;
+        project.thirdPartyBoxes[idx].isEditing = false;
+        renderApp();
+      }
+    }
+
+    function editThirdPartyBox(idx) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project && project.thirdPartyBoxes[idx]) {
+        project.thirdPartyBoxes[idx].isEditing = true;
+        renderApp();
+      }
+    }
+
+    function addNewThirdPartyBox() {
+      const title = prompt("Enter Third-Party Integration Name (e.g., Zenchef Widget, LiveChat):");
+      if (!title || !title.trim()) return;
+
+      const desc = prompt("Enter Description/Instructions:");
+
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project) {
+        if (!project.thirdPartyBoxes) project.thirdPartyBoxes = [];
+        project.thirdPartyBoxes.push({
+          id: `tp-${Date.now()}`,
+          title: title.trim(),
+          type: 'custom',
+          description: desc || 'Provide integration script or documentation details.',
+          value: '',
+          isEditing: true
+        });
+        renderApp();
+      }
+    }
+
+    function deleteThirdPartyBox(idx) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project && project.thirdPartyBoxes) {
+        project.thirdPartyBoxes.splice(idx, 1);
+        renderApp();
+      }
+    }
+
+    // --- AUTOMATED NO-REPLY DEADLINE ALERT DISPATCHER ---
+    function openNotifyModal() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+
+      const pendingStep = project.steps.find(s => s.status !== 'completed') || project.steps[project.steps.length - 1];
+
+      document.getElementById('na-email').value = project.clientEmail || 'client@hotel.com';
+      document.getElementById('na-step').value = pendingStep.title;
+      document.getElementById('na-date').value = pendingStep.date;
+
+      const defaultMsg = `Dear ${project.name} Team,\n\nThis is an urgent reminder regarding your website creation timeline. We are currently waiting on your action for the step "${pendingStep.title}" due by ${pendingStep.date}.\n\nPlease validate or send the required assets as soon as possible. If this step is delayed, the website creation process will stagnate and push back your target launch date.\n\nBest regards,\n${project.pmName || 'Dounia'} (D-EDGE Project Manager)`;
+
+      document.getElementById('na-message').value = defaultMsg;
+      document.getElementById('modal-notify').classList.remove('hidden');
+    }
+
+    async function sendDeadlineEmail() {
+      const email = document.getElementById('na-email').value;
+      const step = document.getElementById('na-step').value;
+      const customMessage = document.getElementById('na-message').value;
+
+      const sendBtn = document.querySelector("#modal-notify button[onclick='sendDeadlineEmail()']");
+      const originalText = sendBtn.innerHTML;
+      sendBtn.innerText = "Dispatching...";
+      sendBtn.disabled = true;
+
+      try {
+        const response = await fetch("/.netlify/functions/send-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            to: email,
+            subject: `URGENT: Action Required - ${step}`,
+            message: customMessage
+          })
+        });
+
+        if (response.ok) {
+          closeModal('modal-notify');
+          alert(`Automated no-reply email sent successfully to ${email}!`);
+        } else {
+          const errData = await response.json();
+          alert(`Failed to send email: ${JSON.stringify(errData)}`);
+        }
+      } catch (err) {
+        alert(`Error dispatching email: ${err.message}`);
+      } finally {
+        sendBtn.innerHTML = originalText;
+        sendBtn.disabled = false;
+      }
+    }
+
+    // --- TIMELINE RENDER WITH EDITABLE DATES AND DRIVE LINKS ---
+    function renderTimelineAxis(project) {
+      const container = document.getElementById('timeline-nodes-container');
+      container.innerHTML = '';
+
+      project.steps.forEach((step, idx) => {
+        const nodeWrapper = document.createElement('div');
+        nodeWrapper.className = 'relative flex flex-col items-center group shrink-0';
+        const position = idx % 2 === 0 ? 'top' : 'bottom';
+
+        let ownerColor = 'bg-cyan-500 text-white';
+        if (step.owner === 'DEDGE') ownerColor = 'bg-fuchsia-600 text-white';
+        if (step.owner === 'Both') ownerColor = 'bg-sky-500 text-white';
+
+        let actionBtnHtml = step.status === 'completed'
+          ? `<button onclick="toggleStepValidation('${step.id}')" ${currentRole === 'client' ? 'disabled' : ''} class="flex items-center space-x-1 border border-slate-200 bg-purple-50 text-brand-purple hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 text-[11px] font-bold px-3 py-1 rounded-lg transition shadow-2xs">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i>
+              <span>${currentRole === 'pm' ? 'Completed (Devalidate)' : 'Completed'}</span>
+            </button>`
+          : `<button onclick="toggleStepValidation('${step.id}')" ${currentRole === 'client' && step.owner === 'DEDGE' ? 'disabled' : ''} class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[11px] px-3 py-1 rounded-lg shadow-sm transition">
+              Approve Milestone Step
+            </button>`;
+
+        const deleteStepBtn = currentRole === 'pm' ? `
+          <button onclick="deleteStep('${step.id}')" title="Delete Step" class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-rose-500 transition">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          </button>
+        ` : '';
+
+        const tasksHtml = step.tasks.map((taskText, tIdx) => `
+          <div class="flex items-center justify-between group/task py-0.5">
+            <label class="flex items-start space-x-2 text-[11px] text-slate-600 cursor-pointer flex-1">
+              <input type="checkbox" ${step.status === 'completed' || step.completedTaskIndices?.includes(tIdx) ? 'checked' : ''} onchange="toggleTaskCheck('${step.id}', ${tIdx})" class="mt-0.5 rounded border-slate-300 text-brand-purple focus:ring-brand-purple">
+              <span>${taskText}</span>
+            </label>
+            ${currentRole === 'pm' ? `
+              <button onclick="deleteStepTask('${step.id}', ${tIdx})" class="opacity-0 group-hover/task:opacity-100 text-slate-300 hover:text-rose-500 transition pl-1">
+                <i data-lucide="x" class="w-3 h-3"></i>
+              </button>
+            ` : ''}
+          </div>
+        `).join('');
+
+        // EDITABLE & SAVEABLE DATE PICKER WITH "DEADLINE:" LABEL FOR MANAGERS
+        const dateHtml = currentRole === 'pm' ? `
+          <div class="flex items-center space-x-1 text-[11px]">
+            <i data-lucide="calendar" class="w-3 h-3 text-slate-400 shrink-0"></i>
+            <span class="text-[10px] font-bold text-slate-500 shrink-0">Deadline:</span>
+            <input id="date-input-${step.id}" type="date" value="${step.date}" class="border border-slate-200 bg-slate-50 text-slate-700 font-medium rounded px-1 py-0.5 w-24 outline-none focus:ring-1 focus:ring-brand-purple text-[10px]">
+            <button onclick="saveStepDate('${step.id}')" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-[9px] font-bold px-1.5 py-0.5 rounded transition shrink-0">
+              Save
+            </button>
+          </div>
+        ` : `
+          <span class="flex items-center space-x-1 text-[11px] text-slate-500 font-medium">
+            <i data-lucide="calendar" class="w-3 h-3"></i>
+            <span class="font-bold text-slate-600">Deadline: ${step.date}</span>
+          </span>
+        `;
+
+        // EDITABLE & SAVEABLE DRIVE LINK FOR MANAGERS
+        const driveHtml = currentRole === 'pm' ? `
+          <div class="flex items-center space-x-1.5 text-[10px]">
+            <span class="text-slate-400 font-medium shrink-0">Drive:</span>
+            <input id="drive-input-${step.id}" type="url" value="${step.drive || ''}" class="border border-slate-200 bg-slate-50 text-brand-purple underline font-semibold rounded px-1.5 py-0.5 w-32 outline-none focus:ring-1 focus:ring-brand-purple truncate">
+            <button onclick="saveStepDrive('${step.id}')" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-[9px] font-bold px-2 py-0.5 rounded transition shrink-0">
+              Save
+            </button>
+          </div>
+        ` : `
+          <div class="text-[11px]">
+            <span class="text-slate-500">Workspace Link: </span>
+            <a href="${step.drive || '#'}" target="_blank" class="text-brand-purple underline font-semibold">Google Drive Link</a>
+          </div>
+        `;
+
+        const cardHtml = `
+          <div class="w-72 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm text-xs space-y-2.5 relative z-20">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+              ${dateHtml}
+              <span class="px-2 py-0.5 rounded-full font-bold text-[9px] uppercase tracking-wider ${ownerColor}">${step.owner}</span>
+            </div>
+
+            <h4 class="font-bold text-slate-900 leading-tight">${step.title}</h4>
+            ${driveHtml}
+
+            <div class="space-y-1 pt-1.5 border-t border-slate-100">
+              ${tasksHtml}
+              ${currentRole === 'pm' ? `
+                <button onclick="promptAddStepTask('${step.id}')" class="mt-1 text-[10px] text-brand-purple font-bold flex items-center space-x-1 hover:underline">
+                  <i data-lucide="plus-circle" class="w-3 h-3"></i>
+                  <span>Add Checklist Item</span>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+
+        const lineHtml = `<div class="w-0.5 h-10 bg-slate-400"></div>`;
+        const groupPillHtml = `<div class="bg-brand-pillBg text-slate-600 text-[10px] font-bold px-3 py-1 rounded-full border border-slate-200/60 shadow-2xs whitespace-nowrap mb-1">${step.group}</div>`;
+        let circleHtml = step.status === 'completed'
+          ? `<div class="w-7 h-7 rounded-full bg-white border-2 border-slate-400 flex items-center justify-center shadow-xs"><div class="w-3.5 h-3.5 rounded-full bg-slate-500"></div></div>`
+          : `<div class="w-7 h-7 rounded-full bg-brand-purple border-2 border-brand-purple flex items-center justify-center shadow-md"><div class="w-3 h-3 rounded-full bg-white"></div></div>`;
+
+        if (position === 'top') {
+          nodeWrapper.innerHTML = `
+            <div class="flex flex-col items-center mb-2">${groupPillHtml}${cardHtml}${lineHtml}</div>
+            ${circleHtml}
+            <div class="flex items-center space-x-1 mt-2">${actionBtnHtml}${deleteStepBtn}</div>
+          `;
+        } else {
+          nodeWrapper.innerHTML = `
+            <div class="flex items-center space-x-1 mb-2">${actionBtnHtml}${deleteStepBtn}</div>
+            ${circleHtml}
+            <div class="flex flex-col items-center mt-2">${lineHtml}${cardHtml}<div class="mt-2">${groupPillHtml}</div></div>
+          `;
+        }
+
+        container.appendChild(nodeWrapper);
+      });
+
+      if (currentRole === 'pm') {
+        const addNodeBtn = document.createElement('div');
+        addNodeBtn.className = 'flex flex-col items-center justify-center pl-6 shrink-0';
+        addNodeBtn.innerHTML = `
+          <button onclick="openAddStepModal()" class="w-12 h-12 rounded-2xl bg-brand-purple hover:bg-brand-purpleDark text-white flex items-center justify-center shadow-lg transition transform hover:scale-105" title="Add New Milestone Step">
+            <i data-lucide="plus" class="w-6 h-6"></i>
+          </button>
+          <span class="text-[10px] font-bold text-brand-purple mt-2">Add Step</span>
+        `;
+        container.appendChild(addNodeBtn);
+      }
+    }
+
+    // --- SAVE STEP DATE ACTION ---
+    function saveStepDate(stepId) {
+      const newDate = document.getElementById(`date-input-${stepId}`).value;
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project) {
+        const step = project.steps.find(s => s.id === stepId);
+        if (step) {
+          step.date = newDate;
+          alert(`Deadline updated to ${newDate} for milestone step "${step.title}"!`);
+        }
+      }
+    }
+
+    // --- SAVE DRIVE LINK ACTION ---
+    function saveStepDrive(stepId) {
+      const newUrl = document.getElementById(`drive-input-${stepId}`).value;
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project) {
+        const step = project.steps.find(s => s.id === stepId);
+        if (step) {
+          step.drive = newUrl;
+          alert(`Google Drive URL saved for step "${step.title}"!`);
+        }
+      }
+    }
+
+    // --- TARGET LANGUAGES SYSTEM ---
+    const DEFAULT_LANGUAGES = ['English', 'French', 'Spanish', 'German', 'Italian', 'Arabic', 'Russian', 'Portuguese', 'Romanian'];
+    let allAvailableLanguages = [...DEFAULT_LANGUAGES];
+
+    function ensureLanguagesAvailable(langs = []) {
+      langs.forEach(l => {
+        if (l && !allAvailableLanguages.includes(l)) {
+          allAvailableLanguages.push(l);
+        }
+      });
+    }
+
+    function renderLanguagesModalList(selectedLangs = []) {
+      const container = document.getElementById('modal-lang-list');
+      if (!container) return;
+      container.innerHTML = allAvailableLanguages.map(lang => {
+        const isChecked = selectedLangs.includes(lang);
+        const isDefault = DEFAULT_LANGUAGES.includes(lang);
+        return `
+          <label class="flex items-center justify-between p-2 bg-slate-50 hover:bg-purple-50/50 rounded-xl border border-slate-200 transition cursor-pointer">
+            <span class="flex items-center space-x-2 font-medium text-slate-700">
+              <input type="checkbox" value="${lang}" class="lang-edit-cb w-4 h-4 text-brand-purple rounded border-slate-300 focus:ring-brand-purple" ${isChecked ? 'checked' : ''}>
+              <span>${lang}</span>
+            </span>
+            ${!isDefault ? `<span class="text-[9px] bg-purple-100 text-brand-purple px-1.5 py-0.5 rounded font-bold">Custom</span>` : ''}
+          </label>
+        `;
+      }).join('');
+    }
+
+    function openLanguagesModal() {
+      const project = projects.find(p => p.id === currentProjectId);
+      const selectedLangs = project?.languages || ['English'];
+      ensureLanguagesAvailable(selectedLangs);
+      renderLanguagesModalList(selectedLangs);
+      const input = document.getElementById('input-new-custom-lang');
+      if (input) input.value = '';
+      document.getElementById('modal-languages').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function addCustomLanguageInModal() {
+      const input = document.getElementById('input-new-custom-lang');
+      const val = input.value.trim();
+      if (!val) return;
+      const formatted = val.charAt(0).toUpperCase() + val.slice(1);
+      if (!allAvailableLanguages.includes(formatted)) {
+        allAvailableLanguages.push(formatted);
+      }
+      const currentChecked = Array.from(document.querySelectorAll('.lang-edit-cb:checked')).map(cb => cb.value);
+      if (!currentChecked.includes(formatted)) {
+        currentChecked.push(formatted);
+      }
+      renderLanguagesModalList(currentChecked);
+      input.value = '';
+    }
+
+    function saveLanguages() {
+      const checkedLangs = Array.from(document.querySelectorAll('.lang-edit-cb:checked')).map(cb => cb.value);
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project) {
+        project.languages = checkedLangs.length ? checkedLangs : ['English'];
+      }
+      closeModal('modal-languages');
+      renderApp();
+    }
+
+    function renderProjectModalLanguages(selectedLangs = ['English', 'French']) {
+      const container = document.getElementById('mp-lang-list-container');
+      if (!container) return;
+      container.innerHTML = allAvailableLanguages.map(lang => {
+        const isChecked = selectedLangs.includes(lang);
+        const isDefault = DEFAULT_LANGUAGES.includes(lang);
+        return `
+          <label class="flex items-center space-x-1.5 p-1.5 rounded-lg hover:bg-white transition cursor-pointer border border-transparent hover:border-slate-200">
+            <input type="checkbox" value="${lang}" class="mp-lang-checkbox w-3.5 h-3.5 text-brand-purple rounded border-slate-300 focus:ring-brand-purple" ${isChecked ? 'checked' : ''}>
+            <span class="font-medium text-slate-700 truncate" title="${lang}">${lang}</span>
+            ${!isDefault ? `<span class="text-[8px] bg-purple-100 text-brand-purple px-1 py-0.2 rounded font-bold ml-auto">Custom</span>` : ''}
+          </label>
+        `;
+      }).join('');
+    }
+
+    function addCustomLanguageInProjectModal() {
+      const input = document.getElementById('mp-new-custom-lang');
+      const val = input.value.trim();
+      if (!val) return;
+      const formatted = val.charAt(0).toUpperCase() + val.slice(1);
+      if (!allAvailableLanguages.includes(formatted)) {
+        allAvailableLanguages.push(formatted);
+      }
+      const currentChecked = Array.from(document.querySelectorAll('.mp-lang-checkbox:checked')).map(cb => cb.value);
+      if (!currentChecked.includes(formatted)) {
+        currentChecked.push(formatted);
+      }
+      renderProjectModalLanguages(currentChecked);
+      input.value = '';
+    }
+
+    // --- TIMELINE STEP CONTROLS ---
+    function toggleStepValidation(stepId) {
+      const project = projects.find(p => p.id === currentProjectId);
+      const step = project.steps.find(s => s.id === stepId);
+      if (!step) return;
+
+      if (step.status === 'completed') {
+        step.status = 'in_progress';
+        step.completedTaskIndices = [];
+      } else {
+        step.status = 'completed';
+        step.completedTaskIndices = step.tasks.map((_, i) => i);
+      }
+      renderApp();
+    }
+
+    function toggleTaskCheck(stepId, taskIdx) {
+      const project = projects.find(p => p.id === currentProjectId);
+      const step = project.steps.find(s => s.id === stepId);
+      if (!step) return;
+
+      if (!step.completedTaskIndices) step.completedTaskIndices = [];
+
+      const foundIdx = step.completedTaskIndices.indexOf(taskIdx);
+      if (foundIdx > -1) {
+        step.completedTaskIndices.splice(foundIdx, 1);
+        step.status = 'in_progress';
+      } else {
+        step.completedTaskIndices.push(taskIdx);
+      }
+
+      if (step.completedTaskIndices.length === step.tasks.length && step.tasks.length > 0) {
+        step.status = 'completed';
+      }
+      renderApp();
+    }
+
+    function deleteStepTask(stepId, taskIdx) {
+      const project = projects.find(p => p.id === currentProjectId);
+      const step = project.steps.find(s => s.id === stepId);
+      if (!step) return;
+
+      step.tasks.splice(taskIdx, 1);
+      step.completedTaskIndices = [];
+      renderApp();
+    }
+
+    function promptAddStepTask(stepId) {
+      const taskText = prompt("Enter new checklist item:");
+      if (!taskText || !taskText.trim()) return;
+
+      const project = projects.find(p => p.id === currentProjectId);
+      const step = project.steps.find(s => s.id === stepId);
+      if (step) {
+        step.tasks.push(taskText.trim());
+        renderApp();
+      }
+    }
+
+    function deleteStep(stepId) {
+      const project = projects.find(p => p.id === currentProjectId);
+      project.steps = project.steps.filter(s => s.id !== stepId);
+      renderApp();
+    }
+
+    // --- ADMIN BOARDS GRID & FILTER SYSTEM ---
+    function updatePmFilterOptions() {
+      const select = document.getElementById('filter-pm');
+      select.innerHTML = '<option value="ALL">All Project Managers</option>';
+      const pmNames = [...new Set(projects.map(p => p.pmName || 'Dounia'))];
+      pmNames.forEach(name => {
+        const opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = name;
+        select.appendChild(opt);
+      });
+    }
+
+    function renderBoardsGrid() {
+      const container = document.getElementById('projects-grid');
+      container.innerHTML = '';
+
+      const pmFilter = document.getElementById('filter-pm').value;
+      const evoFilter = document.getElementById('filter-evolution').value;
+      const pkgFilter = document.getElementById('filter-package').value;
+
+      const filteredProjects = projects.filter(p => {
+        const matchesPm = (pmFilter === 'ALL' || (p.pmName || 'Dounia') === pmFilter);
+        const matchesEvo = (evoFilter === 'ALL' || p.evolutionTag === evoFilter);
+        const matchesPkg = (pkgFilter === 'ALL' || p.packageTier === pkgFilter);
+        return matchesPm && matchesEvo && matchesPkg;
+      });
+
+      if (filteredProjects.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full bg-white p-8 rounded-2xl border border-slate-200 text-center text-slate-500">
+            <i data-lucide="folder-search" class="w-8 h-8 mx-auto mb-2 text-slate-400"></i>
+            <p class="font-bold">No projects found matching the selected categories.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      filteredProjects.forEach(p => {
+        const completedCount = p.steps.filter(s => s.status === 'completed').length;
+        const pct = Math.round((completedCount / p.steps.length) * 100);
+        const pColors = p.colors || { primary: '#5B1E82', secondary: '#C5A059', tertiary: '#F4F5F9' };
+
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 hover:border-brand-purple transition relative group';
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="bg-purple-100 text-brand-purple text-[10px] font-bold px-2.5 py-1 rounded-md font-mono">Template: ${p.evolutionTag}</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="text-xs font-bold text-emerald-600">${pct}% Complete</span>
+              <button onclick="event.stopPropagation(); openEditProjectModal('${p.id}')" title="Edit Project Specs" class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-brand-purple transition">
+                <i data-lucide="edit-3" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <div onclick="currentProjectId='${p.id}'; switchView('timeline');" class="cursor-pointer">
+            <h3 class="text-base font-bold text-slate-900">${p.name}</h3>
+            <p class="text-xs text-slate-500 font-medium mt-0.5">PM: ${p.pmName || 'Dounia'} | Client: ${p.clientEmail}</p>
+          </div>
+
+          <div class="w-full bg-slate-100 rounded-full h-2">
+            <div class="bg-brand-purple h-2 rounded-full" style="width: ${pct}%"></div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>${p.steps.length} Steps</span>
+            <span onclick="currentProjectId='${p.id}'; switchView('timeline');" class="text-brand-purple font-bold flex items-center space-x-1 cursor-pointer">
+              <span>View Axis</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    // --- COLOR PALETTE SELECTOR UTILITIES & EVENT HANDLERS ---
+    function hexToRgbString(hex) {
+      if (!hex) return 'rgb(0, 0, 0)';
+      let cleanHex = hex.replace('#', '').trim();
+      if (cleanHex.length === 3) {
+        cleanHex = cleanHex.split('').map(c => c + c).join('');
+      }
+      if (cleanHex.length !== 6) return 'rgb(0, 0, 0)';
+      const num = parseInt(cleanHex, 16);
+      if (isNaN(num)) return 'rgb(0, 0, 0)';
+      const r = (num >> 16) & 255;
+      const g = (num >> 8) & 255;
+      const b = num & 255;
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function rgbStringToHex(str) {
+      if (!str) return null;
+      const match = str.match(/(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+      if (!match) return null;
+      const r = Math.min(255, Math.max(0, parseInt(match[1], 10)));
+      const g = Math.min(255, Math.max(0, parseInt(match[2], 10)));
+      const b = Math.min(255, Math.max(0, parseInt(match[3], 10)));
+      const toHex = (c) => c.toString(16).padStart(2, '0').toUpperCase();
+      return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    }
+
+    function normalizeHex(val) {
+      if (!val) return null;
+      let str = val.trim();
+      if (!str.startsWith('#')) str = '#' + str;
+      if (/^#[0-9A-Fa-f]{3}$/.test(str)) {
+        str = '#' + str.slice(1).split('').map(c => c + c).join('');
+      }
+      if (/^#[0-9A-Fa-f]{6}$/.test(str)) {
+        return str.toUpperCase();
+      }
+      return null;
+    }
+
+    // --- COLOR PALETTE LOGIC (PROJECT VIEW & MODAL) ---
+    function parseAnyColor(value) {
+      if (!value) return null;
+      value = value.trim();
+      if (value.toLowerCase().startsWith('rgb')) {
+        return rgbStringToHex(value);
+      }
+      return normalizeHex(value);
+    }
+
+    // Modal color handlers
+    function handleModalColorInput(type, value) {
+      const parsedHex = parseAnyColor(value) || normalizeHex(value);
+      const textInput = document.getElementById(`mp-color-${type}-val`);
+      const picker = document.getElementById(`mp-color-${type}-picker`);
+      
+      if (textInput && textInput !== document.activeElement) {
+        textInput.value = value;
+      }
+      if (parsedHex && picker && picker.value.toUpperCase() !== parsedHex.toUpperCase()) {
+        try { picker.value = parsedHex; } catch (e) {}
+      }
+    }
+
+    function applyColorPreset(primary, secondary, tertiary) {
+      setColorPaletteValues(primary, secondary, tertiary);
+    }
+
+    function setColorPaletteValues(primary = '#5B1E82', secondary = '#C5A059', tertiary = '#F4F5F9') {
+      ['primary', 'secondary', 'tertiary'].forEach((type, i) => {
+        const val = [primary, secondary, tertiary][i];
+        const textInput = document.getElementById(`mp-color-${type}-val`);
+        const picker = document.getElementById(`mp-color-${type}-picker`);
+        const parsed = normalizeHex(val) || val;
+        if (textInput) textInput.value = parsed;
+        if (picker && parsed) {
+          try { picker.value = parsed; } catch(e) {}
+        }
+      });
+    }
+
+    function getColorPaletteValues() {
+      const p = parseAnyColor(document.getElementById('mp-color-primary-val')?.value) || '#5B1E82';
+      const s = parseAnyColor(document.getElementById('mp-color-secondary-val')?.value) || '#C5A059';
+      const t = parseAnyColor(document.getElementById('mp-color-tertiary-val')?.value) || '#F4F5F9';
+      return { primary: p, secondary: s, tertiary: t };
+    }
+
+    // Project View color handlers
+    function handleProjectViewColorInput(type, value) {
+      const parsedHex = parseAnyColor(value) || normalizeHex(value);
+      const textInput = document.getElementById(`pv-color-${type}-val`);
+      const picker = document.getElementById(`pv-color-${type}-picker`);
+
+      if (textInput && textInput !== document.activeElement) {
+        textInput.value = value;
+      }
+      if (parsedHex && picker && picker.value.toUpperCase() !== parsedHex.toUpperCase()) {
+        try { picker.value = parsedHex; } catch (e) {}
+      }
+
+      syncProjectViewColorsToProject();
+    }
+
+    function syncProjectViewFontsToProject() {
+      const project = projects.find(p => p.id === currentProjectId);
+      const titleSelect = document.getElementById('ge-font-title');
+      const bodySelect = document.getElementById('ge-font-body');
+      if (project && (titleSelect || bodySelect)) {
+        if (!project.graphicElements) project.graphicElements = {};
+        if (titleSelect) project.graphicElements.fontTitle = titleSelect.value;
+        if (bodySelect) project.graphicElements.fontBody = bodySelect.value;
+        project.graphicElements.fonts = `Title: ${project.graphicElements.fontTitle || 'Playfair Display'}, Text: ${project.graphicElements.fontBody || 'Inter'}`;
+      }
+    }
+
+    function applyProjectViewColorPreset(primary, secondary, tertiary) {
+      setProjectViewColorPaletteValues(primary, secondary, tertiary);
+      syncProjectViewColorsToProject();
+    }
+
+    function setProjectViewColorPaletteValues(primary = '#5B1E82', secondary = '#C5A059', tertiary = '#F4F5F9') {
+      ['primary', 'secondary', 'tertiary'].forEach((type, i) => {
+        const val = [primary, secondary, tertiary][i];
+        const textInput = document.getElementById(`pv-color-${type}-val`);
+        const picker = document.getElementById(`pv-color-${type}-picker`);
+        const parsed = normalizeHex(val) || val;
+        if (textInput) textInput.value = parsed;
+        if (picker && parsed) {
+          try { picker.value = parsed; } catch(e) {}
+        }
+      });
+    }
+
+    function getProjectViewColorPaletteValues() {
+      const p = parseAnyColor(document.getElementById('pv-color-primary-val')?.value) || '#5B1E82';
+      const s = parseAnyColor(document.getElementById('pv-color-secondary-val')?.value) || '#C5A059';
+      const t = parseAnyColor(document.getElementById('pv-color-tertiary-val')?.value) || '#F4F5F9';
+      return { primary: p, secondary: s, tertiary: t };
+    }
+
+    function syncProjectViewColorsToProject() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project) {
+        const palette = getProjectViewColorPaletteValues();
+        project.colors = palette;
+        if (!project.graphicElements) project.graphicElements = {};
+        project.graphicElements.colors = `Primary: ${palette.primary}, Secondary: ${palette.secondary}, Tertiary: ${palette.tertiary}`;
+        const geColorsInput = document.getElementById('ge-colors');
+        if (geColorsInput) {
+          geColorsInput.value = project.graphicElements.colors;
+        }
+        renderGraphicCharterSwatches(project);
+      }
+    }
+
+    // --- CREATE / EDIT PROJECT MODAL LOGIC ---
+    function openCreateProjectModal() {
+      document.getElementById('modal-project-title-text').textContent = 'Create New Hotel Project';
+      document.getElementById('mp-project-id').value = '';
+      document.getElementById('mp-name').value = '';
+      document.getElementById('mp-pm-name').value = 'Dounia';
+      document.getElementById('mp-client-email').value = '';
+      document.getElementById('mp-evolution').value = 'Crystal';
+      document.getElementById('mp-package').value = 'seo_essential';
+      document.getElementById('mp-drive').value = 'https://drive.google.com';
+
+      renderProjectModalLanguages(['English', 'French']);
+      const customInput = document.getElementById('mp-new-custom-lang');
+      if (customInput) customInput.value = '';
+
+      document.getElementById('modal-project').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function openEditProjectModal(projId) {
+      const project = projects.find(p => p.id === projId);
+      if (!project) return;
+
+      document.getElementById('modal-project-title-text').textContent = 'Edit Project Specificities';
+      document.getElementById('mp-project-id').value = project.id;
+      document.getElementById('mp-name').value = project.name;
+      document.getElementById('mp-pm-name').value = project.pmName || 'Dounia';
+      document.getElementById('mp-client-email').value = project.clientEmail || '';
+      document.getElementById('mp-evolution').value = project.evolutionTag;
+      document.getElementById('mp-package').value = project.packageTier;
+      document.getElementById('mp-drive').value = project.driveUrl;
+
+      const selectedLangs = project.languages || ['English'];
+      ensureLanguagesAvailable(selectedLangs);
+      renderProjectModalLanguages(selectedLangs);
+      const customInput = document.getElementById('mp-new-custom-lang');
+      if (customInput) customInput.value = '';
+
+      document.getElementById('modal-project').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function handleProjectFormSubmit(e) {
+      e.preventDefault();
+      const projId = document.getElementById('mp-project-id').value;
+      const name = document.getElementById('mp-name').value;
+      const pmName = document.getElementById('mp-pm-name').value;
+      const clientEmail = document.getElementById('mp-client-email').value;
+      const evo = document.getElementById('mp-evolution').value;
+      const tier = document.getElementById('mp-package').value;
+      const drive = document.getElementById('mp-drive').value;
+
+      const checkedLangs = Array.from(document.querySelectorAll('.mp-lang-checkbox:checked')).map(cb => cb.value);
+
+      if (projId) {
+        const project = projects.find(p => p.id === projId);
+        if (project) {
+          project.name = name;
+          project.pmName = pmName;
+          project.clientEmail = clientEmail;
+          project.evolutionTag = evo;
+          project.languages = checkedLangs.length ? checkedLangs : ['English'];
+          if (project.packageTier !== tier) {
+            project.packageTier = tier;
+            project.steps = JSON.parse(JSON.stringify(PRD_TEMPLATES[tier]));
+          }
+          project.driveUrl = drive;
+        }
+      } else {
+        const defaultColors = { primary: '#5B1E82', secondary: '#C5A059', tertiary: '#F4F5F9' };
+        const newProj = {
+          id: `proj-${Date.now()}`,
+          name: name,
+          pmName: pmName,
+          clientEmail: clientEmail,
+          evolutionTag: evo,
+          languages: checkedLangs.length ? checkedLangs : ['English'],
+          packageTier: tier,
+          driveUrl: drive,
+          colors: defaultColors,
+          textDocs: [
+            { id: `td-${Date.now()}`, label: 'Website Content Master Doc', url: 'https://docs.google.com' }
+          ],
+          graphicElements: {
+            imagesDrive: drive,
+            colors: `Primary: ${defaultColors.primary}, Secondary: ${defaultColors.secondary}, Tertiary: ${defaultColors.tertiary}`,
+            fontTitle: 'Playfair Display',
+            fontBody: 'Inter',
+            fonts: 'Title: Playfair Display, Text: Inter'
+          },
+          thirdPartyBoxes: [
+            { id: 'tp1', title: 'Third Party Integrations', type: 'notes', description: 'e.g. Restaurant booking: Table Plus, The Fork, Zenchef. Provide scripts & docs.', value: '', isEditing: true },
+            { id: 'tp2', title: 'Google Maps API Key', type: 'maps', description: 'Interactive map key with direct itinerary simulation.', value: '', isEditing: true },
+            { id: 'tp3', title: 'Google Analytics 4 (GA4)', type: 'ga4', description: 'Tracking code (Format: G-XXXXXX) for site metrics.', value: '', isEditing: true }
+          ],
+          steps: JSON.parse(JSON.stringify(PRD_TEMPLATES[tier]))
+        };
+        projects.push(newProj);
+        currentProjectId = newProj.id;
+      }
+
+      updatePmFilterOptions();
+      renderProjectSelector();
+      closeModal('modal-project');
+      renderBoardsGrid();
+      renderApp();
+    }
+
+    function openAddStepModal() {
+      document.getElementById('modal-add-step').classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    function handleAddStepSubmit(e) {
+      e.preventDefault();
+      const group = document.getElementById('as-group').value;
+      const title = document.getElementById('as-title').value;
+      const owner = document.getElementById('as-owner').value;
+      const drive = document.getElementById('as-drive').value;
+
+      const project = projects.find(p => p.id === currentProjectId);
+      project.steps.push({
+        id: `step-${Date.now()}`,
+        group: group,
+        title: title,
+        date: new Date().toISOString().split('T')[0],
+        owner: owner,
+        status: 'pending',
+        drive: drive,
+        tasks: ['Initial milestone requirement verification']
+      });
+
+      closeModal('modal-add-step');
+      renderApp();
+    }
+  </script>
+</body>
+</html>

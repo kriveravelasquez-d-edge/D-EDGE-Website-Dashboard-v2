@@ -1,0 +1,8 @@
+{
+  "name": "D-Website Roadmap",
+  "description": "Streamline Portal and roadmap tracking tool for D-EDGE Hotel Website Platform projects, milestones, timeline axis, and PM dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
