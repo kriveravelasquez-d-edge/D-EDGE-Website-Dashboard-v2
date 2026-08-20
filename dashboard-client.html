@@ -257,8 +257,13 @@
                   <!-- PRIMARY COLOR -->
                   <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between gap-3 hover:border-purple-200 transition">
                     <div class="flex items-center space-x-2.5 min-w-0">
-                      <div class="relative w-8 h-8 rounded-lg border border-slate-300 overflow-hidden shrink-0 shadow-inner flex items-center justify-center bg-white cursor-pointer hover:border-brand-purple transition group" title="Click to pick Primary Color">
-                        <input type="color" id="pv-color-primary-picker" oninput="handleProjectViewColorInput('primary', this.value)" class="absolute -inset-2 w-12 h-12 cursor-pointer">
+                      <div class="relative w-8 h-8 rounded-lg border border-slate-300 overflow-hidden shrink-0 shadow-xs flex items-center justify-center cursor-pointer hover:border-brand-purple hover:scale-105 transition-all group" title="Click to pick Primary Color">
+                        <input type="color" id="pv-color-primary-picker" oninput="handleProjectViewColorInput('primary', this.value)" class="absolute -inset-2 w-12 h-12 cursor-pointer opacity-0 z-10">
+                        <div id="pv-color-primary-preview" class="w-full h-full rounded-md flex items-center justify-center transition" style="background-color: #5B1E82;">
+                          <div class="w-4 h-4 rounded-full bg-black/40 backdrop-blur-xs flex items-center justify-center text-white shadow-2xs group-hover:scale-110 group-hover:bg-black/60 transition pointer-events-none">
+                            <i data-lucide="pencil" class="w-2.5 h-2.5 text-white"></i>
+                          </div>
+                        </div>
                       </div>
                       <div class="min-w-0">
                         <span class="font-bold text-slate-800 text-xs block">Primary Color</span>
@@ -272,8 +277,13 @@
                   <!-- SECONDARY COLOR -->
                   <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between gap-3 hover:border-purple-200 transition">
                     <div class="flex items-center space-x-2.5 min-w-0">
-                      <div class="relative w-8 h-8 rounded-lg border border-slate-300 overflow-hidden shrink-0 shadow-inner flex items-center justify-center bg-white cursor-pointer hover:border-brand-purple transition group" title="Click to pick Secondary Color">
-                        <input type="color" id="pv-color-secondary-picker" oninput="handleProjectViewColorInput('secondary', this.value)" class="absolute -inset-2 w-12 h-12 cursor-pointer">
+                      <div class="relative w-8 h-8 rounded-lg border border-slate-300 overflow-hidden shrink-0 shadow-xs flex items-center justify-center cursor-pointer hover:border-brand-purple hover:scale-105 transition-all group" title="Click to pick Secondary Color">
+                        <input type="color" id="pv-color-secondary-picker" oninput="handleProjectViewColorInput('secondary', this.value)" class="absolute -inset-2 w-12 h-12 cursor-pointer opacity-0 z-10">
+                        <div id="pv-color-secondary-preview" class="w-full h-full rounded-md flex items-center justify-center transition" style="background-color: #C5A059;">
+                          <div class="w-4 h-4 rounded-full bg-black/40 backdrop-blur-xs flex items-center justify-center text-white shadow-2xs group-hover:scale-110 group-hover:bg-black/60 transition pointer-events-none">
+                            <i data-lucide="pencil" class="w-2.5 h-2.5 text-white"></i>
+                          </div>
+                        </div>
                       </div>
                       <div class="min-w-0">
                         <span class="font-bold text-slate-800 text-xs block">Secondary Color</span>
@@ -287,8 +297,13 @@
                   <!-- TERTIARY COLOR -->
                   <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between gap-3 hover:border-purple-200 transition">
                     <div class="flex items-center space-x-2.5 min-w-0">
-                      <div class="relative w-8 h-8 rounded-lg border border-slate-300 overflow-hidden shrink-0 shadow-inner flex items-center justify-center bg-white cursor-pointer hover:border-brand-purple transition group" title="Click to pick Tertiary Color">
-                        <input type="color" id="pv-color-tertiary-picker" oninput="handleProjectViewColorInput('tertiary', this.value)" class="absolute -inset-2 w-12 h-12 cursor-pointer">
+                      <div class="relative w-8 h-8 rounded-lg border border-slate-300 overflow-hidden shrink-0 shadow-xs flex items-center justify-center cursor-pointer hover:border-brand-purple hover:scale-105 transition-all group" title="Click to pick Tertiary Color">
+                        <input type="color" id="pv-color-tertiary-picker" oninput="handleProjectViewColorInput('tertiary', this.value)" class="absolute -inset-2 w-12 h-12 cursor-pointer opacity-0 z-10">
+                        <div id="pv-color-tertiary-preview" class="w-full h-full rounded-md flex items-center justify-center transition" style="background-color: #F4F5F9;">
+                          <div class="w-4 h-4 rounded-full bg-black/40 backdrop-blur-xs flex items-center justify-center text-white shadow-2xs group-hover:scale-110 group-hover:bg-black/60 transition pointer-events-none">
+                            <i data-lucide="pencil" class="w-2.5 h-2.5 text-white"></i>
+                          </div>
+                        </div>
                       </div>
                       <div class="min-w-0">
                         <span class="font-bold text-slate-800 text-xs block">Tertiary Color</span>
@@ -407,7 +422,7 @@
             </h3>
           </div>
 
-          <div id="third-party-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+          <div id="third-party-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-xs">
           </div>
         </section>
       </div>
@@ -747,6 +762,12 @@
           secondary: '#C5A059',
           tertiary: '#F4F5F9'
         },
+        finalDomain: 'https://www.grandhotelparis.com',
+        domainAliases: ['www.grandhotel-paris.fr', 'grandhotelparis.fr'],
+        ga4: 'G-987654321',
+        googleMapsKey: 'AIzaSy...',
+        thirdPartyNotes: 'TablePlus for direct dining reservations.',
+        customIntegrations: [],
         textDocs: [
           { id: 'td1', label: 'Main Website Copy (EN/FR)', url: 'https://docs.google.com/document/d/1GrandHotelParisMasterCopy' },
           { id: 'td2', label: 'Rooms & Amenities Details', url: 'https://docs.google.com/document/d/2GrandHotelParisRoomsSpecs' }
@@ -756,11 +777,6 @@
           colors: 'Primary: #5B1E82, Secondary: #C5A059, Tertiary: #F4F5F9',
           fonts: 'Title: Playfair Display, Text: Inter'
         },
-        thirdPartyBoxes: [
-          { id: 'tp1', title: 'Third Party Integrations', type: 'notes', description: 'e.g. Restaurant booking: Table Plus, The Fork, Zenchef. Provide scripts & docs.', value: 'TablePlus for direct dining reservations.', isEditing: false },
-          { id: 'tp2', title: 'Google Maps API Key', type: 'maps', description: 'Interactive map key with direct itinerary simulation.', value: 'AIzaSy...', isEditing: false },
-          { id: 'tp3', title: 'Google Analytics 4 (GA4)', type: 'ga4', description: 'Tracking code (Format: G-XXXXXX) for site metrics.', value: 'G-987654321', isEditing: false }
-        ],
         steps: JSON.parse(JSON.stringify(PRD_TEMPLATES.seo_essential))
       },
       {
@@ -777,6 +793,12 @@
           secondary: '#D97706',
           tertiary: '#FEF3C7'
         },
+        finalDomain: 'https://www.alpineresort-spa.com',
+        domainAliases: ['www.alpineresort.ch'],
+        ga4: '',
+        googleMapsKey: '',
+        thirdPartyNotes: '',
+        customIntegrations: [],
         textDocs: [
           { id: 'td1', label: 'Alpine Resort Master Copy', url: 'https://docs.google.com/document/d/1AlpineResortContentDoc' }
         ],
@@ -785,11 +807,6 @@
           colors: 'Primary: #064E3B, Secondary: #D97706, Tertiary: #FEF3C7',
           fonts: 'Title: Playfair Display, Text: Inter'
         },
-        thirdPartyBoxes: [
-          { id: 'tp1', title: 'Third Party Integrations', type: 'notes', description: 'e.g. Restaurant booking: Table Plus, The Fork, Zenchef. Provide scripts & docs.', value: '', isEditing: true },
-          { id: 'tp2', title: 'Google Maps API Key', type: 'maps', description: 'Interactive map key with direct itinerary simulation.', value: '', isEditing: true },
-          { id: 'tp3', title: 'Google Analytics 4 (GA4)', type: 'ga4', description: 'Tracking code (Format: G-XXXXXX) for site metrics.', value: '', isEditing: true }
-        ],
         steps: JSON.parse(JSON.stringify(PRD_TEMPLATES.no_seo))
       }
     ];
@@ -1122,121 +1139,253 @@
       }
     }
 
-    // --- THIRD PARTY BOXES ---
+    // --- THIRD PARTY INTEGRATIONS & DOMAINS / GOOGLE SERVICES ---
     function renderThirdPartyBoxes(project) {
       const grid = document.getElementById('third-party-grid');
+      if (!grid) return;
       grid.innerHTML = '';
 
-      if (!project.thirdPartyBoxes) project.thirdPartyBoxes = [];
+      // Backward compatibility & migration
+      if (project.thirdPartyBoxes && Array.isArray(project.thirdPartyBoxes)) {
+        project.thirdPartyBoxes.forEach(b => {
+          if (b.type === 'notes' && !project.thirdPartyNotes) project.thirdPartyNotes = b.value;
+          if (b.type === 'maps' && !project.googleMapsKey) project.googleMapsKey = b.value;
+          if (b.type === 'ga4' && !project.ga4) project.ga4 = b.value;
+          if (b.type === 'custom' && (!project.customIntegrations || !project.customIntegrations.find(c => c.id === b.id))) {
+            if (!project.customIntegrations) project.customIntegrations = [];
+            project.customIntegrations.push({ id: b.id, title: b.title, description: b.description, value: b.value });
+          }
+        });
+      }
+      if (!project.domainAliases) project.domainAliases = [];
+      if (!project.customIntegrations) project.customIntegrations = [];
 
-      project.thirdPartyBoxes.forEach((box, idx) => {
-        const card = document.createElement('div');
-        card.className = 'bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 relative group';
+      // ==========================================
+      // BLOCK 1: THIRD PARTY INTEGRATIONS (LEFT)
+      // ==========================================
+      const block1 = document.createElement('div');
+      block1.className = 'bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-4';
 
-        let icon = 'layers';
-        if (box.type === 'maps') icon = 'map-pin';
-        if (box.type === 'ga4') icon = 'bar-chart-2';
-
-        let extraLink = '';
-        if (box.type === 'ga4') {
-          extraLink = `
-            <a href="https://drive.google.com/file/d/1Vt12fEY4MJKNbOMyDAO-hn1uQ-q6lIgV/view?usp=drive_link" target="_blank" class="text-brand-purple font-bold text-[10px] underline flex items-center space-x-1 pt-1">
-              <i data-lucide="external-link" class="w-3 h-3"></i>
-              <span>View GA4 Setup Tutorial</span>
-            </a>
-          `;
-        }
-
-        let inlinePlusBtn = '';
-        if (box.type === 'notes') {
-          inlinePlusBtn = `
-            <button onclick="addNewThirdPartyBox()" class="mt-2 w-full py-1.5 bg-brand-purple/10 hover:bg-brand-purple text-brand-purple hover:text-white border border-brand-purple/30 rounded-lg font-bold text-xs flex items-center justify-center space-x-1 transition shadow-2xs">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-              <span>Add Custom Integration</span>
-            </button>
-          `;
-        }
-
-        const isEditing = box.isEditing !== false;
-
-        card.innerHTML = `
+      let customIntegrationsHtml = project.customIntegrations.map((ci, cIdx) => `
+        <div class="space-y-1.5 pt-3 border-t border-slate-200/80 group">
           <div class="flex items-center justify-between">
-            <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
-              <i data-lucide="${icon}" class="w-4 h-4 text-brand-purple"></i>
-              <span>${box.title}</span>
-            </h4>
-            <div class="flex items-center space-x-1">
-              ${isEditing ? `
-                <button onclick="saveThirdPartyBox(${idx})" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-[10px] font-bold px-2 py-0.5 rounded transition">
-                  Save
-                </button>
-              ` : `
-                <button onclick="editThirdPartyBox(${idx})" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded transition">
-                  Edit
-                </button>
-              `}
-              ${currentRole === 'pm' ? `
-                <button onclick="deleteThirdPartyBox(${idx})" class="text-slate-300 hover:text-rose-500 transition pl-1">
-                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                </button>
-              ` : ''}
+            <h5 class="font-bold text-slate-800 text-xs flex items-center space-x-1.5">
+              <i data-lucide="plug" class="w-3.5 h-3.5 text-brand-purple"></i>
+              <span>${ci.title}</span>
+            </h5>
+            ${currentRole === 'pm' ? `
+              <button onclick="deleteCustomIntegration(${cIdx})" class="text-slate-400 hover:text-rose-500 transition p-1" title="Delete Integration">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            ` : ''}
+          </div>
+          <p class="text-slate-500 text-[11px] leading-relaxed select-none">${ci.description || 'Provide scripts & docs for this integration.'}</p>
+          <textarea rows="2" oninput="updateCustomIntegrationValue(${cIdx}, this.value)" placeholder="Paste snippet, API keys or configuration notes..." class="w-full border border-slate-200 bg-white text-slate-800 rounded-xl p-2.5 text-xs outline-none focus:ring-2 focus:ring-brand-purple font-mono shadow-2xs">${ci.value || ''}</textarea>
+        </div>
+      `).join('');
+
+      block1.innerHTML = `
+        <div class="flex items-center justify-between pb-2 border-b border-slate-200/80">
+          <h4 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+            <i data-lucide="layers" class="w-4 h-4 text-brand-purple"></i>
+            <span>Third Party Integrations</span>
+          </h4>
+        </div>
+
+        <div class="space-y-1.5">
+          <p class="text-slate-500 text-[11px] leading-relaxed select-none">e.g. Restaurant booking: Table Plus, The Fork, Zenchef. Provide scripts & docs.</p>
+          <textarea id="tp-primary-notes" rows="3" oninput="updateThirdPartyNotes(this.value)" placeholder="TablePlus for direct dining reservations, scripts, or custom widgets..." class="w-full border border-slate-200 bg-white text-slate-800 rounded-xl p-3 text-xs outline-none focus:ring-2 focus:ring-brand-purple font-mono shadow-2xs">${project.thirdPartyNotes || ''}</textarea>
+        </div>
+
+        ${customIntegrationsHtml}
+
+        <button onclick="addNewCustomIntegration()" class="w-full py-2 bg-brand-purple/10 hover:bg-brand-purple text-brand-purple hover:text-white border border-brand-purple/30 rounded-xl font-bold text-xs flex items-center justify-center space-x-1.5 transition shadow-2xs">
+          <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+          <span>Add Custom Integration</span>
+        </button>
+      `;
+
+      // =========================================================================
+      // BLOCK 2: DOMAINS, GOOGLE ANALYTICS 4 & GOOGLE MAPS API KEY (RIGHT)
+      // =========================================================================
+      const block2 = document.createElement('div');
+      block2.className = 'bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-4';
+
+      let aliasesHtml = project.domainAliases.length > 0 ? `
+        <div class="space-y-1.5 pt-1" id="domain-aliases-list">
+          ${project.domainAliases.map((alias, aIdx) => `
+            <div class="flex items-center justify-between bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs shadow-2xs">
+              <span class="font-mono text-slate-700 text-[11px] truncate flex items-center space-x-1.5">
+                <i data-lucide="globe" class="w-3 h-3 text-slate-400"></i>
+                <span>${alias}</span>
+              </span>
+              <button onclick="removeDomainAlias(${aIdx})" class="text-slate-400 hover:text-rose-500 p-0.5 rounded transition" title="Delete alias">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          `).join('')}
+        </div>
+      ` : `
+        <p class="text-slate-400 text-[10.5px] italic">No alias domain added yet.</p>
+      `;
+
+      block2.innerHTML = `
+        <div class="flex items-center justify-between pb-2 border-b border-slate-200/80">
+          <h4 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+            <i data-lucide="globe" class="w-4 h-4 text-brand-purple"></i>
+            <span>Domain, Google Analytics & Maps</span>
+          </h4>
+        </div>
+
+        <!-- 1. FINAL DOMAIN & DOMAIN ALIASES -->
+        <div class="space-y-2">
+          <div>
+            <label class="block font-bold text-slate-800 text-xs flex items-center space-x-1.5">
+              <i data-lucide="link-2" class="w-3.5 h-3.5 text-brand-purple"></i>
+              <span>Final domain name</span>
+            </label>
+          </div>
+          
+          <input type="text" id="tp-final-domain" value="${project.finalDomain || ''}" oninput="updateFinalDomain(this.value)" placeholder="https://www.grandhotelparis.com" class="w-full border border-slate-200 bg-white text-slate-800 rounded-xl px-3 py-2 text-xs font-mono outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs">
+
+          <!-- DOMAIN ALIASES -->
+          <div class="space-y-1.5 pt-1.5">
+            <div class="flex items-center justify-between">
+              <span class="block font-semibold text-slate-700 text-[11px]">Domain Alias</span>
+            </div>
+            
+            ${aliasesHtml}
+
+            <!-- Quick Add Alias -->
+            <div class="flex items-center space-x-2 pt-1">
+              <input type="text" id="new-domain-alias-input" placeholder="e.g. www.grand-hotel.fr" onkeydown="if(event.key==='Enter'){event.preventDefault(); addDomainAlias();}" class="flex-1 border border-slate-200 bg-white text-slate-800 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs font-mono">
+              <button onclick="addDomainAlias()" class="px-3 py-1.5 bg-brand-purple/10 hover:bg-brand-purple text-brand-purple hover:text-white border border-brand-purple/20 font-bold text-xs rounded-lg transition flex items-center space-x-1 shrink-0">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                <span>Add Alias</span>
+              </button>
             </div>
           </div>
+        </div>
 
-          <p class="text-slate-600 text-[11px] leading-relaxed select-none bg-white p-2 rounded border border-slate-200">${box.description}</p>
-          ${inlinePlusBtn}
+        <!-- 2. GOOGLE ANALYTICS 4 (GA4 ID) -->
+        <div class="space-y-2 pt-3 border-t border-slate-200/80">
+          <div>
+            <label class="block font-bold text-slate-800 text-xs flex items-center space-x-1.5">
+              <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-brand-purple"></i>
+              <span>Google Analytics 4 (GA4 ID)</span>
+            </label>
+            <p class="text-slate-500 text-[11px] leading-tight select-none mt-0.5">Tracking measurement code (Format: G-XXXXXX) for site metrics & audience.</p>
+          </div>
 
-          <textarea id="tp-box-input-${idx}" rows="2" ${!isEditing ? 'readonly' : ''} class="w-full border border-slate-200 ${!isEditing ? 'bg-slate-100 text-slate-500' : 'bg-white text-slate-800'} rounded-lg p-2 text-xs outline-none focus:ring-2 focus:ring-brand-purple font-mono">${box.value || ''}</textarea>
-          ${extraLink}
-        `;
+          <input type="text" id="tp-ga4-input" value="${project.ga4 || ''}" oninput="updateGa4(this.value)" placeholder="G-987654321" class="w-full border border-slate-200 bg-white text-slate-800 rounded-xl px-3 py-2 text-xs font-mono outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs">
+          
+          <a href="https://drive.google.com/file/d/1Vt12fEY4MJKNbOMyDAO-hn1uQ-q6lIgV/view?usp=drive_link" target="_blank" class="text-brand-purple hover:text-brand-purpleDark font-bold text-[10.5px] underline flex items-center space-x-1 pt-0.5">
+            <i data-lucide="external-link" class="w-3 h-3"></i>
+            <span>View GA4 Setup Tutorial</span>
+          </a>
+        </div>
 
-        grid.appendChild(card);
-      });
+        <!-- 3. GOOGLE MAPS API KEY (OPTIONNEL) -->
+        <div class="space-y-2 pt-3 border-t border-slate-200/80">
+          <div>
+            <label class="block font-bold text-slate-800 text-xs flex items-center space-x-1.5">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-purple"></i>
+              <span>Google Maps API Key <span class="text-slate-400 font-normal text-[11px]">(Optionnel)</span></span>
+            </label>
+            <p class="text-slate-500 text-[11px] leading-tight select-none mt-0.5">Interactive map key with direct itinerary simulation.</p>
+          </div>
+
+          <input type="text" id="tp-maps-input" value="${project.googleMapsKey || ''}" oninput="updateGoogleMapsKey(this.value)" placeholder="AIzaSy..." class="w-full border border-slate-200 bg-white text-slate-800 rounded-xl px-3 py-2 text-xs font-mono outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs">
+        </div>
+      `;
+
+      grid.appendChild(block1);
+      grid.appendChild(block2);
     }
 
-    function saveThirdPartyBox(idx) {
+    // --- INPUT UPDATERS & STATE HANDLERS ---
+    function updateThirdPartyNotes(val) {
       const project = projects.find(p => p.id === currentProjectId);
-      if (project && project.thirdPartyBoxes[idx]) {
-        const val = document.getElementById(`tp-box-input-${idx}`).value;
-        project.thirdPartyBoxes[idx].value = val;
-        project.thirdPartyBoxes[idx].isEditing = false;
-        renderApp();
+      if (project) {
+        project.thirdPartyNotes = val;
       }
     }
 
-    function editThirdPartyBox(idx) {
+    function updateFinalDomain(val) {
       const project = projects.find(p => p.id === currentProjectId);
-      if (project && project.thirdPartyBoxes[idx]) {
-        project.thirdPartyBoxes[idx].isEditing = true;
-        renderApp();
+      if (project) {
+        project.finalDomain = val;
       }
     }
 
-    function addNewThirdPartyBox() {
-      const title = prompt("Enter Third-Party Integration Name (e.g., Zenchef Widget, LiveChat):");
-      if (!title || !title.trim()) return;
-
-      const desc = prompt("Enter Description/Instructions:");
+    function addDomainAlias() {
+      const input = document.getElementById('new-domain-alias-input');
+      if (!input) return;
+      const val = input.value.trim();
+      if (!val) return;
 
       const project = projects.find(p => p.id === currentProjectId);
       if (project) {
-        if (!project.thirdPartyBoxes) project.thirdPartyBoxes = [];
-        project.thirdPartyBoxes.push({
-          id: `tp-${Date.now()}`,
+        if (!project.domainAliases) project.domainAliases = [];
+        if (!project.domainAliases.includes(val)) {
+          project.domainAliases.push(val);
+        }
+        renderApp();
+      }
+    }
+
+    function removeDomainAlias(idx) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project && project.domainAliases) {
+        project.domainAliases.splice(idx, 1);
+        renderApp();
+      }
+    }
+
+    function updateGa4(val) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project) {
+        project.ga4 = val;
+      }
+    }
+
+    function updateGoogleMapsKey(val) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project) {
+        project.googleMapsKey = val;
+      }
+    }
+
+    function addNewCustomIntegration() {
+      const title = prompt("Enter Third-Party Integration Name (e.g., Zenchef Widget, TablePlus, LiveChat):");
+      if (!title || !title.trim()) return;
+
+      const desc = prompt("Enter Short Description / Instructions (e.g., Dining reservation widget script):");
+
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project) {
+        if (!project.customIntegrations) project.customIntegrations = [];
+        project.customIntegrations.push({
+          id: `ci-${Date.now()}`,
           title: title.trim(),
-          type: 'custom',
           description: desc || 'Provide integration script or documentation details.',
-          value: '',
-          isEditing: true
+          value: ''
         });
         renderApp();
       }
     }
 
-    function deleteThirdPartyBox(idx) {
+    function updateCustomIntegrationValue(idx, val) {
       const project = projects.find(p => p.id === currentProjectId);
-      if (project && project.thirdPartyBoxes) {
-        project.thirdPartyBoxes.splice(idx, 1);
+      if (project && project.customIntegrations && project.customIntegrations[idx]) {
+        project.customIntegrations[idx].value = val;
+      }
+    }
+
+    function deleteCustomIntegration(idx) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project && project.customIntegrations) {
+        project.customIntegrations.splice(idx, 1);
         renderApp();
       }
     }
@@ -1793,12 +1942,16 @@
       const parsedHex = parseAnyColor(value) || normalizeHex(value);
       const textInput = document.getElementById(`pv-color-${type}-val`);
       const picker = document.getElementById(`pv-color-${type}-picker`);
+      const preview = document.getElementById(`pv-color-${type}-preview`);
 
       if (textInput && textInput !== document.activeElement) {
         textInput.value = value;
       }
       if (parsedHex && picker && picker.value.toUpperCase() !== parsedHex.toUpperCase()) {
         try { picker.value = parsedHex; } catch (e) {}
+      }
+      if (preview && (parsedHex || value)) {
+        preview.style.backgroundColor = parsedHex || value;
       }
 
       syncProjectViewColorsToProject();
@@ -1826,10 +1979,14 @@
         const val = [primary, secondary, tertiary][i];
         const textInput = document.getElementById(`pv-color-${type}-val`);
         const picker = document.getElementById(`pv-color-${type}-picker`);
+        const preview = document.getElementById(`pv-color-${type}-preview`);
         const parsed = normalizeHex(val) || val;
         if (textInput) textInput.value = parsed;
         if (picker && parsed) {
           try { picker.value = parsed; } catch(e) {}
+        }
+        if (preview && parsed) {
+          preview.style.backgroundColor = parsed;
         }
       });
     }
@@ -1946,11 +2103,12 @@
             fontBody: 'Inter',
             fonts: 'Title: Playfair Display, Text: Inter'
           },
-          thirdPartyBoxes: [
-            { id: 'tp1', title: 'Third Party Integrations', type: 'notes', description: 'e.g. Restaurant booking: Table Plus, The Fork, Zenchef. Provide scripts & docs.', value: '', isEditing: true },
-            { id: 'tp2', title: 'Google Maps API Key', type: 'maps', description: 'Interactive map key with direct itinerary simulation.', value: '', isEditing: true },
-            { id: 'tp3', title: 'Google Analytics 4 (GA4)', type: 'ga4', description: 'Tracking code (Format: G-XXXXXX) for site metrics.', value: '', isEditing: true }
-          ],
+          finalDomain: '',
+          domainAliases: [],
+          ga4: '',
+          googleMapsKey: '',
+          thirdPartyNotes: '',
+          customIntegrations: [],
           steps: JSON.parse(JSON.stringify(PRD_TEMPLATES[tier]))
         };
         projects.push(newProj);
