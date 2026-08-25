@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Streamline Portal - D-EDGE Hotel Website Platform</title>
+  <!-- Google Fonts for Typography Previews -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&family=Cabin:wght@400;600&family=Castoro&family=Cinzel:wght@400..900&family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Serif+Display&family=EB+Garamond:wght@400..800&family=Fraunces:opsz,wght@9..144,400..900&family=Inter:wght@300;400;500;600;700&family=Italiana&family=Karla:wght@400;600;700&family=Lato:wght@400;700&family=Lexend:wght@400;600&family=Libre+Baskerville:wght@400;700&family=Lora:ital,wght@0,400..700;1,400..700&family=Marcellus&family=Merriweather:wght@400;700&family=Montserrat:wght@400;600;700&family=Mulish:wght@400;600;700&family=Nunito:wght@400;600;700&family=Nunito+Sans:wght@400;600;700&family=Open+Sans:wght@400;600;700&family=Oswald:wght@400;600&family=Outfit:wght@400;600;700&family=PT+Serif:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@400;600;700&family=Poppins:wght@400;600;700&family=Prata&family=Quicksand:wght@400;600&family=Raleway:wght@400;600;700&family=Roboto:wght@400;500;700&family=Rubik:wght@400;600&family=Source+Sans+3:wght@400;600&family=Source+Serif+4:wght@400;600&family=Spectral:wght@400;600&family=Syne:wght@400;600;700&family=Tenor+Sans&family=Urbanist:wght@400;600;700&family=Work+Sans:wght@400;600&display=swap" rel="stylesheet">
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
@@ -173,12 +177,6 @@
             </h3>
 
             <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-              <div class="flex items-center space-x-2">
-                <span class="text-xs font-semibold text-slate-500">Languages:</span>
-                <div id="languages-display-container" class="flex items-center space-x-1"></div>
-                <button id="btn-edit-languages" onclick="openLanguagesModal()" class="text-xs text-brand-purple hover:underline font-bold pl-1">Edit</button>
-              </div>
-
               <button onclick="saveGraphicElements()" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center space-x-1 shadow-sm transition">
                 <i data-lucide="check" class="w-3.5 h-3.5"></i>
                 <span>Save Elements</span>
@@ -186,58 +184,53 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 text-xs">
-            <!-- TEXTS / GOOGLE DOCS COLUMN -->
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 flex flex-col justify-between">
-              <div class="space-y-3">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 text-xs">
+            <!-- COLUMN 1: TEXTS + IMAGES & LOGO -->
+            <div class="lg:col-span-5 space-y-4">
+              <!-- TEXTS / GOOGLE DOCS -->
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
                 <div class="flex items-center justify-between">
                   <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
                     <i data-lucide="file-text" class="w-4 h-4 text-brand-purple"></i>
                     <span>Texts</span>
                   </h4>
-                  <button type="button" onclick="openAddTextDocModal()" class="text-[11px] bg-purple-100 hover:bg-brand-purple text-brand-purple hover:text-white font-bold px-2.5 py-1 rounded-lg flex items-center space-x-1 transition shadow-2xs">
-                    <i data-lucide="plus" class="w-3 h-3"></i>
-                    <span>Add Link</span>
-                  </button>
-                </div>
-
-                <div class="space-y-1 text-[11px] text-slate-500 select-none pb-1">
-                  <span class="font-bold text-slate-700 block">Requirements:</span>
-                  <p>• Google Docs links for hotel page copy, amenities, rooms & translations.</p>
                 </div>
 
                 <!-- DYNAMIC LIST OF GOOGLE DOC LINKS BUTTONS -->
                 <div id="ge-text-docs-container" class="space-y-2">
                   <!-- Rendered dynamically -->
                 </div>
+
+                <!-- PERSISTENT ADD BUTTON ALWAYS DIRECTLY UNDERNEATH LAST ITEM -->
+                <button type="button" onclick="openAddTextDocModal()" class="w-full py-2 border border-dashed border-purple-300 hover:border-brand-purple hover:bg-purple-50/70 rounded-xl text-brand-purple font-bold text-xs flex items-center justify-center space-x-1.5 transition shadow-2xs">
+                  <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                  <span>+ Add Google Doc Link</span>
+                </button>
               </div>
 
-              <!-- PERSISTENT ADD BUTTON -->
-              <button type="button" onclick="openAddTextDocModal()" class="w-full mt-2 py-2 border border-dashed border-purple-300 hover:border-brand-purple hover:bg-purple-50/50 rounded-xl text-brand-purple font-bold text-xs flex items-center justify-center space-x-1.5 transition">
-                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
-                <span>+ Add Google Doc Link</span>
-              </button>
+              <!-- IMAGES & LOGO -->
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                <div class="flex items-center justify-between">
+                  <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
+                    <i data-lucide="image" class="w-4 h-4 text-brand-purple"></i>
+                    <span>Images & Logo</span>
+                  </h4>
+                  <a href="https://docs.google.com/presentation/d/1XVu7lZwIiqsVP4dZQe885Ds0Uxj3iydtBV9Y06vRzno/edit?usp=drive_link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 text-[11px] font-bold text-brand-purple bg-purple-100/90 hover:bg-brand-purple hover:text-white px-2.5 py-1 rounded-lg transition shadow-2xs border border-purple-200/80" title="Open Images & Logo Guide">
+                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                    <span>Guide</span>
+                    <i data-lucide="external-link" class="w-3 h-3 ml-0.5 opacity-70"></i>
+                  </a>
+                </div>
+
+                <!-- DYNAMIC IMAGES DRIVE CONTAINER (INPUT FOR PM, IMPORT BUTTON FOR CLIENT) -->
+                <div id="ge-images-drive-container" class="space-y-2">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
             </div>
 
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-              <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
-                <i data-lucide="image" class="w-4 h-4 text-brand-purple"></i>
-                <span>Images & Logo</span>
-              </h4>
-
-              <div class="space-y-1 text-[11px] text-slate-500 select-none pb-1">
-                <span class="font-bold text-slate-700 block">Requirements:</span>
-                <p>• <strong>Visuals:</strong> JPEG format, Min size 2200 x 1100 px. Original visuals.</p>
-                <p>• <strong>Logos:</strong> High quality, .PNG format with transparent background.</p>
-              </div>
-
-              <div>
-                <label class="block font-semibold text-slate-700 mb-1">Images Google Drive Link</label>
-                <input id="ge-images-drive" type="url" placeholder="https://drive.google.com/..." class="w-full border border-slate-200 bg-white rounded-lg p-2 text-xs outline-none focus:ring-2 focus:ring-brand-purple">
-              </div>
-            </div>
-
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3.5">
+            <!-- COLUMN 2: BRAND IDENTITY -->
+            <div class="lg:col-span-7 bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3.5">
               <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
                 <i data-lucide="type" class="w-4 h-4 text-brand-purple"></i>
                 <span>Brand Identity</span>
@@ -252,65 +245,65 @@
                   </label>
                 </div>
 
-                <!-- RESPONSIVE COLOR PALETTE SELECTORS -->
-                <div class="space-y-2">
+                <!-- RESPONSIVE COLOR PALETTE SELECTORS (3 COLUMNS) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <!-- PRIMARY COLOR -->
-                  <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between gap-3 hover:border-purple-200 transition">
-                    <div class="flex items-center space-x-2.5 min-w-0">
-                      <div class="relative w-8 h-8 rounded-lg border border-slate-300 overflow-hidden shrink-0 shadow-xs flex items-center justify-center cursor-pointer hover:border-brand-purple hover:scale-105 transition-all group" title="Click to pick Primary Color">
-                        <input type="color" id="pv-color-primary-picker" oninput="handleProjectViewColorInput('primary', this.value)" class="absolute -inset-2 w-12 h-12 cursor-pointer opacity-0 z-10">
-                        <div id="pv-color-primary-preview" class="w-full h-full rounded-md flex items-center justify-center transition" style="background-color: #5B1E82;">
+                  <div class="bg-slate-50/90 p-3 rounded-xl border border-slate-200 space-y-2 hover:border-purple-300 transition">
+                    <div>
+                      <span class="font-bold text-slate-800 text-xs">Primary Color</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <div class="relative w-9 h-9 rounded-xl border border-slate-300 overflow-hidden shrink-0 shadow-2xs flex items-center justify-center cursor-pointer hover:border-brand-purple hover:scale-105 transition-all group" title="Click to pick Primary Color">
+                        <input type="color" id="pv-color-primary-picker" oninput="handleProjectViewColorInput('primary', this.value)" class="absolute -inset-2 w-14 h-14 cursor-pointer opacity-0 z-10">
+                        <div id="pv-color-primary-preview" class="w-full h-full rounded-lg flex items-center justify-center transition" style="background-color: #5B1E82;">
                           <div class="w-4 h-4 rounded-full bg-black/40 backdrop-blur-xs flex items-center justify-center text-white shadow-2xs group-hover:scale-110 group-hover:bg-black/60 transition pointer-events-none">
                             <i data-lucide="pencil" class="w-2.5 h-2.5 text-white"></i>
                           </div>
                         </div>
                       </div>
-                      <div class="min-w-0">
-                        <span class="font-bold text-slate-800 text-xs block">Primary Color</span>
+                      <div class="flex-1 min-w-0">
+                        <input type="text" id="pv-color-primary-val" placeholder="#5B1E82" oninput="handleProjectViewColorInput('primary', this.value)" class="w-full border border-slate-200 bg-white rounded-xl px-2.5 py-2 text-xs font-mono font-medium text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs uppercase">
                       </div>
-                    </div>
-                    <div class="w-24 sm:w-28 shrink-0">
-                      <input type="text" id="pv-color-primary-val" placeholder="#5B1E82" oninput="handleProjectViewColorInput('primary', this.value)" class="w-full border border-slate-200 bg-white rounded-lg px-2 py-1 text-xs font-mono text-center outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs">
                     </div>
                   </div>
 
                   <!-- SECONDARY COLOR -->
-                  <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between gap-3 hover:border-purple-200 transition">
-                    <div class="flex items-center space-x-2.5 min-w-0">
-                      <div class="relative w-8 h-8 rounded-lg border border-slate-300 overflow-hidden shrink-0 shadow-xs flex items-center justify-center cursor-pointer hover:border-brand-purple hover:scale-105 transition-all group" title="Click to pick Secondary Color">
-                        <input type="color" id="pv-color-secondary-picker" oninput="handleProjectViewColorInput('secondary', this.value)" class="absolute -inset-2 w-12 h-12 cursor-pointer opacity-0 z-10">
-                        <div id="pv-color-secondary-preview" class="w-full h-full rounded-md flex items-center justify-center transition" style="background-color: #C5A059;">
+                  <div class="bg-slate-50/90 p-3 rounded-xl border border-slate-200 space-y-2 hover:border-purple-300 transition">
+                    <div>
+                      <span class="font-bold text-slate-800 text-xs">Secondary Color</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <div class="relative w-9 h-9 rounded-xl border border-slate-300 overflow-hidden shrink-0 shadow-2xs flex items-center justify-center cursor-pointer hover:border-brand-purple hover:scale-105 transition-all group" title="Click to pick Secondary Color">
+                        <input type="color" id="pv-color-secondary-picker" oninput="handleProjectViewColorInput('secondary', this.value)" class="absolute -inset-2 w-14 h-14 cursor-pointer opacity-0 z-10">
+                        <div id="pv-color-secondary-preview" class="w-full h-full rounded-lg flex items-center justify-center transition" style="background-color: #C5A059;">
                           <div class="w-4 h-4 rounded-full bg-black/40 backdrop-blur-xs flex items-center justify-center text-white shadow-2xs group-hover:scale-110 group-hover:bg-black/60 transition pointer-events-none">
                             <i data-lucide="pencil" class="w-2.5 h-2.5 text-white"></i>
                           </div>
                         </div>
                       </div>
-                      <div class="min-w-0">
-                        <span class="font-bold text-slate-800 text-xs block">Secondary Color</span>
+                      <div class="flex-1 min-w-0">
+                        <input type="text" id="pv-color-secondary-val" placeholder="#C5A059" oninput="handleProjectViewColorInput('secondary', this.value)" class="w-full border border-slate-200 bg-white rounded-xl px-2.5 py-2 text-xs font-mono font-medium text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs uppercase">
                       </div>
-                    </div>
-                    <div class="w-24 sm:w-28 shrink-0">
-                      <input type="text" id="pv-color-secondary-val" placeholder="#C5A059" oninput="handleProjectViewColorInput('secondary', this.value)" class="w-full border border-slate-200 bg-white rounded-lg px-2 py-1 text-xs font-mono text-center outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs">
                     </div>
                   </div>
 
                   <!-- TERTIARY COLOR -->
-                  <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between gap-3 hover:border-purple-200 transition">
-                    <div class="flex items-center space-x-2.5 min-w-0">
-                      <div class="relative w-8 h-8 rounded-lg border border-slate-300 overflow-hidden shrink-0 shadow-xs flex items-center justify-center cursor-pointer hover:border-brand-purple hover:scale-105 transition-all group" title="Click to pick Tertiary Color">
-                        <input type="color" id="pv-color-tertiary-picker" oninput="handleProjectViewColorInput('tertiary', this.value)" class="absolute -inset-2 w-12 h-12 cursor-pointer opacity-0 z-10">
-                        <div id="pv-color-tertiary-preview" class="w-full h-full rounded-md flex items-center justify-center transition" style="background-color: #F4F5F9;">
+                  <div class="bg-slate-50/90 p-3 rounded-xl border border-slate-200 space-y-2 hover:border-purple-300 transition">
+                    <div>
+                      <span class="font-bold text-slate-800 text-xs">Tertiary Color</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <div class="relative w-9 h-9 rounded-xl border border-slate-300 overflow-hidden shrink-0 shadow-2xs flex items-center justify-center cursor-pointer hover:border-brand-purple hover:scale-105 transition-all group" title="Click to pick Tertiary Color">
+                        <input type="color" id="pv-color-tertiary-picker" oninput="handleProjectViewColorInput('tertiary', this.value)" class="absolute -inset-2 w-14 h-14 cursor-pointer opacity-0 z-10">
+                        <div id="pv-color-tertiary-preview" class="w-full h-full rounded-lg flex items-center justify-center transition" style="background-color: #F4F5F9;">
                           <div class="w-4 h-4 rounded-full bg-black/40 backdrop-blur-xs flex items-center justify-center text-white shadow-2xs group-hover:scale-110 group-hover:bg-black/60 transition pointer-events-none">
                             <i data-lucide="pencil" class="w-2.5 h-2.5 text-white"></i>
                           </div>
                         </div>
                       </div>
-                      <div class="min-w-0">
-                        <span class="font-bold text-slate-800 text-xs block">Tertiary Color</span>
+                      <div class="flex-1 min-w-0">
+                        <input type="text" id="pv-color-tertiary-val" placeholder="#F4F5F9" oninput="handleProjectViewColorInput('tertiary', this.value)" class="w-full border border-slate-200 bg-white rounded-xl px-2.5 py-2 text-xs font-mono font-medium text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs uppercase">
                       </div>
-                    </div>
-                    <div class="w-24 sm:w-28 shrink-0">
-                      <input type="text" id="pv-color-tertiary-val" placeholder="#F4F5F9" oninput="handleProjectViewColorInput('tertiary', this.value)" class="w-full border border-slate-200 bg-white rounded-lg px-2 py-1 text-xs font-mono text-center outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs">
                     </div>
                   </div>
                 </div>
@@ -318,96 +311,108 @@
                 <input type="hidden" id="ge-colors">
               </div>
 
-              <!-- FONTS SELECTION (2 GOOGLE FONTS SELECT FIELDS) -->
-              <div class="space-y-2">
+              <!-- FONTS SELECTION WITH DIRECT GUIDE BUTTON -->
+              <div class="space-y-2.5 pt-1">
                 <div class="flex items-center justify-between">
                   <label class="block font-semibold text-slate-700 text-xs flex items-center space-x-1.5">
                     <i data-lucide="type" class="w-3.5 h-3.5 text-brand-purple"></i>
                     <span>Fonts</span>
                   </label>
+                  <a href="https://fontjoy.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 text-[11px] font-bold text-brand-purple bg-purple-100/90 hover:bg-brand-purple hover:text-white px-2.5 py-1 rounded-lg transition shadow-2xs border border-purple-200/80" title="Open Font Pairing Guide on Fontjoy">
+                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                    <span>Guide</span>
+                    <i data-lucide="external-link" class="w-3 h-3 ml-0.5 opacity-70"></i>
+                  </a>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <!-- TITLE & HEADINGS FONT -->
-                  <div class="space-y-1">
-                    <label class="block text-[11px] font-semibold text-slate-600">Title & Heading Font</label>
+                  <div class="space-y-1.5 bg-slate-50/90 p-3.5 rounded-xl border border-slate-200 hover:border-purple-300 transition">
+                    <div class="flex items-center justify-between">
+                      <label class="block text-xs font-bold text-slate-800">Title & Heading Font</label>
+                      <span class="text-[10px] text-slate-400 font-medium">Headings, H1-H6</span>
+                    </div>
                     <div class="relative">
-                      <select id="ge-font-title" onchange="syncProjectViewFontsToProject()" class="w-full border border-slate-200 bg-white rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer shadow-2xs appearance-none pr-7">
+                      <select id="ge-font-title" onchange="syncProjectViewFontsToProject()" class="w-full border border-slate-200 bg-white rounded-xl px-3 py-2 text-xs font-medium text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer shadow-2xs appearance-none pr-8 transition">
                         <option value="" disabled>-- Select Title Font --</option>
-                        <optgroup label="Serif & Editorial">
-                          <option value="Playfair Display">Playfair Display</option>
-                          <option value="Cormorant Garamond">Cormorant Garamond</option>
-                          <option value="Cinzel">Cinzel</option>
-                          <option value="Bodoni Moda">Bodoni Moda</option>
-                          <option value="Prata">Prata</option>
-                          <option value="Marcellus">Marcellus</option>
-                          <option value="Castoro">Castoro</option>
-                          <option value="Lora">Lora</option>
-                          <option value="Merriweather">Merriweather</option>
-                          <option value="EB Garamond">EB Garamond</option>
-                          <option value="Spectral">Spectral</option>
-                          <option value="Libre Baskerville">Libre Baskerville</option>
-                          <option value="DM Serif Display">DM Serif Display</option>
-                          <option value="Fraunces">Fraunces</option>
-                          <option value="Italiana">Italiana</option>
+                        <optgroup label="Serif & Editorial (Luxury, Classic, Boutique)">
+                          <option value="Playfair Display" style="font-family: 'Playfair Display', serif; font-size: 13px;">Playfair Display (Luxury & Classic)</option>
+                          <option value="Cormorant Garamond" style="font-family: 'Cormorant Garamond', serif; font-size: 13px;">Cormorant Garamond (Graceful & Refined)</option>
+                          <option value="Cinzel" style="font-family: 'Cinzel', serif; font-size: 13px;">Cinzel (Monumental & Grand)</option>
+                          <option value="Bodoni Moda" style="font-family: 'Bodoni Moda', serif; font-size: 13px;">Bodoni Moda (High Fashion & Bold)</option>
+                          <option value="Prata" style="font-family: 'Prata', serif; font-size: 13px;">Prata (Elegant & Slender)</option>
+                          <option value="Marcellus" style="font-family: 'Marcellus', serif; font-size: 13px;">Marcellus (Roman & Timeless)</option>
+                          <option value="Castoro" style="font-family: 'Castoro', serif; font-size: 13px;">Castoro (Academic & Warm)</option>
+                          <option value="Lora" style="font-family: 'Lora', serif; font-size: 13px;">Lora (Contemporary Serif)</option>
+                          <option value="Merriweather" style="font-family: 'Merriweather', serif; font-size: 13px;">Merriweather (Sturdy Editorial)</option>
+                          <option value="EB Garamond" style="font-family: 'EB Garamond', serif; font-size: 13px;">EB Garamond (Heritage Classic)</option>
+                          <option value="Spectral" style="font-family: 'Spectral', serif; font-size: 13px;">Spectral (Crisp & Editorial)</option>
+                          <option value="Libre Baskerville" style="font-family: 'Libre Baskerville', serif; font-size: 13px;">Libre Baskerville (Traditional)</option>
+                          <option value="DM Serif Display" style="font-family: 'DM Serif Display', serif; font-size: 13px;">DM Serif Display (Poster Serif)</option>
+                          <option value="Fraunces" style="font-family: 'Fraunces', serif; font-size: 13px;">Fraunces (Vintage Warm Display)</option>
+                          <option value="Italiana" style="font-family: 'Italiana', serif; font-size: 13px;">Italiana (Italian Renaissance)</option>
                         </optgroup>
-                        <optgroup label="Sans-Serif & Modern">
-                          <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
-                          <option value="Montserrat">Montserrat</option>
-                          <option value="Syne">Syne</option>
-                          <option value="Poppins">Poppins</option>
-                          <option value="Outfit">Outfit</option>
-                          <option value="Urbanist">Urbanist</option>
-                          <option value="Tenor Sans">Tenor Sans</option>
-                          <option value="Raleway">Raleway</option>
-                          <option value="Oswald">Oswald</option>
+                        <optgroup label="Sans-Serif & Modern (Contemporary, Minimal, Clean)">
+                          <option value="Plus Jakarta Sans" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px;">Plus Jakarta Sans (Ultra Modern)</option>
+                          <option value="Montserrat" style="font-family: 'Montserrat', sans-serif; font-size: 13px;">Montserrat (Geometric & Impactful)</option>
+                          <option value="Syne" style="font-family: 'Syne', sans-serif; font-size: 13px;">Syne (Avant-Garde & Stylish)</option>
+                          <option value="Poppins" style="font-family: 'Poppins', sans-serif; font-size: 13px;">Poppins (Friendly Geometric)</option>
+                          <option value="Outfit" style="font-family: 'Outfit', sans-serif; font-size: 13px;">Outfit (Sleek High-Tech)</option>
+                          <option value="Urbanist" style="font-family: 'Urbanist', sans-serif; font-size: 13px;">Urbanist (Minimalist Urban)</option>
+                          <option value="Tenor Sans" style="font-family: 'Tenor Sans', sans-serif; font-size: 13px;">Tenor Sans (Soft Chic Modern)</option>
+                          <option value="Raleway" style="font-family: 'Raleway', sans-serif; font-size: 13px;">Raleway (Elegant Thin Lines)</option>
+                          <option value="Oswald" style="font-family: 'Oswald', sans-serif; font-size: 13px;">Oswald (Tall & Condensed)</option>
                         </optgroup>
                       </select>
-                      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-                        <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-400">
+                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
                       </div>
                     </div>
                   </div>
 
                   <!-- BODY TEXT FONT -->
-                  <div class="space-y-1">
-                    <label class="block text-[11px] font-semibold text-slate-600">Body Text Font</label>
+                  <div class="space-y-1.5 bg-slate-50/90 p-3.5 rounded-xl border border-slate-200 hover:border-purple-300 transition">
+                    <div class="flex items-center justify-between">
+                      <label class="block text-xs font-bold text-slate-800">Body Text Font</label>
+                      <span class="text-[10px] text-slate-400 font-medium">Paragraphs & Descriptions</span>
+                    </div>
                     <div class="relative">
-                      <select id="ge-font-body" onchange="syncProjectViewFontsToProject()" class="w-full border border-slate-200 bg-white rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer shadow-2xs appearance-none pr-7">
+                      <select id="ge-font-body" onchange="syncProjectViewFontsToProject()" class="w-full border border-slate-200 bg-white rounded-xl px-3 py-2 text-xs font-medium text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer shadow-2xs appearance-none pr-8 transition">
                         <option value="" disabled>-- Select Body Font --</option>
                         <optgroup label="Sans-Serif (Clean & Legible)">
-                          <option value="Inter">Inter</option>
-                          <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
-                          <option value="Open Sans">Open Sans</option>
-                          <option value="Lato">Lato</option>
-                          <option value="Montserrat">Montserrat</option>
-                          <option value="DM Sans">DM Sans</option>
-                          <option value="Work Sans">Work Sans</option>
-                          <option value="Nunito Sans">Nunito Sans</option>
-                          <option value="Nunito">Nunito</option>
-                          <option value="Mulish">Mulish</option>
-                          <option value="Karla">Karla</option>
-                          <option value="Roboto">Roboto</option>
-                          <option value="Source Sans 3">Source Sans 3</option>
-                          <option value="Cabin">Cabin</option>
-                          <option value="Quicksand">Quicksand</option>
-                          <option value="Rubik">Rubik</option>
-                          <option value="Lexend">Lexend</option>
-                          <option value="Barlow">Barlow</option>
+                          <option value="Inter" style="font-family: 'Inter', sans-serif; font-size: 13px;">Inter (Optimal Screen Clarity)</option>
+                          <option value="Plus Jakarta Sans" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px;">Plus Jakarta Sans (Modern & Clean)</option>
+                          <option value="Open Sans" style="font-family: 'Open Sans', sans-serif; font-size: 13px;">Open Sans (Universal Readability)</option>
+                          <option value="Lato" style="font-family: 'Lato', sans-serif; font-size: 13px;">Lato (Warm & Balanced)</option>
+                          <option value="Montserrat" style="font-family: 'Montserrat', sans-serif; font-size: 13px;">Montserrat (Crisp Body Text)</option>
+                          <option value="DM Sans" style="font-family: 'DM Sans', sans-serif; font-size: 13px;">DM Sans (Precise & Geometric)</option>
+                          <option value="Work Sans" style="font-family: 'Work Sans', sans-serif; font-size: 13px;">Work Sans (Clean & Contemporary)</option>
+                          <option value="Nunito Sans" style="font-family: 'Nunito Sans', sans-serif; font-size: 13px;">Nunito Sans (Balanced & Soft)</option>
+                          <option value="Nunito" style="font-family: 'Nunito', sans-serif; font-size: 13px;">Nunito (Friendly Rounded)</option>
+                          <option value="Mulish" style="font-family: 'Mulish', sans-serif; font-size: 13px;">Mulish (Minimalist Sans)</option>
+                          <option value="Karla" style="font-family: 'Karla', sans-serif; font-size: 13px;">Karla (Grotesque Sans)</option>
+                          <option value="Roboto" style="font-family: 'Roboto', sans-serif; font-size: 13px;">Roboto (Structured & Familiar)</option>
+                          <option value="Source Sans 3" style="font-family: 'Source Sans 3', sans-serif; font-size: 13px;">Source Sans 3 (Editorial Sans)</option>
+                          <option value="Cabin" style="font-family: 'Cabin', sans-serif; font-size: 13px;">Cabin (Humanist Sans)</option>
+                          <option value="Quicksand" style="font-family: 'Quicksand', sans-serif; font-size: 13px;">Quicksand (Soft Geometric)</option>
+                          <option value="Rubik" style="font-family: 'Rubik', sans-serif; font-size: 13px;">Rubik (Smooth Rounded Corners)</option>
+                          <option value="Lexend" style="font-family: 'Lexend', sans-serif; font-size: 13px;">Lexend (High Readability Index)</option>
+                          <option value="Barlow" style="font-family: 'Barlow', sans-serif; font-size: 13px;">Barlow (Slightly Condensed)</option>
                         </optgroup>
-                        <optgroup label="Serif (Refined Reading)">
-                          <option value="Lora">Lora</option>
-                          <option value="Merriweather">Merriweather</option>
-                          <option value="Source Serif 4">Source Serif 4</option>
-                          <option value="PT Serif">PT Serif</option>
+                        <optgroup label="Serif (Refined & Book Reading)">
+                          <option value="Lora" style="font-family: 'Lora', serif; font-size: 13px;">Lora (Serif for Long Reading)</option>
+                          <option value="Merriweather" style="font-family: 'Merriweather', serif; font-size: 13px;">Merriweather (Pleasant Editorial)</option>
+                          <option value="Source Serif 4" style="font-family: 'Source Serif 4', serif; font-size: 13px;">Source Serif 4 (Literary Elegance)</option>
+                          <option value="PT Serif" style="font-family: 'PT Serif', serif; font-size: 13px;">PT Serif (Universal Reading)</option>
                         </optgroup>
                       </select>
-                      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-                        <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-400">
+                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
               </div>
             </div>
           </div>
@@ -650,11 +655,26 @@
         <button onclick="closeModal('modal-text-doc')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <form onsubmit="handleTextDocSubmit(event)" class="space-y-3 text-xs">
+      <form onsubmit="handleTextDocSubmit(event)" class="space-y-3.5 text-xs">
         <input type="hidden" id="mtd-doc-id">
+
+        <!-- DOCUMENT LANGUAGE SELECTION DROPDOWN -->
         <div>
-          <label class="block text-slate-700 font-bold mb-1">Custom Button / Doc Label</label>
-          <input required id="mtd-label" type="text" placeholder="e.g. Master Page Copy, Room Descriptions, Menu Specs" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+          <label class="block text-slate-700 font-bold mb-1">Language</label>
+          <select id="mtd-lang" onchange="handleDocLanguageChange(this.value)" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-white text-slate-800 text-xs font-medium cursor-pointer">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 font-bold mb-1">Name of the document</label>
+          <div class="flex items-center rounded-xl border border-slate-200 bg-slate-50/50 focus-within:ring-2 focus-within:ring-brand-purple focus-within:border-transparent overflow-hidden">
+            <div id="mtd-prefix-badge" class="bg-purple-100/80 text-brand-purple font-bold font-mono px-3 py-2.5 text-xs select-none border-r border-slate-200 shrink-0 flex items-center space-x-1.5" title="Language initials (automatically added)">
+              <span id="mtd-prefix-flag">🇬🇧</span>
+              <span id="mtd-prefix-code">[EN]</span>
+            </div>
+            <input required id="mtd-label" type="text" placeholder="e.g. Main Website Copy, Room Descriptions" class="w-full bg-transparent px-3 py-2.5 outline-none text-xs text-slate-800 font-medium">
+          </div>
         </div>
 
         <div>
@@ -664,7 +684,7 @@
 
         <div class="pt-3 flex justify-end space-x-2 border-t border-slate-100">
           <button type="button" onclick="closeModal('modal-text-doc')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition text-xs">Cancel</button>
-          <button type="submit" class="px-5 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm transition text-xs">Save Doc Link</button>
+          <button type="submit" class="px-6 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm transition text-xs">Save</button>
         </div>
       </form>
     </div>
@@ -769,8 +789,8 @@
         thirdPartyNotes: 'TablePlus for direct dining reservations.',
         customIntegrations: [],
         textDocs: [
-          { id: 'td1', label: 'Main Website Copy (EN/FR)', url: 'https://docs.google.com/document/d/1GrandHotelParisMasterCopy' },
-          { id: 'td2', label: 'Rooms & Amenities Details', url: 'https://docs.google.com/document/d/2GrandHotelParisRoomsSpecs' }
+          { id: 'td1', lang: 'French', label: '[FR] Main Website Copy (Master)', url: 'https://docs.google.com/document/d/1GrandHotelParisMasterCopy' },
+          { id: 'td2', lang: 'English', label: '[EN] Rooms & Amenities Details', url: 'https://docs.google.com/document/d/2GrandHotelParisRoomsSpecs' }
         ],
         graphicElements: {
           imagesDrive: 'https://drive.google.com',
@@ -800,7 +820,7 @@
         thirdPartyNotes: '',
         customIntegrations: [],
         textDocs: [
-          { id: 'td1', label: 'Alpine Resort Master Copy', url: 'https://docs.google.com/document/d/1AlpineResortContentDoc' }
+          { id: 'td1', lang: 'English', label: '[EN] Alpine Resort Master Copy', url: 'https://docs.google.com/document/d/1AlpineResortContentDoc' }
         ],
         graphicElements: {
           imagesDrive: 'https://drive.google.com',
@@ -933,11 +953,13 @@
       clientEmailInput.value = project.clientEmail || '';
 
       const langContainer = document.getElementById('languages-display-container');
-      langContainer.innerHTML = (project.languages || ['English']).map(l => 
-        `<span class="text-[10px] bg-purple-100 text-brand-purple font-bold px-2 py-0.5 rounded border border-purple-200">${l}</span>`
-      ).join('');
+      if (langContainer) {
+        langContainer.innerHTML = (project.languages || ['English']).map(l => 
+          `<span class="text-[10px] bg-purple-100 text-brand-purple font-bold px-2 py-0.5 rounded border border-purple-200">${l}</span>`
+        ).join('');
+      }
 
-      document.getElementById('ge-images-drive').value = project.graphicElements?.imagesDrive || '';
+      renderImagesDriveBlock(project);
       
       const titleFont = project.graphicElements?.fontTitle || (project.graphicElements?.fonts ? (project.graphicElements.fonts.match(/Title:\s*([^,]+)/i)?.[1]?.trim()) : null) || 'Playfair Display';
       const bodyFont = project.graphicElements?.fontBody || (project.graphicElements?.fonts ? (project.graphicElements.fonts.match(/(?:Text|Body):\s*(.+)/i)?.[1]?.trim()) : null) || 'Inter';
@@ -946,6 +968,7 @@
       const fontBodySelect = document.getElementById('ge-font-body');
       if (fontTitleSelect) fontTitleSelect.value = titleFont;
       if (fontBodySelect) fontBodySelect.value = bodyFont;
+      updateFontPreviews();
 
       const pColors = project.colors || { primary: '#5B1E82', secondary: '#C5A059', tertiary: '#F4F5F9' };
       setProjectViewColorPaletteValues(pColors.primary, pColors.secondary, pColors.tertiary);
@@ -957,14 +980,55 @@
       lucide.createIcons();
     }
 
-    // --- TEXTS / GOOGLE DOCS MANAGEMENT ---
+    // --- TEXTS / GOOGLE DOCS MANAGEMENT WITH LANGUAGES & FLAGS ---
+    const DOC_LANGUAGE_MAP = {
+      'English': { code: 'EN', iso: 'gb', flag: '🇬🇧', name: 'English' },
+      'French': { code: 'FR', iso: 'fr', flag: '🇫🇷', name: 'French' },
+      'Spanish': { code: 'ES', iso: 'es', flag: '🇪🇸', name: 'Spanish' },
+      'German': { code: 'DE', iso: 'de', flag: '🇩🇪', name: 'German' },
+      'Italian': { code: 'IT', iso: 'it', flag: '🇮🇹', name: 'Italian' },
+      'Portuguese': { code: 'PT', iso: 'pt', flag: '🇵🇹', name: 'Portuguese' },
+      'Russian': { code: 'RU', iso: 'ru', flag: '🇷🇺', name: 'Russian' },
+      'Arabic': { code: 'AR', iso: 'sa', flag: '🇸🇦', name: 'Arabic' },
+      'Dutch': { code: 'NL', iso: 'nl', flag: '🇳🇱', name: 'Dutch' },
+      'Japanese': { code: 'JA', iso: 'jp', flag: '🇯🇵', name: 'Japanese' },
+      'Chinese': { code: 'ZH', iso: 'cn', flag: '🇨🇳', name: 'Chinese' },
+      'Romanian': { code: 'RO', iso: 'ro', flag: '🇷🇴', name: 'Romanian' },
+      'Greek': { code: 'GR', iso: 'gr', flag: '🇬🇷', name: 'Greek' }
+    };
+
+    function getDocLangMeta(langOrLabel) {
+      if (!langOrLabel) return { code: 'DOC', iso: 'fr', flag: '📄', name: 'Google Doc' };
+      // Direct language map lookup
+      if (DOC_LANGUAGE_MAP[langOrLabel]) return DOC_LANGUAGE_MAP[langOrLabel];
+      
+      // Lookup by code or name case-insensitive
+      for (const [key, val] of Object.entries(DOC_LANGUAGE_MAP)) {
+        if (key.toLowerCase() === langOrLabel.toLowerCase() || val.code.toLowerCase() === langOrLabel.toLowerCase()) {
+          return val;
+        }
+      }
+
+      // Check bracketed or parenthesized initials e.g. [FR], [EN], (FR), (DE)
+      const match = langOrLabel.match(/\[([A-Za-z]{2})\]|\(([A-Za-z]{2})\)/);
+      if (match) {
+        const foundCode = (match[1] || match[2]).toUpperCase();
+        for (const val of Object.values(DOC_LANGUAGE_MAP)) {
+          if (val.code === foundCode) return val;
+        }
+        return { code: foundCode, iso: foundCode.toLowerCase(), flag: '🌐', name: foundCode };
+      }
+
+      return { code: 'DOC', iso: 'fr', flag: '📄', name: langOrLabel };
+    }
+
     function renderTextDocs(project) {
       const container = document.getElementById('ge-text-docs-container');
       if (!container) return;
 
       if (!project.textDocs || project.textDocs.length === 0) {
         container.innerHTML = `
-          <div class="bg-white p-3.5 rounded-lg border border-slate-200 text-center text-slate-400 text-[11px] py-4 space-y-1">
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-center text-slate-400 text-[11px] py-4 space-y-1">
             <i data-lucide="file-text" class="w-5 h-5 mx-auto text-slate-300"></i>
             <p>No Google Doc links added yet.</p>
           </div>
@@ -972,39 +1036,134 @@
         return;
       }
 
-      container.innerHTML = project.textDocs.map(doc => `
-        <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs hover:border-purple-300 transition flex items-center justify-between gap-2 group">
-          <a href="${doc.url}" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 min-w-0 flex-1 text-slate-800 hover:text-brand-purple transition" title="Open Google Doc: ${doc.label}">
-            <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center shrink-0 shadow-2xs group-hover:bg-purple-50 group-hover:text-brand-purple group-hover:border-purple-200 transition">
-              <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+      container.innerHTML = project.textDocs.map(doc => {
+        const meta = getDocLangMeta(doc.lang || doc.label);
+        const flagImg = meta.iso ? `
+          <img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-5.5 h-4 object-cover rounded-xs shadow-2xs" onerror="this.outerHTML='<span class=\\'text-sm\\'>${meta.flag}</span>'">
+        ` : `<span class="text-sm">${meta.flag}</span>`;
+
+        return `
+          <div id="doc-card-${doc.id}" onclick="openDocUrl(event, '${doc.url}')" class="bg-white p-3 sm:p-3.5 rounded-xl border border-slate-200 shadow-2xs hover:border-purple-300 hover:shadow-md hover:scale-[1.02] transform transition-all duration-200 cursor-pointer flex items-center justify-between gap-3 group relative" title="Click to open Google Doc in a new tab">
+            <div class="flex items-center space-x-3 min-w-0 flex-1">
+              <!-- FLAG ICON BADGE -->
+              <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center shrink-0 shadow-2xs group-hover:border-purple-300 group-hover:bg-purple-50/70 transition overflow-hidden">
+                ${flagImg}
+              </div>
+              <div class="min-w-0 flex-1">
+                <span class="font-bold text-xs text-slate-800 group-hover:text-brand-purple transition leading-snug block truncate">
+                  ${doc.label || `[${meta.code}] Google Doc`}
+                </span>
+              </div>
             </div>
-            <div class="min-w-0 flex-1">
-              <span class="font-bold text-xs truncate block text-slate-800 group-hover:text-brand-purple">${doc.label || 'Google Doc'}</span>
-              <span class="text-[10px] text-slate-400 truncate block font-mono">${doc.url}</span>
-            </div>
-          </a>
-          <div class="flex items-center space-x-1 shrink-0">
-            <a href="${doc.url}" target="_blank" rel="noopener noreferrer" title="Open in New Tab" class="p-1 text-slate-400 hover:text-brand-purple hover:bg-purple-50 rounded transition">
-              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-            </a>
+
+            <!-- 3-DOTS ACTION MENU (FOR PM) -->
             ${currentRole === 'pm' ? `
-              <button type="button" onclick="openEditTextDocModal('${doc.id}')" title="Edit Link & Label" class="p-1 text-slate-400 hover:text-brand-purple hover:bg-purple-50 rounded transition">
-                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
-              </button>
-              <button type="button" onclick="deleteTextDoc('${doc.id}')" title="Delete Link" class="p-1 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded transition">
-                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-              </button>
+              <div class="relative shrink-0" onclick="event.stopPropagation()">
+                <button type="button" onclick="toggleDocMenu(event, '${doc.id}')" title="More options" class="w-7 h-7 rounded-lg text-slate-400 hover:text-brand-purple hover:bg-purple-50 flex items-center justify-center transition">
+                  <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div id="doc-menu-${doc.id}" class="hidden absolute right-0 top-full mt-1 w-32 bg-white rounded-xl shadow-2xl border border-slate-200 py-1.5 z-50 text-xs divide-y divide-slate-100">
+                  <button type="button" onclick="openEditTextDocModal('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-slate-700 hover:bg-purple-50 hover:text-brand-purple flex items-center space-x-2 font-medium transition">
+                    <i data-lucide="edit-3" class="w-3.5 h-3.5 text-brand-purple"></i>
+                    <span>Edit</span>
+                  </button>
+                  <button type="button" onclick="deleteTextDoc('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-rose-600 hover:bg-rose-50 flex items-center space-x-2 font-medium transition">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-500"></i>
+                    <span>Delete</span>
+                  </button>
+                </div>
+              </div>
             ` : ''}
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
+    }
+
+    function openDocUrl(e, url) {
+      if (e) e.stopPropagation();
+      if (url) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    }
+
+    function toggleDocMenu(e, docId) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById(`doc-menu-${docId}`);
+      const card = document.getElementById(`doc-card-${docId}`);
+      const isHidden = menu ? menu.classList.contains('hidden') : true;
+      hideAllDocMenus();
+      if (isHidden && menu && card) {
+        card.style.zIndex = '50';
+        menu.classList.remove('hidden');
+        lucide.createIcons();
+      }
+    }
+
+    function hideAllDocMenus() {
+      document.querySelectorAll('[id^="doc-menu-"]').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('[id^="doc-card-"]').forEach(el => {
+        el.style.zIndex = '';
+      });
+    }
+
+    // Close doc action dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('[id^="doc-menu-"]') && !e.target.closest('button[onclick^="toggleDocMenu"]')) {
+        hideAllDocMenus();
+      }
+    });
+
+    function populateDocLanguageSelect(selectedLang) {
+      const select = document.getElementById('mtd-lang');
+      if (!select) return;
+
+      const project = projects.find(p => p.id === currentProjectId);
+      const projectLangs = project?.languages || ['English', 'French'];
+      
+      const orderedLangs = [...projectLangs];
+      Object.keys(DOC_LANGUAGE_MAP).forEach(l => {
+        if (!orderedLangs.includes(l)) orderedLangs.push(l);
+      });
+
+      select.innerHTML = orderedLangs.map(lang => {
+        const meta = getDocLangMeta(lang);
+        const isProjectTarget = projectLangs.includes(lang);
+        const isSelected = selectedLang && (selectedLang.toLowerCase() === lang.toLowerCase() || selectedLang.toLowerCase() === meta.code.toLowerCase());
+        return `
+          <option value="${lang}" ${isSelected ? 'selected' : ''}>
+            ${meta.flag} ${lang} [${meta.code}] ${isProjectTarget ? '★ Project' : ''}
+          </option>
+        `;
+      }).join('');
+
+      handleDocLanguageChange(select.value);
+    }
+
+    function handleDocLanguageChange(langName) {
+      const meta = getDocLangMeta(langName);
+      const flagElem = document.getElementById('mtd-prefix-flag');
+      const codeElem = document.getElementById('mtd-prefix-code');
+
+      if (flagElem) {
+        flagElem.innerHTML = meta.iso ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-4 h-3 object-cover rounded-xs inline-block shadow-2xs" onerror="this.outerHTML='<span>${meta.flag}</span>'">` : `<span>${meta.flag}</span>`;
+      }
+      if (codeElem) {
+        codeElem.textContent = `[${meta.code}]`;
+      }
     }
 
     function openAddTextDocModal() {
+      const project = projects.find(p => p.id === currentProjectId);
+      const defaultLang = (project?.languages && project.languages[0]) ? project.languages[0] : 'English';
+
       document.getElementById('modal-text-doc-title').textContent = 'Add Google Doc Link';
       document.getElementById('mtd-doc-id').value = '';
       document.getElementById('mtd-label').value = '';
       document.getElementById('mtd-url').value = '';
+
+      populateDocLanguageSelect(defaultLang);
       document.getElementById('modal-text-doc').classList.remove('hidden');
       lucide.createIcons();
     }
@@ -1015,10 +1174,18 @@
       const doc = project.textDocs.find(d => d.id === docId);
       if (!doc) return;
 
+      const detectedMeta = getDocLangMeta(doc.lang || doc.label);
+      const docLang = doc.lang || detectedMeta.name || 'English';
+
       document.getElementById('modal-text-doc-title').textContent = 'Edit Google Doc Link';
       document.getElementById('mtd-doc-id').value = doc.id;
-      document.getElementById('mtd-label').value = doc.label;
+      
+      // Clean leading [XX] or (XX) prefix so input only shows the user-editable name
+      const cleanLabel = (doc.label || '').replace(/^\[[A-Za-z]{2}\]\s*/, '').replace(/^\([A-Za-z]{2}\)\s*/, '');
+      document.getElementById('mtd-label').value = cleanLabel;
       document.getElementById('mtd-url').value = doc.url;
+
+      populateDocLanguageSelect(docLang);
       document.getElementById('modal-text-doc').classList.remove('hidden');
       lucide.createIcons();
     }
@@ -1026,8 +1193,14 @@
     function handleTextDocSubmit(e) {
       e.preventDefault();
       const docId = document.getElementById('mtd-doc-id').value;
-      const label = document.getElementById('mtd-label').value.trim();
+      const lang = document.getElementById('mtd-lang').value;
+      const rawLabel = document.getElementById('mtd-label').value.trim();
       const url = document.getElementById('mtd-url').value.trim();
+
+      const meta = getDocLangMeta(lang);
+      // Remove any prefix the user might have manually typed
+      const cleanLabel = rawLabel.replace(/^\[[A-Za-z]{2}\]\s*/, '').replace(/^\([A-Za-z]{2}\)\s*/, '').trim();
+      const fullLabel = `[${meta.code}] ${cleanLabel || 'Google Doc'}`;
 
       const project = projects.find(p => p.id === currentProjectId);
       if (!project) return;
@@ -1036,13 +1209,15 @@
       if (docId) {
         const doc = project.textDocs.find(d => d.id === docId);
         if (doc) {
-          doc.label = label;
+          doc.lang = lang;
+          doc.label = fullLabel;
           doc.url = url;
         }
       } else {
         project.textDocs.push({
           id: `td-${Date.now()}`,
-          label: label,
+          lang: lang,
+          label: fullLabel,
           url: url
         });
       }
@@ -1120,11 +1295,54 @@
       }
     }
 
+    function renderImagesDriveBlock(project) {
+      const container = document.getElementById('ge-images-drive-container');
+      if (!container) return;
+
+      const driveUrl = project.graphicElements?.imagesDrive || '';
+
+      if (currentRole === 'pm') {
+        container.innerHTML = `
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1 text-xs">Images Google Drive Link</label>
+            <div class="flex items-center space-x-1.5">
+              <input id="ge-images-drive" type="url" value="${driveUrl}" oninput="updateImagesDriveLink(this.value)" placeholder="https://drive.google.com/..." class="flex-1 border border-slate-200 bg-white text-slate-800 rounded-xl px-3 py-2 text-xs outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs font-mono">
+              <a href="${driveUrl || 'https://drive.google.com'}" target="_blank" rel="noopener noreferrer" class="p-2 bg-purple-50 hover:bg-purple-100 text-brand-purple rounded-xl border border-purple-200 transition shadow-2xs shrink-0" title="Open Google Drive">
+                <i data-lucide="external-link" class="w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+        `;
+      } else {
+        // Client View: Client cannot edit the link, just a prominent "Import images" button
+        container.innerHTML = `
+          <div class="space-y-2 pt-0.5">
+            <a href="${driveUrl || 'https://drive.google.com'}" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-4 bg-brand-purple hover:bg-brand-purpleDark text-white font-bold text-xs rounded-xl flex items-center justify-center space-x-2 transition shadow-sm hover:shadow-md hover:scale-[1.01] transform duration-150" title="Click to open Google Drive and upload your images">
+              <i data-lucide="upload-cloud" class="w-4 h-4"></i>
+              <span>Import images</span>
+              <i data-lucide="external-link" class="w-3.5 h-3.5 opacity-80"></i>
+            </a>
+          </div>
+        `;
+      }
+    }
+
+    function updateImagesDriveLink(val) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project) {
+        if (!project.graphicElements) project.graphicElements = {};
+        project.graphicElements.imagesDrive = val;
+      }
+    }
+
     function saveGraphicElements() {
       const project = projects.find(p => p.id === currentProjectId);
       if (project) {
         if (!project.graphicElements) project.graphicElements = {};
-        project.graphicElements.imagesDrive = document.getElementById('ge-images-drive').value;
+        const driveInput = document.getElementById('ge-images-drive');
+        if (driveInput) {
+          project.graphicElements.imagesDrive = driveInput.value;
+        }
         const currentPalette = getProjectViewColorPaletteValues();
         project.colors = currentPalette;
         project.graphicElements.colors = `Primary: ${currentPalette.primary}, Secondary: ${currentPalette.secondary}, Tertiary: ${currentPalette.tertiary}`;
@@ -1135,6 +1353,8 @@
         project.graphicElements.fonts = `Title: ${fontTitle}, Text: ${fontBody}`;
         
         renderGraphicCharterSwatches(project);
+        renderImagesDriveBlock(project);
+        lucide.createIcons();
         alert('Graphic Elements successfully saved!');
       }
     }
@@ -1269,31 +1489,36 @@
 
         <!-- 2. GOOGLE ANALYTICS 4 (GA4 ID) -->
         <div class="space-y-2 pt-3 border-t border-slate-200/80">
-          <div>
+          <div class="flex items-center justify-between">
             <label class="block font-bold text-slate-800 text-xs flex items-center space-x-1.5">
               <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-brand-purple"></i>
               <span>Google Analytics 4 (GA4 ID)</span>
             </label>
-            <p class="text-slate-500 text-[11px] leading-tight select-none mt-0.5">Tracking measurement code (Format: G-XXXXXX) for site metrics & audience.</p>
+            <a href="https://drive.google.com/drive/folders/1U91BYoCxnF1o1-LV19PQcAw0kBrwepqH?usp=drive_link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 text-[11px] font-bold text-brand-purple bg-purple-100/90 hover:bg-brand-purple hover:text-white px-2.5 py-1 rounded-lg transition shadow-2xs border border-purple-200/80" title="Open GA4 Setup Guide">
+              <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+              <span>Guide</span>
+              <i data-lucide="external-link" class="w-3 h-3 ml-0.5 opacity-70"></i>
+            </a>
           </div>
+          <p class="text-slate-500 text-[11px] leading-tight select-none -mt-1">Tracking measurement code (Format: G-XXXXXX) for site metrics & audience.</p>
 
           <input type="text" id="tp-ga4-input" value="${project.ga4 || ''}" oninput="updateGa4(this.value)" placeholder="G-987654321" class="w-full border border-slate-200 bg-white text-slate-800 rounded-xl px-3 py-2 text-xs font-mono outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs">
-          
-          <a href="https://drive.google.com/file/d/1Vt12fEY4MJKNbOMyDAO-hn1uQ-q6lIgV/view?usp=drive_link" target="_blank" class="text-brand-purple hover:text-brand-purpleDark font-bold text-[10.5px] underline flex items-center space-x-1 pt-0.5">
-            <i data-lucide="external-link" class="w-3 h-3"></i>
-            <span>View GA4 Setup Tutorial</span>
-          </a>
         </div>
 
         <!-- 3. GOOGLE MAPS API KEY (OPTIONNEL) -->
         <div class="space-y-2 pt-3 border-t border-slate-200/80">
-          <div>
+          <div class="flex items-center justify-between">
             <label class="block font-bold text-slate-800 text-xs flex items-center space-x-1.5">
               <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-purple"></i>
               <span>Google Maps API Key <span class="text-slate-400 font-normal text-[11px]">(Optionnel)</span></span>
             </label>
-            <p class="text-slate-500 text-[11px] leading-tight select-none mt-0.5">Interactive map key with direct itinerary simulation.</p>
+            <a href="https://drive.google.com/file/d/14e-531pWLFTq9TW33YHDjM9ca3WkYiGN/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 text-[11px] font-bold text-brand-purple bg-purple-100/90 hover:bg-brand-purple hover:text-white px-2.5 py-1 rounded-lg transition shadow-2xs border border-purple-200/80" title="Open Google Maps API Setup Guide">
+              <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+              <span>Guide</span>
+              <i data-lucide="external-link" class="w-3 h-3 ml-0.5 opacity-70"></i>
+            </a>
           </div>
+          <p class="text-slate-500 text-[11px] leading-tight select-none -mt-1">Interactive map key with direct itinerary simulation.</p>
 
           <input type="text" id="tp-maps-input" value="${project.googleMapsKey || ''}" oninput="updateGoogleMapsKey(this.value)" placeholder="AIzaSy..." class="w-full border border-slate-200 bg-white text-slate-800 rounded-xl px-3 py-2 text-xs font-mono outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs">
         </div>
@@ -1957,6 +2182,21 @@
       syncProjectViewColorsToProject();
     }
 
+    function updateFontPreviews() {
+      const titleSelect = document.getElementById('ge-font-title');
+      const bodySelect = document.getElementById('ge-font-body');
+
+      if (titleSelect) {
+        const val = titleSelect.value || 'Playfair Display';
+        titleSelect.style.fontFamily = `'${val}', serif`;
+      }
+
+      if (bodySelect) {
+        const val = bodySelect.value || 'Inter';
+        bodySelect.style.fontFamily = `'${val}', sans-serif`;
+      }
+    }
+
     function syncProjectViewFontsToProject() {
       const project = projects.find(p => p.id === currentProjectId);
       const titleSelect = document.getElementById('ge-font-title');
@@ -1967,6 +2207,7 @@
         if (bodySelect) project.graphicElements.fontBody = bodySelect.value;
         project.graphicElements.fonts = `Title: ${project.graphicElements.fontTitle || 'Playfair Display'}, Text: ${project.graphicElements.fontBody || 'Inter'}`;
       }
+      updateFontPreviews();
     }
 
     function applyProjectViewColorPreset(primary, secondary, tertiary) {

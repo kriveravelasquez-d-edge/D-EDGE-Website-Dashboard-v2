@@ -188,32 +188,21 @@
 
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 text-xs">
             <!-- TEXTS / GOOGLE DOCS COLUMN -->
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 flex flex-col justify-between">
-              <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                  <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
-                    <i data-lucide="file-text" class="w-4 h-4 text-brand-purple"></i>
-                    <span>Texts</span>
-                  </h4>
-                  <button type="button" onclick="openAddTextDocModal()" class="text-[11px] bg-purple-100 hover:bg-brand-purple text-brand-purple hover:text-white font-bold px-2.5 py-1 rounded-lg flex items-center space-x-1 transition shadow-2xs">
-                    <i data-lucide="plus" class="w-3 h-3"></i>
-                    <span>Add Link</span>
-                  </button>
-                </div>
-
-                <div class="space-y-1 text-[11px] text-slate-500 select-none pb-1">
-                  <span class="font-bold text-slate-700 block">Requirements:</span>
-                  <p>• Google Docs links for hotel page copy, amenities, rooms & translations.</p>
-                </div>
-
-                <!-- DYNAMIC LIST OF GOOGLE DOC LINKS BUTTONS -->
-                <div id="ge-text-docs-container" class="space-y-2">
-                  <!-- Rendered dynamically -->
-                </div>
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+              <div class="flex items-center justify-between">
+                <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
+                  <i data-lucide="file-text" class="w-4 h-4 text-brand-purple"></i>
+                  <span>Texts</span>
+                </h4>
               </div>
 
-              <!-- PERSISTENT ADD BUTTON -->
-              <button type="button" onclick="openAddTextDocModal()" class="w-full mt-2 py-2 border border-dashed border-purple-300 hover:border-brand-purple hover:bg-purple-50/50 rounded-xl text-brand-purple font-bold text-xs flex items-center justify-center space-x-1.5 transition">
+              <!-- DYNAMIC LIST OF GOOGLE DOC LINKS BUTTONS -->
+              <div id="ge-text-docs-container" class="space-y-2">
+                <!-- Rendered dynamically -->
+              </div>
+
+              <!-- PERSISTENT ADD BUTTON ALWAYS DIRECTLY UNDERNEATH LAST ITEM -->
+              <button type="button" onclick="openAddTextDocModal()" class="w-full py-2 border border-dashed border-purple-300 hover:border-brand-purple hover:bg-purple-50/70 rounded-xl text-brand-purple font-bold text-xs flex items-center justify-center space-x-1.5 transition shadow-2xs">
                 <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
                 <span>+ Add Google Doc Link</span>
               </button>
@@ -650,11 +639,26 @@
         <button onclick="closeModal('modal-text-doc')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <form onsubmit="handleTextDocSubmit(event)" class="space-y-3 text-xs">
+      <form onsubmit="handleTextDocSubmit(event)" class="space-y-3.5 text-xs">
         <input type="hidden" id="mtd-doc-id">
+
+        <!-- DOCUMENT LANGUAGE SELECTION DROPDOWN -->
         <div>
-          <label class="block text-slate-700 font-bold mb-1">Custom Button / Doc Label</label>
-          <input required id="mtd-label" type="text" placeholder="e.g. Master Page Copy, Room Descriptions, Menu Specs" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+          <label class="block text-slate-700 font-bold mb-1">Language</label>
+          <select id="mtd-lang" onchange="handleDocLanguageChange(this.value)" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-white text-slate-800 text-xs font-medium cursor-pointer">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 font-bold mb-1">Name of the document</label>
+          <div class="flex items-center rounded-xl border border-slate-200 bg-slate-50/50 focus-within:ring-2 focus-within:ring-brand-purple focus-within:border-transparent overflow-hidden">
+            <div id="mtd-prefix-badge" class="bg-purple-100/80 text-brand-purple font-bold font-mono px-3 py-2.5 text-xs select-none border-r border-slate-200 shrink-0 flex items-center space-x-1.5" title="Language initials (automatically added)">
+              <span id="mtd-prefix-flag">🇬🇧</span>
+              <span id="mtd-prefix-code">[EN]</span>
+            </div>
+            <input required id="mtd-label" type="text" placeholder="e.g. Main Website Copy, Room Descriptions" class="w-full bg-transparent px-3 py-2.5 outline-none text-xs text-slate-800 font-medium">
+          </div>
         </div>
 
         <div>
@@ -664,7 +668,7 @@
 
         <div class="pt-3 flex justify-end space-x-2 border-t border-slate-100">
           <button type="button" onclick="closeModal('modal-text-doc')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition text-xs">Cancel</button>
-          <button type="submit" class="px-5 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm transition text-xs">Save Doc Link</button>
+          <button type="submit" class="px-6 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm transition text-xs">Save</button>
         </div>
       </form>
     </div>
@@ -769,8 +773,8 @@
         thirdPartyNotes: 'TablePlus for direct dining reservations.',
         customIntegrations: [],
         textDocs: [
-          { id: 'td1', label: 'Main Website Copy (EN/FR)', url: 'https://docs.google.com/document/d/1GrandHotelParisMasterCopy' },
-          { id: 'td2', label: 'Rooms & Amenities Details', url: 'https://docs.google.com/document/d/2GrandHotelParisRoomsSpecs' }
+          { id: 'td1', lang: 'French', label: '[FR] Main Website Copy (Master)', url: 'https://docs.google.com/document/d/1GrandHotelParisMasterCopy' },
+          { id: 'td2', lang: 'English', label: '[EN] Rooms & Amenities Details', url: 'https://docs.google.com/document/d/2GrandHotelParisRoomsSpecs' }
         ],
         graphicElements: {
           imagesDrive: 'https://drive.google.com',
@@ -800,7 +804,7 @@
         thirdPartyNotes: '',
         customIntegrations: [],
         textDocs: [
-          { id: 'td1', label: 'Alpine Resort Master Copy', url: 'https://docs.google.com/document/d/1AlpineResortContentDoc' }
+          { id: 'td1', lang: 'English', label: '[EN] Alpine Resort Master Copy', url: 'https://docs.google.com/document/d/1AlpineResortContentDoc' }
         ],
         graphicElements: {
           imagesDrive: 'https://drive.google.com',
@@ -957,14 +961,55 @@
       lucide.createIcons();
     }
 
-    // --- TEXTS / GOOGLE DOCS MANAGEMENT ---
+    // --- TEXTS / GOOGLE DOCS MANAGEMENT WITH LANGUAGES & FLAGS ---
+    const DOC_LANGUAGE_MAP = {
+      'English': { code: 'EN', iso: 'gb', flag: '🇬🇧', name: 'English' },
+      'French': { code: 'FR', iso: 'fr', flag: '🇫🇷', name: 'French' },
+      'Spanish': { code: 'ES', iso: 'es', flag: '🇪🇸', name: 'Spanish' },
+      'German': { code: 'DE', iso: 'de', flag: '🇩🇪', name: 'German' },
+      'Italian': { code: 'IT', iso: 'it', flag: '🇮🇹', name: 'Italian' },
+      'Portuguese': { code: 'PT', iso: 'pt', flag: '🇵🇹', name: 'Portuguese' },
+      'Russian': { code: 'RU', iso: 'ru', flag: '🇷🇺', name: 'Russian' },
+      'Arabic': { code: 'AR', iso: 'sa', flag: '🇸🇦', name: 'Arabic' },
+      'Dutch': { code: 'NL', iso: 'nl', flag: '🇳🇱', name: 'Dutch' },
+      'Japanese': { code: 'JA', iso: 'jp', flag: '🇯🇵', name: 'Japanese' },
+      'Chinese': { code: 'ZH', iso: 'cn', flag: '🇨🇳', name: 'Chinese' },
+      'Romanian': { code: 'RO', iso: 'ro', flag: '🇷🇴', name: 'Romanian' },
+      'Greek': { code: 'GR', iso: 'gr', flag: '🇬🇷', name: 'Greek' }
+    };
+
+    function getDocLangMeta(langOrLabel) {
+      if (!langOrLabel) return { code: 'DOC', iso: 'fr', flag: '📄', name: 'Google Doc' };
+      // Direct language map lookup
+      if (DOC_LANGUAGE_MAP[langOrLabel]) return DOC_LANGUAGE_MAP[langOrLabel];
+      
+      // Lookup by code or name case-insensitive
+      for (const [key, val] of Object.entries(DOC_LANGUAGE_MAP)) {
+        if (key.toLowerCase() === langOrLabel.toLowerCase() || val.code.toLowerCase() === langOrLabel.toLowerCase()) {
+          return val;
+        }
+      }
+
+      // Check bracketed or parenthesized initials e.g. [FR], [EN], (FR), (DE)
+      const match = langOrLabel.match(/\[([A-Za-z]{2})\]|\(([A-Za-z]{2})\)/);
+      if (match) {
+        const foundCode = (match[1] || match[2]).toUpperCase();
+        for (const val of Object.values(DOC_LANGUAGE_MAP)) {
+          if (val.code === foundCode) return val;
+        }
+        return { code: foundCode, iso: foundCode.toLowerCase(), flag: '🌐', name: foundCode };
+      }
+
+      return { code: 'DOC', iso: 'fr', flag: '📄', name: langOrLabel };
+    }
+
     function renderTextDocs(project) {
       const container = document.getElementById('ge-text-docs-container');
       if (!container) return;
 
       if (!project.textDocs || project.textDocs.length === 0) {
         container.innerHTML = `
-          <div class="bg-white p-3.5 rounded-lg border border-slate-200 text-center text-slate-400 text-[11px] py-4 space-y-1">
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-center text-slate-400 text-[11px] py-4 space-y-1">
             <i data-lucide="file-text" class="w-5 h-5 mx-auto text-slate-300"></i>
             <p>No Google Doc links added yet.</p>
           </div>
@@ -972,39 +1017,134 @@
         return;
       }
 
-      container.innerHTML = project.textDocs.map(doc => `
-        <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs hover:border-purple-300 transition flex items-center justify-between gap-2 group">
-          <a href="${doc.url}" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 min-w-0 flex-1 text-slate-800 hover:text-brand-purple transition" title="Open Google Doc: ${doc.label}">
-            <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center shrink-0 shadow-2xs group-hover:bg-purple-50 group-hover:text-brand-purple group-hover:border-purple-200 transition">
-              <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+      container.innerHTML = project.textDocs.map(doc => {
+        const meta = getDocLangMeta(doc.lang || doc.label);
+        const flagImg = meta.iso ? `
+          <img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-5.5 h-4 object-cover rounded-xs shadow-2xs" onerror="this.outerHTML='<span class=\\'text-sm\\'>${meta.flag}</span>'">
+        ` : `<span class="text-sm">${meta.flag}</span>`;
+
+        return `
+          <div id="doc-card-${doc.id}" onclick="openDocUrl(event, '${doc.url}')" class="bg-white p-3 sm:p-3.5 rounded-xl border border-slate-200 shadow-2xs hover:border-purple-300 hover:shadow-md hover:scale-[1.02] transform transition-all duration-200 cursor-pointer flex items-center justify-between gap-3 group relative" title="Click to open Google Doc in a new tab">
+            <div class="flex items-center space-x-3 min-w-0 flex-1">
+              <!-- FLAG ICON BADGE -->
+              <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center shrink-0 shadow-2xs group-hover:border-purple-300 group-hover:bg-purple-50/70 transition overflow-hidden">
+                ${flagImg}
+              </div>
+              <div class="min-w-0 flex-1">
+                <span class="font-bold text-xs text-slate-800 group-hover:text-brand-purple transition leading-snug block truncate">
+                  ${doc.label || `[${meta.code}] Google Doc`}
+                </span>
+              </div>
             </div>
-            <div class="min-w-0 flex-1">
-              <span class="font-bold text-xs truncate block text-slate-800 group-hover:text-brand-purple">${doc.label || 'Google Doc'}</span>
-              <span class="text-[10px] text-slate-400 truncate block font-mono">${doc.url}</span>
-            </div>
-          </a>
-          <div class="flex items-center space-x-1 shrink-0">
-            <a href="${doc.url}" target="_blank" rel="noopener noreferrer" title="Open in New Tab" class="p-1 text-slate-400 hover:text-brand-purple hover:bg-purple-50 rounded transition">
-              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-            </a>
+
+            <!-- 3-DOTS ACTION MENU (FOR PM) -->
             ${currentRole === 'pm' ? `
-              <button type="button" onclick="openEditTextDocModal('${doc.id}')" title="Edit Link & Label" class="p-1 text-slate-400 hover:text-brand-purple hover:bg-purple-50 rounded transition">
-                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
-              </button>
-              <button type="button" onclick="deleteTextDoc('${doc.id}')" title="Delete Link" class="p-1 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded transition">
-                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-              </button>
+              <div class="relative shrink-0" onclick="event.stopPropagation()">
+                <button type="button" onclick="toggleDocMenu(event, '${doc.id}')" title="More options" class="w-7 h-7 rounded-lg text-slate-400 hover:text-brand-purple hover:bg-purple-50 flex items-center justify-center transition">
+                  <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div id="doc-menu-${doc.id}" class="hidden absolute right-0 top-full mt-1 w-32 bg-white rounded-xl shadow-2xl border border-slate-200 py-1.5 z-50 text-xs divide-y divide-slate-100">
+                  <button type="button" onclick="openEditTextDocModal('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-slate-700 hover:bg-purple-50 hover:text-brand-purple flex items-center space-x-2 font-medium transition">
+                    <i data-lucide="edit-3" class="w-3.5 h-3.5 text-brand-purple"></i>
+                    <span>Edit</span>
+                  </button>
+                  <button type="button" onclick="deleteTextDoc('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-rose-600 hover:bg-rose-50 flex items-center space-x-2 font-medium transition">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-500"></i>
+                    <span>Delete</span>
+                  </button>
+                </div>
+              </div>
             ` : ''}
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
+    }
+
+    function openDocUrl(e, url) {
+      if (e) e.stopPropagation();
+      if (url) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    }
+
+    function toggleDocMenu(e, docId) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById(`doc-menu-${docId}`);
+      const card = document.getElementById(`doc-card-${docId}`);
+      const isHidden = menu ? menu.classList.contains('hidden') : true;
+      hideAllDocMenus();
+      if (isHidden && menu && card) {
+        card.style.zIndex = '50';
+        menu.classList.remove('hidden');
+        lucide.createIcons();
+      }
+    }
+
+    function hideAllDocMenus() {
+      document.querySelectorAll('[id^="doc-menu-"]').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('[id^="doc-card-"]').forEach(el => {
+        el.style.zIndex = '';
+      });
+    }
+
+    // Close doc action dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('[id^="doc-menu-"]') && !e.target.closest('button[onclick^="toggleDocMenu"]')) {
+        hideAllDocMenus();
+      }
+    });
+
+    function populateDocLanguageSelect(selectedLang) {
+      const select = document.getElementById('mtd-lang');
+      if (!select) return;
+
+      const project = projects.find(p => p.id === currentProjectId);
+      const projectLangs = project?.languages || ['English', 'French'];
+      
+      const orderedLangs = [...projectLangs];
+      Object.keys(DOC_LANGUAGE_MAP).forEach(l => {
+        if (!orderedLangs.includes(l)) orderedLangs.push(l);
+      });
+
+      select.innerHTML = orderedLangs.map(lang => {
+        const meta = getDocLangMeta(lang);
+        const isProjectTarget = projectLangs.includes(lang);
+        const isSelected = selectedLang && (selectedLang.toLowerCase() === lang.toLowerCase() || selectedLang.toLowerCase() === meta.code.toLowerCase());
+        return `
+          <option value="${lang}" ${isSelected ? 'selected' : ''}>
+            ${meta.flag} ${lang} [${meta.code}] ${isProjectTarget ? '★ Project' : ''}
+          </option>
+        `;
+      }).join('');
+
+      handleDocLanguageChange(select.value);
+    }
+
+    function handleDocLanguageChange(langName) {
+      const meta = getDocLangMeta(langName);
+      const flagElem = document.getElementById('mtd-prefix-flag');
+      const codeElem = document.getElementById('mtd-prefix-code');
+
+      if (flagElem) {
+        flagElem.innerHTML = meta.iso ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-4 h-3 object-cover rounded-xs inline-block shadow-2xs" onerror="this.outerHTML='<span>${meta.flag}</span>'">` : `<span>${meta.flag}</span>`;
+      }
+      if (codeElem) {
+        codeElem.textContent = `[${meta.code}]`;
+      }
     }
 
     function openAddTextDocModal() {
+      const project = projects.find(p => p.id === currentProjectId);
+      const defaultLang = (project?.languages && project.languages[0]) ? project.languages[0] : 'English';
+
       document.getElementById('modal-text-doc-title').textContent = 'Add Google Doc Link';
       document.getElementById('mtd-doc-id').value = '';
       document.getElementById('mtd-label').value = '';
       document.getElementById('mtd-url').value = '';
+
+      populateDocLanguageSelect(defaultLang);
       document.getElementById('modal-text-doc').classList.remove('hidden');
       lucide.createIcons();
     }
@@ -1015,10 +1155,18 @@
       const doc = project.textDocs.find(d => d.id === docId);
       if (!doc) return;
 
+      const detectedMeta = getDocLangMeta(doc.lang || doc.label);
+      const docLang = doc.lang || detectedMeta.name || 'English';
+
       document.getElementById('modal-text-doc-title').textContent = 'Edit Google Doc Link';
       document.getElementById('mtd-doc-id').value = doc.id;
-      document.getElementById('mtd-label').value = doc.label;
+      
+      // Clean leading [XX] or (XX) prefix so input only shows the user-editable name
+      const cleanLabel = (doc.label || '').replace(/^\[[A-Za-z]{2}\]\s*/, '').replace(/^\([A-Za-z]{2}\)\s*/, '');
+      document.getElementById('mtd-label').value = cleanLabel;
       document.getElementById('mtd-url').value = doc.url;
+
+      populateDocLanguageSelect(docLang);
       document.getElementById('modal-text-doc').classList.remove('hidden');
       lucide.createIcons();
     }
@@ -1026,8 +1174,14 @@
     function handleTextDocSubmit(e) {
       e.preventDefault();
       const docId = document.getElementById('mtd-doc-id').value;
-      const label = document.getElementById('mtd-label').value.trim();
+      const lang = document.getElementById('mtd-lang').value;
+      const rawLabel = document.getElementById('mtd-label').value.trim();
       const url = document.getElementById('mtd-url').value.trim();
+
+      const meta = getDocLangMeta(lang);
+      // Remove any prefix the user might have manually typed
+      const cleanLabel = rawLabel.replace(/^\[[A-Za-z]{2}\]\s*/, '').replace(/^\([A-Za-z]{2}\)\s*/, '').trim();
+      const fullLabel = `[${meta.code}] ${cleanLabel || 'Google Doc'}`;
 
       const project = projects.find(p => p.id === currentProjectId);
       if (!project) return;
@@ -1036,13 +1190,15 @@
       if (docId) {
         const doc = project.textDocs.find(d => d.id === docId);
         if (doc) {
-          doc.label = label;
+          doc.lang = lang;
+          doc.label = fullLabel;
           doc.url = url;
         }
       } else {
         project.textDocs.push({
           id: `td-${Date.now()}`,
-          label: label,
+          lang: lang,
+          label: fullLabel,
           url: url
         });
       }
