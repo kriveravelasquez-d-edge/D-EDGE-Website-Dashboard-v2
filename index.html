@@ -37,78 +37,45 @@
     ::-webkit-scrollbar-track { background: #f1f1f1; }
     ::-webkit-scrollbar-thumb { background: #c5b8d0; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #5B1E82; }
-    
-    .sidebar-collapsed {
-      width: 5rem !important;
-    }
-    .sidebar-collapsed .sidebar-text,
-    .sidebar-collapsed .sidebar-footer-card {
-      display: none !important;
-    }
-    .sidebar-collapsed .sidebar-nav-btn {
-      justify-content: center !important;
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-    }
   </style>
 </head>
 <body class="h-full text-slate-800 flex overflow-hidden font-sans antialiased bg-[#f4f5f9] relative">
-
-  <!-- MOBILE OVERLAY FOR SIDEBAR -->
-  <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-30 hidden md:hidden"></div>
-
-  <!-- COLLAPSIBLE SIDEBAR -->
-  <aside id="main-sidebar" class="fixed md:static inset-y-0 left-0 w-64 bg-brand-purple text-white flex flex-col justify-between shrink-0 shadow-2xl z-40 transition-all duration-300 transform -translate-x-full md:translate-x-0">
-    <div>
-      <!-- Sidebar Header -->
-      <div class="p-4 md:p-6 flex items-center justify-between border-b border-purple-900/40 relative">
-        <div class="flex items-center space-x-3 overflow-hidden">
-          <div class="bg-white/10 p-2 rounded-lg shrink-0">
-            <i data-lucide="layout-grid" class="w-5 h-5 md:w-6 md:h-6 text-white"></i>
-          </div>
-          <div class="sidebar-text">
-            <span class="font-bold text-base md:text-lg tracking-tight block whitespace-nowrap">Streamline</span>
-            <span class="text-[10px] text-purple-300 block -mt-1 whitespace-nowrap">D-EDGE Creation</span>
-          </div>
-        </div>
-        
-        <button id="sidebar-collapse-btn" onclick="toggleSidebar()" class="p-1.5 rounded-lg hover:bg-white/10 text-purple-300 hover:text-white transition shrink-0" title="Toggle Sidebar">
-          <i id="collapse-icon" data-lucide="chevron-left" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <nav class="mt-4 md:mt-6 px-3 space-y-1.5">
-        <!-- PROJECT BOARDS: STRICTLY HIDDEN FOR CLIENTS -->
-        <button onclick="switchView('boards')" id="nav-boards" title="Project Boards (Admin)" class="sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-medium text-purple-200 hover:bg-white/10 transition">
-          <i data-lucide="kanban" class="w-4 h-4 shrink-0"></i>
-          <span class="sidebar-text truncate">Project Boards (Admin)</span>
-        </button>
-        <button onclick="switchView('timeline')" id="nav-timeline" title="Timeline Axis" class="sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-semibold bg-white/15 text-white shadow-sm transition">
-          <i data-lucide="git-commit" class="w-4 h-4 shrink-0"></i>
-          <span class="sidebar-text truncate">Timeline Axis</span>
-        </button>
-      </nav>
-    </div>
-
-    <!-- Sidebar Footer Card -->
-    <div class="p-4 border-t border-purple-900/40">
-      <div class="sidebar-footer-card bg-purple-900/30 p-3 rounded-xl mb-3 border border-purple-400/20 space-y-1">
-        <div class="text-xs font-bold text-white truncate" id="sb-project-name">Le Grand Hotel Paris</div>
-        <div class="text-[11px] text-purple-200" id="sb-project-pkg">SEO Essential</div>
-        <div class="inline-block bg-purple-950 text-amber-300 text-[10px] px-2 py-0.5 rounded font-mono" id="sb-evolution-tag">Template: Crystal</div>
-        <div id="sb-pm-container" class="text-[10px] text-purple-300 pt-1 block">PM: <span id="sb-pm-name" class="text-white font-semibold">Dounia</span></div>
-      </div>
-      <div class="sidebar-text text-[11px] text-purple-300 px-1">
-        Current Role: <span id="sb-role-label" class="font-bold text-white">Manager View</span>
-      </div>
-    </div>
-  </aside>
 
   <!-- MAIN CONTENT AREA -->
   <div class="flex-1 flex flex-col h-full overflow-hidden w-full">
 
     <!-- TOP HEADER BAR -->
-    <header class="h-16 bg-white border-b border-slate-200 px-4 md:px-8 flex items-center justify-end shrink-0 shadow-sm z-10 gap-2">
+    <header class="h-16 bg-white border-b border-slate-200 px-4 md:px-8 flex items-center justify-between shrink-0 shadow-sm z-10 gap-3">
+      <!-- TOP LEFT: BRAND & NAVIGATION TABS -->
+      <div class="flex items-center space-x-3 md:space-x-5 overflow-x-auto py-1">
+        <!-- BRAND -->
+        <div class="flex items-center space-x-2.5 shrink-0">
+          <div class="bg-brand-purple p-2 rounded-xl text-white shadow-2xs">
+            <i data-lucide="layout-grid" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <span class="font-bold text-sm md:text-base tracking-tight block leading-none text-brand-purple">Streamline</span>
+            <span class="text-[10px] text-slate-400 font-medium block leading-tight">D-EDGE Creation</span>
+          </div>
+        </div>
+
+        <div class="h-6 w-px bg-slate-200 shrink-0 hidden sm:block"></div>
+
+        <!-- NAVIGATION TABS -->
+        <nav class="flex items-center space-x-1.5 shrink-0">
+          <!-- PROJECT BOARDS: STRICTLY HIDDEN FOR CLIENTS -->
+          <button onclick="switchView('boards')" id="nav-boards" title="Project Boards (Admin)" class="flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-brand-purple hover:bg-purple-50 transition border border-transparent">
+            <i data-lucide="kanban" class="w-3.5 h-3.5 shrink-0"></i>
+            <span class="truncate">Project Boards (Admin)</span>
+          </button>
+          <button onclick="switchView('timeline')" id="nav-timeline" title="Timeline Axis" class="flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-purple text-white shadow-2xs transition">
+            <i data-lucide="git-commit" class="w-3.5 h-3.5 shrink-0"></i>
+            <span class="truncate">Timeline Axis</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- TOP RIGHT: ACTIONS & ROLE -->
       <div class="flex items-center space-x-2 md:space-x-3 shrink-0">
         <!-- DYNAMIC EMAIL CONTAINER: CLIENT EMAIL (PM VIEW) / PM CONTACT + COPY ICON (CLIENT VIEW) -->
         <div id="header-email-container" class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs">
@@ -334,7 +301,6 @@
                   <!-- COMPACT DONE BUTTON NEXT TO TITLE -->
                   <div id="brand-identity-done-btn-container"></div>
                 </div>
-                <div id="ge-color-swatches-display"></div>
               </div>
 
               <!-- SUB-BLOCK 1: COLOR PALETTE -->
@@ -1044,49 +1010,25 @@
       lucide.createIcons();
     });
 
-    // --- SIDEBAR TOGGLE ---
-    function toggleSidebar() {
-      const sidebar = document.getElementById('main-sidebar');
-      const overlay = document.getElementById('sidebar-overlay');
-      const collapseIcon = document.getElementById('collapse-icon');
-
-      if (window.innerWidth < 768) {
-        sidebar.classList.toggle('-translate-x-full');
-        overlay.classList.toggle('hidden');
-      } else {
-        sidebar.classList.toggle('sidebar-collapsed');
-        if (sidebar.classList.contains('sidebar-collapsed')) {
-          collapseIcon.setAttribute('data-lucide', 'chevron-right');
-        } else {
-          collapseIcon.setAttribute('data-lucide', 'chevron-left');
-        }
-        lucide.createIcons();
-      }
-    }
-
     // --- ROLE-BASED ACCESS CONTROL (RBAC) CONTROLLER ---
     function setRole(role) {
       currentRole = role;
       const pmBtn = document.getElementById('btn-pm-view');
       const clientBtn = document.getElementById('btn-client-view');
-      const roleLabel = document.getElementById('sb-role-label');
       const navBoardsBtn = document.getElementById('nav-boards');
       const projectSelector = document.getElementById('project-selector');
       const headerEmailContainer = document.getElementById('header-email-container');
       const btnPushNotify = document.getElementById('btn-push-notify');
-      const sbPmContainer = document.getElementById('sb-pm-container');
       const btnLanguages = document.getElementById('btn-edit-languages');
 
       if (role === 'pm') {
         pmBtn.className = 'px-2.5 md:px-4 py-1.5 rounded-lg bg-brand-purple text-white shadow-sm transition text-[11px] md:text-xs';
         clientBtn.className = 'px-2.5 md:px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs';
-        roleLabel.textContent = 'Manager View';
 
-        navBoardsBtn.classList.remove('hidden');
+        if (navBoardsBtn) navBoardsBtn.classList.remove('hidden');
         if (projectSelector) projectSelector.classList.remove('hidden');
         if (headerEmailContainer) headerEmailContainer.classList.remove('hidden');
-        btnPushNotify.classList.remove('hidden');
-        sbPmContainer.classList.remove('hidden');
+        if (btnPushNotify) btnPushNotify.classList.remove('hidden');
         if (btnLanguages) btnLanguages.classList.remove('hidden');
         const btnSaveElements = document.getElementById('btn-save-graphic-elements');
         if (btnSaveElements) btnSaveElements.classList.remove('hidden');
@@ -1095,13 +1037,11 @@
       } else {
         clientBtn.className = 'px-2.5 md:px-4 py-1.5 rounded-lg bg-brand-purple text-white shadow-sm transition text-[11px] md:text-xs';
         pmBtn.className = 'px-2.5 md:px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs';
-        roleLabel.textContent = 'Client View';
 
-        navBoardsBtn.classList.add('hidden');
+        if (navBoardsBtn) navBoardsBtn.classList.add('hidden');
         if (projectSelector) projectSelector.classList.add('hidden');
         if (headerEmailContainer) headerEmailContainer.classList.remove('hidden');
-        btnPushNotify.classList.add('hidden');
-        sbPmContainer.classList.add('hidden');
+        if (btnPushNotify) btnPushNotify.classList.add('hidden');
         if (btnLanguages) btnLanguages.classList.add('hidden');
         const btnSaveElements = document.getElementById('btn-save-graphic-elements');
         if (btnSaveElements) btnSaveElements.classList.add('hidden');
@@ -1124,23 +1064,21 @@
       const viewTimeline = document.getElementById('view-timeline');
       const viewBoards = document.getElementById('view-boards');
 
+      const activeClass = 'flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-purple text-white shadow-2xs transition';
+      const inactiveClass = 'flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-brand-purple hover:bg-purple-50 transition border border-transparent';
+
       if (tab === 'boards') {
-        boardsBtn.className = 'sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-semibold bg-white/15 text-white shadow-sm transition';
-        timelineBtn.className = 'sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-medium text-purple-200 hover:bg-white/10 transition';
-        viewTimeline.classList.add('hidden');
-        viewBoards.classList.remove('hidden');
+        if (boardsBtn) boardsBtn.className = activeClass;
+        if (timelineBtn) timelineBtn.className = inactiveClass;
+        if (viewTimeline) viewTimeline.classList.add('hidden');
+        if (viewBoards) viewBoards.classList.remove('hidden');
         renderBoardsGrid();
       } else {
-        timelineBtn.className = 'sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-semibold bg-white/15 text-white shadow-sm transition';
-        boardsBtn.className = 'sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-medium text-purple-200 hover:bg-white/10 transition';
-        viewBoards.classList.add('hidden');
-        viewTimeline.classList.remove('hidden');
+        if (timelineBtn) timelineBtn.className = activeClass;
+        if (boardsBtn) boardsBtn.className = inactiveClass;
+        if (viewBoards) viewBoards.classList.add('hidden');
+        if (viewTimeline) viewTimeline.classList.remove('hidden');
         renderApp();
-      }
-
-      if (window.innerWidth < 768) {
-        document.getElementById('main-sidebar').classList.add('-translate-x-full');
-        document.getElementById('sidebar-overlay').classList.add('hidden');
       }
     }
 
@@ -1153,14 +1091,11 @@
       if (headerTitle) headerTitle.textContent = project.name;
       const headerBadge = document.getElementById('header-evolution-badge');
       if (headerBadge) headerBadge.textContent = `Template: ${project.evolutionTag}`;
-
-      document.getElementById('sb-project-name').textContent = project.name;
-      document.getElementById('sb-project-pkg').textContent = getPackageLabel(project.packageTier);
-      document.getElementById('sb-evolution-tag').textContent = `Template: ${project.evolutionTag}`;
-      document.getElementById('sb-pm-name').textContent = project.pmName || 'Dounia';
       
-      document.getElementById('axis-project-name').textContent = project.name;
-      document.getElementById('axis-evolution-tag').textContent = `Template: ${project.evolutionTag}`;
+      const axisTitle = document.getElementById('axis-project-name');
+      if (axisTitle) axisTitle.textContent = project.name;
+      const axisTag = document.getElementById('axis-evolution-tag');
+      if (axisTag) axisTag.textContent = `Template: ${project.evolutionTag}`;
 
       renderHeaderEmail(project);
 
