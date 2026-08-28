@@ -128,6 +128,11 @@
                 <span>1. Sitemap</span>
               </h3>
 
+              <!-- SITEMAP PROGRESS BAR CONTAINER -->
+              <div id="sitemap-progress-container" class="flex items-center">
+                <!-- Rendered dynamically -->
+              </div>
+
               <!-- SITEMAP DEADLINE CONTAINER: PM DATE SELECTOR / CLIENT READ-ONLY DATE -->
               <div id="sitemap-deadline-container" class="flex items-center">
                 <!-- Rendered dynamically -->
@@ -145,8 +150,8 @@
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 text-xs">
             <!-- BLOCK 1 (Left 4 cols): SITEMAP DRIVE & SEO QUESTIONNAIRE -->
             <div class="lg:col-span-4 space-y-4">
-              <!-- SITEMAP GOOGLE DRIVE LINK -->
-              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2.5">
+              <!-- SITEMAP GOOGLE DRIVE LINK / DYNAMIC SITEMAP LINKS -->
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center space-x-2">
                     <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
@@ -157,7 +162,14 @@
                     <div id="sitemap-done-btn-container"></div>
                   </div>
                 </div>
-                <div id="sitemap-drive-container" class="pt-1">
+
+                <!-- DYNAMIC LIST OF SITEMAP DOC LINKS BUTTONS -->
+                <div id="sitemap-drive-container" class="space-y-2">
+                  <!-- Rendered dynamically -->
+                </div>
+
+                <!-- PERSISTENT ADD BUTTON ALWAYS DIRECTLY UNDERNEATH LAST ITEM (PM VIEW) -->
+                <div id="sitemap-add-btn-container">
                   <!-- Rendered dynamically -->
                 </div>
               </div>
@@ -222,6 +234,11 @@
                 <i data-lucide="palette" class="w-5 h-5 text-brand-purple"></i>
                 <span>2. Content Collection</span>
               </h3>
+
+              <!-- CONTENT COLLECTION PROGRESS BAR CONTAINER -->
+              <div id="content-collection-progress-container" class="flex items-center">
+                <!-- Rendered dynamically -->
+              </div>
 
               <!-- DEADLINE CONTAINER: PM DATE SELECTOR / CLIENT READ-ONLY DATE -->
               <div id="content-collection-deadline-container" class="flex items-center">
@@ -314,6 +331,11 @@
                     <!-- COMPACT DONE BUTTON -->
                     <div id="colors-done-btn-container"></div>
                   </div>
+                  <a href="https://www.realtimecolors.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 text-[11px] font-bold text-brand-purple bg-purple-100/90 hover:bg-brand-purple hover:text-white px-2.5 py-1 rounded-lg transition shadow-2xs border border-purple-200/80" title="Open Realtime Colors Guide">
+                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                    <span>Guide</span>
+                    <i data-lucide="external-link" class="w-3 h-3 ml-0.5 opacity-70"></i>
+                  </a>
                 </div>
 
                 <!-- RESPONSIVE COLOR PALETTE SELECTORS (3 COLUMNS) -->
@@ -504,6 +526,11 @@
                 <span>3. Revision phase</span>
               </h3>
 
+              <!-- REVISION PHASE PROGRESS BAR CONTAINER -->
+              <div id="revision-phase-progress-container" class="flex items-center">
+                <!-- Rendered dynamically -->
+              </div>
+
               <!-- REVISION PHASE DEADLINE CONTAINER: PM DATE SELECTOR / CLIENT READ-ONLY DATE -->
               <div id="revision-phase-deadline-container" class="flex items-center">
                 <!-- Rendered dynamically -->
@@ -520,39 +547,9 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 text-xs">
-            <!-- REVISION INSTRUCTIONS & QA INFO (Left 5 cols) -->
-            <div class="lg:col-span-5 bg-purple-50/40 p-4 rounded-xl border border-purple-100 flex flex-col justify-center space-y-2">
-              <div class="space-y-1.5">
-                <h5 class="font-bold text-slate-900 text-xs flex items-center space-x-1.5">
-                  <i data-lucide="help-circle" class="w-3.5 h-3.5 text-brand-purple"></i>
-                  <span>Revision Process</span>
-                </h5>
-                <p class="text-slate-600 text-[11px] leading-relaxed">
-                  Review your website on the pre-production staging environment. Follow the guide to submit feedback, review translations, and validate iterations with your Project Manager.
-                </p>
-              </div>
-            </div>
-
-            <!-- STAGING WEBSITE BLOCK (Right 7 cols) -->
-            <div class="lg:col-span-7 bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                  <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
-                    <i data-lucide="globe" class="w-4 h-4 text-brand-purple"></i>
-                    <span>Staging Website</span>
-                  </h4>
-                  <!-- COMPACT DONE BUTTON NEXT TO TITLE -->
-                  <div id="staging-done-btn-container"></div>
-                </div>
-                <span class="text-[10px] text-slate-400 font-medium">Pre-production Preview</span>
-              </div>
-
-              <!-- DYNAMIC STAGING LINK CONTAINER -->
-              <div id="staging-site-container" class="pt-1">
-                <!-- Rendered dynamically for PM / Client -->
-              </div>
-            </div>
+          <!-- DYNAMIC REVISION PHASE CONTENT CONTAINER (STAGING + FIRST & SECOND WAVE OF REVISIONS) -->
+          <div id="revision-phase-dynamic-container" class="space-y-4 text-xs">
+            <!-- Rendered dynamically via renderRevisionPhaseSection -->
           </div>
         </section>
 
@@ -840,6 +837,52 @@
     </div>
   </div>
 
+  <!-- MODAL FOR SITEMAP LINKS -->
+  <div id="modal-sitemap-doc" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-4 border border-slate-200">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-purple"></i>
+          <h3 id="modal-sitemap-doc-title" class="text-base font-bold text-brand-purple">Add Sitemap Link</h3>
+        </div>
+        <button onclick="closeModal('modal-sitemap-doc')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form onsubmit="handleSitemapDocSubmit(event)" class="space-y-3.5 text-xs">
+        <input type="hidden" id="msd-doc-id">
+
+        <!-- SITEMAP LANGUAGE SELECTION DROPDOWN -->
+        <div>
+          <label class="block text-slate-700 font-bold mb-1">Language</label>
+          <select id="msd-lang" onchange="handleSitemapDocLanguageChange(this.value)" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-white text-slate-800 text-xs font-medium cursor-pointer">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 font-bold mb-1">Name of the sitemap</label>
+          <div class="flex items-center rounded-xl border border-slate-200 bg-slate-50/50 focus-within:ring-2 focus-within:ring-brand-purple focus-within:border-transparent overflow-hidden">
+            <div id="msd-prefix-badge" class="bg-purple-100/80 text-brand-purple font-bold font-mono px-3 py-2.5 text-xs select-none border-r border-slate-200 shrink-0 flex items-center space-x-1.5" title="Language initials (automatically added)">
+              <span id="msd-prefix-flag">🇬🇧</span>
+              <span id="msd-prefix-code">[EN]</span>
+            </div>
+            <input required id="msd-label" type="text" placeholder="e.g. Sitemap Architecture, Tree Structure, Main Version" class="w-full bg-transparent px-3 py-2.5 outline-none text-xs text-slate-800 font-medium">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 font-bold mb-1">Sitemap URL / Drive Link</label>
+          <input required id="msd-url" type="url" placeholder="https://drive.google.com/..." class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+        </div>
+
+        <div class="pt-3 flex justify-end space-x-2 border-t border-slate-100">
+          <button type="button" onclick="closeModal('modal-sitemap-doc')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition text-xs">Cancel</button>
+          <button type="submit" class="px-6 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm transition text-xs">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <div id="modal-add-step" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
     <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-4 border border-slate-200">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -926,6 +969,9 @@
         clientEmail: 'client@grandhotelparis.com',
         evolutionTag: 'Crystal',
         sitemapDriveUrl: 'https://drive.google.com',
+        sitemapDocs: [
+          { id: 'sd1', lang: 'French', label: '[FR] Proposed Sitemap Architecture', url: 'https://drive.google.com' }
+        ],
         sitemapCompleted: false,
         seoQuestionnaireUrl: 'https://docs.google.com/forms/d/e/1FAIpQLScseoHotelQuestionnaireExample/viewform',
         hasSeoQuestionnaire: true,
@@ -933,6 +979,9 @@
         contentCollectionDeadline: '2026-06-10',
         revisionPhaseDeadline: '2026-07-25',
         stagingSiteUrl: 'https://staging.grandhotelparis.showcase.d-edge.ws',
+        hasSecondWaveRevisions: true,
+        firstWaveNotes: 'https://docs.google.com/spreadsheets/d/1GrandHotelParisWave1Feedback',
+        secondWaveNotes: 'Final punchlist review before public launch',
         languages: ['English', 'French'],
         packageTier: 'seo_essential',
         driveUrl: 'https://drive.google.com',
@@ -966,6 +1015,9 @@
         clientEmail: 'contact@alpineresort.com',
         evolutionTag: 'Sequoia',
         sitemapDriveUrl: 'https://drive.google.com',
+        sitemapDocs: [
+          { id: 'sd1', lang: 'English', label: '[EN] Resort Sitemap Structure', url: 'https://drive.google.com' }
+        ],
         sitemapCompleted: false,
         seoQuestionnaireUrl: '',
         hasSeoQuestionnaire: false,
@@ -973,6 +1025,9 @@
         contentCollectionDeadline: '2026-06-10',
         revisionPhaseDeadline: '2026-07-30',
         stagingSiteUrl: '',
+        hasSecondWaveRevisions: false,
+        firstWaveNotes: '',
+        secondWaveNotes: '',
         languages: ['English', 'German'],
         packageTier: 'no_seo',
         driveUrl: 'https://drive.google.com',
@@ -1173,6 +1228,107 @@
       return { code: 'DOC', iso: 'fr', flag: '📄', name: langOrLabel };
     }
 
+    // --- DRAG & DROP STATE & HANDLERS FOR DOCS & SITEMAPS ---
+    let draggedDocItem = null;
+    let isDocDragging = false;
+    let dragJustEnded = false;
+
+    function handleDocDragStart(e, type, id, index) {
+      draggedDocItem = { type, id, index };
+      isDocDragging = true;
+      dragJustEnded = false;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', id);
+      
+      const card = e.target.closest('[id^="sitemap-doc-card-"], [id^="doc-card-"]');
+      if (card) {
+        setTimeout(() => {
+          card.classList.add('opacity-40', 'scale-[0.98]', 'border-brand-purple', 'border-dashed');
+        }, 0);
+      }
+    }
+
+    function handleDocDragOver(e, type, targetIndex) {
+      if (!draggedDocItem || draggedDocItem.type !== type) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+
+      const targetCard = e.target.closest('[id^="sitemap-doc-card-"], [id^="doc-card-"]');
+      if (!targetCard) return;
+
+      const rect = targetCard.getBoundingClientRect();
+      const relY = e.clientY - rect.top;
+
+      document.querySelectorAll('[id^="sitemap-doc-card-"], [id^="doc-card-"]').forEach(el => {
+        if (el !== targetCard) {
+          el.classList.remove('border-t-2', 'border-b-2', 'border-brand-purple');
+        }
+      });
+
+      if (relY < rect.height / 2) {
+        targetCard.classList.remove('border-b-2');
+        targetCard.classList.add('border-t-2', 'border-brand-purple');
+      } else {
+        targetCard.classList.remove('border-t-2');
+        targetCard.classList.add('border-b-2', 'border-brand-purple');
+      }
+    }
+
+    function handleDocDragLeave(e) {
+      const targetCard = e.target.closest('[id^="sitemap-doc-card-"], [id^="doc-card-"]');
+      if (targetCard) {
+        targetCard.classList.remove('border-t-2', 'border-b-2', 'border-brand-purple');
+      }
+    }
+
+    function handleDocDragEnd(e) {
+      document.querySelectorAll('[id^="sitemap-doc-card-"], [id^="doc-card-"]').forEach(el => {
+        el.classList.remove('opacity-40', 'scale-[0.98]', 'border-dashed', 'border-t-2', 'border-b-2', 'border-brand-purple');
+      });
+      draggedDocItem = null;
+      isDocDragging = false;
+      dragJustEnded = true;
+      setTimeout(() => { dragJustEnded = false; }, 250);
+    }
+
+    function handleDocDrop(e, type, targetIndex) {
+      e.preventDefault();
+      if (!draggedDocItem || draggedDocItem.type !== type) return;
+
+      const fromIndex = draggedDocItem.index;
+      const targetCard = e.target.closest('[id^="sitemap-doc-card-"], [id^="doc-card-"]');
+      let toIndex = targetIndex;
+
+      if (targetCard) {
+        const rect = targetCard.getBoundingClientRect();
+        const relY = e.clientY - rect.top;
+        if (relY >= rect.height / 2 && fromIndex < targetIndex) {
+          toIndex = targetIndex;
+        } else if (relY < rect.height / 2 && fromIndex > targetIndex) {
+          toIndex = targetIndex;
+        }
+      }
+
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project) {
+        const list = type === 'sitemap' ? project.sitemapDocs : project.textDocs;
+        if (list && fromIndex >= 0 && fromIndex < list.length) {
+          const [movedItem] = list.splice(fromIndex, 1);
+          list.splice(toIndex, 0, movedItem);
+
+          if (type === 'sitemap') {
+            if (list.length > 0) project.sitemapDriveUrl = list[0].url;
+            renderSitemapDocs(project);
+          } else {
+            renderTextDocs(project);
+          }
+          lucide.createIcons();
+        }
+      }
+
+      handleDocDragEnd(e);
+    }
+
     function renderTextDocs(project) {
       const container = document.getElementById('ge-text-docs-container');
       if (!container) return;
@@ -1187,15 +1343,29 @@
         return;
       }
 
-      container.innerHTML = project.textDocs.map(doc => {
+      container.innerHTML = project.textDocs.map((doc, index) => {
         const meta = getDocLangMeta(doc.lang || doc.label);
         const flagImg = meta.iso ? `
           <img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-5.5 h-4 object-cover rounded-xs shadow-2xs" onerror="this.outerHTML='<span class=\\'text-sm\\'>${meta.flag}</span>'">
         ` : `<span class="text-sm">${meta.flag}</span>`;
 
         return `
-          <div id="doc-card-${doc.id}" onclick="openDocUrl(event, '${doc.url}')" class="bg-white p-3 sm:p-3.5 rounded-xl border border-slate-200 shadow-2xs hover:border-purple-300 hover:shadow-md hover:scale-[1.02] transform transition-all duration-200 cursor-pointer flex items-center justify-between gap-3 group relative" title="Click to open Google Doc in a new tab">
-            <div class="flex items-center space-x-3 min-w-0 flex-1">
+          <div id="doc-card-${doc.id}" 
+               draggable="true"
+               ondragstart="handleDocDragStart(event, 'textDoc', '${doc.id}', ${index})"
+               ondragover="handleDocDragOver(event, 'textDoc', ${index})"
+               ondragleave="handleDocDragLeave(event)"
+               ondrop="handleDocDrop(event, 'textDoc', ${index})"
+               ondragend="handleDocDragEnd(event)"
+               onclick="openDocUrl(event, '${doc.url}')" 
+               class="bg-white p-3 sm:p-3.5 rounded-xl border border-slate-200 shadow-2xs hover:border-purple-300 hover:shadow-md hover:scale-[1.01] transform transition-all duration-150 cursor-pointer flex items-center justify-between gap-2.5 group relative select-none" 
+               title="Click to open Google Doc / Drag to reorder">
+            <div class="flex items-center space-x-2.5 min-w-0 flex-1">
+              <!-- DRAG HANDLE -->
+              <div class="cursor-grab active:cursor-grabbing text-slate-300 group-hover:text-brand-purple p-0.5 -ml-1 shrink-0 transition" title="Drag to reorder">
+                <i data-lucide="grip-vertical" class="w-3.5 h-3.5"></i>
+              </div>
+
               <!-- FLAG ICON BADGE -->
               <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center shrink-0 shadow-2xs group-hover:border-purple-300 group-hover:bg-purple-50/70 transition overflow-hidden">
                 ${flagImg}
@@ -1226,7 +1396,11 @@
                   </button>
                 </div>
               </div>
-            ` : ''}
+            ` : `
+              <div class="text-slate-400 group-hover:text-brand-purple transition shrink-0">
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+              </div>
+            `}
           </div>
         `;
       }).join('');
@@ -1234,6 +1408,9 @@
 
     function openDocUrl(e, url) {
       if (e) e.stopPropagation();
+      if (dragJustEnded || isDocDragging) {
+        return;
+      }
       if (url) {
         window.open(url, '_blank', 'noopener,noreferrer');
       }
@@ -1252,19 +1429,270 @@
       }
     }
 
+    function toggleSitemapDocMenu(e, docId) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById(`sitemap-doc-menu-${docId}`);
+      const card = document.getElementById(`sitemap-doc-card-${docId}`);
+      const isHidden = menu ? menu.classList.contains('hidden') : true;
+      hideAllDocMenus();
+      if (isHidden && menu && card) {
+        card.style.zIndex = '50';
+        menu.classList.remove('hidden');
+        lucide.createIcons();
+      }
+    }
+
     function hideAllDocMenus() {
       document.querySelectorAll('[id^="doc-menu-"]').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('[id^="doc-card-"]').forEach(el => {
         el.style.zIndex = '';
       });
+      document.querySelectorAll('[id^="sitemap-doc-menu-"]').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('[id^="sitemap-doc-card-"]').forEach(el => {
+        el.style.zIndex = '';
+      });
     }
 
-    // Close doc action dropdowns when clicking outside
+    // Close doc and sitemap action dropdowns when clicking outside
     document.addEventListener('click', (e) => {
-      if (!e.target.closest('[id^="doc-menu-"]') && !e.target.closest('button[onclick^="toggleDocMenu"]')) {
+      if (!e.target.closest('[id^="doc-menu-"]') && !e.target.closest('button[onclick^="toggleDocMenu"]') &&
+          !e.target.closest('[id^="sitemap-doc-menu-"]') && !e.target.closest('button[onclick^="toggleSitemapDocMenu"]')) {
         hideAllDocMenus();
       }
     });
+
+    // --- SITEMAP DOCS MANAGEMENT WITH LANGUAGES & FLAGS ---
+    function renderSitemapDocs(project) {
+      const container = document.getElementById('sitemap-drive-container');
+      const addBtnContainer = document.getElementById('sitemap-add-btn-container');
+      if (!container) return;
+
+      if (!project.sitemapDocs) {
+        if (project.sitemapDriveUrl) {
+          const defaultLang = (project.languages && project.languages[0]) ? project.languages[0] : 'English';
+          const meta = getDocLangMeta(defaultLang);
+          project.sitemapDocs = [{
+            id: `sd-${Date.now()}`,
+            lang: defaultLang,
+            label: `[${meta.code}] Proposed Sitemap Architecture`,
+            url: project.sitemapDriveUrl
+          }];
+        } else {
+          project.sitemapDocs = [];
+        }
+      }
+
+      if (project.sitemapDocs.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-center text-slate-400 text-[11px] py-4 space-y-1">
+            <i data-lucide="folder-git-2" class="w-5 h-5 mx-auto text-slate-300"></i>
+            <p>${currentRole === 'pm' ? 'No sitemap links added yet.' : 'Sitemap links will be provided by your Project Manager.'}</p>
+          </div>
+        `;
+      } else {
+        container.innerHTML = project.sitemapDocs.map((doc, index) => {
+          const meta = getDocLangMeta(doc.lang || doc.label);
+          const flagImg = meta.iso ? `
+            <img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-5.5 h-4 object-cover rounded-xs shadow-2xs" onerror="this.outerHTML='<span class=\\'text-sm\\'>${meta.flag}</span>'">
+          ` : `<span class="text-sm">${meta.flag}</span>`;
+
+          return `
+            <div id="sitemap-doc-card-${doc.id}" 
+                 draggable="true"
+                 ondragstart="handleDocDragStart(event, 'sitemap', '${doc.id}', ${index})"
+                 ondragover="handleDocDragOver(event, 'sitemap', ${index})"
+                 ondragleave="handleDocDragLeave(event)"
+                 ondrop="handleDocDrop(event, 'sitemap', ${index})"
+                 ondragend="handleDocDragEnd(event)"
+                 onclick="openDocUrl(event, '${doc.url}')" 
+                 class="bg-white p-3 sm:p-3.5 rounded-xl border border-slate-200 shadow-2xs hover:border-purple-300 hover:shadow-md hover:scale-[1.01] transform transition-all duration-150 cursor-pointer flex items-center justify-between gap-2.5 group relative select-none" 
+                 title="Click to open Sitemap / Drag to reorder">
+              <div class="flex items-center space-x-2.5 min-w-0 flex-1">
+                <!-- DRAG HANDLE -->
+                <div class="cursor-grab active:cursor-grabbing text-slate-300 group-hover:text-brand-purple p-0.5 -ml-1 shrink-0 transition" title="Drag to reorder">
+                  <i data-lucide="grip-vertical" class="w-3.5 h-3.5"></i>
+                </div>
+
+                <!-- FLAG ICON BADGE -->
+                <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center shrink-0 shadow-2xs group-hover:border-purple-300 group-hover:bg-purple-50/70 transition overflow-hidden">
+                  ${flagImg}
+                </div>
+                <div class="min-w-0 flex-1">
+                  <span class="font-bold text-xs text-slate-800 group-hover:text-brand-purple transition leading-snug block truncate">
+                    ${doc.label || `[${meta.code}] Sitemap`}
+                  </span>
+                </div>
+              </div>
+
+              <!-- 3-DOTS ACTION MENU (FOR PM) -->
+              ${currentRole === 'pm' ? `
+                <div class="relative shrink-0" onclick="event.stopPropagation()">
+                  <button type="button" onclick="toggleSitemapDocMenu(event, '${doc.id}')" title="More options" class="w-7 h-7 rounded-lg text-slate-400 hover:text-brand-purple hover:bg-purple-50 flex items-center justify-center transition">
+                    <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                  </button>
+
+                  <!-- Dropdown Menu -->
+                  <div id="sitemap-doc-menu-${doc.id}" class="hidden absolute right-0 top-full mt-1 w-32 bg-white rounded-xl shadow-2xl border border-slate-200 py-1.5 z-50 text-xs divide-y divide-slate-100">
+                    <button type="button" onclick="openEditSitemapDocModal('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-slate-700 hover:bg-purple-50 hover:text-brand-purple flex items-center space-x-2 font-medium transition">
+                      <i data-lucide="edit-3" class="w-3.5 h-3.5 text-brand-purple"></i>
+                      <span>Edit</span>
+                    </button>
+                    <button type="button" onclick="deleteSitemapDoc('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-rose-600 hover:bg-rose-50 flex items-center space-x-2 font-medium transition">
+                      <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-500"></i>
+                      <span>Delete</span>
+                    </button>
+                  </div>
+                </div>
+              ` : `
+                <div class="text-slate-400 group-hover:text-brand-purple transition shrink-0">
+                  <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </div>
+              `}
+            </div>
+          `;
+        }).join('');
+      }
+
+      if (addBtnContainer) {
+        if (currentRole === 'pm') {
+          addBtnContainer.innerHTML = `
+            <button type="button" onclick="openAddSitemapDocModal()" class="w-full py-2 border border-dashed border-purple-300 hover:border-brand-purple hover:bg-purple-50/70 rounded-xl text-brand-purple font-bold text-xs flex items-center justify-center space-x-1.5 transition shadow-2xs">
+              <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+              <span>+ Add Sitemap Link</span>
+            </button>
+          `;
+        } else {
+          addBtnContainer.innerHTML = '';
+        }
+      }
+    }
+
+    function populateSitemapDocLanguageSelect(selectedLang) {
+      const select = document.getElementById('msd-lang');
+      if (!select) return;
+
+      const project = projects.find(p => p.id === currentProjectId);
+      const projectLangs = project?.languages || ['English', 'French'];
+      
+      const orderedLangs = [...projectLangs];
+      Object.keys(DOC_LANGUAGE_MAP).forEach(l => {
+        if (!orderedLangs.includes(l)) orderedLangs.push(l);
+      });
+
+      select.innerHTML = orderedLangs.map(lang => {
+        const meta = getDocLangMeta(lang);
+        const isProjectTarget = projectLangs.includes(lang);
+        const isSelected = selectedLang && (selectedLang.toLowerCase() === lang.toLowerCase() || selectedLang.toLowerCase() === meta.code.toLowerCase());
+        return `
+          <option value="${lang}" ${isSelected ? 'selected' : ''}>
+            ${meta.flag} ${lang} [${meta.code}] ${isProjectTarget ? '★ Project' : ''}
+          </option>
+        `;
+      }).join('');
+
+      handleSitemapDocLanguageChange(select.value);
+    }
+
+    function handleSitemapDocLanguageChange(langName) {
+      const meta = getDocLangMeta(langName);
+      const flagElem = document.getElementById('msd-prefix-flag');
+      const codeElem = document.getElementById('msd-prefix-code');
+
+      if (flagElem) {
+        flagElem.innerHTML = meta.iso ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-4 h-3 object-cover rounded-xs inline-block shadow-2xs" onerror="this.outerHTML='<span>${meta.flag}</span>'">` : `<span>${meta.flag}</span>`;
+      }
+      if (codeElem) {
+        codeElem.textContent = `[${meta.code}]`;
+      }
+    }
+
+    function openAddSitemapDocModal() {
+      const project = projects.find(p => p.id === currentProjectId);
+      const defaultLang = (project?.languages && project.languages[0]) ? project.languages[0] : 'English';
+
+      document.getElementById('modal-sitemap-doc-title').textContent = 'Add Sitemap Link';
+      document.getElementById('msd-doc-id').value = '';
+      document.getElementById('msd-label').value = '';
+      document.getElementById('msd-url').value = '';
+
+      populateSitemapDocLanguageSelect(defaultLang);
+      document.getElementById('modal-sitemap-doc').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function openEditSitemapDocModal(docId) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project || !project.sitemapDocs) return;
+      const doc = project.sitemapDocs.find(d => d.id === docId);
+      if (!doc) return;
+
+      const detectedMeta = getDocLangMeta(doc.lang || doc.label);
+      const docLang = doc.lang || detectedMeta.name || 'English';
+
+      document.getElementById('modal-sitemap-doc-title').textContent = 'Edit Sitemap Link';
+      document.getElementById('msd-doc-id').value = doc.id;
+      
+      const cleanLabel = (doc.label || '').replace(/^\[[A-Za-z]{2}\]\s*/, '').replace(/^\([A-Za-z]{2}\)\s*/, '');
+      document.getElementById('msd-label').value = cleanLabel;
+      document.getElementById('msd-url').value = doc.url;
+
+      populateSitemapDocLanguageSelect(docLang);
+      document.getElementById('modal-sitemap-doc').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function handleSitemapDocSubmit(e) {
+      e.preventDefault();
+      const docId = document.getElementById('msd-doc-id').value;
+      const lang = document.getElementById('msd-lang').value;
+      const rawLabel = document.getElementById('msd-label').value.trim();
+      const url = document.getElementById('msd-url').value.trim();
+
+      const meta = getDocLangMeta(lang);
+      const cleanLabel = rawLabel.replace(/^\[[A-Za-z]{2}\]\s*/, '').replace(/^\([A-Za-z]{2}\)\s*/, '').trim();
+      const fullLabel = `[${meta.code}] ${cleanLabel || 'Sitemap'}`;
+
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      if (!project.sitemapDocs) project.sitemapDocs = [];
+
+      if (docId) {
+        const doc = project.sitemapDocs.find(d => d.id === docId);
+        if (doc) {
+          doc.lang = lang;
+          doc.label = fullLabel;
+          doc.url = url;
+        }
+      } else {
+        project.sitemapDocs.push({
+          id: `sd-${Date.now()}`,
+          lang: lang,
+          label: fullLabel,
+          url: url
+        });
+      }
+
+      if (project.sitemapDocs.length > 0) {
+        project.sitemapDriveUrl = project.sitemapDocs[0].url;
+      }
+
+      closeModal('modal-sitemap-doc');
+      renderSitemapDocs(project);
+      lucide.createIcons();
+    }
+
+    function deleteSitemapDoc(docId) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project || !project.sitemapDocs) return;
+      project.sitemapDocs = project.sitemapDocs.filter(d => d.id !== docId);
+      if (project.sitemapDocs.length > 0) {
+        project.sitemapDriveUrl = project.sitemapDocs[0].url;
+      } else {
+        project.sitemapDriveUrl = '';
+      }
+      renderSitemapDocs(project);
+      lucide.createIcons();
+    }
 
     function populateDocLanguageSelect(selectedLang) {
       const select = document.getElementById('mtd-lang');
@@ -1775,6 +2203,24 @@
 
       project.completionStatus[blockKey] = !project.completionStatus[blockKey];
 
+      // Parent-child synchronization
+      if (blockKey === 'brandIdentity') {
+        const val = project.completionStatus.brandIdentity;
+        project.completionStatus.colors = val;
+        project.completionStatus.fonts = val;
+      } else if (blockKey === 'colors' || blockKey === 'fonts') {
+        project.completionStatus.brandIdentity = !!(project.completionStatus.colors && project.completionStatus.fonts);
+      }
+
+      if (blockKey === 'domainServices') {
+        const val = project.completionStatus.domainServices;
+        project.completionStatus.finalDomain = val;
+        project.completionStatus.ga4 = val;
+        project.completionStatus.maps = val;
+      } else if (blockKey === 'finalDomain' || blockKey === 'ga4' || blockKey === 'maps') {
+        project.completionStatus.domainServices = !!(project.completionStatus.finalDomain && project.completionStatus.ga4 && project.completionStatus.maps);
+      }
+
       // Keep sitemapCompleted synced with completionStatus.sitemap
       if (blockKey === 'sitemap') {
         project.sitemapCompleted = project.completionStatus.sitemap;
@@ -1829,6 +2275,102 @@
       }
     }
 
+    function renderSectionProgressBars(project) {
+      if (!project) return;
+      if (!project.completionStatus) {
+        project.completionStatus = {
+          sitemap: !!project.sitemapCompleted,
+          seoQuestionnaire: false,
+          templates: false,
+          brandIdentity: false,
+          colors: false,
+          fonts: false,
+          texts: false,
+          images: false,
+          staging: false,
+          firstWaveRevisions: false,
+          secondWaveRevisions: false,
+          thirdParty: false,
+          domainServices: false,
+          finalDomain: false,
+          ga4: false,
+          maps: false
+        };
+      }
+
+      // --- SECTION 1: SITEMAP ---
+      const isSeoActive = project.hasSeoQuestionnaire ?? (project.packageTier === 'seo_essential' || project.packageTier === 'seo_content');
+      const sitemapKeys = ['sitemap', 'templates'];
+      if (isSeoActive) sitemapKeys.push('seoQuestionnaire');
+
+      const sitemapDone = sitemapKeys.filter(k => !!project.completionStatus[k]).length;
+      const sitemapTotal = sitemapKeys.length;
+      const sitemapPct = sitemapTotal > 0 ? Math.round((sitemapDone / sitemapTotal) * 100) : 0;
+
+      const sitemapProgContainer = document.getElementById('sitemap-progress-container');
+      if (sitemapProgContainer) {
+        const isComplete = sitemapDone === sitemapTotal && sitemapTotal > 0;
+        sitemapProgContainer.innerHTML = `
+          <div class="flex items-center space-x-2 bg-slate-50 border ${isComplete ? 'border-emerald-200 bg-emerald-50/50' : 'border-slate-200/90'} rounded-xl px-2.5 sm:px-3 py-1 shadow-2xs transition-all duration-200" title="${sitemapDone} of ${sitemapTotal} items completed in Sitemap">
+            <i data-lucide="${isComplete ? 'check-circle-2' : 'activity'}" class="w-3.5 h-3.5 ${isComplete ? 'text-emerald-600' : 'text-brand-purple'} shrink-0"></i>
+            <span class="text-[11px] font-semibold text-slate-500 hidden sm:inline">Progress:</span>
+            <span class="text-xs font-bold ${isComplete ? 'text-emerald-700' : 'text-slate-800'}">${sitemapDone}/${sitemapTotal}</span>
+            <div class="w-14 sm:w-20 bg-slate-200/80 rounded-full h-2 overflow-hidden shrink-0">
+              <div class="h-full rounded-full transition-all duration-300 ${isComplete ? 'bg-emerald-500' : 'bg-brand-purple'}" style="width: ${sitemapPct}%"></div>
+            </div>
+            <span class="text-[10px] font-bold ${isComplete ? 'bg-emerald-100 text-emerald-800' : 'bg-purple-100 text-brand-purple'} px-1.5 py-0.2 rounded-full font-mono shrink-0">${sitemapPct}%</span>
+          </div>
+        `;
+      }
+
+      // --- SECTION 2: CONTENT COLLECTION ---
+      const ccKeys = ['texts', 'images', 'colors', 'fonts', 'finalDomain', 'ga4', 'maps'];
+      const ccDone = ccKeys.filter(k => !!project.completionStatus[k]).length;
+      const ccTotal = ccKeys.length;
+      const ccPct = ccTotal > 0 ? Math.round((ccDone / ccTotal) * 100) : 0;
+
+      const ccProgContainer = document.getElementById('content-collection-progress-container');
+      if (ccProgContainer) {
+        const isComplete = ccDone === ccTotal && ccTotal > 0;
+        ccProgContainer.innerHTML = `
+          <div class="flex items-center space-x-2 bg-slate-50 border ${isComplete ? 'border-emerald-200 bg-emerald-50/50' : 'border-slate-200/90'} rounded-xl px-2.5 sm:px-3 py-1 shadow-2xs transition-all duration-200" title="${ccDone} of ${ccTotal} items completed in Content Collection">
+            <i data-lucide="${isComplete ? 'check-circle-2' : 'activity'}" class="w-3.5 h-3.5 ${isComplete ? 'text-emerald-600' : 'text-brand-purple'} shrink-0"></i>
+            <span class="text-[11px] font-semibold text-slate-500 hidden sm:inline">Progress:</span>
+            <span class="text-xs font-bold ${isComplete ? 'text-emerald-700' : 'text-slate-800'}">${ccDone}/${ccTotal}</span>
+            <div class="w-14 sm:w-20 bg-slate-200/80 rounded-full h-2 overflow-hidden shrink-0">
+              <div class="h-full rounded-full transition-all duration-300 ${isComplete ? 'bg-emerald-500' : 'bg-brand-purple'}" style="width: ${ccPct}%"></div>
+            </div>
+            <span class="text-[10px] font-bold ${isComplete ? 'bg-emerald-100 text-emerald-800' : 'bg-purple-100 text-brand-purple'} px-1.5 py-0.2 rounded-full font-mono shrink-0">${ccPct}%</span>
+          </div>
+        `;
+      }
+
+      // --- SECTION 3: REVISION PHASE ---
+      const rpKeys = ['staging', 'firstWaveRevisions'];
+      if (project.hasSecondWaveRevisions) {
+        rpKeys.push('secondWaveRevisions');
+      }
+      const rpDone = rpKeys.filter(k => !!project.completionStatus[k]).length;
+      const rpTotal = rpKeys.length;
+      const rpPct = rpTotal > 0 ? Math.round((rpDone / rpTotal) * 100) : 0;
+
+      const rpProgContainer = document.getElementById('revision-phase-progress-container');
+      if (rpProgContainer) {
+        const isComplete = rpDone === rpTotal && rpTotal > 0;
+        rpProgContainer.innerHTML = `
+          <div class="flex items-center space-x-2 bg-slate-50 border ${isComplete ? 'border-emerald-200 bg-emerald-50/50' : 'border-slate-200/90'} rounded-xl px-2.5 sm:px-3 py-1 shadow-2xs transition-all duration-200" title="${rpDone} of ${rpTotal} items completed in Revision Phase">
+            <i data-lucide="${isComplete ? 'check-circle-2' : 'activity'}" class="w-3.5 h-3.5 ${isComplete ? 'text-emerald-600' : 'text-brand-purple'} shrink-0"></i>
+            <span class="text-[11px] font-semibold text-slate-500 hidden sm:inline">Progress:</span>
+            <span class="text-xs font-bold ${isComplete ? 'text-emerald-700' : 'text-slate-800'}">${rpDone}/${rpTotal}</span>
+            <div class="w-14 sm:w-20 bg-slate-200/80 rounded-full h-2 overflow-hidden shrink-0">
+              <div class="h-full rounded-full transition-all duration-300 ${isComplete ? 'bg-emerald-500' : 'bg-brand-purple'}" style="width: ${rpPct}%"></div>
+            </div>
+            <span class="text-[10px] font-bold ${isComplete ? 'bg-emerald-100 text-emerald-800' : 'bg-purple-100 text-brand-purple'} px-1.5 py-0.2 rounded-full font-mono shrink-0">${rpPct}%</span>
+          </div>
+        `;
+      }
+    }
+
     function renderAllDoneButtons(project) {
       if (!project) return;
       if (!project.completionStatus) {
@@ -1842,6 +2384,8 @@
           texts: false,
           images: false,
           staging: false,
+          firstWaveRevisions: false,
+          secondWaveRevisions: false,
           thirdParty: false,
           domainServices: false,
           finalDomain: false,
@@ -1860,6 +2404,8 @@
         { containerId: 'texts-done-btn-container', key: 'texts' },
         { containerId: 'images-done-btn-container', key: 'images' },
         { containerId: 'staging-done-btn-container', key: 'staging' },
+        { containerId: 'first-wave-done-btn-container', key: 'firstWaveRevisions' },
+        { containerId: 'second-wave-done-btn-container', key: 'secondWaveRevisions' },
         { containerId: 'third-party-done-btn-container', key: 'thirdParty' },
         { containerId: 'domain-services-done-btn-container', key: 'domainServices' },
         { containerId: 'final-domain-done-btn-container', key: 'finalDomain' },
@@ -1874,6 +2420,8 @@
           el.innerHTML = renderDoneButtonHtml(m.key, isDone);
         }
       });
+
+      renderSectionProgressBars(project);
     }
 
     function renderSitemapSection(project) {
@@ -1885,61 +2433,8 @@
         selectedBadge.textContent = project.evolutionTag || 'Crystal';
       }
 
-      // 1. Render Sitemap Drive Container
-      const sitemapDriveContainer = document.getElementById('sitemap-drive-container');
-      if (sitemapDriveContainer) {
-        const sitemapUrl = project.sitemapDriveUrl || project.driveUrl || '';
-
-        if (currentRole === 'pm') {
-          sitemapDriveContainer.innerHTML = `
-            <div class="space-y-2">
-              <div class="flex items-center space-x-2 bg-white border border-slate-200 rounded-xl p-2 focus-within:ring-2 focus-within:ring-brand-purple shadow-2xs">
-                <i data-lucide="folder-git-2" class="w-4 h-4 text-slate-400 shrink-0"></i>
-                <input 
-                  id="sitemap-drive-input" 
-                  type="url" 
-                  value="${sitemapUrl}" 
-                  placeholder="https://drive.google.com/..." 
-                  class="w-full text-xs outline-none bg-transparent text-slate-800 placeholder-slate-400 font-medium"
-                  onchange="saveSitemapLinks(false)"
-                >
-              </div>
-              <div class="flex items-center justify-between px-1">
-                <span class="text-[10px] text-slate-400">AM/PM Google Drive Link</span>
-                ${sitemapUrl ? `
-                  <a href="${sitemapUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 text-[11px] font-bold text-brand-purple hover:underline" title="Open Google Drive folder in new tab">
-                    <span>Open folder</span>
-                    <i data-lucide="external-link" class="w-3 h-3"></i>
-                  </a>
-                ` : ''}
-              </div>
-            </div>
-          `;
-        } else {
-          sitemapDriveContainer.innerHTML = sitemapUrl ? `
-            <div>
-              <a href="${sitemapUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 bg-white hover:bg-purple-50/70 border border-slate-200 hover:border-purple-300 shadow-2xs hover:shadow-md hover:scale-[1.01] transform transition-all duration-200 rounded-xl text-brand-purple font-bold group cursor-pointer">
-                <div class="flex items-center space-x-2.5 truncate">
-                  <div class="w-8 h-8 rounded-lg bg-purple-100/90 text-brand-purple flex items-center justify-center shrink-0 shadow-2xs group-hover:bg-purple-200/80 transition">
-                    <i data-lucide="folder-git-2" class="w-4 h-4"></i>
-                  </div>
-                  <div class="truncate text-left">
-                    <div class="text-xs text-slate-900 group-hover:text-brand-purple font-bold transition">Open Sitemap</div>
-                    <div class="text-[10px] text-slate-400 font-normal">Google Drive Folder</div>
-                  </div>
-                </div>
-                <div class="text-slate-400 group-hover:text-brand-purple transition">
-                  <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                </div>
-              </a>
-            </div>
-          ` : `
-            <div class="p-3 bg-slate-100/80 border border-dashed border-slate-200 rounded-xl text-slate-400 text-xs text-center">
-              Sitemap link will be provided by your Project Manager.
-            </div>
-          `;
-        }
-      }
+      // 1. Render Sitemap Docs Container
+      renderSitemapDocs(project);
 
       // 2. Render SEO Questionnaire Container & Card Visibility
       const seoCard = document.getElementById('seo-questionnaire-card');
@@ -2185,17 +2680,30 @@
     }
 
     function renderRevisionPhaseSection(project) {
+      if (!project) return;
       renderRevisionPhaseDeadline(project);
 
-      const stagingContainer = document.getElementById('staging-site-container');
-      if (!stagingContainer) return;
+      const dynamicContainer = document.getElementById('revision-phase-dynamic-container');
+      if (!dynamicContainer) return;
 
       const stagingUrl = project.stagingSiteUrl || '';
+      const hasSecondWave = !!project.hasSecondWaveRevisions;
 
+      // 1. STAGING WEBSITE BLOCK (TOP)
+      let stagingHtml = '';
       if (currentRole === 'pm') {
-        stagingContainer.innerHTML = `
-          <div>
-            <label class="block font-semibold text-slate-700 mb-1 text-xs">Staging Website URL</label>
+        stagingHtml = `
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
+                  <i data-lucide="globe" class="w-4 h-4 text-brand-purple"></i>
+                  <span>Staging Website</span>
+                </h4>
+                <div id="staging-done-btn-container"></div>
+              </div>
+              <span class="text-[10px] text-slate-400 font-medium">Pre-production Preview</span>
+            </div>
             <div class="flex items-center space-x-2">
               <div class="flex-1 flex items-center space-x-2 bg-white border border-slate-200 rounded-xl p-2 focus-within:ring-2 focus-within:ring-brand-purple shadow-2xs">
                 <i data-lucide="globe" class="w-4 h-4 text-slate-400 shrink-0"></i>
@@ -2217,31 +2725,142 @@
           </div>
         `;
       } else {
-        // Client View: Prominent "See the staging site" button or placeholder
-        stagingContainer.innerHTML = stagingUrl ? `
-          <a href="${stagingUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 bg-brand-purple hover:bg-brand-purpleDark text-white shadow-sm hover:shadow-md hover:scale-[1.01] transform transition-all duration-200 rounded-xl font-bold group cursor-pointer">
-            <div class="flex items-center space-x-3 truncate">
-              <div class="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center shrink-0 group-hover:bg-white/25 transition">
-                <i data-lucide="globe" class="w-4.5 h-4.5 text-white"></i>
+        stagingHtml = `
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
+                  <i data-lucide="globe" class="w-4 h-4 text-brand-purple"></i>
+                  <span>Staging Website</span>
+                </h4>
+                <div id="staging-done-btn-container"></div>
               </div>
-              <div class="truncate text-left">
-                <div class="text-xs font-bold text-white">See the staging site</div>
-                <div class="text-[10px] text-purple-200 font-mono truncate">${stagingUrl}</div>
+              <span class="text-[10px] text-slate-400 font-medium">Pre-production Preview</span>
+            </div>
+            ${stagingUrl ? `
+              <a href="${stagingUrl}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 bg-brand-purple hover:bg-brand-purpleDark text-white shadow-sm hover:shadow-md hover:scale-[1.005] transform transition-all duration-200 rounded-xl font-bold group cursor-pointer">
+                <div class="flex items-center space-x-3 truncate">
+                  <div class="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center shrink-0 group-hover:bg-white/25 transition">
+                    <i data-lucide="globe" class="w-4.5 h-4.5 text-white"></i>
+                  </div>
+                  <div class="truncate text-left">
+                    <div class="text-xs font-bold text-white">See the staging site</div>
+                    <div class="text-[10px] text-purple-200 font-mono truncate">${stagingUrl}</div>
+                  </div>
+                </div>
+                <div class="flex items-center space-x-1 text-xs font-semibold text-purple-100 bg-white/15 px-3 py-1.5 rounded-lg group-hover:bg-white/25 transition shrink-0">
+                  <span>Open Site</span>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </div>
+              </a>
+            ` : `
+              <div class="p-3.5 bg-slate-100/80 border border-dashed border-slate-200 rounded-xl text-slate-400 text-xs text-center flex items-center justify-center space-x-2">
+                <i data-lucide="clock" class="w-4 h-4 text-slate-400"></i>
+                <span>Staging website link will be provided by your Project Manager once the build is ready.</span>
               </div>
-            </div>
-            <div class="flex items-center space-x-1 text-xs font-semibold text-purple-100 bg-white/15 px-3 py-1.5 rounded-lg group-hover:bg-white/25 transition shrink-0">
-              <span>Open Site</span>
-              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-            </div>
-          </a>
-        ` : `
-          <div class="p-3.5 bg-slate-100/80 border border-dashed border-slate-200 rounded-xl text-slate-400 text-xs text-center flex items-center justify-center space-x-2">
-            <i data-lucide="clock" class="w-4 h-4 text-slate-400"></i>
-            <span>Staging website link will be provided by your Project Manager once the build is ready.</span>
+            `}
           </div>
         `;
       }
+
+      // 2. REVISION WAVES
+      let secondWaveCardHtml = '';
+      if (hasSecondWave) {
+        secondWaveCardHtml = `
+          <div class="bg-purple-50/40 p-4 rounded-xl border border-purple-200/80 flex items-center justify-between gap-3 shadow-2xs">
+            <div class="flex items-center space-x-2.5 min-w-0">
+              <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-brand-purple shrink-0">
+                <i data-lucide="git-merge" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <h4 class="font-bold text-slate-900 text-xs truncate">Second wave of revisions</h4>
+                <span class="text-[10px] text-slate-500 font-medium">Final validation round</span>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2 shrink-0">
+              <div id="second-wave-done-btn-container"></div>
+              <span class="text-[10px] bg-purple-100 text-brand-purple font-bold px-2 py-0.5 rounded-md">Wave 2</span>
+              ${currentRole === 'pm' ? `
+                <button type="button" onclick="deleteSecondWaveRevisions()" class="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Remove Second Wave of Revisions">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      } else if (currentRole === 'pm') {
+        secondWaveCardHtml = `
+          <div class="bg-slate-50/60 p-3.5 rounded-xl border border-dashed border-purple-200 flex items-center justify-between gap-3">
+            <div class="flex items-center space-x-2.5 min-w-0">
+              <div class="w-8 h-8 rounded-lg bg-purple-50 border border-purple-100 flex items-center justify-center text-brand-purple shrink-0">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="text-xs font-bold text-slate-800">Second wave of revisions</div>
+                <div class="text-[10px] text-slate-400 font-medium">Optional additional round</div>
+              </div>
+            </div>
+            <button type="button" onclick="addSecondWaveRevisions()" class="px-2.5 py-1 bg-brand-purple hover:bg-brand-purpleDark text-white rounded-lg text-[11px] font-bold transition shadow-2xs flex items-center space-x-1 shrink-0">
+              <i data-lucide="plus" class="w-3 h-3"></i>
+              <span>Add Wave 2</span>
+            </button>
+          </div>
+        `;
+      }
+
+      const gridColsClass = (hasSecondWave || currentRole === 'pm') ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1';
+
+      dynamicContainer.innerHTML = `
+        ${stagingHtml}
+
+        <div class="grid ${gridColsClass} gap-4 pt-1">
+          <!-- CARD 1: FIRST WAVE OF REVISIONS -->
+          <div class="bg-purple-50/40 p-4 rounded-xl border border-purple-200/80 flex items-center justify-between gap-3 shadow-2xs">
+            <div class="flex items-center space-x-2.5 min-w-0">
+              <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-brand-purple shrink-0">
+                <i data-lucide="git-pull-request" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <h4 class="font-bold text-slate-900 text-xs truncate">First wave of revisions</h4>
+                <span class="text-[10px] text-slate-500 font-medium">Initial staging review</span>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2 shrink-0">
+              <div id="first-wave-done-btn-container"></div>
+              <span class="text-[10px] bg-purple-100 text-brand-purple font-bold px-2 py-0.5 rounded-md">Wave 1</span>
+            </div>
+          </div>
+
+          <!-- CARD 2: SECOND WAVE OF REVISIONS (OR ADD BUTTON FOR PM) -->
+          ${secondWaveCardHtml}
+        </div>
+      `;
+
+      renderAllDoneButtons(project);
       lucide.createIcons();
+    }
+
+    function addSecondWaveRevisions() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      project.hasSecondWaveRevisions = true;
+      renderApp();
+    }
+
+    function deleteSecondWaveRevisions() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      project.hasSecondWaveRevisions = false;
+      if (project.completionStatus) {
+        project.completionStatus.secondWaveRevisions = false;
+      }
+      renderApp();
+    }
+
+    function updateRevisionWaveNotes(field, val) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      project[field] = val.trim();
     }
 
     function saveStagingUrl(showAlert = true) {
@@ -3294,18 +3913,24 @@
           clientEmail: clientEmail,
           evolutionTag: evo,
           sitemapDriveUrl: drive,
+          sitemapDocs: [
+            { id: `sd-${Date.now()}`, lang: checkedLangs[0] || 'English', label: `[${getDocLangMeta(checkedLangs[0] || 'English').code}] Proposed Sitemap Architecture`, url: drive || 'https://drive.google.com' }
+          ],
           seoQuestionnaireUrl: '',
           hasSeoQuestionnaire: hasSeo,
           sitemapDeadline: '2026-05-20',
           contentCollectionDeadline: '2026-06-10',
           revisionPhaseDeadline: '2026-07-25',
           stagingSiteUrl: '',
+          hasSecondWaveRevisions: false,
+          firstWaveNotes: '',
+          secondWaveNotes: '',
           languages: checkedLangs.length ? checkedLangs : ['English'],
           packageTier: tier,
           driveUrl: drive,
           colors: defaultColors,
           textDocs: [
-            { id: `td-${Date.now()}`, label: 'Website Content Master Doc', url: 'https://docs.google.com' }
+            { id: `td-${Date.now()}`, lang: checkedLangs[0] || 'English', label: `[${getDocLangMeta(checkedLangs[0] || 'English').code}] Website Content Master Doc`, url: 'https://docs.google.com' }
           ],
           graphicElements: {
             imagesDrive: drive,
