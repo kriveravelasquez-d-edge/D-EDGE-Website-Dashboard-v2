@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Streamline Portal - D-EDGE Hotel Website Platform</title>
+  <title>D-Website Roadmap - Streamline Portal</title>
+  <meta name="description" content="Streamline Portal and roadmap tracking tool for D-EDGE Hotel Website Platform projects, milestones, timeline axis, and PM dashboard.">
+  <meta property="og:title" content="D-Website Roadmap - Streamline Portal">
+  <meta property="og:description" content="Streamline Portal and roadmap tracking tool for D-EDGE Hotel Website Platform projects, milestones, timeline axis, and PM dashboard.">
   <!-- Google Fonts for Typography Previews -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -101,15 +104,20 @@
       <div id="view-timeline" class="space-y-6">
         <section class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm relative min-h-[450px] md:min-h-[500px] flex flex-col justify-center overflow-x-auto">
           
-          <!-- TIMELINE CANVAS HEADER WITH PROJECT NAME & TEMPLATE -->
+          <!-- TIMELINE CANVAS HEADER WITH PROJECT NAME, PACKAGE TIER & TEMPLATE -->
           <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
             <div class="flex items-center space-x-3">
               <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Project Timeline Axis:</span>
               <h2 id="axis-project-name" class="text-sm md:text-base font-bold text-brand-purple">Le Grand Hotel Paris</h2>
             </div>
-            <span id="axis-evolution-tag" class="bg-purple-100 text-brand-purple border border-purple-200 text-xs px-3 py-1 rounded-full font-mono font-bold">
-              Template: Crystal
-            </span>
+            <div class="flex items-center space-x-2">
+              <span id="axis-package-tier" class="bg-amber-100 text-amber-900 border border-amber-200/90 text-xs px-3 py-1 rounded-full font-bold shadow-2xs">
+                SEO Essential
+              </span>
+              <span id="axis-evolution-tag" class="bg-purple-100 text-brand-purple border border-purple-200 text-xs px-3 py-1 rounded-full font-mono font-bold">
+                Template: Crystal
+              </span>
+            </div>
           </div>
 
           <div class="min-w-[1000px] md:min-w-[1200px] py-8 md:py-12 relative">
@@ -553,6 +561,37 @@
           </div>
         </section>
 
+        <!-- 4. GO-LIVE SECTION -->
+        <section class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-6">
+          <div class="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex flex-wrap items-center gap-3">
+              <h3 class="text-sm md:text-base font-bold text-brand-purple flex items-center space-x-2">
+                <i data-lucide="rocket" class="w-5 h-5 text-brand-purple"></i>
+                <span>4. Go-live</span>
+              </h3>
+
+              <!-- GO-LIVE PROGRESS BAR CONTAINER -->
+              <div id="go-live-progress-container" class="flex items-center">
+                <!-- Rendered dynamically -->
+              </div>
+
+              <!-- GO-LIVE DEADLINE CONTAINER -->
+              <div id="go-live-deadline-container" class="flex items-center">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-2">
+              <div id="go-live-done-btn-container"></div>
+            </div>
+          </div>
+
+          <!-- DYNAMIC GO-LIVE CONTENT CONTAINER (SERVER SELECTION & DNS CONFIGURATION) -->
+          <div id="go-live-dynamic-container" class="space-y-4 text-xs">
+            <!-- Rendered dynamically via renderGoLiveSection -->
+          </div>
+        </section>
+
         <!-- THIRD PARTY INTEGRATIONS & FUNCTIONALITIES -->
         <section class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-6">
           <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
@@ -574,7 +613,7 @@
             <h2 class="text-base md:text-lg font-bold text-brand-purple">Project Management Dashboard</h2>
             <p class="text-xs text-slate-500">Filter, sort, and manage agency hotel website builds.</p>
           </div>
-          <button onclick="openCreateProjectModal()" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-xs font-bold px-4 py-2.5 rounded-xl flex items-center justify-center space-x-2 transition shadow-md w-full md:w-auto">
+          <button onclick="openCreateProjectModal()" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-xs font-bold px-4 py-2.5 rounded-xl flex items-center justify-center space-x-2 transition shadow-md w-full md:w-auto cursor-pointer">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Create New Project</span>
           </button>
@@ -583,14 +622,14 @@
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
           <div>
             <label class="block font-bold text-slate-700 mb-1">Filter by Project Manager</label>
-            <select id="filter-pm" onchange="renderBoardsGrid()" class="w-full border border-slate-200 rounded-xl p-2 bg-slate-50 outline-none focus:ring-2 focus:ring-brand-purple font-medium">
+            <select id="filter-pm" onchange="renderBoardsGrid()" class="w-full border border-slate-200 rounded-xl p-2 bg-slate-50 outline-none focus:ring-2 focus:ring-brand-purple font-medium cursor-pointer">
               <option value="ALL">All Project Managers</option>
             </select>
           </div>
 
           <div>
             <label class="block font-bold text-slate-700 mb-1">Filter by Evolution Template</label>
-            <select id="filter-evolution" onchange="renderBoardsGrid()" class="w-full border border-slate-200 rounded-xl p-2 bg-slate-50 outline-none focus:ring-2 focus:ring-brand-purple font-medium">
+            <select id="filter-evolution" onchange="renderBoardsGrid()" class="w-full border border-slate-200 rounded-xl p-2 bg-slate-50 outline-none focus:ring-2 focus:ring-brand-purple font-medium cursor-pointer">
               <option value="ALL">All Evolution Templates</option>
               <option value="Crystal">Crystal</option>
               <option value="Hendricks">Hendricks</option>
@@ -604,17 +643,70 @@
 
           <div>
             <label class="block font-bold text-slate-700 mb-1">Filter by Package Tier</label>
-            <select id="filter-package" onchange="renderBoardsGrid()" class="w-full border border-slate-200 rounded-xl p-2 bg-slate-50 outline-none focus:ring-2 focus:ring-brand-purple font-medium">
+            <select id="filter-package" onchange="renderBoardsGrid()" class="w-full border border-slate-200 rounded-xl p-2 bg-slate-50 outline-none focus:ring-2 focus:ring-brand-purple font-medium cursor-pointer">
               <option value="ALL">All Website Packages</option>
-              <option value="no_seo">Template No SEO</option>
               <option value="seo_essential">SEO Essential</option>
-              <option value="seo_content">SEO Custom (SEO Content)</option>
+              <option value="seo_content">SEO Content</option>
+              <option value="seo_custom">SEO Custom</option>
             </select>
           </div>
         </div>
 
+        <!-- ACTIVE PROJECTS GRID -->
         <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         </div>
+
+        <!-- RECENT ACTIVITY & HISTORY PANEL (PM DASHBOARD) -->
+        <section class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-5">
+          <div class="border-b border-slate-100 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-9 h-9 rounded-xl bg-purple-100/90 text-brand-purple flex items-center justify-center shrink-0 shadow-2xs">
+                <i data-lucide="history" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2 flex-wrap">
+                  <h3 class="text-sm md:text-base font-bold text-slate-900">Recent Project Activity & History</h3>
+                  <span class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/90 shadow-2xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Live Audit (Last 10 Changes)</span>
+                  </span>
+                </div>
+                <p class="text-[11px] text-slate-500 mt-0.5">Tracking milestone status updates, deadline adjustments, checklist completions, and client activity with timestamps and author roles.</p>
+              </div>
+            </div>
+
+            <!-- CONTROLS & FILTERS -->
+            <div class="flex flex-wrap items-center gap-2.5 text-xs">
+              <!-- ROLE FILTER BUTTONS -->
+              <div class="flex items-center space-x-1 bg-slate-50 border border-slate-200 rounded-xl p-1 shadow-2xs">
+                <button type="button" id="act-filter-all" onclick="setActivityRoleFilter('ALL')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-brand-purple text-white shadow-2xs transition cursor-pointer">
+                  All Roles
+                </button>
+                <button type="button" id="act-filter-pm" onclick="setActivityRoleFilter('pm')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold text-slate-600 hover:text-brand-purple transition cursor-pointer">
+                  PM Changes
+                </button>
+                <button type="button" id="act-filter-client" onclick="setActivityRoleFilter('client')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold text-slate-600 hover:text-brand-purple transition cursor-pointer">
+                  Visitor Changes
+                </button>
+              </div>
+
+              <!-- PROJECT FILTER SELECT -->
+              <div class="relative">
+                <select id="act-filter-project" onchange="handleActivityProjectFilterChange(this.value)" class="border border-slate-200 bg-slate-50 text-slate-800 text-[11px] font-semibold rounded-xl pl-3 pr-7 py-1.5 outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs transition appearance-none cursor-pointer">
+                  <option value="ALL">All Projects Activity</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
+                  <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ACTIVITY FEED LIST (LAST 10 CHANGES) -->
+          <div id="activity-log-feed" class="space-y-3">
+            <!-- Rendered dynamically via renderActivityPanel -->
+          </div>
+        </section>
       </div>
 
     </main>
@@ -730,9 +822,9 @@
           <div>
             <label class="block text-slate-700 font-bold mb-1">Website Package Tier</label>
             <select id="mp-package" onchange="handleProjectModalPackageChange()" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
-              <option value="no_seo">Template No SEO</option>
-              <option value="seo_essential">SEO Essential Package</option>
-              <option value="seo_content">SEO Custom (SEO Content)</option>
+              <option value="seo_essential">SEO Essential</option>
+              <option value="seo_content">SEO Content</option>
+              <option value="seo_custom">SEO Custom</option>
             </select>
           </div>
 
@@ -747,7 +839,7 @@
             <i data-lucide="clipboard-list" class="w-4 h-4 text-brand-purple shrink-0"></i>
             <div>
               <span class="font-bold text-slate-900 text-xs block">Include SEO Questionnaire</span>
-              <span class="text-[10px] text-slate-500">Auto-activated for SEO Essential & SEO Custom packages</span>
+              <span class="text-[10px] text-slate-500">Auto-activated for SEO Essential, SEO Content & SEO Custom packages</span>
             </div>
           </div>
           <input type="checkbox" id="mp-seo-questionnaire" class="w-4 h-4 text-brand-purple rounded border-slate-300 focus:ring-brand-purple cursor-pointer">
@@ -923,20 +1015,52 @@
     </div>
   </div>
 
+  <!-- CONFIRMATION DIALOG MODAL -->
+  <div id="modal-confirm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4 transition-all" onclick="if(event.target===this)handleConfirmDialogCancel()">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-4 border border-slate-200" onclick="event.stopPropagation()">
+      <div class="flex items-start space-x-3.5">
+        <div id="confirm-modal-icon-container" class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 shadow-2xs">
+          <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <h3 id="confirm-modal-title" class="text-base font-bold text-slate-900 leading-tight">Confirm Deletion</h3>
+          <p id="confirm-modal-message" class="text-xs text-slate-500 mt-1 leading-relaxed">Are you sure you want to proceed? This action cannot be undone.</p>
+        </div>
+        <button type="button" onclick="handleConfirmDialogCancel()" class="text-slate-400 hover:text-slate-600 transition p-1 -mr-1 -mt-1 rounded-lg hover:bg-slate-100" title="Close">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- ITEM DETAILS PREVIEW CONTAINER -->
+      <div id="confirm-modal-item-preview" class="hidden"></div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="pt-3 flex items-center justify-end space-x-2.5 border-t border-slate-100">
+        <button id="confirm-modal-cancel-btn" type="button" onclick="handleConfirmDialogCancel()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition">
+          Cancel
+        </button>
+        <button id="confirm-modal-confirm-btn" type="button" onclick="handleConfirmDialogConfirm()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-xs transition flex items-center space-x-1.5">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          <span id="confirm-modal-confirm-btn-text">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBTLE SAVING TOAST NOTIFICATION -->
+  <div id="save-toast-container" class="fixed bottom-5 right-5 z-50 pointer-events-none transition-all duration-300 transform translate-y-4 opacity-0 scale-95 flex items-center">
+    <div id="save-toast-content" class="bg-slate-900/95 backdrop-blur-md text-white border border-slate-700/80 shadow-2xl rounded-2xl px-3.5 py-2.5 flex items-center space-x-2.5 text-xs font-semibold">
+      <div id="save-toast-icon-container" class="flex items-center justify-center">
+        <i data-lucide="loader-2" class="w-4 h-4 text-purple-400 animate-spin"></i>
+      </div>
+      <span id="save-toast-text" class="tracking-wide">Saving...</span>
+    </div>
+  </div>
+
   <!-- JAVASCRIPT LOGIC -->
   <script>
-    // --- PRD PACKAGE TEMPLATES ---
+    // --- PRD PACKAGE TEMPLATES (SEO Essential, SEO Content, SEO Custom) ---
     const PRD_TEMPLATES = {
-      no_seo: [
-        { id: 'ns1', group: 'Sitemap Architecture', title: 'Sitemap Validation', date: '2026-06-01', owner: 'Client', status: 'completed', drive: 'https://drive.google.com', tasks: ['PM creates Excel proposed sitemap', 'Sitemap sent to client for review', 'Client validates final sitemap version'] },
-        { id: 'ns2', group: 'Content Collection', title: 'Content Collection', date: '2026-06-10', owner: 'Both', status: 'in_progress', drive: 'https://drive.google.com', tasks: ['Text / Content', 'Images', 'Fonts', 'Colors', 'Graphic charter / brand guidelines', 'Google Analytics 4 (Optional)', 'Google Maps API Key (Optional)'] },
-        { id: 'ns3', group: 'Website Creation Phase', title: 'Website Creation', date: '2026-07-01', owner: 'DEDGE', status: 'pending', drive: 'https://drive.google.com', tasks: ['Website build (4-6 weeks)', 'Additional developments & 3rd party integrations'] },
-        { id: 'ns4', group: 'Staging & Review', title: 'Staging Link Delivery', date: '2026-07-05', owner: 'DEDGE', status: 'pending', drive: 'https://drive.google.com', tasks: ['Send staging link to client for review'] },
-        { id: 'ns5', group: 'Iteration Rounds', title: 'Iteration Round 1 & PM Review', date: '2026-07-12', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Client reviews staging site & provides changes list', 'PM implements approved changes', 'Contract addendum sent if required'] },
-        { id: 'ns6', group: 'Iteration Rounds', title: 'Iteration Round 2 & Final Revisions', date: '2026-07-18', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Client final list of requested changes', 'PM implements final approved changes'] },
-        { id: 'ns7', group: 'Multilingual Integration', title: 'Main Language Validation & Translation', date: '2026-07-25', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Client validates main language website', 'Client sends translated content/texts', 'PM integrates translated content (1-2 wks/lang)'] },
-        { id: 'ns8', group: 'Publication Milestone', title: 'Final Validation, QA & Publication', date: '2026-08-01', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Client performs final website validation', 'PM completes QA checklist', 'Client performs DNS change', 'PM completes domain mapping', '1-hour CMS training scheduled', 'Websupport post-publication email sent'] }
-      ],
       seo_essential: [
         { id: 'se1', group: 'SEO Preparation', title: 'SEO Questionnaire', date: '2026-05-25', owner: 'Client', status: 'completed', drive: 'https://drive.google.com', tasks: ['Client completes SEO questionnaire'] },
         { id: 'se2', group: 'Sitemap Architecture', title: 'Sitemap Validation', date: '2026-06-01', owner: 'Client', status: 'completed', drive: 'https://drive.google.com', tasks: ['PM creates proposed sitemap Excel', 'Client reviews and validates final sitemap'] },
@@ -956,8 +1080,27 @@
         { id: 'sc6', group: 'Content Collection', title: 'Elements Collection', date: '2026-07-02', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Images, Fonts, Colors, Graphic charter', 'GA4 & Google Maps API key'] },
         { id: 'sc7', group: 'Website Creation Phase', title: 'Website Creation (4-6 Weeks)', date: '2026-07-20', owner: 'DEDGE', status: 'pending', drive: 'https://drive.google.com', tasks: ['Website build & integrations'] },
         { id: 'sc8', group: 'Publication Milestone', title: 'Staging, Iterations, QA & Launch', date: '2026-08-10', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Staging review & 2 iteration rounds', 'Final validation & QA checklist', 'DNS change, domain mapping, CMS training'] }
+      ],
+      seo_custom: [
+        { id: 'scu1', group: 'SEO & Brand Discovery', title: 'SEO Questionnaire & Brand Discovery', date: '2026-05-18', owner: 'Client', status: 'completed', drive: 'https://drive.google.com', tasks: ['In-depth SEO questionnaire', 'Brand discovery workshop & competitor analysis'] },
+        { id: 'scu2', group: 'Sitemap & UX Wireframing', title: 'Custom Sitemap & UX Architecture', date: '2026-05-26', owner: 'Both', status: 'completed', drive: 'https://drive.google.com', tasks: ['Custom sitemap architecture', 'Wireframe layout validation with hotelier'] },
+        { id: 'scu3', group: 'SEO Strategy Phase', title: 'Advanced SEO Audit & Keyword Strategy', date: '2026-06-04', owner: 'DEDGE', status: 'completed', drive: 'https://drive.google.com', tasks: ['Comprehensive keyword research', 'Meta strategy & technical SEO schema blueprints'] },
+        { id: 'scu4', group: 'Content Creation Phase', title: 'Custom Copywriting & Content Validation', date: '2026-06-16', owner: 'Both', status: 'in_progress', drive: 'https://drive.google.com', tasks: ['Bespoke editorial storytelling & SEO copywriting', 'Client validation of custom copy'] },
+        { id: 'scu5', group: 'Multilingual Strategy', title: 'Multilingual SEO Audit & Localization', date: '2026-06-26', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Multi-market keyword translation & localized copywriting', 'Client localization sign-off'] },
+        { id: 'scu6', group: 'Content Collection', title: 'Bespoke Brand Assets & Media Collection', date: '2026-07-05', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['High-res photography, custom palettes & bespoke typography', 'GA4, Google Tag Manager & Maps API setup'] },
+        { id: 'scu7', group: 'Website Creation Phase', title: 'Custom Website Build & 3rd Party Integrations', date: '2026-07-25', owner: 'DEDGE', status: 'pending', drive: 'https://drive.google.com', tasks: ['Tailored UI development, custom booking engine & PMS integrations'] },
+        { id: 'scu8', group: 'Publication Milestone', title: 'Staging Preview, QA Checklist & Launch', date: '2026-08-15', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Multi-device QA & cross-browser audit', 'Client sign-off, DNS cutover, domain mapping & 1-on-1 CMS training'] }
       ]
     };
+
+    function getPackageTierLabel(tier) {
+      switch (tier) {
+        case 'seo_essential': return 'SEO Essential';
+        case 'seo_content': return 'SEO Content';
+        case 'seo_custom': return 'SEO Custom';
+        default: return 'SEO Essential';
+      }
+    }
 
     // --- STATE MANAGEMENT ---
     let projects = [
@@ -982,6 +1125,8 @@
         hasSecondWaveRevisions: true,
         firstWaveNotes: 'https://docs.google.com/spreadsheets/d/1GrandHotelParisWave1Feedback',
         secondWaveNotes: 'Final punchlist review before public launch',
+        goLiveDeadline: '2026-08-15',
+        serverSelection: 'EMEAWEBFB3',
         languages: ['English', 'French'],
         packageTier: 'seo_essential',
         driveUrl: 'https://drive.google.com',
@@ -1019,17 +1164,19 @@
           { id: 'sd1', lang: 'English', label: '[EN] Resort Sitemap Structure', url: 'https://drive.google.com' }
         ],
         sitemapCompleted: false,
-        seoQuestionnaireUrl: '',
-        hasSeoQuestionnaire: false,
+        seoQuestionnaireUrl: 'https://docs.google.com/forms/d/e/1FAIpQLScAlpineSeoQuestionnaire/viewform',
+        hasSeoQuestionnaire: true,
         sitemapDeadline: '2026-05-20',
         contentCollectionDeadline: '2026-06-10',
         revisionPhaseDeadline: '2026-07-30',
-        stagingSiteUrl: '',
+        stagingSiteUrl: 'https://staging.alpineresort.showcase.d-edge.ws',
         hasSecondWaveRevisions: false,
         firstWaveNotes: '',
         secondWaveNotes: '',
+        goLiveDeadline: '2026-08-20',
+        serverSelection: 'ACCORV2PROD2',
         languages: ['English', 'German'],
-        packageTier: 'no_seo',
+        packageTier: 'seo_content',
         driveUrl: 'https://drive.google.com',
         colors: {
           primary: '#064E3B',
@@ -1050,12 +1197,644 @@
           colors: 'Primary: #064E3B, Secondary: #D97706, Tertiary: #FEF3C7',
           fonts: 'Title: Playfair Display, Text: Inter'
         },
-        steps: JSON.parse(JSON.stringify(PRD_TEMPLATES.no_seo))
+        steps: JSON.parse(JSON.stringify(PRD_TEMPLATES.seo_content))
+      },
+      {
+        id: 'p3',
+        name: 'Palazzo Venezia Boutique Hotel',
+        pmName: 'Dounia',
+        pmEmail: 'dounia@d-edge.com',
+        clientEmail: 'info@palazzoveneziahotel.it',
+        evolutionTag: 'Serene',
+        sitemapDriveUrl: 'https://drive.google.com',
+        sitemapDocs: [
+          { id: 'sd1', lang: 'Italian', label: '[IT] Custom Sitemap & Navigation Tree', url: 'https://drive.google.com' },
+          { id: 'sd2', lang: 'English', label: '[EN] Multilingual Sitemap Architecture', url: 'https://drive.google.com' }
+        ],
+        sitemapCompleted: false,
+        seoQuestionnaireUrl: 'https://docs.google.com/forms/d/e/1FAIpQLScPalazzoVeneziaDiscovery/viewform',
+        hasSeoQuestionnaire: true,
+        sitemapDeadline: '2026-05-25',
+        contentCollectionDeadline: '2026-06-15',
+        revisionPhaseDeadline: '2026-08-05',
+        stagingSiteUrl: 'https://staging.palazzovenezia.showcase.d-edge.ws',
+        hasSecondWaveRevisions: true,
+        firstWaveNotes: 'https://docs.google.com/spreadsheets/d/1PalazzoVeneziaFeedback',
+        secondWaveNotes: 'Final boutique styling adjustments and high-res imagery check',
+        goLiveDeadline: '2026-08-25',
+        serverSelection: 'EMEAWEBFB3',
+        languages: ['Italian', 'English'],
+        packageTier: 'seo_custom',
+        driveUrl: 'https://drive.google.com',
+        colors: {
+          primary: '#881337',
+          secondary: '#CA8A04',
+          tertiary: '#FFFBEB'
+        },
+        finalDomain: 'https://www.palazzoveneziahotel.it',
+        domainAliases: ['www.palazzoveneziaboutique.com'],
+        ga4: 'G-112233445',
+        googleMapsKey: 'AIzaSyPalazzoMapsKey...',
+        thirdPartyNotes: 'SynXis CRS booking engine & OpenTable VIP widget integration.',
+        customIntegrations: [],
+        textDocs: [
+          { id: 'td1', lang: 'Italian', label: '[IT] Master Copy & Brand Narrative', url: 'https://docs.google.com/document/d/1PalazzoVeneziaCopy' },
+          { id: 'td2', lang: 'English', label: '[EN] International Guest Storytelling', url: 'https://docs.google.com/document/d/2PalazzoVeneziaEN' }
+        ],
+        graphicElements: {
+          imagesDrive: 'https://drive.google.com',
+          colors: 'Primary: #881337, Secondary: #CA8A04, Tertiary: #FFFBEB',
+          fonts: 'Title: Cormorant Garamond, Text: Outfit'
+        },
+        steps: JSON.parse(JSON.stringify(PRD_TEMPLATES.seo_custom))
       }
     ];
 
     let currentProjectId = 'p1';
     let currentRole = 'pm'; // 'pm' or 'client'
+
+    // --- RECENT ACTIVITY & HISTORY TRACKING STATE ---
+    let activityRoleFilter = 'ALL'; // 'ALL', 'pm', 'client'
+    let activityProjectFilter = 'ALL'; // 'ALL' or project id
+
+    const INITIAL_ACTIVITY_LOG = [
+      {
+        id: 'act-1',
+        projectId: 'p1',
+        projectName: 'Le Grand Hotel Paris',
+        authorRole: 'pm',
+        authorName: 'Dounia',
+        roleLabel: 'Project Manager (PM)',
+        badgeText: 'PM (Dounia)',
+        action: 'Revision Phase Target Updated',
+        description: 'Set Revision Phase target milestone deadline to 25 Jul 2026',
+        icon: 'calendar',
+        category: 'date',
+        timestamp: 'Today, 06:45',
+        rawTime: Date.now() - 1000 * 60 * 15
+      },
+      {
+        id: 'act-2',
+        projectId: 'p1',
+        projectName: 'Le Grand Hotel Paris',
+        authorRole: 'client',
+        authorName: 'client@grandhotelparis.com',
+        roleLabel: 'External Visitor (Client)',
+        badgeText: 'External Visitor',
+        action: 'Sitemap Validation Verified',
+        description: 'Approved & validated [FR] Proposed Sitemap Architecture structure',
+        icon: 'check-circle-2',
+        category: 'milestone',
+        timestamp: 'Today, 06:12',
+        rawTime: Date.now() - 1000 * 60 * 48
+      },
+      {
+        id: 'act-3',
+        projectId: 'p1',
+        projectName: 'Le Grand Hotel Paris',
+        authorRole: 'client',
+        authorName: 'client@grandhotelparis.com',
+        roleLabel: 'External Visitor (Client)',
+        badgeText: 'External Visitor',
+        action: 'Google Doc Copy Linked',
+        description: 'Linked master document "[FR] Main Website Copy (Master)"',
+        icon: 'file-text',
+        category: 'document',
+        timestamp: 'Yesterday, 17:30',
+        rawTime: Date.now() - 1000 * 60 * 60 * 13
+      },
+      {
+        id: 'act-4',
+        projectId: 'p1',
+        projectName: 'Le Grand Hotel Paris',
+        authorRole: 'pm',
+        authorName: 'Dounia',
+        roleLabel: 'Project Manager (PM)',
+        badgeText: 'PM (Dounia)',
+        action: 'Milestone Step Completed',
+        description: 'Marked "SEO Audit (Main Language)" milestone as Completed',
+        icon: 'check-square',
+        category: 'milestone',
+        timestamp: 'Yesterday, 14:15',
+        rawTime: Date.now() - 1000 * 60 * 60 * 16
+      },
+      {
+        id: 'act-5',
+        projectId: 'p1',
+        projectName: 'Le Grand Hotel Paris',
+        authorRole: 'pm',
+        authorName: 'Dounia',
+        roleLabel: 'Project Manager (PM)',
+        badgeText: 'PM (Dounia)',
+        action: 'Brand Palette Configured',
+        description: 'Saved palette colors: Primary (#5B1E82), Secondary (#C5A059), Tertiary (#F4F5F9)',
+        icon: 'palette',
+        category: 'brand',
+        timestamp: '26 Aug, 11:20',
+        rawTime: Date.now() - 1000 * 60 * 60 * 43
+      },
+      {
+        id: 'act-6',
+        projectId: 'p2',
+        projectName: 'Resort Alpine & Spa',
+        authorRole: 'client',
+        authorName: 'contact@alpineresort.com',
+        roleLabel: 'External Visitor (Client)',
+        badgeText: 'External Visitor',
+        action: 'Domain Alias Added',
+        description: 'Added production domain alias "www.alpineresort.ch"',
+        icon: 'globe',
+        category: 'domain',
+        timestamp: '25 Aug, 16:40',
+        rawTime: Date.now() - 1000 * 60 * 60 * 62
+      },
+      {
+        id: 'act-7',
+        projectId: 'p1',
+        projectName: 'Le Grand Hotel Paris',
+        authorRole: 'pm',
+        authorName: 'Dounia',
+        roleLabel: 'Project Manager (PM)',
+        badgeText: 'PM (Dounia)',
+        action: 'SEO Questionnaire Connected',
+        description: 'Attached Google Forms link for AM/PM SEO Questionnaire intake',
+        icon: 'clipboard-list',
+        category: 'seo',
+        timestamp: '24 Aug, 10:05',
+        rawTime: Date.now() - 1000 * 60 * 60 * 92
+      },
+      {
+        id: 'act-8',
+        projectId: 'p2',
+        projectName: 'Resort Alpine & Spa',
+        authorRole: 'pm',
+        authorName: 'Marc',
+        roleLabel: 'Project Manager (PM)',
+        badgeText: 'PM (Marc)',
+        action: 'Milestone Deadline Adjusted',
+        description: 'Set Content Collection milestone target date to 10 Jun 2026',
+        icon: 'calendar',
+        category: 'date',
+        timestamp: '23 Aug, 15:30',
+        rawTime: Date.now() - 1000 * 60 * 60 * 111
+      },
+      {
+        id: 'act-9',
+        projectId: 'p1',
+        projectName: 'Le Grand Hotel Paris',
+        authorRole: 'client',
+        authorName: 'client@grandhotelparis.com',
+        roleLabel: 'External Visitor (Client)',
+        badgeText: 'External Visitor',
+        action: 'Checklist Section Completed',
+        description: 'Marked Brand Identity & Typography collection block as Done',
+        icon: 'check-circle-2',
+        category: 'status',
+        timestamp: '23 Aug, 11:22',
+        rawTime: Date.now() - 1000 * 60 * 60 * 115
+      },
+      {
+        id: 'act-10',
+        projectId: 'p1',
+        projectName: 'Le Grand Hotel Paris',
+        authorRole: 'pm',
+        authorName: 'Dounia',
+        roleLabel: 'Project Manager (PM)',
+        badgeText: 'PM (Dounia)',
+        action: 'Project Initialized',
+        description: 'Created hotel project specs with Evolution Crystal template & SEO Essential package',
+        icon: 'folder-plus',
+        category: 'project',
+        timestamp: '22 Aug, 09:00',
+        rawTime: Date.now() - 1000 * 60 * 60 * 140
+      }
+    ];
+
+    let globalActivityLog = [...INITIAL_ACTIVITY_LOG];
+
+    function formatActivityTimestamp(date = new Date()) {
+      const d = (date instanceof Date) ? date : new Date(date);
+      const now = new Date();
+      const isToday = d.toDateString() === now.toDateString();
+      const timeStr = d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      if (isToday) {
+        return `Today, ${timeStr}`;
+      }
+      const dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+      return `${dateStr}, ${timeStr}`;
+    }
+
+    function logActivity(action, description, icon = 'activity', category = 'general', targetProjectId = null) {
+      const projId = targetProjectId || currentProjectId;
+      const project = projects.find(p => p.id === projId);
+      const isPm = currentRole === 'pm';
+      const pmName = project?.pmName || 'Dounia';
+      const clientEmail = project?.clientEmail || 'Visitor';
+
+      const newActivity = {
+        id: `act-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+        projectId: projId,
+        projectName: project ? project.name : 'Hotel Project',
+        authorRole: isPm ? 'pm' : 'client',
+        authorName: isPm ? pmName : clientEmail,
+        roleLabel: isPm ? 'Project Manager (PM)' : 'External Visitor (Client)',
+        badgeText: isPm ? `PM (${pmName})` : 'External Visitor',
+        action: action,
+        description: description,
+        icon: icon,
+        category: category,
+        timestamp: formatActivityTimestamp(new Date()),
+        rawTime: Date.now()
+      };
+
+      globalActivityLog.unshift(newActivity);
+      if (globalActivityLog.length > 50) {
+        globalActivityLog = globalActivityLog.slice(0, 50);
+      }
+
+      renderActivityPanel();
+    }
+
+    function setActivityRoleFilter(role) {
+      activityRoleFilter = role;
+      const btnAll = document.getElementById('act-filter-all');
+      const btnPm = document.getElementById('act-filter-pm');
+      const btnClient = document.getElementById('act-filter-client');
+
+      const activeClass = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-brand-purple text-white shadow-2xs transition cursor-pointer';
+      const inactiveClass = 'px-2.5 py-1 rounded-lg text-[11px] font-bold text-slate-600 hover:text-brand-purple transition cursor-pointer';
+
+      if (btnAll) btnAll.className = role === 'ALL' ? activeClass : inactiveClass;
+      if (btnPm) btnPm.className = role === 'pm' ? activeClass : inactiveClass;
+      if (btnClient) btnClient.className = role === 'client' ? activeClass : inactiveClass;
+
+      renderActivityPanel();
+    }
+
+    function handleActivityProjectFilterChange(val) {
+      activityProjectFilter = val;
+      renderActivityPanel();
+    }
+
+    function updateActivityProjectFilterOptions() {
+      const select = document.getElementById('act-filter-project');
+      if (!select) return;
+      const currentVal = select.value || 'ALL';
+      select.innerHTML = '<option value="ALL">All Projects Activity</option>' + 
+        projects.map(p => `<option value="${p.id}" ${p.id === currentVal ? 'selected' : ''}>${p.name}</option>`).join('');
+    }
+
+    function renderActivityPanel() {
+      const feed = document.getElementById('activity-log-feed');
+      if (!feed) return;
+
+      let filtered = globalActivityLog.filter(item => {
+        const matchesRole = (activityRoleFilter === 'ALL' || item.authorRole === activityRoleFilter);
+        const matchesProj = (activityProjectFilter === 'ALL' || item.projectId === activityProjectFilter);
+        return matchesRole && matchesProj;
+      });
+
+      // Display the last 10 changes
+      const displayItems = filtered.slice(0, 10);
+
+      if (displayItems.length === 0) {
+        feed.innerHTML = `
+          <div class="p-8 bg-slate-50 border border-dashed border-slate-200 rounded-2xl text-center text-slate-500 space-y-1.5">
+            <i data-lucide="history" class="w-6 h-6 mx-auto text-slate-400"></i>
+            <p class="font-bold text-xs text-slate-700">No activity logged for this selection.</p>
+            <p class="text-[11px] text-slate-400">Try changing the role or project filter to view recent timeline changes.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      feed.innerHTML = displayItems.map((item) => {
+        const isPm = item.authorRole === 'pm';
+        const roleBadgeHtml = isPm 
+          ? `<span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-purple-100/90 text-brand-purple border border-purple-200/80 shadow-2xs">
+               <i data-lucide="shield-check" class="w-3 h-3 text-brand-purple"></i>
+               <span>${item.badgeText || 'PM: ' + item.authorName}</span>
+             </span>`
+          : `<span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-100/90 text-amber-900 border border-amber-200/80 shadow-2xs">
+               <i data-lucide="user" class="w-3 h-3 text-amber-700"></i>
+               <span>${item.badgeText || 'External Visitor'}</span>
+             </span>`;
+
+        // Category icon styling
+        let iconBg = 'bg-purple-100 text-brand-purple border-purple-200';
+        if (item.category === 'date') iconBg = 'bg-amber-100 text-amber-800 border-amber-200';
+        if (item.category === 'document') iconBg = 'bg-blue-100 text-blue-700 border-blue-200';
+        if (item.category === 'brand') iconBg = 'bg-pink-100 text-pink-700 border-pink-200';
+        if (item.category === 'domain') iconBg = 'bg-emerald-100 text-emerald-700 border-emerald-200';
+        if (item.category === 'analytics') iconBg = 'bg-indigo-100 text-indigo-700 border-indigo-200';
+        if (item.category === 'project') iconBg = 'bg-purple-100 text-brand-purple border-purple-200';
+
+        return `
+          <div class="p-3.5 bg-slate-50/70 hover:bg-purple-50/30 border border-slate-200 hover:border-purple-200 rounded-xl transition duration-150 flex items-start space-x-3 group">
+            <div class="w-8 h-8 rounded-lg ${iconBg} border flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
+              <i data-lucide="${item.icon || 'activity'}" class="w-4 h-4"></i>
+            </div>
+            <div class="flex-1 min-w-0 space-y-1">
+              <div class="flex items-center justify-between gap-2 flex-wrap">
+                <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+                  ${roleBadgeHtml}
+                  <button type="button" onclick="currentProjectId='${item.projectId}'; switchView('timeline');" class="inline-flex items-center space-x-1 text-[10px] font-bold text-slate-600 hover:text-brand-purple bg-white hover:bg-purple-50 border border-slate-200 px-2 py-0.5 rounded-md transition shadow-2xs cursor-pointer" title="Switch to project ${item.projectName}">
+                    <i data-lucide="folder" class="w-3 h-3 text-slate-400 group-hover:text-brand-purple"></i>
+                    <span class="truncate max-w-[130px] sm:max-w-[180px]">${item.projectName}</span>
+                  </button>
+                </div>
+                <span class="text-[10px] text-slate-400 font-medium flex items-center space-x-1 shrink-0">
+                  <i data-lucide="clock" class="w-3 h-3 text-slate-400"></i>
+                  <span>${item.timestamp}</span>
+                </span>
+              </div>
+              <div class="text-xs font-bold text-slate-900 leading-snug">${item.action}</div>
+              <div class="text-[11px] text-slate-600 font-medium leading-relaxed">${item.description}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    // --- SUBTLE SAVING TOAST NOTIFICATION SYSTEM ---
+    let saveToastTimer = null;
+    let saveToastHideTimer = null;
+
+    function showSavingToast(savingText = 'Saving...', savedText = 'Saved') {
+      const container = document.getElementById('save-toast-container');
+      const textEl = document.getElementById('save-toast-text');
+      const iconContainer = document.getElementById('save-toast-icon-container');
+      if (!container || !textEl || !iconContainer) return;
+
+      if (saveToastTimer) clearTimeout(saveToastTimer);
+      if (saveToastHideTimer) clearTimeout(saveToastHideTimer);
+
+      // Phase 1: Subtle spinner & "Saving..." state
+      iconContainer.innerHTML = `<i data-lucide="loader-2" class="w-3.5 h-3.5 text-brand-purple animate-spin"></i>`;
+      textEl.textContent = savingText;
+      lucide.createIcons();
+
+      container.classList.remove('translate-y-4', 'opacity-0', 'scale-95');
+      container.classList.add('translate-y-0', 'opacity-100', 'scale-100');
+
+      // Phase 2: Confirm "Saved" with checkmark
+      saveToastTimer = setTimeout(() => {
+        iconContainer.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>`;
+        textEl.textContent = savedText;
+        lucide.createIcons();
+
+        // Phase 3: Smoothly fade out
+        saveToastHideTimer = setTimeout(() => {
+          container.classList.remove('translate-y-0', 'opacity-100', 'scale-100');
+          container.classList.add('translate-y-4', 'opacity-0', 'scale-95');
+        }, 1300);
+      }, 400);
+    }
+
+    // Global listener for changes across all input fields (text, dates, colors, selects, textareas)
+    document.addEventListener('change', (e) => {
+      const target = e.target;
+      if (target && target.matches('input, textarea, select')) {
+        // Exclude modal forms that require manual submission button or global filter selects
+        if (!target.closest('#modal-project') && !target.closest('#modal-text-doc') && !target.closest('#modal-sitemap-doc') && !target.closest('#modal-add-step') && !target.closest('#modal-notify') && !target.matches('#filter-pm, #filter-evolution, #filter-package, #project-selector, #msd-lang, #mtd-lang')) {
+          showSavingToast();
+        }
+      }
+    });
+
+    // --- CONFIRMATION DIALOG SYSTEM (PREVENTS ACCIDENTAL DATA LOSS) ---
+    let currentConfirmAction = null;
+
+    function showConfirmDialog({
+      title = 'Confirm Deletion',
+      message = 'Are you sure you want to delete this item? This action cannot be undone.',
+      itemDetails = '',
+      confirmText = 'Delete',
+      confirmVariant = 'danger',
+      cancelText = 'Cancel',
+      onConfirm = null
+    }) {
+      const modal = document.getElementById('modal-confirm');
+      if (!modal) return;
+
+      const titleEl = document.getElementById('confirm-modal-title');
+      const msgEl = document.getElementById('confirm-modal-message');
+      const previewEl = document.getElementById('confirm-modal-item-preview');
+      const confirmBtnText = document.getElementById('confirm-modal-confirm-btn-text');
+      const confirmBtn = document.getElementById('confirm-modal-confirm-btn');
+      const cancelBtn = document.getElementById('confirm-modal-cancel-btn');
+      const iconContainer = document.getElementById('confirm-modal-icon-container');
+
+      if (titleEl) titleEl.textContent = title;
+      if (msgEl) msgEl.textContent = message;
+
+      if (previewEl) {
+        if (itemDetails) {
+          previewEl.innerHTML = itemDetails;
+          previewEl.classList.remove('hidden');
+        } else {
+          previewEl.innerHTML = '';
+          previewEl.classList.add('hidden');
+        }
+      }
+
+      if (confirmBtnText) confirmBtnText.textContent = confirmText;
+      if (confirmBtn) {
+        if (confirmVariant === 'danger') {
+          confirmBtn.className = 'px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-xs transition flex items-center space-x-1.5 cursor-pointer';
+          if (iconContainer) iconContainer.className = 'w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 shadow-2xs';
+        } else {
+          confirmBtn.className = 'px-4 py-2 rounded-xl bg-brand-purple hover:bg-brand-purpleDark text-white font-bold text-xs shadow-xs transition flex items-center space-x-1.5 cursor-pointer';
+          if (iconContainer) iconContainer.className = 'w-10 h-10 rounded-xl bg-purple-100 text-brand-purple flex items-center justify-center shrink-0 shadow-2xs';
+        }
+      }
+
+      if (cancelBtn) cancelBtn.textContent = cancelText;
+
+      currentConfirmAction = onConfirm;
+      modal.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function handleConfirmDialogConfirm() {
+      const modal = document.getElementById('modal-confirm');
+      if (modal) modal.classList.add('hidden');
+      if (typeof currentConfirmAction === 'function') {
+        const action = currentConfirmAction;
+        currentConfirmAction = null;
+        action();
+      }
+    }
+
+    function handleConfirmDialogCancel() {
+      const modal = document.getElementById('modal-confirm');
+      if (modal) modal.classList.add('hidden');
+      currentConfirmAction = null;
+    }
+
+    // Close confirmation dialog on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const modalConfirm = document.getElementById('modal-confirm');
+        if (modalConfirm && !modalConfirm.classList.contains('hidden')) {
+          handleConfirmDialogCancel();
+        }
+      }
+    });
+
+    // Confirmation wrappers for destructive actions
+    function confirmDeleteStep(stepId) {
+      const project = projects.find(p => p.id === currentProjectId);
+      const step = project?.steps?.find(s => s.id === stepId);
+      if (!step) return;
+
+      showConfirmDialog({
+        title: 'Delete Milestone Step',
+        message: 'Are you sure you want to delete this milestone step? All associated tasks, deadlines, and drive links will be permanently removed.',
+        itemDetails: `
+          <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-1.5 text-left">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-brand-purple bg-purple-100 px-2 py-0.5 rounded">${step.group || 'Milestone'}</span>
+              <span class="text-[10px] font-mono text-slate-500 font-bold">${step.owner || 'Both'}</span>
+            </div>
+            <div class="text-xs font-bold text-slate-900">${step.title}</div>
+            ${step.date ? `<div class="text-[11px] text-slate-500 flex items-center space-x-1.5 pt-0.5"><i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i><span>Deadline: ${step.date}</span></div>` : ''}
+            ${step.tasks && step.tasks.length ? `<div class="text-[10px] text-slate-400 pt-0.5 font-medium">${step.tasks.length} checklist task${step.tasks.length > 1 ? 's' : ''}</div>` : ''}
+          </div>
+        `,
+        confirmText: 'Delete Milestone',
+        confirmVariant: 'danger',
+        onConfirm: () => {
+          deleteStep(stepId);
+        }
+      });
+    }
+
+    function confirmDeleteTextDoc(docId) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project || !project.textDocs) return;
+      const doc = project.textDocs.find(d => d.id === docId);
+      if (!doc) return;
+
+      const meta = getDocLangMeta(doc.lang || doc.label);
+
+      showConfirmDialog({
+        title: 'Delete Document Link',
+        message: 'Are you sure you want to delete this Google Doc link? This will remove the document reference from the Content Collection section.',
+        itemDetails: `
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center space-x-3 text-left">
+            <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center shrink-0 shadow-2xs">
+              ${meta.iso ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-5 h-3.5 object-cover rounded-xs">` : `<span class="text-sm">${meta.flag}</span>`}
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="text-xs font-bold text-slate-900 truncate">${doc.label || 'Google Doc'}</div>
+              <div class="text-[10px] text-slate-500 font-mono truncate">${doc.url || ''}</div>
+            </div>
+          </div>
+        `,
+        confirmText: 'Delete Link',
+        confirmVariant: 'danger',
+        onConfirm: () => {
+          deleteTextDoc(docId);
+        }
+      });
+    }
+
+    function confirmDeleteSitemapDoc(docId) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project || !project.sitemapDocs) return;
+      const doc = project.sitemapDocs.find(d => d.id === docId);
+      if (!doc) return;
+
+      const meta = getDocLangMeta(doc.lang || doc.label);
+
+      showConfirmDialog({
+        title: 'Delete Sitemap Link',
+        message: 'Are you sure you want to delete this Sitemap document link from the Sitemap Architecture section?',
+        itemDetails: `
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center space-x-3 text-left">
+            <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center shrink-0 shadow-2xs">
+              ${meta.iso ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-5 h-3.5 object-cover rounded-xs">` : `<span class="text-sm">${meta.flag}</span>`}
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="text-xs font-bold text-slate-900 truncate">${doc.label || 'Sitemap Link'}</div>
+              <div class="text-[10px] text-slate-500 font-mono truncate">${doc.url || ''}</div>
+            </div>
+          </div>
+        `,
+        confirmText: 'Delete Sitemap',
+        confirmVariant: 'danger',
+        onConfirm: () => {
+          deleteSitemapDoc(docId);
+        }
+      });
+    }
+
+    function confirmDeleteCustomIntegration(idx) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project || !project.customIntegrations || !project.customIntegrations[idx]) return;
+      const ci = project.customIntegrations[idx];
+
+      showConfirmDialog({
+        title: 'Delete Custom Integration',
+        message: `Are you sure you want to delete the "${ci.title}" integration? All associated scripts, keys, and notes will be lost.`,
+        itemDetails: `
+          <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-1 text-left">
+            <div class="flex items-center space-x-1.5 font-bold text-slate-800 text-xs">
+              <i data-lucide="plug" class="w-3.5 h-3.5 text-brand-purple"></i>
+              <span>${ci.title}</span>
+            </div>
+            ${ci.description ? `<p class="text-[11px] text-slate-500 leading-relaxed">${ci.description}</p>` : ''}
+          </div>
+        `,
+        confirmText: 'Delete Integration',
+        confirmVariant: 'danger',
+        onConfirm: () => {
+          deleteCustomIntegration(idx);
+        }
+      });
+    }
+
+    function confirmDeleteSeoQuestionnaire() {
+      showConfirmDialog({
+        title: 'Delete SEO Questionnaire',
+        message: 'Are you sure you want to remove the SEO Questionnaire block from this project?',
+        confirmText: 'Delete SEO Block',
+        confirmVariant: 'danger',
+        onConfirm: () => {
+          deleteSeoQuestionnaire();
+        }
+      });
+    }
+
+    function confirmDeleteSecondWaveRevisions() {
+      showConfirmDialog({
+        title: 'Remove Second Wave of Revision',
+        message: 'Are you sure you want to remove the Second Wave of Revision round from the Revision Phase?',
+        confirmText: 'Remove Wave 2',
+        confirmVariant: 'danger',
+        onConfirm: () => {
+          deleteSecondWaveRevisions();
+        }
+      });
+    }
+
+    function confirmRemoveDomainAlias(idx) {
+      const project = projects.find(p => p.id === currentProjectId);
+      const alias = project?.domainAliases?.[idx] || 'this domain alias';
+      showConfirmDialog({
+        title: 'Remove Domain Alias',
+        message: `Are you sure you want to remove "${alias}" from the domain aliases list?`,
+        confirmText: 'Remove Alias',
+        confirmVariant: 'danger',
+        onConfirm: () => {
+          removeDomainAlias(idx);
+        }
+      });
+    }
 
     // --- INITIALIZATION ---
     window.addEventListener('DOMContentLoaded', () => {
@@ -1165,6 +1944,7 @@
       renderContentCollectionDeadline(project);
       renderSitemapSection(project);
       renderRevisionPhaseSection(project);
+      renderGoLiveSection(project);
       
       const titleFont = project.graphicElements?.fontTitle || (project.graphicElements?.fonts ? (project.graphicElements.fonts.match(/Title:\s*([^,]+)/i)?.[1]?.trim()) : null) || 'Playfair Display';
       const bodyFont = project.graphicElements?.fontBody || (project.graphicElements?.fonts ? (project.graphicElements.fonts.match(/(?:Text|Body):\s*(.+)/i)?.[1]?.trim()) : null) || 'Inter';
@@ -1232,6 +2012,102 @@
     let draggedDocItem = null;
     let isDocDragging = false;
     let dragJustEnded = false;
+
+    // --- DRAG & DROP STATE & HANDLERS FOR TIMELINE AXIS MILESTONES ---
+    let draggedTimelineStep = null;
+    let isTimelineStepDragging = false;
+
+    function handleTimelineStepDragStart(e, stepId, index) {
+      // Avoid triggering drag when interacting with form controls or buttons
+      if (['INPUT', 'BUTTON', 'A', 'SELECT', 'TEXTAREA', 'LABEL'].includes(e.target.tagName) || e.target.closest('input, button, a, select, textarea, label')) {
+        e.preventDefault();
+        return;
+      }
+
+      draggedTimelineStep = { id: stepId, index: index };
+      isTimelineStepDragging = true;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', stepId);
+
+      const nodeWrapper = e.currentTarget.closest('.timeline-step-node') || e.currentTarget;
+      if (nodeWrapper) {
+        setTimeout(() => {
+          nodeWrapper.classList.add('opacity-40', 'scale-[0.98]');
+        }, 0);
+      }
+    }
+
+    function handleTimelineStepDragOver(e, targetIndex) {
+      if (!draggedTimelineStep) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+
+      const nodeWrapper = e.currentTarget.closest('.timeline-step-node') || e.currentTarget;
+      if (!nodeWrapper) return;
+
+      document.querySelectorAll('.timeline-step-node').forEach(el => {
+        const card = el.querySelector('.timeline-card');
+        if (card) {
+          card.classList.remove('ring-2', 'ring-brand-purple', 'ring-offset-2', 'border-brand-purple');
+        }
+      });
+
+      const card = nodeWrapper.querySelector('.timeline-card');
+      if (card) {
+        card.classList.add('ring-2', 'ring-brand-purple', 'ring-offset-2');
+      }
+    }
+
+    function handleTimelineStepDragLeave(e) {
+      const nodeWrapper = e.currentTarget.closest('.timeline-step-node') || e.currentTarget;
+      if (nodeWrapper) {
+        const card = nodeWrapper.querySelector('.timeline-card');
+        if (card) {
+          card.classList.remove('ring-2', 'ring-brand-purple', 'ring-offset-2');
+        }
+      }
+    }
+
+    function handleTimelineStepDragEnd(e) {
+      document.querySelectorAll('.timeline-step-node').forEach(el => {
+        el.classList.remove('opacity-40', 'scale-[0.98]');
+        const card = el.querySelector('.timeline-card');
+        if (card) {
+          card.classList.remove('ring-2', 'ring-brand-purple', 'ring-offset-2');
+        }
+      });
+      draggedTimelineStep = null;
+      isTimelineStepDragging = false;
+    }
+
+    function handleTimelineStepDrop(e, targetIndex) {
+      e.preventDefault();
+      if (!draggedTimelineStep) return;
+
+      const fromIndex = draggedTimelineStep.index;
+      let toIndex = targetIndex;
+
+      const nodeWrapper = e.currentTarget.closest('.timeline-step-node') || e.currentTarget;
+      if (nodeWrapper) {
+        const rect = nodeWrapper.getBoundingClientRect();
+        const relX = e.clientX - rect.left;
+        if (relX >= rect.width / 2 && fromIndex < targetIndex) {
+          toIndex = targetIndex;
+        } else if (relX < rect.width / 2 && fromIndex > targetIndex) {
+          toIndex = targetIndex;
+        }
+      }
+
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project && project.steps && fromIndex >= 0 && fromIndex < project.steps.length) {
+        const [movedStep] = project.steps.splice(fromIndex, 1);
+        project.steps.splice(toIndex, 0, movedStep);
+        renderApp();
+        showSavingToast('Updating milestone order...', 'Order saved');
+      }
+
+      handleTimelineStepDragEnd(e);
+    }
 
     function handleDocDragStart(e, type, id, index) {
       draggedDocItem = { type, id, index };
@@ -1323,6 +2199,7 @@
             renderTextDocs(project);
           }
           lucide.createIcons();
+          showSavingToast('Updating document order...', 'Order saved');
         }
       }
 
@@ -1390,7 +2267,7 @@
                     <i data-lucide="edit-3" class="w-3.5 h-3.5 text-brand-purple"></i>
                     <span>Edit</span>
                   </button>
-                  <button type="button" onclick="deleteTextDoc('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-rose-600 hover:bg-rose-50 flex items-center space-x-2 font-medium transition">
+                  <button type="button" onclick="confirmDeleteTextDoc('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-rose-600 hover:bg-rose-50 flex items-center space-x-2 font-medium transition cursor-pointer">
                     <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-500"></i>
                     <span>Delete</span>
                   </button>
@@ -1537,7 +2414,7 @@
                       <i data-lucide="edit-3" class="w-3.5 h-3.5 text-brand-purple"></i>
                       <span>Edit</span>
                     </button>
-                    <button type="button" onclick="deleteSitemapDoc('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-rose-600 hover:bg-rose-50 flex items-center space-x-2 font-medium transition">
+                    <button type="button" onclick="confirmDeleteSitemapDoc('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-rose-600 hover:bg-rose-50 flex items-center space-x-2 font-medium transition cursor-pointer">
                       <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-500"></i>
                       <span>Delete</span>
                     </button>
@@ -1662,6 +2539,7 @@
           doc.lang = lang;
           doc.label = fullLabel;
           doc.url = url;
+          logActivity('Sitemap Link Updated', `Updated sitemap link "${fullLabel}"`, 'folder-git-2', 'document', project.id);
         }
       } else {
         project.sitemapDocs.push({
@@ -1670,6 +2548,7 @@
           label: fullLabel,
           url: url
         });
+        logActivity('Sitemap Link Added', `Added sitemap link "${fullLabel}"`, 'folder-git-2', 'document', project.id);
       }
 
       if (project.sitemapDocs.length > 0) {
@@ -1684,12 +2563,15 @@
     function deleteSitemapDoc(docId) {
       const project = projects.find(p => p.id === currentProjectId);
       if (!project || !project.sitemapDocs) return;
+      const docToDelete = project.sitemapDocs.find(d => d.id === docId);
+      const label = docToDelete?.label || 'Sitemap Link';
       project.sitemapDocs = project.sitemapDocs.filter(d => d.id !== docId);
       if (project.sitemapDocs.length > 0) {
         project.sitemapDriveUrl = project.sitemapDocs[0].url;
       } else {
         project.sitemapDriveUrl = '';
       }
+      logActivity('Sitemap Link Deleted', `Deleted sitemap link "${label}"`, 'trash-2', 'document', project.id);
       renderSitemapDocs(project);
       lucide.createIcons();
     }
@@ -1791,6 +2673,7 @@
           doc.lang = lang;
           doc.label = fullLabel;
           doc.url = url;
+          logActivity('Google Doc Updated', `Updated document link "${fullLabel}"`, 'file-text', 'document', project.id);
         }
       } else {
         project.textDocs.push({
@@ -1799,6 +2682,7 @@
           label: fullLabel,
           url: url
         });
+        logActivity('Google Doc Linked', `Linked document copy "${fullLabel}"`, 'file-text', 'document', project.id);
       }
 
       closeModal('modal-text-doc');
@@ -1809,7 +2693,10 @@
     function deleteTextDoc(docId) {
       const project = projects.find(p => p.id === currentProjectId);
       if (!project || !project.textDocs) return;
+      const docToDelete = project.textDocs.find(d => d.id === docId);
+      const label = docToDelete?.label || 'Google Doc';
       project.textDocs = project.textDocs.filter(d => d.id !== docId);
+      logActivity('Google Doc Deleted', `Deleted document link "${label}"`, 'trash-2', 'document', project.id);
       renderTextDocs(project);
       lucide.createIcons();
     }
@@ -1948,16 +2835,14 @@
       }, 2000);
     }
 
-    function saveHeaderClientEmail(showAlert = true) {
+    function saveHeaderClientEmail(showAlert = false) {
       const input = document.getElementById('header-client-email');
       if (!input) return;
       const val = input.value.trim();
       const project = projects.find(p => p.id === currentProjectId);
       if (project) {
         project.clientEmail = val;
-        if (showAlert) {
-          alert(`Client email updated to: ${val}`);
-        }
+        showSavingToast('Saving client email...', 'Client email saved');
       }
     }
 
@@ -1998,6 +2883,7 @@
       if (project) {
         if (!project.graphicElements) project.graphicElements = {};
         project.graphicElements.imagesDrive = val;
+        showSavingToast('Saving Drive link...', 'Drive link saved');
       }
     }
 
@@ -2071,7 +2957,9 @@
         }
       }
 
+      logActivity('Content Deadline Updated', `Updated content collection deadline to ${formatDisplayDate(newDate)}`, 'calendar', 'date', project.id);
       renderTimelineAxis(project);
+      showSavingToast('Saving deadline...', 'Deadline saved');
       lucide.createIcons();
     }
 
@@ -2101,11 +2989,12 @@
         project.graphicElements.fontBody = fontBody;
         project.graphicElements.fonts = `Title: ${fontTitle}, Text: ${fontBody}`;
         
+        logActivity('Brand Identity Updated', `Saved palette (${currentPalette.primary}, ${currentPalette.secondary}) & typography (${fontTitle}/${fontBody})`, 'palette', 'project', project.id);
         renderGraphicCharterSwatches(project);
         renderImagesDriveBlock(project);
         renderContentCollectionDeadline(project);
         lucide.createIcons();
-        alert('Graphic Elements & Deadline successfully saved!');
+        showSavingToast('Saving Graphic Elements...', 'Graphic elements saved');
       }
     }
 
@@ -2174,6 +3063,7 @@
         }
       }
 
+      logActivity('Sitemap Target Updated', `Updated sitemap deadline to ${formatDisplayDate(newDate)}`, 'calendar', 'date', project.id);
       renderTimelineAxis(project);
       lucide.createIcons();
     }
@@ -2202,6 +3092,7 @@
       }
 
       project.completionStatus[blockKey] = !project.completionStatus[blockKey];
+      const isNowDone = project.completionStatus[blockKey];
 
       // Parent-child synchronization
       if (blockKey === 'brandIdentity') {
@@ -2221,6 +3112,25 @@
         project.completionStatus.domainServices = !!(project.completionStatus.finalDomain && project.completionStatus.ga4 && project.completionStatus.maps);
       }
 
+      if (blockKey === 'goLive') {
+        const val = project.completionStatus.goLive;
+        const currentServer = project.serverSelection || 'EMEAWEBFB3';
+        const activeConfig = DNS_SERVERS_CONFIG[currentServer] || DNS_SERVERS_CONFIG['EMEAWEBFB3'];
+        if (!project.dnsRecordsDone) project.dnsRecordsDone = {};
+        if (activeConfig && activeConfig.records) {
+          activeConfig.records.forEach((_, idx) => {
+            project.dnsRecordsDone[`${currentServer}_${idx}`] = val;
+          });
+        }
+        if (project.steps && Array.isArray(project.steps)) {
+          const step = project.steps.find(s => s.group === 'Go Live' || s.title?.toLowerCase().includes('live') || s.title?.toLowerCase().includes('launch') || s.title?.toLowerCase().includes('dns'));
+          if (step) {
+            step.status = val ? 'completed' : 'pending';
+          }
+        }
+        renderGoLiveSection(project);
+      }
+
       // Keep sitemapCompleted synced with completionStatus.sitemap
       if (blockKey === 'sitemap') {
         project.sitemapCompleted = project.completionStatus.sitemap;
@@ -2232,9 +3142,29 @@
         }
       }
 
+      const readableBlockNames = {
+        sitemap: 'Sitemap Validation',
+        seoQuestionnaire: 'SEO Questionnaire',
+        templates: 'Evolution Templates',
+        brandIdentity: 'Brand Identity',
+        colors: 'Color Palette',
+        fonts: 'Font Pairing',
+        texts: 'Texts & Content',
+        images: 'Images & Photos',
+        staging: 'Revisions & Validation',
+        thirdParty: 'Third Party Integrations',
+        domainServices: 'Domain & Web Services',
+        finalDomain: 'Final Domain Name',
+        ga4: 'Google Analytics 4',
+        maps: 'Google Maps API'
+      };
+      const blockLabel = readableBlockNames[blockKey] || blockKey;
+      logActivity(isNowDone ? 'Deliverable Completed' : 'Deliverable Reopened', `Marked "${blockLabel}" as ${isNowDone ? 'Completed' : 'Incomplete'}`, isNowDone ? 'check-circle' : 'rotate-ccw', 'milestone', project.id);
+
       renderTimelineAxis(project);
       renderAllDoneButtons(project);
       lucide.createIcons();
+      showSavingToast('Updating status...', 'Status updated');
     }
 
     function renderDoneButtonHtml(blockKey, isDone) {
@@ -2246,12 +3176,12 @@
             class="inline-flex items-center space-x-1 text-[10px] font-bold px-2 py-0.5 rounded-lg border transition shadow-2xs cursor-pointer ${
               isDone 
                 ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100' 
-                : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200'
+                : 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100'
             }"
-            title="Client status: ${isDone ? 'Finished' : 'Pending'} (Click to toggle)"
+            title="Status: ${isDone ? 'Done' : 'To-do'} (Click to toggle)"
           >
-            <i data-lucide="${isDone ? 'check-circle-2' : 'clock'}" class="w-3 h-3 ${isDone ? 'text-emerald-600' : 'text-slate-400'}"></i>
-            <span>Done</span>
+            <i data-lucide="${isDone ? 'check-circle-2' : 'clock'}" class="w-3 h-3 ${isDone ? 'text-emerald-600' : 'text-amber-600'}"></i>
+            <span>${isDone ? 'Done' : 'To-do'}</span>
             ${isDone ? '<span class="text-[9px] text-emerald-600">✓</span>' : ''}
           </button>
         `;
@@ -2262,14 +3192,14 @@
             onclick="toggleBlockDone('${blockKey}')" 
             class="inline-flex items-center space-x-1 text-[11px] font-bold px-2.5 py-0.5 rounded-lg border transition-all duration-150 shadow-2xs cursor-pointer ${
               isDone 
-                ? 'bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600 shadow-sm' 
-                : 'bg-white hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 border-slate-200 hover:border-emerald-300'
+                ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100' 
+                : 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100'
             }"
-            title="${isDone ? 'Marked as Done! Click to undo' : 'Click to mark as Done'}"
+            title="${isDone ? 'Marked as Done! Click to undo' : 'Status: To-do (Click to mark as Done)'}"
           >
-            <i data-lucide="${isDone ? 'check-circle-2' : 'check'}" class="w-3 h-3 ${isDone ? 'text-white' : 'text-slate-400 group-hover:text-emerald-600'}"></i>
-            <span>Done</span>
-            ${isDone ? '<span class="text-xs">✓</span>' : ''}
+            <i data-lucide="${isDone ? 'check-circle-2' : 'clock'}" class="w-3 h-3 ${isDone ? 'text-emerald-600' : 'text-amber-600'}"></i>
+            <span>${isDone ? 'Done' : 'To-do'}</span>
+            ${isDone ? '<span class="text-xs text-emerald-600">✓</span>' : ''}
           </button>
         `;
       }
@@ -2294,7 +3224,8 @@
           domainServices: false,
           finalDomain: false,
           ga4: false,
-          maps: false
+          maps: false,
+          goLive: false
         };
       }
 
@@ -2369,6 +3300,38 @@
           </div>
         `;
       }
+
+      // --- SECTION 4: GO-LIVE ---
+      const currentServer = project.serverSelection || 'EMEAWEBFB3';
+      const activeConfig = DNS_SERVERS_CONFIG[currentServer] || DNS_SERVERS_CONFIG['EMEAWEBFB3'];
+      const totalDnsRecords = activeConfig && activeConfig.records ? activeConfig.records.length : 1;
+      
+      let glDone = 0;
+      if (project.dnsRecordsDone) {
+        for (let i = 0; i < totalDnsRecords; i++) {
+          if (project.dnsRecordsDone[`${currentServer}_${i}`]) {
+            glDone++;
+          }
+        }
+      }
+      const glTotal = totalDnsRecords;
+      const glPct = glTotal > 0 ? Math.round((glDone / glTotal) * 100) : 0;
+
+      const glProgContainer = document.getElementById('go-live-progress-container');
+      if (glProgContainer) {
+        const isComplete = glDone === glTotal && glTotal > 0;
+        glProgContainer.innerHTML = `
+          <div class="flex items-center space-x-2 bg-slate-50 border ${isComplete ? 'border-emerald-200 bg-emerald-50/50' : 'border-slate-200/90'} rounded-xl px-2.5 sm:px-3 py-1 shadow-2xs transition-all duration-200" title="${glDone} of ${glTotal} DNS records completed in Go-live">
+            <i data-lucide="${isComplete ? 'check-circle-2' : 'activity'}" class="w-3.5 h-3.5 ${isComplete ? 'text-emerald-600' : 'text-brand-purple'} shrink-0"></i>
+            <span class="text-[11px] font-semibold text-slate-500 hidden sm:inline">Progress:</span>
+            <span class="text-xs font-bold ${isComplete ? 'text-emerald-700' : 'text-slate-800'}">${glDone}/${glTotal}</span>
+            <div class="w-14 sm:w-20 bg-slate-200/80 rounded-full h-2 overflow-hidden shrink-0">
+              <div class="h-full rounded-full transition-all duration-300 ${isComplete ? 'bg-emerald-500' : 'bg-brand-purple'}" style="width: ${glPct}%"></div>
+            </div>
+            <span class="text-[10px] font-bold ${isComplete ? 'bg-emerald-100 text-emerald-800' : 'bg-purple-100 text-brand-purple'} px-1.5 py-0.2 rounded-full font-mono shrink-0">${glPct}%</span>
+          </div>
+        `;
+      }
     }
 
     function renderAllDoneButtons(project) {
@@ -2390,7 +3353,8 @@
           domainServices: false,
           finalDomain: false,
           ga4: false,
-          maps: false
+          maps: false,
+          goLive: false
         };
       }
 
@@ -2410,7 +3374,8 @@
         { containerId: 'domain-services-done-btn-container', key: 'domainServices' },
         { containerId: 'final-domain-done-btn-container', key: 'finalDomain' },
         { containerId: 'ga4-done-btn-container', key: 'ga4' },
-        { containerId: 'maps-done-btn-container', key: 'maps' }
+        { containerId: 'maps-done-btn-container', key: 'maps' },
+        { containerId: 'go-live-done-btn-container', key: 'goLive' }
       ];
 
       mapping.forEach(m => {
@@ -2451,7 +3416,7 @@
         if (seoCardActions) {
           if (currentRole === 'pm') {
             seoCardActions.innerHTML = `
-              <button type="button" onclick="deleteSeoQuestionnaire()" class="px-2 py-1 bg-white hover:bg-rose-50 border border-slate-200 hover:border-rose-200 text-slate-400 hover:text-rose-600 rounded-lg text-[10px] font-bold flex items-center space-x-1 transition shadow-2xs" title="Delete SEO Questionnaire">
+              <button type="button" onclick="confirmDeleteSeoQuestionnaire()" class="px-2 py-1 bg-white hover:bg-rose-50 border border-slate-200 hover:border-rose-200 text-slate-400 hover:text-rose-600 rounded-lg text-[10px] font-bold flex items-center space-x-1 transition shadow-2xs cursor-pointer" title="Delete SEO Questionnaire">
                 <i data-lucide="trash-2" class="w-3 h-3"></i>
                 <span>Delete</span>
               </button>
@@ -2571,10 +3536,11 @@
 
       renderSitemapSection(project);
       renderBoardsGrid();
+      showSavingToast('Updating template...', 'Template applied');
       lucide.createIcons();
     }
 
-    function saveSitemapLinks(showAlert = true) {
+    function saveSitemapLinks(showAlert = false) {
       const project = projects.find(p => p.id === currentProjectId);
       if (!project) return;
 
@@ -2600,9 +3566,7 @@
 
       renderSitemapSection(project);
       lucide.createIcons();
-      if (showAlert) {
-        alert('Sitemap links & Deadline successfully saved!');
-      }
+      showSavingToast('Saving sitemap details...', 'Sitemap saved');
     }
 
     function addSeoQuestionnaire() {
@@ -2676,6 +3640,7 @@
       }
 
       renderTimelineAxis(project);
+      showSavingToast('Saving deadline...', 'Deadline saved');
       lucide.createIcons();
     }
 
@@ -2773,7 +3738,7 @@
                 <i data-lucide="git-merge" class="w-4 h-4"></i>
               </div>
               <div class="min-w-0">
-                <h4 class="font-bold text-slate-900 text-xs truncate">Second wave of revisions</h4>
+                <h4 class="font-bold text-slate-900 text-xs truncate">Second wave of revision</h4>
                 <span class="text-[10px] text-slate-500 font-medium">Final validation round</span>
               </div>
             </div>
@@ -2781,7 +3746,7 @@
               <div id="second-wave-done-btn-container"></div>
               <span class="text-[10px] bg-purple-100 text-brand-purple font-bold px-2 py-0.5 rounded-md">Wave 2</span>
               ${currentRole === 'pm' ? `
-                <button type="button" onclick="deleteSecondWaveRevisions()" class="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Remove Second Wave of Revisions">
+                <button type="button" onclick="confirmDeleteSecondWaveRevisions()" class="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition cursor-pointer" title="Remove Second Wave of Revision">
                   <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                 </button>
               ` : ''}
@@ -2796,7 +3761,7 @@
                 <i data-lucide="plus" class="w-4 h-4"></i>
               </div>
               <div class="min-w-0">
-                <div class="text-xs font-bold text-slate-800">Second wave of revisions</div>
+                <div class="text-xs font-bold text-slate-800">Second wave of revision</div>
                 <div class="text-[10px] text-slate-400 font-medium">Optional additional round</div>
               </div>
             </div>
@@ -2811,28 +3776,34 @@
       const gridColsClass = (hasSecondWave || currentRole === 'pm') ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1';
 
       dynamicContainer.innerHTML = `
-        ${stagingHtml}
-
-        <div class="grid ${gridColsClass} gap-4 pt-1">
-          <!-- CARD 1: FIRST WAVE OF REVISIONS -->
-          <div class="bg-purple-50/40 p-4 rounded-xl border border-purple-200/80 flex items-center justify-between gap-3 shadow-2xs">
-            <div class="flex items-center space-x-2.5 min-w-0">
-              <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-brand-purple shrink-0">
-                <i data-lucide="git-pull-request" class="w-4 h-4"></i>
-              </div>
-              <div class="min-w-0">
-                <h4 class="font-bold text-slate-900 text-xs truncate">First wave of revisions</h4>
-                <span class="text-[10px] text-slate-500 font-medium">Initial staging review</span>
-              </div>
-            </div>
-            <div class="flex items-center space-x-2 shrink-0">
-              <div id="first-wave-done-btn-container"></div>
-              <span class="text-[10px] bg-purple-100 text-brand-purple font-bold px-2 py-0.5 rounded-md">Wave 1</span>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Left Column: Staging -->
+          <div class="space-y-4">
+            ${stagingHtml}
           </div>
 
-          <!-- CARD 2: SECOND WAVE OF REVISIONS (OR ADD BUTTON FOR PM) -->
-          ${secondWaveCardHtml}
+          <!-- Right Column: Revisions -->
+          <div class="grid grid-cols-1 gap-4">
+            <!-- CARD 1: FIRST WAVE OF REVISION -->
+            <div class="bg-purple-50/40 p-4 rounded-xl border border-purple-200/80 flex items-center justify-between gap-3 shadow-2xs">
+              <div class="flex items-center space-x-2.5 min-w-0">
+                <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-brand-purple shrink-0">
+                  <i data-lucide="git-pull-request" class="w-4 h-4"></i>
+                </div>
+                <div class="min-w-0">
+                  <h4 class="font-bold text-slate-900 text-xs truncate">First wave of revision</h4>
+                  <span class="text-[10px] text-slate-500 font-medium">Initial staging review</span>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2 shrink-0">
+                <div id="first-wave-done-btn-container"></div>
+                <span class="text-[10px] bg-purple-100 text-brand-purple font-bold px-2 py-0.5 rounded-md">Wave 1</span>
+              </div>
+            </div>
+
+            <!-- CARD 2: SECOND WAVE OF REVISIONS (OR ADD BUTTON FOR PM) -->
+            ${secondWaveCardHtml}
+          </div>
         </div>
       `;
 
@@ -2844,6 +3815,7 @@
       const project = projects.find(p => p.id === currentProjectId);
       if (!project) return;
       project.hasSecondWaveRevisions = true;
+      logActivity('Revision Wave Added', 'Added Second Wave of Revision to publication milestone', 'git-merge', 'milestone', project.id);
       renderApp();
     }
 
@@ -2854,6 +3826,7 @@
       if (project.completionStatus) {
         project.completionStatus.secondWaveRevisions = false;
       }
+      logActivity('Revision Wave Removed', 'Removed Second Wave of Revision', 'trash-2', 'milestone', project.id);
       renderApp();
     }
 
@@ -2861,9 +3834,10 @@
       const project = projects.find(p => p.id === currentProjectId);
       if (!project) return;
       project[field] = val.trim();
+      showSavingToast('Saving revision notes...', 'Notes saved');
     }
 
-    function saveStagingUrl(showAlert = true) {
+    function saveStagingUrl(showAlert = false) {
       const project = projects.find(p => p.id === currentProjectId);
       if (!project) return;
 
@@ -2882,11 +3856,10 @@
         renderTimelineAxis(project);
       }
 
+      logActivity('Staging Settings Updated', project.stagingSiteUrl ? `Configured staging preview URL: ${project.stagingSiteUrl}` : 'Updated staging milestone details', 'globe', 'project', project.id);
       renderRevisionPhaseSection(project);
       lucide.createIcons();
-      if (showAlert) {
-        alert('Revision Phase settings & Staging link saved!');
-      }
+      showSavingToast('Saving staging site...', 'Staging settings saved');
     }
 
     // --- THIRD PARTY INTEGRATIONS & DOMAINS / GOOGLE SERVICES ---
@@ -2924,7 +3897,7 @@
               <span>${ci.title}</span>
             </h5>
             ${currentRole === 'pm' ? `
-              <button onclick="deleteCustomIntegration(${cIdx})" class="text-slate-400 hover:text-rose-500 transition p-1" title="Delete Integration">
+              <button onclick="confirmDeleteCustomIntegration(${cIdx})" class="text-slate-400 hover:text-rose-500 transition p-1 cursor-pointer" title="Delete Integration">
                 <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
               </button>
             ` : ''}
@@ -2970,10 +3943,10 @@
           ${project.domainAliases.map((alias, aIdx) => `
             <div class="flex items-center justify-between bg-slate-50/90 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs shadow-2xs">
               <span class="font-mono text-slate-700 text-[11px] truncate flex items-center space-x-1.5">
-                <i data-lucide="globe" class="w-3 3 text-slate-400"></i>
+                <i data-lucide="globe" class="w-3.5 h-3.5 text-slate-400"></i>
                 <span>${alias}</span>
               </span>
-              <button onclick="removeDomainAlias(${aIdx})" class="text-slate-400 hover:text-rose-500 p-0.5 rounded transition" title="Delete alias">
+              <button onclick="confirmRemoveDomainAlias(${aIdx})" class="text-slate-400 hover:text-rose-500 p-0.5 rounded transition cursor-pointer" title="Delete alias">
                 <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
               </button>
             </div>
@@ -3094,6 +4067,7 @@
       const project = projects.find(p => p.id === currentProjectId);
       if (project) {
         project.thirdPartyNotes = val;
+        showSavingToast('Saving integrations...', 'Notes saved');
       }
     }
 
@@ -3101,6 +4075,8 @@
       const project = projects.find(p => p.id === currentProjectId);
       if (project) {
         project.finalDomain = val;
+        logActivity('Final Domain Configured', `Updated final domain to: ${val}`, 'link-2', 'project', project.id);
+        showSavingToast('Saving domain name...', 'Domain saved');
       }
     }
 
@@ -3115,16 +4091,21 @@
         if (!project.domainAliases) project.domainAliases = [];
         if (!project.domainAliases.includes(val)) {
           project.domainAliases.push(val);
+          logActivity('Domain Alias Added', `Added alias domain: ${val}`, 'globe', 'project', project.id);
         }
         renderApp();
+        showSavingToast('Adding domain alias...', 'Alias saved');
       }
     }
 
     function removeDomainAlias(idx) {
       const project = projects.find(p => p.id === currentProjectId);
       if (project && project.domainAliases) {
+        const removed = project.domainAliases[idx];
         project.domainAliases.splice(idx, 1);
+        logActivity('Domain Alias Removed', `Removed alias domain: ${removed}`, 'trash-2', 'project', project.id);
         renderApp();
+        showSavingToast('Updating domain aliases...', 'Alias removed');
       }
     }
 
@@ -3132,6 +4113,8 @@
       const project = projects.find(p => p.id === currentProjectId);
       if (project) {
         project.ga4 = val;
+        logActivity('GA4 Property Updated', `Configured GA4 Measurement ID: ${val}`, 'bar-chart-2', 'project', project.id);
+        showSavingToast('Saving GA4 ID...', 'GA4 saved');
       }
     }
 
@@ -3139,6 +4122,8 @@
       const project = projects.find(p => p.id === currentProjectId);
       if (project) {
         project.googleMapsKey = val;
+        logActivity('Google Maps Key Updated', 'Updated Google Maps API Key credential', 'map-pin', 'project', project.id);
+        showSavingToast('Saving Google Maps API key...', 'API key saved');
       }
     }
 
@@ -3157,7 +4142,9 @@
           description: desc || 'Provide integration script or documentation details.',
           value: ''
         });
+        logActivity('Custom Integration Added', `Added third-party integration "${title.trim()}"`, 'plug', 'project', project.id);
         renderApp();
+        showSavingToast('Adding custom integration...', 'Integration added');
       }
     }
 
@@ -3165,15 +4152,377 @@
       const project = projects.find(p => p.id === currentProjectId);
       if (project && project.customIntegrations && project.customIntegrations[idx]) {
         project.customIntegrations[idx].value = val;
+        showSavingToast('Saving integration details...', 'Details saved');
       }
     }
 
     function deleteCustomIntegration(idx) {
       const project = projects.find(p => p.id === currentProjectId);
       if (project && project.customIntegrations) {
+        const title = project.customIntegrations[idx]?.title || 'Custom Integration';
         project.customIntegrations.splice(idx, 1);
+        logActivity('Custom Integration Deleted', `Deleted third-party integration "${title}"`, 'trash-2', 'project', project.id);
         renderApp();
+        showSavingToast('Updating integrations...', 'Integration removed');
       }
+    }
+
+    // --- 4. GO-LIVE & DNS CONFIGURATION MANAGEMENT ---
+    const DNS_SERVERS_CONFIG = {
+      'EMEAWEBFB3': {
+        name: 'EMEAWEBFB3',
+        records: [
+          { host: '@', type: 'A', target: '141.193.213.21', note: 'Primary root domain pointer' },
+          { host: '@', type: 'A', target: '141.193.213.20', note: 'Secondary root domain pointer' },
+          { host: 'www', type: 'CNAME', target: 'ewu4gnjjbwu0.wpeproxy.com', note: 'Canonical subdomain alias' }
+        ]
+      },
+      'ACCORV2PROD2': {
+        name: 'ACCORV2PROD2',
+        records: [
+          { host: '@', type: 'A', target: '141.193.213.21', note: 'Primary root domain pointer' },
+          { host: '@', type: 'A', target: '141.193.213.20', note: 'Secondary root domain pointer' },
+          { host: 'www', type: 'CNAME', target: 'b19w6iikn5f6.wpeproxy.com', note: 'Canonical subdomain alias' }
+        ]
+      }
+    };
+
+    function getGoLiveDeadline(project) {
+      if (project.goLiveDeadline) return project.goLiveDeadline;
+      const step = project.steps?.find(s => s.group === 'Go Live' || s.title?.toLowerCase().includes('live') || s.title?.toLowerCase().includes('launch') || s.title?.toLowerCase().includes('dns'));
+      return step ? step.date : '';
+    }
+
+    function renderGoLiveDeadline(project) {
+      const container = document.getElementById('go-live-deadline-container');
+      if (!container) return;
+
+      const currentDeadline = getGoLiveDeadline(project);
+
+      if (currentRole === 'pm') {
+        container.innerHTML = `
+          <div class="flex items-center space-x-1.5 bg-purple-50/90 border border-purple-200/90 rounded-xl px-2.5 py-1 text-xs shadow-2xs">
+            <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-purple shrink-0"></i>
+            <span class="text-slate-600 font-semibold text-[11px] select-none">Deadline:</span>
+            <input 
+              type="date" 
+              id="gl-deadline-input" 
+              value="${currentDeadline}" 
+              onchange="updateGoLiveDeadline(this.value)" 
+              class="bg-white border border-purple-200 text-slate-800 font-bold text-xs rounded-lg px-2 py-0.5 outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer shadow-2xs transition" 
+              title="Set target date for Go-Live & DNS pointing"
+            >
+          </div>
+        `;
+      } else {
+        const displayDate = formatDisplayDate(currentDeadline);
+        container.innerHTML = `
+          <div class="inline-flex items-center space-x-1.5 bg-purple-50 border border-purple-200/80 rounded-xl px-3 py-1 text-xs shadow-2xs">
+            <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-purple shrink-0"></i>
+            <span class="text-slate-500 font-semibold text-[11px]">Target Launch:</span>
+            <span class="font-bold text-brand-purple text-xs">${displayDate}</span>
+          </div>
+        `;
+      }
+      lucide.createIcons();
+    }
+
+    function updateGoLiveDeadline(newDate) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      project.goLiveDeadline = newDate;
+
+      // Sync with Go Live milestone step in the roadmap if present
+      if (project.steps && Array.isArray(project.steps)) {
+        const step = project.steps.find(s => s.group === 'Go Live' || s.title?.toLowerCase().includes('live') || s.title?.toLowerCase().includes('launch') || s.title?.toLowerCase().includes('dns'));
+        if (step && newDate) {
+          step.date = newDate;
+        }
+      }
+
+      renderTimelineAxis(project);
+      renderGoLiveDeadline(project);
+      logActivity('Go-Live Target Updated', `Updated target launch date to ${formatDisplayDate(newDate)}`, 'calendar', 'date', project.id);
+      showSavingToast('Saving Go-live deadline...', 'Deadline saved');
+    }
+
+    function updateServerSelection(newServer) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      project.serverSelection = newServer;
+      logActivity('Go-Live Server Selected', `Selected server infrastructure: ${newServer}`, 'server', 'project', project.id);
+      renderGoLiveSection(project);
+      showSavingToast('Updating server configuration...', 'Server updated');
+    }
+
+    function copyDnsRecord(text, btnId) {
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById(btnId);
+        if (btn) {
+          const original = btn.innerHTML;
+          btn.innerHTML = `<i data-lucide="check" class="w-3 h-3 text-emerald-600"></i><span class="text-emerald-700 font-bold">Copied!</span>`;
+          lucide.createIcons();
+          setTimeout(() => {
+            btn.innerHTML = original;
+            lucide.createIcons();
+          }, 1800);
+        }
+        showSavingToast('Copying DNS record...', 'Copied to clipboard');
+      }).catch(() => {
+        showSavingToast('Copy failed', 'Please select and copy manually');
+      });
+    }
+
+    function toggleDnsRecordDone(idx) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      if (!project.dnsRecordsDone) {
+        project.dnsRecordsDone = {};
+      }
+      const currentServer = project.serverSelection || 'EMEAWEBFB3';
+      const key = `${currentServer}_${idx}`;
+      project.dnsRecordsDone[key] = !project.dnsRecordsDone[key];
+
+      const activeConfig = DNS_SERVERS_CONFIG[currentServer] || DNS_SERVERS_CONFIG['EMEAWEBFB3'];
+      const totalRecords = activeConfig && activeConfig.records ? activeConfig.records.length : 0;
+      let doneCount = 0;
+      for (let i = 0; i < totalRecords; i++) {
+        if (project.dnsRecordsDone[`${currentServer}_${i}`]) {
+          doneCount++;
+        }
+      }
+
+      if (!project.completionStatus) project.completionStatus = {};
+      project.completionStatus.goLive = (doneCount === totalRecords && totalRecords > 0);
+
+      // Sync with Go Live milestone step in roadmap if present
+      if (project.steps && Array.isArray(project.steps)) {
+        const step = project.steps.find(s => s.group === 'Go Live' || s.title?.toLowerCase().includes('live') || s.title?.toLowerCase().includes('launch') || s.title?.toLowerCase().includes('dns'));
+        if (step) {
+          step.status = project.completionStatus.goLive ? 'completed' : 'pending';
+        }
+      }
+
+      renderGoLiveSection(project);
+      renderTimelineAxis(project);
+      lucide.createIcons();
+      showSavingToast('Updating status...', project.dnsRecordsDone[key] ? 'DNS record marked as Done' : 'DNS record reopened');
+    }
+
+    function copyAllDnsRecords(serverKey) {
+      const config = DNS_SERVERS_CONFIG[serverKey];
+      if (!config) return;
+      const formatted = config.records.map(r => `(${r.host}) ${r.type} record to ${r.type === 'A' ? 'IP ' : ''}${r.target}`).join('\n');
+      const textToCopy = `DNS Configuration for ${config.name}:\n\n${formatted}`;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const btn = document.getElementById('btn-copy-all-dns');
+        if (btn) {
+          const original = btn.innerHTML;
+          btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-white"></i><span>Copied All Records!</span>`;
+          lucide.createIcons();
+          setTimeout(() => {
+            btn.innerHTML = original;
+            lucide.createIcons();
+          }, 2000);
+        }
+        showSavingToast('Copying DNS configuration...', 'All DNS records copied');
+      }).catch(() => {
+        showSavingToast('Copy failed', 'Please select and copy manually');
+      });
+    }
+
+    function renderGoLiveSection(project) {
+      const container = document.getElementById('go-live-dynamic-container');
+      if (!container) return;
+
+      renderGoLiveDeadline(project);
+      renderAllDoneButtons(project);
+
+      const currentServer = project.serverSelection || 'EMEAWEBFB3';
+      const activeConfig = DNS_SERVERS_CONFIG[currentServer] || DNS_SERVERS_CONFIG['EMEAWEBFB3'];
+
+      const domainDisplay = project.finalDomain || 'yourdomain.com';
+      const cleanDomain = domainDisplay.replace(/^https?:\/\//, '').replace(/\/.*$/, '') || 'yourdomain.com';
+
+      // 1. Server Selector Card (with PM selector or Client active server indicator)
+      let serverSelectionHtml = '';
+      if (currentRole === 'pm') {
+        serverSelectionHtml = `
+          <div class="bg-purple-50/40 p-4 rounded-xl border border-purple-200/80 space-y-3 shadow-2xs">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <label class="block font-bold text-slate-800 text-xs flex items-center space-x-1.5">
+                  <i data-lucide="server" class="w-3.5 h-3.5 text-brand-purple"></i>
+                  <span>Production Server Selection</span>
+                </label>
+                <p class="text-[11px] text-slate-500 mt-0.5">Select the target production cluster for DNS delegation & proxy mapping.</p>
+              </div>
+              <span class="text-[10px] bg-purple-100 text-brand-purple font-bold px-2 py-0.5 rounded-md self-start sm:self-auto font-mono">PM Controlled</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <!-- SERVER OPTION 1: EMEAWEBFB3 -->
+              <button 
+                type="button" 
+                onclick="updateServerSelection('EMEAWEBFB3')"
+                class="p-3 rounded-xl border text-left transition-all duration-150 relative cursor-pointer group ${
+                  currentServer === 'EMEAWEBFB3' 
+                    ? 'bg-white border-brand-purple ring-2 ring-brand-purple/20 shadow-xs' 
+                    : 'bg-white/80 hover:bg-white border-slate-200 hover:border-purple-300'
+                }"
+              >
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <div class="w-7 h-7 rounded-lg ${currentServer === 'EMEAWEBFB3' ? 'bg-purple-100 text-brand-purple' : 'bg-slate-100 text-slate-500'} flex items-center justify-center font-bold text-xs">
+                      <i data-lucide="hard-drive" class="w-4 h-4"></i>
+                    </div>
+                    <span class="font-mono font-bold text-xs ${currentServer === 'EMEAWEBFB3' ? 'text-brand-purple' : 'text-slate-800'}">EMEAWEBFB3</span>
+                    <span class="text-[10px] text-slate-500 font-medium">For Evolution Website</span>
+                  </div>
+                  ${currentServer === 'EMEAWEBFB3' ? `
+                    <span class="w-4 h-4 rounded-full bg-brand-purple text-white flex items-center justify-center shadow-2xs">
+                      <i data-lucide="check" class="w-2.5 h-2.5"></i>
+                    </span>
+                  ` : `
+                    <span class="w-4 h-4 rounded-full border border-slate-300 group-hover:border-purple-400"></span>
+                  `}
+                </div>
+              </button>
+
+              <!-- SERVER OPTION 2: ACCORV2PROD2 -->
+              <button 
+                type="button" 
+                onclick="updateServerSelection('ACCORV2PROD2')"
+                class="p-3 rounded-xl border text-left transition-all duration-150 relative cursor-pointer group ${
+                  currentServer === 'ACCORV2PROD2' 
+                    ? 'bg-white border-brand-purple ring-2 ring-brand-purple/20 shadow-xs' 
+                    : 'bg-white/80 hover:bg-white border-slate-200 hover:border-purple-300'
+                }"
+              >
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <div class="w-7 h-7 rounded-lg ${currentServer === 'ACCORV2PROD2' ? 'bg-purple-100 text-brand-purple' : 'bg-slate-100 text-slate-500'} flex items-center justify-center font-bold text-xs">
+                      <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    </div>
+                    <span class="font-mono font-bold text-xs ${currentServer === 'ACCORV2PROD2' ? 'text-brand-purple' : 'text-slate-800'}">ACCORV2PROD2</span>
+                    <span class="text-[10px] text-slate-500 font-medium">For Accor Website</span>
+                  </div>
+                  ${currentServer === 'ACCORV2PROD2' ? `
+                    <span class="w-4 h-4 rounded-full bg-brand-purple text-white flex items-center justify-center shadow-2xs">
+                      <i data-lucide="check" class="w-2.5 h-2.5"></i>
+                    </span>
+                  ` : `
+                    <span class="w-4 h-4 rounded-full border border-slate-300 group-hover:border-purple-400"></span>
+                  `}
+                </div>
+          </div>
+        `;
+      } else {
+        // Client view: hide server assignment card
+        serverSelectionHtml = ``;
+      }
+
+      // 2. DNS Records List rendering
+      if (!project.dnsRecordsDone) {
+        project.dnsRecordsDone = {};
+      }
+
+      const dnsRowsHtml = activeConfig.records.map((rec, idx) => {
+        const copyVal = rec.target;
+        const btnId = `btn-copy-dns-${idx}`;
+        const isDone = !!project.dnsRecordsDone[`${currentServer}_${idx}`];
+        return `
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200 hover:border-purple-200 transition-all flex flex-col gap-3 shadow-2xs">
+            <div class="flex items-center space-x-3 min-w-0">
+              <span class="w-16 shrink-0 inline-flex items-center justify-center font-mono font-bold text-xs px-2 py-1 rounded-lg ${
+                rec.type === 'A' ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-sky-50 text-sky-800 border border-sky-200'
+              }">
+                ${rec.type}
+              </span>
+              <div class="min-w-0 space-y-0.5">
+                <div class="flex items-center space-x-2">
+                  <span class="font-mono font-bold text-xs text-slate-900 select-all">${rec.host}</span>
+                  <span class="text-slate-300 text-xs">→</span>
+                  <span class="font-mono font-bold text-xs text-brand-purple select-all truncate" title="${rec.target}">${rec.target}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-2 pt-2 border-t border-slate-100">
+              <button 
+                type="button" 
+                id="${btnId}" 
+                onclick="copyDnsRecord('${copyVal}', '${btnId}')" 
+                class="px-2.5 py-1.5 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-brand-purple border border-slate-200 hover:border-purple-300 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition shrink-0 cursor-pointer shadow-2xs"
+                title="Copy record target"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>Copy</span>
+              </button>
+              <button 
+                type="button" 
+                id="btn-done-${idx}" 
+                onclick="toggleDnsRecordDone(${idx})"
+                class="inline-flex items-center space-x-1 text-[10px] font-bold px-2 py-1 rounded-lg border transition shadow-2xs cursor-pointer ${
+                  isDone 
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100' 
+                    : 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100'
+                }"
+                title="${isDone ? 'Finished (Click to reopen)' : 'Status: To-do (Click to mark as Done)'}"
+              >
+                <i data-lucide="${isDone ? 'check-circle-2' : 'clock'}" class="w-3 h-3 ${isDone ? 'text-emerald-600' : 'text-amber-600'}"></i>
+                <span>${isDone ? 'Done' : 'To-do'}</span>
+                ${isDone ? '<span class="text-[9px] text-emerald-600">✓</span>' : ''}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = `
+        <!-- SERVER SELECTION BLOCK -->
+        ${serverSelectionHtml}
+
+        <!-- DNS CONFIGURATION TABLE & INSTRUCTIONS -->
+        <div class="space-y-3 bg-slate-50/70 p-4 rounded-xl border border-slate-200 shadow-2xs">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/80 pb-3">
+            <div>
+              <h4 class="font-bold text-slate-900 text-xs flex items-center space-x-1.5">
+                <i data-lucide="globe" class="w-3.5 h-3.5 text-brand-purple"></i>
+                <span>DNS Configuration for <span class="font-mono text-brand-purple font-bold">${activeConfig.name}</span></span>
+              </h4>
+              <p class="text-[11px] text-slate-500 mt-0.5">Please add the following DNS records to your domain registrar / DNS provider for <strong class="text-slate-700 font-mono">${cleanDomain}</strong>.</p>
+            </div>
+
+            <button 
+              type="button" 
+              id="btn-copy-all-dns" 
+              onclick="copyAllDnsRecords('${currentServer}')"
+              class="px-3 py-1.5 bg-brand-purple hover:bg-brand-purpleDark text-white rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-2xs cursor-pointer self-start sm:self-auto"
+              title="Copy complete DNS record set"
+            >
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>Copy All Records</span>
+            </button>
+          </div>
+
+          <!-- DNS RECORDS CONTAINER -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+            ${dnsRowsHtml}
+          </div>
+
+          <!-- HELPFUL GUIDANCE CALLOUT -->
+          <div class="p-3 bg-purple-50/70 rounded-xl border border-purple-200/60 flex items-start space-x-2.5 text-[11px] text-slate-600">
+            <i data-lucide="info" class="w-4 h-4 text-brand-purple shrink-0 mt-0.5"></i>
+            <div>
+              <span class="font-bold text-slate-800">DNS Propagation Note:</span>
+              <span> Once these records are set up at your domain provider (e.g. OVH, GoDaddy, Cloudflare, Gandi), DNS propagation typically completes within 2 to 24 hours. The SSL certificate will automatically provision once the records resolve.</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      lucide.createIcons();
     }
 
     // --- AUTOMATED NO-REPLY DEADLINE ALERT DISPATCHER ---
@@ -3236,7 +4585,14 @@
 
       project.steps.forEach((step, idx) => {
         const nodeWrapper = document.createElement('div');
-        nodeWrapper.className = 'relative flex flex-col items-center group shrink-0';
+        nodeWrapper.className = 'timeline-step-node relative flex flex-col items-center group shrink-0 transition-all duration-150';
+        nodeWrapper.setAttribute('draggable', 'true');
+        nodeWrapper.setAttribute('ondragstart', `handleTimelineStepDragStart(event, '${step.id}', ${idx})`);
+        nodeWrapper.setAttribute('ondragover', `handleTimelineStepDragOver(event, ${idx})`);
+        nodeWrapper.setAttribute('ondragleave', `handleTimelineStepDragLeave(event)`);
+        nodeWrapper.setAttribute('ondrop', `handleTimelineStepDrop(event, ${idx})`);
+        nodeWrapper.setAttribute('ondragend', `handleTimelineStepDragEnd(event)`);
+
         const position = idx % 2 === 0 ? 'top' : 'bottom';
 
         let ownerColor = 'bg-cyan-500 text-white';
@@ -3253,7 +4609,7 @@
             </button>`;
 
         const deleteStepBtn = currentRole === 'pm' ? `
-          <button onclick="deleteStep('${step.id}')" title="Delete Step" class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-rose-500 transition">
+          <button onclick="confirmDeleteStep('${step.id}')" title="Delete Milestone Step" class="p-1 hover:bg-rose-50 rounded-lg text-slate-400 hover:text-rose-500 transition cursor-pointer">
             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
           </button>
         ` : '';
@@ -3306,10 +4662,15 @@
         `;
 
         const cardHtml = `
-          <div class="w-72 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm text-xs space-y-2.5 relative z-20">
+          <div class="timeline-card w-72 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm text-xs space-y-2.5 relative z-20 transition-all duration-150">
             <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-              ${dateHtml}
-              <span class="px-2 py-0.5 rounded-full font-bold text-[9px] uppercase tracking-wider ${ownerColor}">${step.owner}</span>
+              <div class="flex items-center space-x-1.5 min-w-0">
+                <div class="cursor-grab active:cursor-grabbing text-slate-300 hover:text-brand-purple p-0.5 -ml-1 transition shrink-0" title="Drag to reorder milestone">
+                  <i data-lucide="grip-vertical" class="w-3.5 h-3.5"></i>
+                </div>
+                ${dateHtml}
+              </div>
+              <span class="px-2 py-0.5 rounded-full font-bold text-[9px] uppercase tracking-wider shrink-0 ${ownerColor}">${step.owner}</span>
             </div>
 
             <h4 class="font-bold text-slate-900 leading-tight">${step.title}</h4>
@@ -3328,7 +4689,7 @@
         `;
 
         const lineHtml = `<div class="w-0.5 h-10 bg-slate-400"></div>`;
-        const groupPillHtml = `<div class="bg-brand-pillBg text-slate-600 text-[10px] font-bold px-3 py-1 rounded-full border border-slate-200/60 shadow-2xs whitespace-nowrap mb-1">${step.group}</div>`;
+        const groupPillHtml = `<div class="bg-brand-pillBg text-slate-600 text-[10px] font-bold px-3 py-1 rounded-full border border-slate-200/60 shadow-2xs whitespace-nowrap mb-1 cursor-grab active:cursor-grabbing" title="Drag to reorder milestone">${step.group}</div>`;
         let circleHtml = step.status === 'completed'
           ? `<div class="w-7 h-7 rounded-full bg-white border-2 border-slate-400 flex items-center justify-center shadow-xs"><div class="w-3.5 h-3.5 rounded-full bg-slate-500"></div></div>`
           : `<div class="w-7 h-7 rounded-full bg-brand-purple border-2 border-brand-purple flex items-center justify-center shadow-md"><div class="w-3 h-3 rounded-full bg-white"></div></div>`;
@@ -3371,7 +4732,8 @@
         const step = project.steps.find(s => s.id === stepId);
         if (step) {
           step.date = newDate;
-          alert(`Deadline updated to ${newDate} for milestone step "${step.title}"!`);
+          logActivity('Milestone Target Updated', `Updated target deadline for "${step.title}" to ${formatDisplayDate(newDate)}`, 'calendar', 'date', project.id);
+          showSavingToast('Saving milestone deadline...', 'Deadline saved');
         }
       }
     }
@@ -3384,7 +4746,8 @@
         const step = project.steps.find(s => s.id === stepId);
         if (step) {
           step.drive = newUrl;
-          alert(`Google Drive URL saved for step "${step.title}"!`);
+          logActivity('Milestone Workspace Linked', `Attached Google Drive workspace link to "${step.title}"`, 'file-text', 'document', project.id);
+          showSavingToast('Saving Drive link...', 'Link saved');
         }
       }
     }
@@ -3451,6 +4814,7 @@
       const project = projects.find(p => p.id === currentProjectId);
       if (project) {
         project.languages = checkedLangs.length ? checkedLangs : ['English'];
+        logActivity('Project Languages Updated', `Updated target languages to: ${project.languages.join(', ')}`, 'globe', 'project', project.id);
       }
       closeModal('modal-languages');
       renderApp();
@@ -3497,9 +4861,11 @@
       if (step.status === 'completed') {
         step.status = 'in_progress';
         step.completedTaskIndices = [];
+        logActivity('Milestone Reopened', `Reopened milestone step "${step.title}"`, 'clock', 'milestone', project.id);
       } else {
         step.status = 'completed';
         step.completedTaskIndices = step.tasks.map((_, i) => i);
+        logActivity('Milestone Validated', `Validated & approved milestone step "${step.title}"`, 'check-circle-2', 'milestone', project.id);
       }
       renderApp();
     }
@@ -3512,11 +4878,15 @@
       if (!step.completedTaskIndices) step.completedTaskIndices = [];
 
       const foundIdx = step.completedTaskIndices.indexOf(taskIdx);
+      const taskText = step.tasks[taskIdx] || `Checklist Item #${taskIdx + 1}`;
+
       if (foundIdx > -1) {
         step.completedTaskIndices.splice(foundIdx, 1);
         step.status = 'in_progress';
+        logActivity('Checklist Item Reopened', `Unchecked "${taskText}" in "${step.title}"`, 'square', 'milestone', project.id);
       } else {
         step.completedTaskIndices.push(taskIdx);
+        logActivity('Checklist Item Completed', `Completed "${taskText}" in "${step.title}"`, 'check-square', 'milestone', project.id);
       }
 
       if (step.completedTaskIndices.length === step.tasks.length && step.tasks.length > 0) {
@@ -3530,8 +4900,10 @@
       const step = project.steps.find(s => s.id === stepId);
       if (!step) return;
 
+      const taskName = step.tasks[taskIdx] || 'Task';
       step.tasks.splice(taskIdx, 1);
       step.completedTaskIndices = [];
+      logActivity('Checklist Item Removed', `Removed task "${taskName}" from "${step.title}"`, 'trash-2', 'milestone', project.id);
       renderApp();
     }
 
@@ -3543,13 +4915,18 @@
       const step = project.steps.find(s => s.id === stepId);
       if (step) {
         step.tasks.push(taskText.trim());
+        logActivity('Checklist Item Added', `Added task "${taskText.trim()}" to "${step.title}"`, 'plus-circle', 'milestone', project.id);
         renderApp();
       }
     }
 
     function deleteStep(stepId) {
       const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      const stepToDelete = project.steps.find(s => s.id === stepId);
+      const stepTitle = stepToDelete?.title || 'Milestone Step';
       project.steps = project.steps.filter(s => s.id !== stepId);
+      logActivity('Milestone Step Deleted', `Removed milestone step "${stepTitle}" from roadmap`, 'trash-2', 'milestone', project.id);
       renderApp();
     }
 
@@ -3569,6 +4946,9 @@
     function renderBoardsGrid() {
       const container = document.getElementById('projects-grid');
       container.innerHTML = '';
+
+      updateActivityProjectFilterOptions();
+      renderActivityPanel();
 
       const pmFilter = document.getElementById('filter-pm').value;
       const evoFilter = document.getElementById('filter-evolution').value;
@@ -3767,6 +5147,7 @@
         if (titleSelect) project.graphicElements.fontTitle = titleSelect.value;
         if (bodySelect) project.graphicElements.fontBody = bodySelect.value;
         project.graphicElements.fonts = `Title: ${project.graphicElements.fontTitle || 'Playfair Display'}, Text: ${project.graphicElements.fontBody || 'Inter'}`;
+        showSavingToast('Saving typography...', 'Typography saved');
       }
       updateFontPreviews();
     }
@@ -3774,6 +5155,7 @@
     function applyProjectViewColorPreset(primary, secondary, tertiary) {
       setProjectViewColorPaletteValues(primary, secondary, tertiary);
       syncProjectViewColorsToProject();
+      showSavingToast('Applying color preset...', 'Colors saved');
     }
 
     function setProjectViewColorPaletteValues(primary = '#5B1E82', secondary = '#C5A059', tertiary = '#F4F5F9') {
@@ -3812,6 +5194,7 @@
           geColorsInput.value = project.graphicElements.colors;
         }
         renderGraphicCharterSwatches(project);
+        showSavingToast('Saving colors...', 'Palette saved');
       }
     }
 
@@ -3902,6 +5285,7 @@
             project.steps = JSON.parse(JSON.stringify(PRD_TEMPLATES[tier]));
           }
           project.driveUrl = drive;
+          logActivity('Project Specificities Updated', `Updated setup parameters for ${name} (${evo} / ${tier.toUpperCase()})`, 'sliders', 'project', project.id);
         }
       } else {
         const defaultColors = { primary: '#5B1E82', secondary: '#C5A059', tertiary: '#F4F5F9' };
@@ -3921,6 +5305,8 @@
           sitemapDeadline: '2026-05-20',
           contentCollectionDeadline: '2026-06-10',
           revisionPhaseDeadline: '2026-07-25',
+          goLiveDeadline: '2026-08-15',
+          serverSelection: 'EMEAWEBFB3',
           stagingSiteUrl: '',
           hasSecondWaveRevisions: false,
           firstWaveNotes: '',
@@ -3949,6 +5335,7 @@
         };
         projects.push(newProj);
         currentProjectId = newProj.id;
+        logActivity('Project Board Created', `Initialized new hotel roadmap for "${name}" (${evo})`, 'plus-circle', 'project', newProj.id);
       }
 
       updatePmFilterOptions();
@@ -3974,16 +5361,19 @@
       const drive = document.getElementById('as-drive').value;
 
       const project = projects.find(p => p.id === currentProjectId);
-      project.steps.push({
-        id: `step-${Date.now()}`,
-        group: group,
-        title: title,
-        date: new Date().toISOString().split('T')[0],
-        owner: owner,
-        status: 'pending',
-        drive: drive,
-        tasks: ['Initial milestone requirement verification']
-      });
+      if (project) {
+        project.steps.push({
+          id: `step-${Date.now()}`,
+          group: group,
+          title: title,
+          date: new Date().toISOString().split('T')[0],
+          owner: owner,
+          status: 'pending',
+          drive: drive,
+          tasks: ['Initial milestone requirement verification']
+        });
+        logActivity('Milestone Step Created', `Added new milestone step "${title}" in phase ${group}`, 'plus-circle', 'milestone', project.id);
+      }
 
       closeModal('modal-add-step');
       renderApp();
