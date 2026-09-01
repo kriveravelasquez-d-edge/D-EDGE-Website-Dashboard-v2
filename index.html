@@ -85,7 +85,12 @@
           <!-- Populated by renderHeaderEmail() -->
         </div>
 
-        <button id="btn-push-notify" onclick="openNotifyModal()" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-2.5 md:px-3 py-1.5 rounded-lg flex items-center space-x-1.5 shadow-sm transition">
+        <button id="btn-admin-editor" onclick="openAdminEditorModal()" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-xs font-bold px-2.5 md:px-3 py-1.5 rounded-lg flex items-center space-x-1.5 shadow-sm transition cursor-pointer" title="Customize Section Titles, Subblock Names & Guide Resources">
+          <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Sections & Guides Editor</span>
+        </button>
+
+        <button id="btn-push-notify" onclick="openNotifyModal()" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-2.5 md:px-3 py-1.5 rounded-lg flex items-center space-x-1.5 shadow-sm transition cursor-pointer">
           <i data-lucide="bell" class="w-3.5 h-3.5"></i>
           <span class="hidden sm:inline">Send Alert</span>
         </button>
@@ -128,12 +133,15 @@
         </section>
 
         <!-- SITEMAP & TEMPLATE SELECTION SECTION -->
-        <section class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-5">
+        <section id="section-sitemap" class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-5">
           <div class="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div class="flex flex-wrap items-center gap-3">
               <h3 class="text-sm md:text-base font-bold text-brand-purple flex items-center space-x-2">
                 <i data-lucide="network" class="w-5 h-5 text-brand-purple"></i>
-                <span>1. Sitemap</span>
+                <span id="title-section-sitemap">1. Sitemap</span>
+                <button type="button" onclick="openAdminEditorModal('section1')" class="pm-only-btn text-slate-400 hover:text-brand-purple hover:bg-purple-50 p-1 rounded-md transition" title="Rename Section 1">
+                  <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                </button>
               </h3>
 
               <!-- SITEMAP PROGRESS BAR CONTAINER -->
@@ -148,6 +156,7 @@
             </div>
 
             <div class="flex items-center gap-2">
+              <div id="sitemap-guide-btn-container"></div>
               <button id="btn-save-sitemap-links" onclick="saveSitemapLinks(true)" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center space-x-1 shadow-sm transition">
                 <i data-lucide="check" class="w-3.5 h-3.5"></i>
                 <span>Save Links</span>
@@ -159,12 +168,12 @@
             <!-- BLOCK 1 (Left 4 cols): SITEMAP DRIVE & SEO QUESTIONNAIRE -->
             <div class="lg:col-span-4 space-y-4">
               <!-- SITEMAP GOOGLE DRIVE LINK / DYNAMIC SITEMAP LINKS -->
-              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+              <div id="sitemap-card" class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 transition">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center space-x-2">
                     <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
                       <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-purple"></i>
-                      <span>Sitemap</span>
+                      <span id="title-block-sitemap">Sitemap</span>
                     </h4>
                     <!-- COMPACT DONE BUTTON NEXT TO TITLE -->
                     <div id="sitemap-done-btn-container"></div>
@@ -188,7 +197,7 @@
                   <div class="flex items-center space-x-2">
                     <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
                       <i data-lucide="clipboard-list" class="w-4 h-4 text-brand-purple"></i>
-                      <span>SEO Questionnaire</span>
+                      <span id="title-block-seo">SEO Questionnaire</span>
                     </h4>
                     <!-- COMPACT DONE BUTTON NEXT TO TITLE -->
                     <div id="seo-done-btn-container"></div>
@@ -208,12 +217,12 @@
 
             <!-- BLOCK 2 (Right 8 cols): TEMPLATES SHOWCASE & SELECTION -->
             <div class="lg:col-span-8 space-y-3">
-              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+              <div id="templates-card" class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 transition">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/80 pb-2.5">
                   <div class="flex items-center space-x-2">
                     <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
                       <i data-lucide="layout-template" class="w-4 h-4 text-brand-purple"></i>
-                      <span>Evolution Templates Showcase</span>
+                      <span id="title-block-templates">Evolution Templates Showcase</span>
                     </h4>
                     <!-- COMPACT DONE BUTTON NEXT TO TITLE -->
                     <div id="templates-done-btn-container"></div>
@@ -235,12 +244,15 @@
         </section>
 
         <!-- CONTENT COLLECTION SECTION -->
-        <section class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-6">
+        <section id="section-content-collection" class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-6">
           <div class="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div class="flex flex-wrap items-center gap-3">
               <h3 class="text-sm md:text-base font-bold text-brand-purple flex items-center space-x-2">
                 <i data-lucide="palette" class="w-5 h-5 text-brand-purple"></i>
-                <span>2. Content Collection</span>
+                <span id="title-section-content-collection">2. Content Collection</span>
+                <button type="button" onclick="openAdminEditorModal('section2')" class="pm-only-btn text-slate-400 hover:text-brand-purple hover:bg-purple-50 p-1 rounded-md transition" title="Rename Section 2">
+                  <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                </button>
               </h3>
 
               <!-- CONTENT COLLECTION PROGRESS BAR CONTAINER -->
@@ -255,6 +267,7 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+              <div id="content-collection-guide-btn-container"></div>
               <button id="btn-save-graphic-elements" onclick="saveGraphicElements()" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center space-x-1 shadow-sm transition">
                 <i data-lucide="check" class="w-3.5 h-3.5"></i>
                 <span>Save Elements</span>
@@ -266,16 +279,17 @@
             <!-- COLUMN 1: TEXTS + IMAGES & LOGO -->
             <div class="lg:col-span-5 space-y-4">
               <!-- TEXTS / GOOGLE DOCS -->
-              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+              <div id="texts-card" class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 transition">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center space-x-2">
                     <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
                       <i data-lucide="file-text" class="w-4 h-4 text-brand-purple"></i>
-                      <span>Texts</span>
+                      <span id="title-block-texts">Texts</span>
                     </h4>
                     <!-- COMPACT DONE BUTTON NEXT TO TITLE -->
                     <div id="texts-done-btn-container"></div>
                   </div>
+                  <div id="texts-guide-btn-container"></div>
                 </div>
 
                 <!-- DYNAMIC LIST OF GOOGLE DOC LINKS BUTTONS -->
@@ -291,21 +305,17 @@
               </div>
 
               <!-- IMAGES & LOGO -->
-              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+              <div id="images-card" class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 transition">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center space-x-2">
                     <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
                       <i data-lucide="image" class="w-4 h-4 text-brand-purple"></i>
-                      <span>Images & Logo</span>
+                      <span id="title-block-images">Images & Logo</span>
                     </h4>
                     <!-- COMPACT DONE BUTTON NEXT TO TITLE -->
                     <div id="images-done-btn-container"></div>
                   </div>
-                  <a href="https://docs.google.com/presentation/d/1XVu7lZwIiqsVP4dZQe885Ds0Uxj3iydtBV9Y06vRzno/edit?usp=drive_link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 text-[11px] font-bold text-brand-purple bg-purple-100/90 hover:bg-brand-purple hover:text-white px-2.5 py-1 rounded-lg transition shadow-2xs border border-purple-200/80" title="Open Images & Logo Guide">
-                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-                    <span>Guide</span>
-                    <i data-lucide="external-link" class="w-3 h-3 ml-0.5 opacity-70"></i>
-                  </a>
+                  <div id="images-guide-btn-container"></div>
                 </div>
 
                 <!-- DYNAMIC IMAGES DRIVE CONTAINER (INPUT FOR PM, IMPORT BUTTON FOR CLIENT) -->
@@ -316,12 +326,12 @@
             </div>
 
             <!-- COLUMN 2: BRAND IDENTITY -->
-            <div class="lg:col-span-7 bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3.5">
+            <div id="brand-identity-card" class="lg:col-span-7 bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3.5 transition">
               <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-2">
                   <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
                     <i data-lucide="sparkles" class="w-4 h-4 text-brand-purple"></i>
-                    <span>Brand Identity</span>
+                    <span id="title-block-brand-identity">Brand Identity</span>
                   </h4>
                   <!-- COMPACT DONE BUTTON NEXT TO TITLE -->
                   <div id="brand-identity-done-btn-container"></div>
@@ -334,16 +344,12 @@
                   <div class="flex items-center space-x-2">
                     <label class="block font-bold text-slate-800 text-xs flex items-center space-x-1.5">
                       <i data-lucide="palette" class="w-3.5 h-3.5 text-brand-purple"></i>
-                      <span>Color Palette</span>
+                      <span id="title-block-colors">Color Palette</span>
                     </label>
                     <!-- COMPACT DONE BUTTON -->
                     <div id="colors-done-btn-container"></div>
                   </div>
-                  <a href="https://www.realtimecolors.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 text-[11px] font-bold text-brand-purple bg-purple-100/90 hover:bg-brand-purple hover:text-white px-2.5 py-1 rounded-lg transition shadow-2xs border border-purple-200/80" title="Open Realtime Colors Guide">
-                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-                    <span>Guide</span>
-                    <i data-lucide="external-link" class="w-3 h-3 ml-0.5 opacity-70"></i>
-                  </a>
+                  <div id="colors-guide-btn-container"></div>
                 </div>
 
                 <!-- RESPONSIVE COLOR PALETTE SELECTORS (3 COLUMNS) -->
@@ -418,16 +424,12 @@
                   <div class="flex items-center space-x-2">
                     <label class="block font-bold text-slate-800 text-xs flex items-center space-x-1.5">
                       <i data-lucide="type" class="w-3.5 h-3.5 text-brand-purple"></i>
-                      <span>Fonts</span>
+                      <span id="title-block-fonts">Fonts</span>
                     </label>
                     <!-- COMPACT DONE BUTTON -->
                     <div id="fonts-done-btn-container"></div>
                   </div>
-                  <a href="https://fontjoy.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 text-[11px] font-bold text-brand-purple bg-purple-100/90 hover:bg-brand-purple hover:text-white px-2.5 py-1 rounded-lg transition shadow-2xs border border-purple-200/80" title="Open Font Pairing Guide on Fontjoy">
-                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-                    <span>Guide</span>
-                    <i data-lucide="external-link" class="w-3 h-3 ml-0.5 opacity-70"></i>
-                  </a>
+                  <div id="fonts-guide-btn-container"></div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -526,12 +528,15 @@
         </section>
 
         <!-- 3. REVISION PHASE SECTION -->
-        <section class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-6">
+        <section id="section-revision-phase" class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-6">
           <div class="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div class="flex flex-wrap items-center gap-3">
               <h3 class="text-sm md:text-base font-bold text-brand-purple flex items-center space-x-2">
                 <i data-lucide="check-square" class="w-5 h-5 text-brand-purple"></i>
-                <span>3. Revision phase</span>
+                <span id="title-section-revision-phase">3. Revision phase</span>
+                <button type="button" onclick="openAdminEditorModal('section3')" class="pm-only-btn text-slate-400 hover:text-brand-purple hover:bg-purple-50 p-1 rounded-md transition" title="Rename Section 3">
+                  <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                </button>
               </h3>
 
               <!-- REVISION PHASE PROGRESS BAR CONTAINER -->
@@ -546,12 +551,7 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-              <!-- Guide Button -->
-              <a href="https://drive.google.com/drive/folders/1Zceq41976h-k50TY3QRThnPFkesubQG_?usp=drive_link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 text-xs font-bold text-brand-purple bg-purple-100/90 hover:bg-brand-purple hover:text-white px-3 py-1.5 rounded-xl transition shadow-2xs border border-purple-200/80 group" title="Open Revision Phase Guide">
-                <i data-lucide="book-open" class="w-4 h-4"></i>
-                <span>Guide</span>
-                <i data-lucide="external-link" class="w-3 h-3 ml-0.5 opacity-70"></i>
-              </a>
+              <div id="revision-guide-btn-container"></div>
             </div>
           </div>
 
@@ -562,12 +562,15 @@
         </section>
 
         <!-- 4. GO-LIVE SECTION -->
-        <section class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-6">
+        <section id="section-go-live" class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-6">
           <div class="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div class="flex flex-wrap items-center gap-3">
               <h3 class="text-sm md:text-base font-bold text-brand-purple flex items-center space-x-2">
                 <i data-lucide="rocket" class="w-5 h-5 text-brand-purple"></i>
-                <span>4. Go-live</span>
+                <span id="title-section-go-live">4. Go-live</span>
+                <button type="button" onclick="openAdminEditorModal('section4')" class="pm-only-btn text-slate-400 hover:text-brand-purple hover:bg-purple-50 p-1 rounded-md transition" title="Rename Section 4">
+                  <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                </button>
               </h3>
 
               <!-- GO-LIVE PROGRESS BAR CONTAINER -->
@@ -582,6 +585,7 @@
             </div>
 
             <div class="flex items-center space-x-2">
+              <div id="go-live-guide-btn-container"></div>
               <div id="go-live-done-btn-container"></div>
             </div>
           </div>
@@ -593,12 +597,16 @@
         </section>
 
         <!-- THIRD PARTY INTEGRATIONS & FUNCTIONALITIES -->
-        <section class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-6">
+        <section id="third-party-section" class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-6">
           <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
             <h3 class="text-sm md:text-base font-bold text-brand-purple flex items-center space-x-2">
               <i data-lucide="layers" class="w-5 h-5 text-brand-purple"></i>
-              <span>Third Party Integrations and Functionalities</span>
+              <span id="title-section-third-party">Third Party Integrations and Functionalities</span>
+              <button type="button" onclick="openAdminEditorModal('sectionThirdParty')" class="pm-only-btn text-slate-400 hover:text-brand-purple hover:bg-purple-50 p-1 rounded-md transition" title="Rename Section 5">
+                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+              </button>
             </h3>
+            <div id="third-party-guide-btn-container"></div>
           </div>
 
           <div id="third-party-grid" class="grid grid-cols-1 gap-6 text-xs">
@@ -976,40 +984,81 @@
   </div>
 
   <div id="modal-add-step" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
-    <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-4 border border-slate-200">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-lg shadow-2xl space-y-4 border border-slate-200">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-        <h3 class="text-base font-bold text-brand-purple">Add New Milestone Step</h3>
-        <button onclick="closeModal('modal-add-step')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-brand-purple">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-brand-purple">Add Milestone Step</h3>
+            <p class="text-xs text-slate-500">Configure phase, target block anchor link, and description.</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-add-step')" class="text-slate-400 hover:text-slate-600 cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <form onsubmit="handleAddStepSubmit(event)" class="space-y-3 text-xs">
-        <div>
-          <label class="block text-slate-700 font-bold mb-1">Phase Group Label</label>
-          <input required id="as-group" type="text" placeholder="e.g. Quality Assurance" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple">
+      <form onsubmit="handleAddStepSubmit(event)" class="space-y-3.5 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-700 font-bold mb-1">Parent Section</label>
+            <select id="as-group" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-white text-xs font-medium text-slate-800 cursor-pointer" onchange="syncAddStepTargetBlock(this.value)">
+              <option value="1. Sitemap">1. Sitemap</option>
+              <option value="2. Content Collection">2. Content Collection</option>
+              <option value="3. Revision Phase">3. Revision Phase</option>
+              <option value="4. Go-live">4. Go-live</option>
+              <option value="Third Party Integrations">Third Party Integrations</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-slate-700 font-bold mb-1">Anchor Link Subblock</label>
+            <select id="as-target-block" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-white text-xs font-medium text-slate-800 cursor-pointer">
+              <option value="seo-questionnaire-card">1. Sitemap → SEO Questionnaire</option>
+              <option value="sitemap-card">1. Sitemap → Proposed Sitemap Architecture</option>
+              <option value="templates-card">1. Sitemap → Evolution Templates</option>
+              <option value="texts-card">2. Content Collection → Texts & Copywriting</option>
+              <option value="images-card">2. Content Collection → Images & Logo</option>
+              <option value="brand-identity-card">2. Content Collection → Brand Identity</option>
+              <option value="domain-services-card">2. Content Collection → Domain, GA4 & Maps</option>
+              <option value="staging-card">3. Revision Phase → Staging Website Preview</option>
+              <option value="first-wave-card">3. Revision Phase → First Wave of Revision</option>
+              <option value="second-wave-card">3. Revision Phase → Second Wave of Revision</option>
+              <option value="go-live-card">4. Go-live → DNS Configuration</option>
+              <option value="third-party-section">Third Party Integrations</option>
+            </select>
+          </div>
         </div>
 
         <div>
           <label class="block text-slate-700 font-bold mb-1">Step Title</label>
-          <input required id="as-title" type="text" placeholder="e.g. Final Security Check" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple">
+          <input required id="as-title" type="text" placeholder="e.g. Multilingual Copywriting Review" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple text-xs">
         </div>
 
         <div>
-          <label class="block text-slate-700 font-bold mb-1">Responsibility Owner Tag</label>
-          <select id="as-owner" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-white">
-            <option value="Client">Client</option>
-            <option value="DEDGE">D-EDGE</option>
-            <option value="Both">Both</option>
-          </select>
+          <label class="block text-slate-700 font-bold mb-1">Step Description</label>
+          <textarea required id="as-description" rows="3" placeholder="Describe the deliverable requirements and expectations for this milestone step..." class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple text-xs resize-none"></textarea>
         </div>
 
-        <div>
-          <label class="block text-slate-700 font-bold mb-1">Google Drive Link</label>
-          <input required id="as-drive" type="url" value="https://drive.google.com" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-700 font-bold mb-1">Deadline Date</label>
+            <input required id="as-date" type="date" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple text-xs bg-white cursor-pointer">
+          </div>
+
+          <div>
+            <label class="block text-slate-700 font-bold mb-1">Responsibility Owner Tag</label>
+            <select id="as-owner" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-white text-xs cursor-pointer">
+              <option value="Client">Client</option>
+              <option value="DEDGE">D-EDGE</option>
+              <option value="Both" selected>Both</option>
+            </select>
+          </div>
         </div>
 
         <div class="pt-3 flex justify-end space-x-2 border-t border-slate-100">
-          <button type="button" onclick="closeModal('modal-add-step')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold">Cancel</button>
-          <button type="submit" class="px-4 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm">Append Step</button>
+          <button type="button" onclick="closeModal('modal-add-step')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition cursor-pointer">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm transition cursor-pointer">Append Step</button>
         </div>
       </form>
     </div>
@@ -1047,6 +1096,324 @@
     </div>
   </div>
 
+  <!-- PDF VIEWER MODAL -->
+  <div id="modal-pdf-viewer" class="fixed inset-0 bg-black/70 backdrop-blur-xs z-50 flex items-center justify-center hidden p-3 md:p-6 transition-all" onclick="if(event.target===this)closeModal('modal-pdf-viewer')">
+    <div class="bg-white rounded-2xl w-full max-w-5xl h-[90vh] shadow-2xl border border-slate-200 flex flex-col overflow-hidden" onclick="event.stopPropagation()">
+      <!-- HEADER -->
+      <div class="p-3 md:p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/80 shrink-0">
+        <div class="flex items-center space-x-3 min-w-0">
+          <div class="w-9 h-9 rounded-xl bg-purple-100 text-brand-purple flex items-center justify-center shrink-0 shadow-2xs">
+            <i data-lucide="file-text" class="w-4.5 h-4.5"></i>
+          </div>
+          <div class="min-w-0">
+            <h3 id="pdf-viewer-title" class="text-sm font-bold text-slate-900 truncate">Guide Document</h3>
+            <p id="pdf-viewer-subtitle" class="text-[11px] text-slate-500 font-mono truncate">guide.pdf</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2 shrink-0">
+          <a id="pdf-viewer-download-btn" href="#" download="guide.pdf" class="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-brand-purple rounded-xl border border-purple-200 text-xs font-bold transition flex items-center space-x-1 shadow-2xs" title="Download PDF to your computer">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Download</span>
+          </a>
+          <button id="pdf-viewer-new-tab-btn" type="button" onclick="openPdfInNewTab()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition flex items-center space-x-1" title="Open PDF in new browser tab">
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">New Tab</span>
+          </button>
+          <button type="button" onclick="closeModal('modal-pdf-viewer')" class="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 rounded-xl transition cursor-pointer" title="Close Viewer">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+      <!-- VIEWER BODY -->
+      <div class="flex-1 bg-slate-900/5 p-2 overflow-hidden flex items-center justify-center">
+        <iframe id="pdf-viewer-frame" src="about:blank" class="w-full h-full rounded-xl border border-slate-200 bg-white shadow-inner"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN SECTION, SUBBLOCK & GUIDE EDITOR MODAL -->
+  <div id="modal-admin-editor" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-3 md:p-6 transition-all" onclick="if(event.target===this)closeModal('modal-admin-editor')">
+    <div class="bg-white rounded-2xl w-full max-w-4xl shadow-2xl border border-slate-200 flex flex-col max-h-[92vh] overflow-hidden" onclick="event.stopPropagation()">
+      <!-- MODAL HEADER -->
+      <div class="p-4 md:p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/70 shrink-0">
+        <div class="flex items-center space-x-3 min-w-0">
+          <div class="w-10 h-10 rounded-xl bg-purple-100 text-brand-purple flex items-center justify-center shrink-0 shadow-2xs">
+            <i data-lucide="sliders-horizontal" class="w-5 h-5"></i>
+          </div>
+          <div class="min-w-0">
+            <h3 class="text-base font-bold text-brand-purple flex items-center space-x-2">
+              <span>Admin Section & Guide Editor</span>
+              <span class="text-[10px] bg-purple-100 text-brand-purple font-mono font-bold px-2 py-0.5 rounded-md">PM Exclusive</span>
+            </h3>
+            <p class="text-xs text-slate-500 truncate">Customize Step section titles, subblock labels, and guide resources (PDFs or URLs).</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('modal-admin-editor')" class="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 rounded-xl transition cursor-pointer" title="Close Editor">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- TAB NAVIGATION -->
+      <div class="flex items-center space-x-1 px-4 md:px-6 pt-3 bg-white border-b border-slate-200/80 shrink-0 overflow-x-auto text-xs">
+        <button id="ae-tab-btn-sections" type="button" onclick="switchAdminEditorTab('sections')" class="px-4 py-2.5 font-bold border-b-2 border-brand-purple text-brand-purple flex items-center space-x-2 transition cursor-pointer shrink-0">
+          <i data-lucide="layout-list" class="w-4 h-4"></i>
+          <span>1. Step Section Titles</span>
+        </button>
+        <button id="ae-tab-btn-subblocks" type="button" onclick="switchAdminEditorTab('subblocks')" class="px-4 py-2.5 font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center space-x-2 transition cursor-pointer shrink-0">
+          <i data-lucide="grid" class="w-4 h-4"></i>
+          <span>2. Subblock Labels</span>
+        </button>
+        <button id="ae-tab-btn-guides" type="button" onclick="switchAdminEditorTab('guides')" class="px-4 py-2.5 font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center space-x-2 transition cursor-pointer shrink-0">
+          <i data-lucide="book-open" class="w-4 h-4"></i>
+          <span>3. Guide Links & PDF Resources</span>
+        </button>
+      </div>
+
+      <!-- TAB CONTENTS (SCROLLABLE) -->
+      <div class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 text-xs bg-slate-50/40">
+        <!-- TAB 1: SECTION TITLES -->
+        <div id="ae-tab-content-sections" class="space-y-4">
+          <div class="bg-purple-50/60 p-3.5 rounded-xl border border-purple-200/80 flex items-start space-x-2.5">
+            <i data-lucide="info" class="w-4 h-4 text-brand-purple shrink-0 mt-0.5"></i>
+            <p class="text-slate-600 text-[11px] leading-relaxed">
+              Edit the main title names for each primary stage of the website delivery process. These labels appear in the main workspace view, timeline headers, and navigation milestones.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-1.5">
+              <label class="block font-bold text-slate-800 flex items-center justify-between">
+                <span class="flex items-center space-x-1.5">
+                  <i data-lucide="network" class="w-4 h-4 text-brand-purple"></i>
+                  <span>Section 1 Title (Sitemap & Template Discovery)</span>
+                </span>
+                <span class="text-[10px] text-slate-400 font-mono">Default: 1. Sitemap</span>
+              </label>
+              <div class="flex items-center space-x-2">
+                <input type="text" id="ae-label-section1" placeholder="1. Sitemap" class="flex-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-white shadow-2xs">
+                <button type="button" onclick="document.getElementById('ae-label-section1').value='1. Sitemap'" class="px-2.5 py-2 bg-slate-100 hover:bg-purple-50 text-slate-600 hover:text-brand-purple font-semibold rounded-xl text-[11px] border border-slate-200 transition shrink-0" title="Reset to default">Reset</button>
+              </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-1.5">
+              <label class="block font-bold text-slate-800 flex items-center justify-between">
+                <span class="flex items-center space-x-1.5">
+                  <i data-lucide="palette" class="w-4 h-4 text-brand-purple"></i>
+                  <span>Section 2 Title (Content Collection & Brand Assets)</span>
+                </span>
+                <span class="text-[10px] text-slate-400 font-mono">Default: 2. Content Collection</span>
+              </label>
+              <div class="flex items-center space-x-2">
+                <input type="text" id="ae-label-section2" placeholder="2. Content Collection" class="flex-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-white shadow-2xs">
+                <button type="button" onclick="document.getElementById('ae-label-section2').value='2. Content Collection'" class="px-2.5 py-2 bg-slate-100 hover:bg-purple-50 text-slate-600 hover:text-brand-purple font-semibold rounded-xl text-[11px] border border-slate-200 transition shrink-0" title="Reset to default">Reset</button>
+              </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-1.5">
+              <label class="block font-bold text-slate-800 flex items-center justify-between">
+                <span class="flex items-center space-x-1.5">
+                  <i data-lucide="check-square" class="w-4 h-4 text-brand-purple"></i>
+                  <span>Section 3 Title (Staging & Revision Phase)</span>
+                </span>
+                <span class="text-[10px] text-slate-400 font-mono">Default: 3. Revision phase</span>
+              </label>
+              <div class="flex items-center space-x-2">
+                <input type="text" id="ae-label-section3" placeholder="3. Revision phase" class="flex-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-white shadow-2xs">
+                <button type="button" onclick="document.getElementById('ae-label-section3').value='3. Revision phase'" class="px-2.5 py-2 bg-slate-100 hover:bg-purple-50 text-slate-600 hover:text-brand-purple font-semibold rounded-xl text-[11px] border border-slate-200 transition shrink-0" title="Reset to default">Reset</button>
+              </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-1.5">
+              <label class="block font-bold text-slate-800 flex items-center justify-between">
+                <span class="flex items-center space-x-1.5">
+                  <i data-lucide="rocket" class="w-4 h-4 text-brand-purple"></i>
+                  <span>Section 4 Title (Go-Live & DNS Launch)</span>
+                </span>
+                <span class="text-[10px] text-slate-400 font-mono">Default: 4. Go-live</span>
+              </label>
+              <div class="flex items-center space-x-2">
+                <input type="text" id="ae-label-section4" placeholder="4. Go-live" class="flex-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-white shadow-2xs">
+                <button type="button" onclick="document.getElementById('ae-label-section4').value='4. Go-live'" class="px-2.5 py-2 bg-slate-100 hover:bg-purple-50 text-slate-600 hover:text-brand-purple font-semibold rounded-xl text-[11px] border border-slate-200 transition shrink-0" title="Reset to default">Reset</button>
+              </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-1.5">
+              <label class="block font-bold text-slate-800 flex items-center justify-between">
+                <span class="flex items-center space-x-1.5">
+                  <i data-lucide="layers" class="w-4 h-4 text-brand-purple"></i>
+                  <span>Section 5 Title (Third Party Integrations)</span>
+                </span>
+                <span class="text-[10px] text-slate-400 font-mono">Default: Third Party Integrations and Functionalities</span>
+              </label>
+              <div class="flex items-center space-x-2">
+                <input type="text" id="ae-label-sectionThirdParty" placeholder="Third Party Integrations and Functionalities" class="flex-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-white shadow-2xs">
+                <button type="button" onclick="document.getElementById('ae-label-sectionThirdParty').value='Third Party Integrations and Functionalities'" class="px-2.5 py-2 bg-slate-100 hover:bg-purple-50 text-slate-600 hover:text-brand-purple font-semibold rounded-xl text-[11px] border border-slate-200 transition shrink-0" title="Reset to default">Reset</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: SUBBLOCKS LABELS -->
+        <div id="ae-tab-content-subblocks" class="space-y-6 hidden">
+          <div class="bg-purple-50/60 p-3.5 rounded-xl border border-purple-200/80 flex items-start space-x-2.5">
+            <i data-lucide="info" class="w-4 h-4 text-brand-purple shrink-0 mt-0.5"></i>
+            <p class="text-slate-600 text-[11px] leading-relaxed">
+              Rename individual cards, sub-panels, and field group headings inside each section.
+            </p>
+          </div>
+
+          <!-- GROUP 1: SECTION 1 SUBBLOCKS -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-3.5">
+            <div class="flex items-center space-x-2 pb-2 border-b border-slate-100">
+              <i data-lucide="network" class="w-4 h-4 text-brand-purple"></i>
+              <h4 class="font-bold text-slate-900 text-xs">Section 1: Sitemap Subblocks</h4>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Sitemap Card Title</label>
+                <input type="text" id="ae-label-sitemapBlock" placeholder="Sitemap" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">SEO Questionnaire Title</label>
+                <input type="text" id="ae-label-seoQuestionnaireBlock" placeholder="SEO Questionnaire" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Evolution Showcase Title</label>
+                <input type="text" id="ae-label-templatesBlock" placeholder="Evolution Templates Showcase" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+            </div>
+          </div>
+
+          <!-- GROUP 2: SECTION 2 SUBBLOCKS -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-3.5">
+            <div class="flex items-center space-x-2 pb-2 border-b border-slate-100">
+              <i data-lucide="palette" class="w-4 h-4 text-brand-purple"></i>
+              <h4 class="font-bold text-slate-900 text-xs">Section 2: Content Collection Subblocks</h4>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Texts / Copywriting Card</label>
+                <input type="text" id="ae-label-textsBlock" placeholder="Texts" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Images & Logo Card</label>
+                <input type="text" id="ae-label-imagesBlock" placeholder="Images & Logo" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Brand Identity Card</label>
+                <input type="text" id="ae-label-brandIdentityBlock" placeholder="Brand Identity" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Color Palette Heading</label>
+                <input type="text" id="ae-label-colorPaletteBlock" placeholder="Color Palette" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Fonts Typography Heading</label>
+                <input type="text" id="ae-label-fontsBlock" placeholder="Fonts" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Domain Services Card</label>
+                <input type="text" id="ae-label-domainServicesBlock" placeholder="Domain, Google Analytics & Maps" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Final Domain Label</label>
+                <input type="text" id="ae-label-finalDomainBlock" placeholder="Final domain name" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Other Domains Label</label>
+                <input type="text" id="ae-label-otherDomainsBlock" placeholder="Other domain names" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">GA4 Measurement Label</label>
+                <input type="text" id="ae-label-ga4Block" placeholder="Google Analytics 4 ID" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Maps API Key Label</label>
+                <input type="text" id="ae-label-mapsBlock" placeholder="Google Maps API Key" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+            </div>
+          </div>
+
+          <!-- GROUP 3: SECTION 3 SUBBLOCKS -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-3.5">
+            <div class="flex items-center space-x-2 pb-2 border-b border-slate-100">
+              <i data-lucide="check-square" class="w-4 h-4 text-brand-purple"></i>
+              <h4 class="font-bold text-slate-900 text-xs">Section 3: Revision Phase Subblocks</h4>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Staging Website Card</label>
+                <input type="text" id="ae-label-stagingBlock" placeholder="Staging Website" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">First Wave of Revision Card</label>
+                <input type="text" id="ae-label-firstWaveBlock" placeholder="First wave of revision" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Second Wave of Revision Card</label>
+                <input type="text" id="ae-label-secondWaveBlock" placeholder="Second wave of revision" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+            </div>
+          </div>
+
+          <!-- GROUP 4: SECTION 4 & 5 SUBBLOCKS -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-3.5">
+            <div class="flex items-center space-x-2 pb-2 border-b border-slate-100">
+              <i data-lucide="rocket" class="w-4 h-4 text-brand-purple"></i>
+              <h4 class="font-bold text-slate-900 text-xs">Section 4 & 5: Go-Live & Integrations Subblocks</h4>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">DNS Configuration Card</label>
+                <input type="text" id="ae-label-goLiveBlock" placeholder="DNS Configuration" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Production Server Selection</label>
+                <input type="text" id="ae-label-serverSelectionBlock" placeholder="Production Server Selection" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Third-Party Notes Title</label>
+                <input type="text" id="ae-label-thirdPartyNotesBlock" placeholder="Third Party Integrations" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: GUIDES & PDF RESOURCES -->
+        <div id="ae-tab-content-guides" class="space-y-4 hidden">
+          <div class="bg-purple-50/60 p-3.5 rounded-xl border border-purple-200/80 flex items-start space-x-2.5">
+            <i data-lucide="file-text" class="w-4 h-4 text-brand-purple shrink-0 mt-0.5"></i>
+            <p class="text-slate-600 text-[11px] leading-relaxed">
+              Provide documentation for each step. You can paste any web URL (Google Drive, Docs, Slides, external guide) or upload a <strong>PDF document</strong> directly. When uploaded, clients can open the PDF with 1-click.
+            </p>
+          </div>
+
+          <div id="ae-guides-list-container" class="grid grid-cols-1 gap-4">
+            <!-- Rendered dynamically by populateAdminEditorGuides() -->
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL FOOTER -->
+      <div class="p-4 md:p-6 border-t border-slate-100 bg-slate-50/80 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+        <button type="button" onclick="confirmResetProjectLabelsAndGuides()" class="text-rose-600 hover:text-rose-700 hover:bg-rose-50 font-bold text-xs px-3 py-2 rounded-xl transition flex items-center space-x-1.5 cursor-pointer">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          <span>Reset to Default Names & Guides</span>
+        </button>
+
+        <div class="flex items-center space-x-2.5 w-full sm:w-auto justify-end">
+          <button type="button" onclick="closeModal('modal-admin-editor')" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-xs transition cursor-pointer">
+            Cancel
+          </button>
+          <button type="button" onclick="saveAdminEditorChanges()" class="px-5 py-2 rounded-xl bg-brand-purple hover:bg-brand-purpleDark text-white font-bold text-xs shadow-sm transition flex items-center space-x-1.5 cursor-pointer">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Save & Apply Changes</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- SUBTLE SAVING TOAST NOTIFICATION -->
   <div id="save-toast-container" class="fixed bottom-5 right-5 z-50 pointer-events-none transition-all duration-300 transform translate-y-4 opacity-0 scale-95 flex items-center">
     <div id="save-toast-content" class="bg-slate-900/95 backdrop-blur-md text-white border border-slate-700/80 shadow-2xl rounded-2xl px-3.5 py-2.5 flex items-center space-x-2.5 text-xs font-semibold">
@@ -1062,34 +1429,43 @@
     // --- PRD PACKAGE TEMPLATES (SEO Essential, SEO Content, SEO Custom) ---
     const PRD_TEMPLATES = {
       seo_essential: [
-        { id: 'se1', group: 'SEO Preparation', title: 'SEO Questionnaire', date: '2026-05-25', owner: 'Client', status: 'completed', drive: 'https://drive.google.com', tasks: ['Client completes SEO questionnaire'] },
-        { id: 'se2', group: 'Sitemap Architecture', title: 'Sitemap Validation', date: '2026-06-01', owner: 'Client', status: 'completed', drive: 'https://drive.google.com', tasks: ['PM creates proposed sitemap Excel', 'Client reviews and validates final sitemap'] },
-        { id: 'se3', group: 'SEO Strategy Phase', title: 'SEO Audit (Main Language)', date: '2026-06-08', owner: 'DEDGE', status: 'completed', drive: 'https://drive.google.com', tasks: ['SEO team conducts audit & keyword list', 'SEO team creates meta titles & descriptions'] },
-        { id: 'se4', group: 'SEO Strategy Phase', title: 'SEO Iteration & Client Validation', date: '2026-06-12', owner: 'Client', status: 'in_progress', drive: 'https://drive.google.com', tasks: ['Hotelier checks SEO doc & requests changes', 'Client validates main language audit'] },
-        { id: 'se5', group: 'SEO Strategy Phase', title: 'SEO Audit (Second Language)', date: '2026-06-18', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['SEO team conducts 2nd language audit', 'Hotelier reviews and validates 2nd lang audit'] },
-        { id: 'se6', group: 'Content Collection', title: 'Content Collection (SEO Guided)', date: '2026-06-25', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Text/content using SEO audit keywords', 'Images & Fonts', 'Colors & Graphic charter', 'Google Analytics 4 & Maps API Key'] },
-        { id: 'se7', group: 'Website Creation Phase', title: 'Website Creation (4-6 Weeks)', date: '2026-07-15', owner: 'DEDGE', status: 'pending', drive: 'https://drive.google.com', tasks: ['Core website build & third party integrations'] },
-        { id: 'se8', group: 'Publication Milestone', title: 'Staging, QA & Publication', date: '2026-08-01', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Staging link review & iteration rounds', 'Main language & translation validation', 'Testing & QA checklist', 'DNS change & domain mapping', '1h CMS training & Websupport email'] }
+        { id: 'se1', group: '1. Sitemap', title: 'SEO Questionnaire', date: '2026-05-20', owner: 'Client', status: 'completed', targetBlockId: 'seo-questionnaire-card', description: 'Complete the SEO discovery questionnaire to identify target keywords, hotel positioning, and local market competitors.' },
+        { id: 'se2', group: '1. Sitemap', title: 'Sitemap Architecture', date: '2026-05-20', owner: 'Client', status: 'completed', targetBlockId: 'sitemap-card', description: 'Review and validate the proposed multilingual website tree, navigation hierarchy, and page structure.' },
+        { id: 'se3', group: '1. Sitemap', title: 'Evolution Templates', date: '2026-05-20', owner: 'Both', status: 'completed', targetBlockId: 'templates-card', description: 'Select the optimal Evolution website design template showcase suited for the hotel property.' },
+        { id: 'se4', group: '2. Content Collection', title: 'Texts & Copywriting', date: '2026-06-10', owner: 'Both', status: 'in_progress', targetBlockId: 'texts-card', description: 'Provide master Google Docs website copy for all pages, room categories, and multilingual translations.' },
+        { id: 'se5', group: '2. Content Collection', title: 'Images & Media Assets', date: '2026-06-10', owner: 'Client', status: 'pending', targetBlockId: 'images-card', description: 'Upload high-resolution photography, suite photos, dining imagery, and vector brand logos via Google Drive.' },
+        { id: 'se6', group: '2. Content Collection', title: 'Brand Colors & Fonts', date: '2026-06-10', owner: 'Both', status: 'pending', targetBlockId: 'brand-identity-card', description: 'Define hotel primary, secondary, and tertiary brand palette alongside Google Fonts typography pairings.' },
+        { id: 'se7', group: '2. Content Collection', title: 'Domain, GA4 & Maps', date: '2026-06-10', owner: 'Both', status: 'pending', targetBlockId: 'domain-services-card', description: 'Configure final production domain name, domain aliases, Google Analytics 4 property ID, and Google Maps API.' },
+        { id: 'se8', group: '3. Revision Phase', title: 'Staging Site Preview', date: '2026-07-25', owner: 'Both', status: 'pending', targetBlockId: 'staging-card', description: 'Review pre-production staging build across desktop and mobile to verify design and layout consistency.' },
+        { id: 'se9', group: '3. Revision Phase', title: 'First Wave of Revision', date: '2026-07-25', owner: 'Both', status: 'pending', targetBlockId: 'first-wave-card', description: 'Consolidate and submit initial client feedback wave on room descriptions, imagery placement, and styling.' },
+        { id: 'se10', group: '3. Revision Phase', title: 'Second Wave of Revision', date: '2026-07-25', owner: 'Both', status: 'pending', targetBlockId: 'second-wave-card', description: 'Final punchlist review to ensure all requested adjustments and bug fixes are implemented prior to launch.' },
+        { id: 'se11', group: '4. Go-live', title: 'DNS Cutover & Go-Live', date: '2026-08-15', owner: 'Both', status: 'pending', targetBlockId: 'go-live-card', description: 'Point A records and CNAME aliases to production server IP and perform live SSL validation.' }
       ],
       seo_content: [
-        { id: 'sc1', group: 'SEO Preparation', title: 'SEO Questionnaire', date: '2026-05-20', owner: 'Client', status: 'completed', drive: 'https://drive.google.com', tasks: ['Client fills out questionnaire for SEO team'] },
-        { id: 'sc2', group: 'Sitemap Architecture', title: 'Sitemap Validation', date: '2026-05-28', owner: 'Client', status: 'completed', drive: 'https://drive.google.com', tasks: ['PM creates proposed sitemap Excel', 'Client validates final sitemap version'] },
-        { id: 'sc3', group: 'SEO Strategy Phase', title: 'SEO Audit (Main Language)', date: '2026-06-05', owner: 'DEDGE', status: 'completed', drive: 'https://drive.google.com', tasks: ['Keywords, meta titles, & meta descriptions generated'] },
-        { id: 'sc4', group: 'Content Creation Phase', title: 'Content Creation & Validation (Main Lang)', date: '2026-06-15', owner: 'Both', status: 'in_progress', drive: 'https://drive.google.com', tasks: ['SEO team creates full page content', 'Client validates created content'] },
-        { id: 'sc5', group: 'Multilingual SEO', title: 'SEO Audit & Content (Second Language)', date: '2026-06-25', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Second language audit conducted', 'Hotelier reviews & validates 2nd lang audit', 'Client reviews & validates final 2nd lang content'] },
-        { id: 'sc6', group: 'Content Collection', title: 'Elements Collection', date: '2026-07-02', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Images, Fonts, Colors, Graphic charter', 'GA4 & Google Maps API key'] },
-        { id: 'sc7', group: 'Website Creation Phase', title: 'Website Creation (4-6 Weeks)', date: '2026-07-20', owner: 'DEDGE', status: 'pending', drive: 'https://drive.google.com', tasks: ['Website build & integrations'] },
-        { id: 'sc8', group: 'Publication Milestone', title: 'Staging, Iterations, QA & Launch', date: '2026-08-10', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Staging review & 2 iteration rounds', 'Final validation & QA checklist', 'DNS change, domain mapping, CMS training'] }
+        { id: 'sc1', group: '1. Sitemap', title: 'SEO Questionnaire', date: '2026-05-20', owner: 'Client', status: 'completed', targetBlockId: 'seo-questionnaire-card', description: 'Complete SEO questionnaire to guide editorial storytelling, target keywords, and localized content.' },
+        { id: 'sc2', group: '1. Sitemap', title: 'Sitemap Validation', date: '2026-05-20', owner: 'Client', status: 'completed', targetBlockId: 'sitemap-card', description: 'PM crafts proposed sitemap with enriched editorial landing pages; client validates final structure.' },
+        { id: 'sc3', group: '1. Sitemap', title: 'Evolution Templates', date: '2026-05-20', owner: 'Both', status: 'completed', targetBlockId: 'templates-card', description: 'Choose and preview the Evolution design template to showcase editorial content and media.' },
+        { id: 'sc4', group: '2. Content Collection', title: 'Content Writing & Copywriting', date: '2026-06-10', owner: 'Both', status: 'in_progress', targetBlockId: 'texts-card', description: 'SEO copywriting team writes bespoke content for main pages; client reviews and approves copy in Docs.' },
+        { id: 'sc5', group: '2. Content Collection', title: 'Media & Imagery Collection', date: '2026-06-10', owner: 'Client', status: 'pending', targetBlockId: 'images-card', description: 'Collect and organize photography, room amenity galleries, dining menus, and vector logos.' },
+        { id: 'sc6', group: '2. Content Collection', title: 'Brand Colors & Typography', date: '2026-06-10', owner: 'Both', status: 'pending', targetBlockId: 'brand-identity-card', description: 'Harmonize brand colors with editorial design rules and configure typography hierarchy.' },
+        { id: 'sc7', group: '2. Content Collection', title: 'Domain, GA4 & Maps Services', date: '2026-06-10', owner: 'Both', status: 'pending', targetBlockId: 'domain-services-card', description: 'Setup production hostnames, secondary domain redirects, GA4 measurement ID, and Google Maps API.' },
+        { id: 'sc8', group: '3. Revision Phase', title: 'Staging Site Preview', date: '2026-07-30', owner: 'Both', status: 'pending', targetBlockId: 'staging-card', description: 'Explore live staging preview website and audit multilingual localized pages.' },
+        { id: 'sc9', group: '3. Revision Phase', title: 'First Wave of Revision', date: '2026-07-30', owner: 'Both', status: 'pending', targetBlockId: 'first-wave-card', description: 'Initial consolidated round of feedback on editorial copy, imagery placement, and page formatting.' },
+        { id: 'sc10', group: '4. Go-live', title: 'DNS Cutover & Launch', date: '2026-08-20', owner: 'Both', status: 'pending', targetBlockId: 'go-live-card', description: 'Production server DNS propagation, certificate issuance, and domain mapping verification.' }
       ],
       seo_custom: [
-        { id: 'scu1', group: 'SEO & Brand Discovery', title: 'SEO Questionnaire & Brand Discovery', date: '2026-05-18', owner: 'Client', status: 'completed', drive: 'https://drive.google.com', tasks: ['In-depth SEO questionnaire', 'Brand discovery workshop & competitor analysis'] },
-        { id: 'scu2', group: 'Sitemap & UX Wireframing', title: 'Custom Sitemap & UX Architecture', date: '2026-05-26', owner: 'Both', status: 'completed', drive: 'https://drive.google.com', tasks: ['Custom sitemap architecture', 'Wireframe layout validation with hotelier'] },
-        { id: 'scu3', group: 'SEO Strategy Phase', title: 'Advanced SEO Audit & Keyword Strategy', date: '2026-06-04', owner: 'DEDGE', status: 'completed', drive: 'https://drive.google.com', tasks: ['Comprehensive keyword research', 'Meta strategy & technical SEO schema blueprints'] },
-        { id: 'scu4', group: 'Content Creation Phase', title: 'Custom Copywriting & Content Validation', date: '2026-06-16', owner: 'Both', status: 'in_progress', drive: 'https://drive.google.com', tasks: ['Bespoke editorial storytelling & SEO copywriting', 'Client validation of custom copy'] },
-        { id: 'scu5', group: 'Multilingual Strategy', title: 'Multilingual SEO Audit & Localization', date: '2026-06-26', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Multi-market keyword translation & localized copywriting', 'Client localization sign-off'] },
-        { id: 'scu6', group: 'Content Collection', title: 'Bespoke Brand Assets & Media Collection', date: '2026-07-05', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['High-res photography, custom palettes & bespoke typography', 'GA4, Google Tag Manager & Maps API setup'] },
-        { id: 'scu7', group: 'Website Creation Phase', title: 'Custom Website Build & 3rd Party Integrations', date: '2026-07-25', owner: 'DEDGE', status: 'pending', drive: 'https://drive.google.com', tasks: ['Tailored UI development, custom booking engine & PMS integrations'] },
-        { id: 'scu8', group: 'Publication Milestone', title: 'Staging Preview, QA Checklist & Launch', date: '2026-08-15', owner: 'Both', status: 'pending', drive: 'https://drive.google.com', tasks: ['Multi-device QA & cross-browser audit', 'Client sign-off, DNS cutover, domain mapping & 1-on-1 CMS training'] }
+        { id: 'scu1', group: '1. Sitemap', title: 'SEO Questionnaire & Discovery', date: '2026-05-25', owner: 'Client', status: 'completed', targetBlockId: 'seo-questionnaire-card', description: 'In-depth SEO discovery questionnaire, bespoke brand positioning, and multi-market competitor benchmark.' },
+        { id: 'scu2', group: '1. Sitemap', title: 'Custom Sitemap Architecture', date: '2026-05-25', owner: 'Both', status: 'completed', targetBlockId: 'sitemap-card', description: 'Architect tailored multilingual navigation tree, bespoke room categorizations, and experience funnels.' },
+        { id: 'scu3', group: '1. Sitemap', title: 'Evolution Templates Showcase', date: '2026-05-25', owner: 'Both', status: 'completed', targetBlockId: 'templates-card', description: 'Evaluate template components and UX layouts for luxury boutique presentation.' },
+        { id: 'scu4', group: '2. Content Collection', title: 'Bespoke Copywriting & Master Docs', date: '2026-06-15', owner: 'Both', status: 'in_progress', targetBlockId: 'texts-card', description: 'Luxury storytelling and custom SEO copywriting across all languages with collaborative Google Docs.' },
+        { id: 'scu5', group: '2. Content Collection', title: 'High-Res Media Assets & Drive', date: '2026-06-15', owner: 'Client', status: 'pending', targetBlockId: 'images-card', description: 'Curate high-resolution photography, bespoke video assets, and SVG vector logos.' },
+        { id: 'scu6', group: '2. Content Collection', title: 'Brand Charter, Colors & Fonts', date: '2026-06-15', owner: 'Both', status: 'pending', targetBlockId: 'brand-identity-card', description: 'Custom primary, secondary, and tertiary luxury palette paired with bespoke typography.' },
+        { id: 'scu7', group: '2. Content Collection', title: 'Domain, GA4 & Maps APIs', date: '2026-06-15', owner: 'Both', status: 'pending', targetBlockId: 'domain-services-card', description: 'Configure custom domains, international regional domains, GA4 e-commerce tracking, and Maps API.' },
+        { id: 'scu8', group: '3. Revision Phase', title: 'Staging Site Preview & QA', date: '2026-08-05', owner: 'Both', status: 'pending', targetBlockId: 'staging-card', description: 'Pre-production staging website walkthrough, cross-device layout verification, and performance QA.' },
+        { id: 'scu9', group: '3. Revision Phase', title: 'First Wave of Revision', date: '2026-08-05', owner: 'Both', status: 'pending', targetBlockId: 'first-wave-card', description: 'Comprehensive first wave feedback review with live annotations and design fine-tuning.' },
+        { id: 'scu10', group: '3. Revision Phase', title: 'Second Wave & Final Punchlist', date: '2026-08-05', owner: 'Both', status: 'pending', targetBlockId: 'second-wave-card', description: 'Final iteration round to ensure 100% polish, typography balance, and asset alignment.' },
+        { id: 'scu11', group: '4. Go-live', title: 'DNS Cutover & Public Launch', date: '2026-08-25', owner: 'Both', status: 'pending', targetBlockId: 'go-live-card', description: 'DNS zone delegation, Cloudflare / WP Engine proxy cutover, and 1-on-1 CMS training handover.' },
+        { id: 'scu12', group: 'Third Party Integrations', title: 'Third Party Integrations & PMS', date: '2026-08-25', owner: 'Both', status: 'pending', targetBlockId: 'third-party-section', description: 'Integrate SynXis CRS / booking engine, OpenTable restaurant widget, and spa reservation tools.' }
       ]
     };
 
@@ -1127,6 +1503,7 @@
         secondWaveNotes: 'Final punchlist review before public launch',
         goLiveDeadline: '2026-08-15',
         serverSelection: 'EMEAWEBFB3',
+        wpeVerificationTxt: 'wpe_grandhotel_b8a92f7c1d',
         languages: ['English', 'French'],
         packageTier: 'seo_essential',
         driveUrl: 'https://drive.google.com',
@@ -1175,6 +1552,7 @@
         secondWaveNotes: '',
         goLiveDeadline: '2026-08-20',
         serverSelection: 'ACCORV2PROD2',
+        wpeVerificationTxt: 'wpe_alpine_93c41a0e5b',
         languages: ['English', 'German'],
         packageTier: 'seo_content',
         driveUrl: 'https://drive.google.com',
@@ -1223,6 +1601,7 @@
         secondWaveNotes: 'Final boutique styling adjustments and high-res imagery check',
         goLiveDeadline: '2026-08-25',
         serverSelection: 'EMEAWEBFB3',
+        wpeVerificationTxt: 'wpe_palazzo_7f21d89e4a',
         languages: ['Italian', 'English'],
         packageTier: 'seo_custom',
         driveUrl: 'https://drive.google.com',
@@ -1836,6 +2215,658 @@
       });
     }
 
+    // =========================================================================
+    // --- ADMIN SECTION, SUBBLOCK & GUIDE CONFIGURATION ENGINE ---
+    // =========================================================================
+    const DEFAULT_SECTION_LABELS = {
+      section1: '1. Sitemap',
+      section2: '2. Content Collection',
+      section3: '3. Revision phase',
+      section4: '4. Go-live',
+      sectionThirdParty: 'Third Party Integrations and Functionalities'
+    };
+
+    const DEFAULT_SUBBLOCK_LABELS = {
+      sitemapBlock: 'Sitemap',
+      seoQuestionnaireBlock: 'SEO Questionnaire',
+      templatesBlock: 'Evolution Templates Showcase',
+      textsBlock: 'Texts',
+      imagesBlock: 'Images & Logo',
+      brandIdentityBlock: 'Brand Identity',
+      colorPaletteBlock: 'Color Palette',
+      fontsBlock: 'Fonts',
+      domainServicesBlock: 'Domain, Google Analytics & Maps',
+      finalDomainBlock: 'Final domain name',
+      otherDomainsBlock: 'Other domain names',
+      ga4Block: 'Google Analytics 4 ID',
+      mapsBlock: 'Google Maps API Key',
+      stagingBlock: 'Staging Website',
+      firstWaveBlock: 'First wave of revision',
+      secondWaveBlock: 'Second wave of revision',
+      goLiveBlock: 'DNS Configuration',
+      serverSelectionBlock: 'Production Server Selection',
+      thirdPartyNotesBlock: 'Third Party Integrations'
+    };
+
+    const DEFAULT_GUIDES_CONFIG = {
+      sitemap: {
+        id: 'sitemap',
+        name: 'Sitemap & Architecture Guide',
+        section: '1. Sitemap',
+        buttonLabel: 'Guide',
+        type: 'link',
+        url: 'https://drive.google.com/drive/folders/1U91BYoCxnF1o1-LV19PQcAw0kBrwepqH?usp=drive_link',
+        pdfData: '',
+        pdfName: '',
+        enabled: true
+      },
+      contentCollection: {
+        id: 'contentCollection',
+        name: 'Content Collection Checklist',
+        section: '2. Content Collection',
+        buttonLabel: 'Guide',
+        type: 'link',
+        url: 'https://drive.google.com/drive/folders/1U91BYoCxnF1o1-LV19PQcAw0kBrwepqH?usp=drive_link',
+        pdfData: '',
+        pdfName: '',
+        enabled: true
+      },
+      texts: {
+        id: 'texts',
+        name: 'Texts & Copywriting Guidelines',
+        section: '2. Content Collection - Texts',
+        buttonLabel: 'Guide',
+        type: 'link',
+        url: 'https://drive.google.com/drive/folders/1U91BYoCxnF1o1-LV19PQcAw0kBrwepqH?usp=drive_link',
+        pdfData: '',
+        pdfName: '',
+        enabled: true
+      },
+      images: {
+        id: 'images',
+        name: 'Photography & Assets Specifications',
+        section: '2. Content Collection - Images',
+        buttonLabel: 'Guide',
+        type: 'link',
+        url: 'https://drive.google.com/drive/folders/1U91BYoCxnF1o1-LV19PQcAw0kBrwepqH?usp=drive_link',
+        pdfData: '',
+        pdfName: '',
+        enabled: true
+      },
+      colors: {
+        id: 'colors',
+        name: 'Color Palette Guide',
+        section: '2. Content Collection - Colors',
+        buttonLabel: 'Guide',
+        type: 'link',
+        url: 'https://drive.google.com/drive/folders/1U91BYoCxnF1o1-LV19PQcAw0kBrwepqH?usp=drive_link',
+        pdfData: '',
+        pdfName: '',
+        enabled: true
+      },
+      fonts: {
+        id: 'fonts',
+        name: 'Typography & Web Fonts Guide',
+        section: '2. Content Collection - Fonts',
+        buttonLabel: 'Guide',
+        type: 'link',
+        url: 'https://drive.google.com/drive/folders/1U91BYoCxnF1o1-LV19PQcAw0kBrwepqH?usp=drive_link',
+        pdfData: '',
+        pdfName: '',
+        enabled: true
+      },
+      ga4: {
+        id: 'ga4',
+        name: 'Google Analytics 4 Setup Guide',
+        section: '2. Content Collection - GA4',
+        buttonLabel: 'Guide',
+        type: 'link',
+        url: 'https://drive.google.com/drive/folders/1U91BYoCxnF1o1-LV19PQcAw0kBrwepqH?usp=drive_link',
+        pdfData: '',
+        pdfName: '',
+        enabled: true
+      },
+      maps: {
+        id: 'maps',
+        name: 'Google Maps API Setup Guide',
+        section: '2. Content Collection - Google Maps',
+        buttonLabel: 'Guide',
+        type: 'link',
+        url: 'https://drive.google.com/file/d/14e-531pWLFTq9TW33YHDjM9ca3WkYiGN/view?usp=sharing',
+        pdfData: '',
+        pdfName: '',
+        enabled: true
+      },
+      revision: {
+        id: 'revision',
+        name: 'Revision Phase & Staging Feedback Guide',
+        section: '3. Revision Phase',
+        buttonLabel: 'Guide',
+        type: 'link',
+        url: 'https://drive.google.com/drive/folders/1U91BYoCxnF1o1-LV19PQcAw0kBrwepqH?usp=drive_link',
+        pdfData: '',
+        pdfName: '',
+        enabled: true
+      },
+      goLive: {
+        id: 'goLive',
+        name: 'DNS Delegation & Go-Live Guide',
+        section: '4. Go-Live',
+        buttonLabel: 'Guide',
+        type: 'link',
+        url: 'https://drive.google.com/drive/folders/1U91BYoCxnF1o1-LV19PQcAw0kBrwepqH?usp=drive_link',
+        pdfData: '',
+        pdfName: '',
+        enabled: true
+      },
+      thirdParty: {
+        id: 'thirdParty',
+        name: 'Third Party Integrations & Scripts Guide',
+        section: 'Third Party Integrations',
+        buttonLabel: 'Guide',
+        type: 'link',
+        url: 'https://drive.google.com/drive/folders/1U91BYoCxnF1o1-LV19PQcAw0kBrwepqH?usp=drive_link',
+        pdfData: '',
+        pdfName: '',
+        enabled: true
+      }
+    };
+
+    let currentPdfViewerData = {
+      url: '',
+      title: '',
+      fileName: '',
+      blobUrl: ''
+    };
+
+    function getProjectLabels(project) {
+      if (!project) return { ...DEFAULT_SECTION_LABELS, ...DEFAULT_SUBBLOCK_LABELS };
+      if (!project.customLabels) {
+        project.customLabels = {};
+      }
+      return {
+        ...DEFAULT_SECTION_LABELS,
+        ...DEFAULT_SUBBLOCK_LABELS,
+        ...project.customLabels
+      };
+    }
+
+    function getProjectGuides(project) {
+      if (!project) return JSON.parse(JSON.stringify(DEFAULT_GUIDES_CONFIG));
+      if (!project.customGuides) {
+        project.customGuides = JSON.parse(JSON.stringify(DEFAULT_GUIDES_CONFIG));
+      }
+      // Ensure all keys exist
+      Object.keys(DEFAULT_GUIDES_CONFIG).forEach(k => {
+        if (!project.customGuides[k]) {
+          project.customGuides[k] = JSON.parse(JSON.stringify(DEFAULT_GUIDES_CONFIG[k]));
+        }
+      });
+      return project.customGuides;
+    }
+
+    function applyProjectLabels(project) {
+      if (!project) return;
+      const labels = getProjectLabels(project);
+
+      // Section Titles
+      const s1 = document.getElementById('title-section-sitemap');
+      if (s1) s1.textContent = labels.section1 || DEFAULT_SECTION_LABELS.section1;
+
+      const s2 = document.getElementById('title-section-content-collection');
+      if (s2) s2.textContent = labels.section2 || DEFAULT_SECTION_LABELS.section2;
+
+      const s3 = document.getElementById('title-section-revision-phase');
+      if (s3) s3.textContent = labels.section3 || DEFAULT_SECTION_LABELS.section3;
+
+      const s4 = document.getElementById('title-section-go-live');
+      if (s4) s4.textContent = labels.section4 || DEFAULT_SECTION_LABELS.section4;
+
+      const s5 = document.getElementById('title-section-third-party');
+      if (s5) s5.textContent = labels.sectionThirdParty || DEFAULT_SECTION_LABELS.sectionThirdParty;
+
+      // Subblock Titles in HTML
+      const bSitemap = document.getElementById('title-block-sitemap');
+      if (bSitemap) bSitemap.textContent = labels.sitemapBlock || DEFAULT_SUBBLOCK_LABELS.sitemapBlock;
+
+      const bSeo = document.getElementById('title-block-seo');
+      if (bSeo) bSeo.textContent = labels.seoQuestionnaireBlock || DEFAULT_SUBBLOCK_LABELS.seoQuestionnaireBlock;
+
+      const bTemplates = document.getElementById('title-block-templates');
+      if (bTemplates) bTemplates.textContent = labels.templatesBlock || DEFAULT_SUBBLOCK_LABELS.templatesBlock;
+
+      const bTexts = document.getElementById('title-block-texts');
+      if (bTexts) bTexts.textContent = labels.textsBlock || DEFAULT_SUBBLOCK_LABELS.textsBlock;
+
+      const bImages = document.getElementById('title-block-images');
+      if (bImages) bImages.textContent = labels.imagesBlock || DEFAULT_SUBBLOCK_LABELS.imagesBlock;
+
+      const bBrand = document.getElementById('title-block-brand');
+      if (bBrand) bBrand.textContent = labels.brandIdentityBlock || DEFAULT_SUBBLOCK_LABELS.brandIdentityBlock;
+
+      const bColors = document.getElementById('title-block-colors');
+      if (bColors) bColors.textContent = labels.colorPaletteBlock || DEFAULT_SUBBLOCK_LABELS.colorPaletteBlock;
+
+      const bFonts = document.getElementById('title-block-fonts');
+      if (bFonts) bFonts.textContent = labels.fontsBlock || DEFAULT_SUBBLOCK_LABELS.fontsBlock;
+    }
+
+    function renderGuideButtons(project) {
+      if (!project) return;
+      const guides = getProjectGuides(project);
+      
+      const mapping = {
+        sitemap: 'sitemap-guide-btn-container',
+        contentCollection: 'content-collection-guide-btn-container',
+        texts: 'texts-guide-btn-container',
+        images: 'images-guide-btn-container',
+        colors: 'colors-guide-btn-container',
+        fonts: 'fonts-guide-btn-container',
+        ga4: 'ga4-guide-btn-container',
+        maps: 'maps-guide-btn-container',
+        revision: 'revision-guide-btn-container',
+        goLive: 'go-live-guide-btn-container',
+        thirdParty: 'third-party-guide-btn-container'
+      };
+
+      Object.keys(mapping).forEach(guideKey => {
+        const containerId = mapping[guideKey];
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const g = guides[guideKey] || DEFAULT_GUIDES_CONFIG[guideKey];
+        if (!g || !g.enabled) {
+          container.innerHTML = '';
+          return;
+        }
+
+        const isPdf = g.type === 'pdf';
+        const iconName = isPdf ? 'file-text' : 'book-open';
+        const badgeText = isPdf ? 'PDF Guide' : (g.buttonLabel || 'Guide');
+        const tooltipText = isPdf ? `Preview PDF: ${g.name}` : `Open Guide: ${g.name}`;
+
+        container.innerHTML = `
+          <button 
+            type="button" 
+            onclick="openGuideResource('${guideKey}')"
+            class="inline-flex items-center space-x-1.5 text-[11px] font-bold text-brand-purple bg-purple-100/90 hover:bg-brand-purple hover:text-white px-2.5 py-1 rounded-lg transition-all duration-150 shadow-2xs border border-purple-200/80 cursor-pointer group"
+            title="${tooltipText}"
+          >
+            <i data-lucide="${iconName}" class="w-3.5 h-3.5 group-hover:scale-105 transition-transform"></i>
+            <span>${badgeText}</span>
+            <i data-lucide="${isPdf ? 'eye' : 'external-link'}" class="w-3 h-3 ml-0.5 opacity-70 group-hover:opacity-100"></i>
+          </button>
+        `;
+      });
+      lucide.createIcons();
+    }
+
+    function openGuideResource(guideId) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      const guides = getProjectGuides(project);
+      const guide = guides[guideId];
+      if (!guide || !guide.enabled) {
+        showSavingToast('Guide not available', 'This guide is currently disabled');
+        return;
+      }
+      
+      if (guide.type === 'pdf' && guide.pdfData) {
+        openPdfViewerModal(guide.pdfData, guide.name || 'Guide PDF Preview', guide.pdfName || 'Guide.pdf');
+      } else if (guide.url) {
+        window.open(guide.url, '_blank', 'noopener,noreferrer');
+      } else {
+        showSavingToast('Guide link missing', 'No URL or PDF configured for this guide');
+      }
+    }
+
+    function openPdfViewerModal(pdfData, title = 'Guide Document Preview', fileName = 'Guide.pdf') {
+      currentPdfViewerData = {
+        url: pdfData,
+        title: title,
+        fileName: fileName,
+        blobUrl: ''
+      };
+      
+      const modal = document.getElementById('modal-pdf-viewer');
+      const titleEl = document.getElementById('pdf-viewer-title');
+      const fileEl = document.getElementById('pdf-viewer-filename');
+      const frame = document.getElementById('pdf-viewer-frame');
+      
+      if (titleEl) titleEl.textContent = title;
+      if (fileEl) fileEl.textContent = fileName || 'Document Preview';
+      
+      let previewSrc = pdfData;
+      if (pdfData.startsWith('data:application/pdf;base64,')) {
+        try {
+          const base64Content = pdfData.split(',')[1];
+          const byteCharacters = atob(base64Content);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: 'application/pdf' });
+          const blobUrl = URL.createObjectURL(blob);
+          currentPdfViewerData.blobUrl = blobUrl;
+          previewSrc = blobUrl;
+        } catch (e) {
+          console.error('Failed to convert base64 to Blob', e);
+        }
+      }
+      
+      if (frame) frame.src = previewSrc;
+      if (modal) modal.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function openPdfInNewTab() {
+      const targetUrl = currentPdfViewerData.blobUrl || currentPdfViewerData.url;
+      if (targetUrl) {
+        window.open(targetUrl, '_blank');
+      }
+    }
+
+    function openAdminEditorModal(targetFocus = 'sections') {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+
+      const labels = getProjectLabels(project);
+
+      // Populate Section inputs
+      Object.keys(DEFAULT_SECTION_LABELS).forEach(k => {
+        const input = document.getElementById(`ae-label-${k}`);
+        if (input) input.value = labels[k] || DEFAULT_SECTION_LABELS[k];
+      });
+
+      // Populate Subblock inputs
+      Object.keys(DEFAULT_SUBBLOCK_LABELS).forEach(k => {
+        const input = document.getElementById(`ae-label-${k}`);
+        if (input) input.value = labels[k] || DEFAULT_SUBBLOCK_LABELS[k];
+      });
+
+      // Populate Guides list
+      populateAdminEditorGuides();
+
+      // Switch to target tab
+      if (['sections', 'subblocks', 'guides'].includes(targetFocus)) {
+        switchAdminEditorTab(targetFocus);
+      } else {
+        switchAdminEditorTab('sections');
+      }
+
+      document.getElementById('modal-admin-editor').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function switchAdminEditorTab(tabKey) {
+      const tabs = ['sections', 'subblocks', 'guides'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`ae-tab-btn-${t}`);
+        const content = document.getElementById(`ae-tab-content-${t}`);
+        if (t === tabKey) {
+          if (btn) {
+            btn.className = 'px-4 py-2.5 font-bold border-b-2 border-brand-purple text-brand-purple flex items-center space-x-2 transition cursor-pointer shrink-0';
+          }
+          if (content) content.classList.remove('hidden');
+        } else {
+          if (btn) {
+            btn.className = 'px-4 py-2.5 font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center space-x-2 transition cursor-pointer shrink-0';
+          }
+          if (content) content.classList.add('hidden');
+        }
+      });
+      lucide.createIcons();
+    }
+
+    function populateAdminEditorGuides() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      const guides = getProjectGuides(project);
+      const container = document.getElementById('ae-guides-list-container');
+      if (!container) return;
+
+      container.innerHTML = Object.keys(guides).map(guideKey => {
+        const g = guides[guideKey];
+        const isPdf = g.type === 'pdf';
+        const hasPdfFile = !!g.pdfData;
+
+        return `
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-3 transition-all" id="ae-guide-card-${guideKey}">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-100">
+              <div class="flex items-center space-x-2 min-w-0">
+                <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-brand-purple shrink-0">
+                  <i data-lucide="${isPdf ? 'file-text' : 'book-open'}" class="w-4 h-4"></i>
+                </div>
+                <div class="min-w-0">
+                  <h4 class="font-bold text-slate-900 text-xs truncate">${g.name}</h4>
+                  <span class="text-[10px] text-slate-500 font-medium">${g.section}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center space-x-3 self-start sm:self-auto">
+                <label class="flex items-center space-x-1.5 cursor-pointer text-xs font-semibold text-slate-700">
+                  <input 
+                    type="checkbox" 
+                    id="ae-guide-enable-${guideKey}" 
+                    ${g.enabled ? 'checked' : ''} 
+                    onchange="handleAdminGuideToggle('${guideKey}', this.checked)"
+                    class="rounded text-brand-purple focus:ring-brand-purple h-4 w-4 cursor-pointer"
+                  >
+                  <span>Active</span>
+                </label>
+
+                <div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-[11px] font-bold">
+                  <button 
+                    type="button" 
+                    onclick="handleAdminGuideTypeChange('${guideKey}', 'link')" 
+                    class="px-2.5 py-1 rounded-md transition cursor-pointer ${!isPdf ? 'bg-white text-brand-purple shadow-2xs' : 'text-slate-500 hover:text-slate-800'}"
+                  >
+                    Web Link
+                  </button>
+                  <button 
+                    type="button" 
+                    onclick="handleAdminGuideTypeChange('${guideKey}', 'pdf')" 
+                    class="px-2.5 py-1 rounded-md transition cursor-pointer ${isPdf ? 'bg-white text-brand-purple shadow-2xs' : 'text-slate-500 hover:text-slate-800'}"
+                  >
+                    PDF File
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- DYNAMIC INPUT FIELDS DEPENDING ON TYPE -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="md:col-span-2">
+                ${!isPdf ? `
+                  <label class="block font-semibold text-slate-700 text-[11px] mb-1 flex items-center space-x-1">
+                    <i data-lucide="link" class="w-3.5 h-3.5 text-brand-purple"></i>
+                    <span>Resource Web URL (Google Drive, Docs, External Link)</span>
+                  </label>
+                  <input 
+                    type="url" 
+                    id="ae-guide-url-${guideKey}" 
+                    value="${g.url || ''}" 
+                    placeholder="https://drive.google.com/..." 
+                    class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs transition"
+                  >
+                ` : `
+                  <label class="block font-semibold text-slate-700 text-[11px] mb-1 flex items-center space-x-1">
+                    <i data-lucide="file-up" class="w-3.5 h-3.5 text-brand-purple"></i>
+                    <span>PDF Document Upload</span>
+                  </label>
+                  <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                    <input 
+                      type="file" 
+                      id="ae-guide-file-${guideKey}" 
+                      accept="application/pdf" 
+                      onchange="handleAdminGuidePdfUpload('${guideKey}', event)"
+                      class="text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand-purple/10 file:text-brand-purple hover:file:bg-brand-purple hover:file:text-white cursor-pointer transition flex-1"
+                    >
+                    ${hasPdfFile ? `
+                      <div class="flex items-center space-x-1.5 shrink-0 bg-purple-50 border border-purple-200/80 px-2.5 py-1 rounded-xl">
+                        <i data-lucide="file-check" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
+                        <span class="text-[11px] font-bold text-slate-800 max-w-[130px] truncate" title="${g.pdfName}">${g.pdfName || 'Document.pdf'}</span>
+                        <button type="button" onclick="openPdfViewerModal('${g.pdfData}', '${g.name}', '${g.pdfName}')" class="p-1 hover:bg-purple-100 rounded text-brand-purple cursor-pointer" title="Preview PDF">
+                          <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <button type="button" onclick="removeAdminGuidePdf('${guideKey}')" class="p-1 hover:bg-rose-100 rounded text-rose-500 cursor-pointer" title="Remove PDF">
+                          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                      </div>
+                    ` : `
+                      <span class="text-[10px] text-slate-400 italic shrink-0">No PDF uploaded yet</span>
+                    `}
+                  </div>
+                `}
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 text-[11px] mb-1">Button Label (e.g. Guide, Checklist)</label>
+                <input 
+                  type="text" 
+                  id="ae-guide-btnlabel-${guideKey}" 
+                  value="${g.buttonLabel || 'Guide'}" 
+                  placeholder="Guide" 
+                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs transition"
+                >
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function handleAdminGuideTypeChange(guideId, type) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      const guides = getProjectGuides(project);
+      if (guides[guideId]) {
+        guides[guideId].type = type;
+        populateAdminEditorGuides();
+      }
+    }
+
+    function handleAdminGuideToggle(guideId, checked) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      const guides = getProjectGuides(project);
+      if (guides[guideId]) {
+        guides[guideId].enabled = checked;
+      }
+    }
+
+    function handleAdminGuidePdfUpload(guideId, event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      if (file.type !== 'application/pdf') {
+        alert('Please upload a valid PDF document.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const project = projects.find(p => p.id === currentProjectId);
+        if (!project) return;
+        const guides = getProjectGuides(project);
+        if (guides[guideId]) {
+          guides[guideId].type = 'pdf';
+          guides[guideId].pdfData = e.target.result;
+          guides[guideId].pdfName = file.name;
+          populateAdminEditorGuides();
+          showSavingToast('PDF uploaded...', `Uploaded ${file.name}`);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeAdminGuidePdf(guideId) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      const guides = getProjectGuides(project);
+      if (guides[guideId]) {
+        guides[guideId].pdfData = '';
+        guides[guideId].pdfName = '';
+        populateAdminEditorGuides();
+        showSavingToast('PDF removed', 'Guide PDF cleared');
+      }
+    }
+
+    function saveAdminEditorChanges() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+
+      if (!project.customLabels) project.customLabels = {};
+      if (!project.customGuides) project.customGuides = getProjectGuides(project);
+
+      // Save Section Labels
+      Object.keys(DEFAULT_SECTION_LABELS).forEach(k => {
+        const input = document.getElementById(`ae-label-${k}`);
+        if (input) {
+          project.customLabels[k] = input.value.trim() || DEFAULT_SECTION_LABELS[k];
+        }
+      });
+
+      // Save Subblock Labels
+      Object.keys(DEFAULT_SUBBLOCK_LABELS).forEach(k => {
+        const input = document.getElementById(`ae-label-${k}`);
+        if (input) {
+          project.customLabels[k] = input.value.trim() || DEFAULT_SUBBLOCK_LABELS[k];
+        }
+      });
+
+      // Save Guide configurations (URL, Button label, Active state)
+      Object.keys(project.customGuides).forEach(k => {
+        const g = project.customGuides[k];
+        const urlInput = document.getElementById(`ae-guide-url-${k}`);
+        const btnLabelInput = document.getElementById(`ae-guide-btnlabel-${k}`);
+        const enableCb = document.getElementById(`ae-guide-enable-${k}`);
+
+        if (urlInput && g.type === 'link') {
+          g.url = urlInput.value.trim();
+        }
+        if (btnLabelInput) {
+          g.buttonLabel = btnLabelInput.value.trim() || 'Guide';
+        }
+        if (enableCb) {
+          g.enabled = enableCb.checked;
+        }
+      });
+
+      logActivity('Admin Template Settings Updated', 'Saved custom Step section titles, subblock labels, and guide resources', 'sliders-horizontal', 'project', project.id);
+      
+      closeModal('modal-admin-editor');
+      renderApp();
+      showSavingToast('Saving custom labels & guides...', 'Changes applied successfully');
+    }
+
+    function confirmResetProjectLabelsAndGuides() {
+      showConfirmDialog({
+        title: 'Reset Section Names & Guides',
+        message: 'Are you sure you want to reset all custom section names, subblock labels, and guides back to default factory settings?',
+        confirmText: 'Reset to Defaults',
+        confirmVariant: 'danger',
+        onConfirm: () => {
+          resetProjectLabelsAndGuides();
+        }
+      });
+    }
+
+    function resetProjectLabelsAndGuides() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+
+      project.customLabels = JSON.parse(JSON.stringify({ ...DEFAULT_SECTION_LABELS, ...DEFAULT_SUBBLOCK_LABELS }));
+      project.customGuides = JSON.parse(JSON.stringify(DEFAULT_GUIDES_CONFIG));
+
+      openAdminEditorModal('sections');
+      renderApp();
+      showSavingToast('Resetting labels & guides...', 'Default settings restored');
+    }
+
     // --- INITIALIZATION ---
     window.addEventListener('DOMContentLoaded', () => {
       renderProjectSelector();
@@ -1885,6 +2916,10 @@
         switchView('timeline');
       }
 
+      document.querySelectorAll('.pm-only-btn').forEach(btn => {
+        btn.classList.toggle('hidden', role !== 'pm');
+      });
+
       renderApp();
     }
 
@@ -1930,6 +2965,17 @@
       if (axisTitle) axisTitle.textContent = project.name;
       const axisTag = document.getElementById('axis-evolution-tag');
       if (axisTag) axisTag.textContent = `Template: ${project.evolutionTag}`;
+
+      // Update Section Titles and Subblock Headings dynamically
+      applyProjectLabels(project);
+
+      // Render Dynamic Guide Buttons (PDF or Web Link)
+      renderGuideButtons(project);
+
+      // Enforce role-specific UI visibility
+      document.querySelectorAll('.pm-only-btn').forEach(btn => {
+        btn.classList.toggle('hidden', currentRole !== 'pm');
+      });
 
       renderHeaderEmail(project);
 
@@ -2949,12 +3995,13 @@
       if (!project) return;
       project.contentCollectionDeadline = newDate;
 
-      // Also sync with the Content Collection step in the timeline
+      // Sync with all Content Collection steps in the timeline
       if (project.steps && Array.isArray(project.steps)) {
-        const ccStep = project.steps.find(s => s.group === 'Content Collection' || s.title?.toLowerCase().includes('content collection'));
-        if (ccStep && newDate) {
-          ccStep.date = newDate;
-        }
+        project.steps.forEach(s => {
+          if (s.group === '2. Content Collection' || s.group === 'Content Collection' || (s.targetBlockId && ['texts-card', 'images-card', 'brand-identity-card', 'domain-services-card'].includes(s.targetBlockId)) || s.title?.toLowerCase().includes('content') || s.title?.toLowerCase().includes('text') || s.title?.toLowerCase().includes('image') || s.title?.toLowerCase().includes('brand') || s.title?.toLowerCase().includes('domain')) {
+            s.date = newDate;
+          }
+        });
       }
 
       logActivity('Content Deadline Updated', `Updated content collection deadline to ${formatDisplayDate(newDate)}`, 'calendar', 'date', project.id);
@@ -3055,12 +4102,13 @@
       if (!project) return;
       project.sitemapDeadline = newDate;
 
-      // Also sync with the Sitemap step in the timeline
+      // Sync with all Sitemap steps in the timeline
       if (project.steps && Array.isArray(project.steps)) {
-        const sitemapStep = project.steps.find(s => s.group === 'Sitemap Architecture' || s.title?.toLowerCase().includes('sitemap'));
-        if (sitemapStep && newDate) {
-          sitemapStep.date = newDate;
-        }
+        project.steps.forEach(s => {
+          if (s.group === '1. Sitemap' || s.group === 'Sitemap Architecture' || (s.targetBlockId && ['seo-questionnaire-card', 'sitemap-card', 'templates-card'].includes(s.targetBlockId)) || s.title?.toLowerCase().includes('sitemap') || s.title?.toLowerCase().includes('seo')) {
+            s.date = newDate;
+          }
+        });
       }
 
       logActivity('Sitemap Target Updated', `Updated sitemap deadline to ${formatDisplayDate(newDate)}`, 'calendar', 'date', project.id);
@@ -3083,11 +4131,14 @@
           texts: false,
           images: false,
           staging: false,
+          firstWaveRevisions: false,
+          secondWaveRevisions: false,
           thirdParty: false,
           domainServices: false,
           finalDomain: false,
           ga4: false,
-          maps: false
+          maps: false,
+          goLive: false
         };
       }
 
@@ -3122,24 +4173,22 @@
             project.dnsRecordsDone[`${currentServer}_${idx}`] = val;
           });
         }
-        if (project.steps && Array.isArray(project.steps)) {
-          const step = project.steps.find(s => s.group === 'Go Live' || s.title?.toLowerCase().includes('live') || s.title?.toLowerCase().includes('launch') || s.title?.toLowerCase().includes('dns'));
-          if (step) {
-            step.status = val ? 'completed' : 'pending';
-          }
-        }
         renderGoLiveSection(project);
       }
 
       // Keep sitemapCompleted synced with completionStatus.sitemap
       if (blockKey === 'sitemap') {
         project.sitemapCompleted = project.completionStatus.sitemap;
-        if (project.steps && Array.isArray(project.steps)) {
-          const sitemapStep = project.steps.find(s => s.group === 'Sitemap Architecture' || s.title?.toLowerCase().includes('sitemap'));
-          if (sitemapStep) {
-            sitemapStep.status = project.sitemapCompleted ? 'completed' : 'pending';
+      }
+
+      // Synchronize all timeline steps matching this block key
+      if (project.steps && Array.isArray(project.steps)) {
+        project.steps.forEach(s => {
+          const meta = getStepBlockMeta(s);
+          if (meta && meta.key === blockKey) {
+            s.status = isNowDone ? 'completed' : 'pending';
           }
-        }
+        });
       }
 
       const readableBlockNames = {
@@ -3152,11 +4201,14 @@
         texts: 'Texts & Content',
         images: 'Images & Photos',
         staging: 'Revisions & Validation',
+        firstWaveRevisions: 'First Wave Revisions',
+        secondWaveRevisions: 'Second Wave Revisions',
         thirdParty: 'Third Party Integrations',
         domainServices: 'Domain & Web Services',
         finalDomain: 'Final Domain Name',
         ga4: 'Google Analytics 4',
-        maps: 'Google Maps API'
+        maps: 'Google Maps API',
+        goLive: 'Go Live Launch'
       };
       const blockLabel = readableBlockNames[blockKey] || blockKey;
       logActivity(isNowDone ? 'Deliverable Completed' : 'Deliverable Reopened', `Marked "${blockLabel}" as ${isNowDone ? 'Completed' : 'Incomplete'}`, isNowDone ? 'check-circle' : 'rotate-ccw', 'milestone', project.id);
@@ -3631,12 +4683,13 @@
       if (!project) return;
       project.revisionPhaseDeadline = newDate;
 
-      // Also sync with the Staging / Publication milestone step in the timeline
+      // Sync with all Revision Phase steps in the timeline
       if (project.steps && Array.isArray(project.steps)) {
-        const step = project.steps.find(s => s.group === 'Publication Milestone' || s.title?.toLowerCase().includes('staging') || s.title?.toLowerCase().includes('revision'));
-        if (step && newDate) {
-          step.date = newDate;
-        }
+        project.steps.forEach(s => {
+          if (s.group === '3. Revision Phase' || s.group === 'Publication Milestone' || (s.targetBlockId && ['staging-card', 'first-wave-card', 'second-wave-card'].includes(s.targetBlockId)) || s.title?.toLowerCase().includes('staging') || s.title?.toLowerCase().includes('revision')) {
+            s.date = newDate;
+          }
+        });
       }
 
       renderTimelineAxis(project);
@@ -3651,6 +4704,7 @@
       const dynamicContainer = document.getElementById('revision-phase-dynamic-container');
       if (!dynamicContainer) return;
 
+      const labels = getProjectLabels(project);
       const stagingUrl = project.stagingSiteUrl || '';
       const hasSecondWave = !!project.hasSecondWaveRevisions;
 
@@ -3658,12 +4712,12 @@
       let stagingHtml = '';
       if (currentRole === 'pm') {
         stagingHtml = `
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+          <div id="staging-card" class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 transition">
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-2">
                 <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
                   <i data-lucide="globe" class="w-4 h-4 text-brand-purple"></i>
-                  <span>Staging Website</span>
+                  <span>${labels.stagingBlock || DEFAULT_SUBBLOCK_LABELS.stagingBlock}</span>
                 </h4>
                 <div id="staging-done-btn-container"></div>
               </div>
@@ -3691,12 +4745,12 @@
         `;
       } else {
         stagingHtml = `
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2.5">
+          <div id="staging-card" class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2.5 transition">
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-2">
                 <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
                   <i data-lucide="globe" class="w-4 h-4 text-brand-purple"></i>
-                  <span>Staging Website</span>
+                  <span>${labels.stagingBlock || DEFAULT_SUBBLOCK_LABELS.stagingBlock}</span>
                 </h4>
                 <div id="staging-done-btn-container"></div>
               </div>
@@ -3732,13 +4786,13 @@
       let secondWaveCardHtml = '';
       if (hasSecondWave) {
         secondWaveCardHtml = `
-          <div class="bg-purple-50/40 p-4 rounded-xl border border-purple-200/80 flex items-center justify-between gap-3 shadow-2xs">
+          <div id="second-wave-card" class="bg-purple-50/40 p-4 rounded-xl border border-purple-200/80 flex items-center justify-between gap-3 shadow-2xs transition">
             <div class="flex items-center space-x-2.5 min-w-0">
               <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-brand-purple shrink-0">
                 <i data-lucide="git-merge" class="w-4 h-4"></i>
               </div>
               <div class="min-w-0">
-                <h4 class="font-bold text-slate-900 text-xs truncate">Second wave of revision</h4>
+                <h4 class="font-bold text-slate-900 text-xs truncate">${labels.secondWaveBlock || DEFAULT_SUBBLOCK_LABELS.secondWaveBlock}</h4>
                 <span class="text-[10px] text-slate-500 font-medium">Final validation round</span>
               </div>
             </div>
@@ -3755,13 +4809,13 @@
         `;
       } else if (currentRole === 'pm') {
         secondWaveCardHtml = `
-          <div class="bg-slate-50/60 p-3.5 rounded-xl border border-dashed border-purple-200 flex items-center justify-between gap-3">
+          <div id="second-wave-card" class="bg-slate-50/60 p-3.5 rounded-xl border border-dashed border-purple-200 flex items-center justify-between gap-3 transition">
             <div class="flex items-center space-x-2.5 min-w-0">
               <div class="w-8 h-8 rounded-lg bg-purple-50 border border-purple-100 flex items-center justify-center text-brand-purple shrink-0">
                 <i data-lucide="plus" class="w-4 h-4"></i>
               </div>
               <div class="min-w-0">
-                <div class="text-xs font-bold text-slate-800">Second wave of revision</div>
+                <div class="text-xs font-bold text-slate-800">${labels.secondWaveBlock || DEFAULT_SUBBLOCK_LABELS.secondWaveBlock}</div>
                 <div class="text-[10px] text-slate-400 font-medium">Optional additional round</div>
               </div>
             </div>
@@ -3785,13 +4839,13 @@
           <!-- Right Column: Revisions -->
           <div class="grid grid-cols-1 gap-4">
             <!-- CARD 1: FIRST WAVE OF REVISION -->
-            <div class="bg-purple-50/40 p-4 rounded-xl border border-purple-200/80 flex items-center justify-between gap-3 shadow-2xs">
+            <div id="first-wave-card" class="bg-purple-50/40 p-4 rounded-xl border border-purple-200/80 flex items-center justify-between gap-3 shadow-2xs transition">
               <div class="flex items-center space-x-2.5 min-w-0">
                 <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-brand-purple shrink-0">
                   <i data-lucide="git-pull-request" class="w-4 h-4"></i>
                 </div>
                 <div class="min-w-0">
-                  <h4 class="font-bold text-slate-900 text-xs truncate">First wave of revision</h4>
+                  <h4 class="font-bold text-slate-900 text-xs truncate">${labels.firstWaveBlock || DEFAULT_SUBBLOCK_LABELS.firstWaveBlock}</h4>
                   <span class="text-[10px] text-slate-500 font-medium">Initial staging review</span>
                 </div>
               </div>
@@ -3868,6 +4922,8 @@
       if (!grid) return;
       grid.innerHTML = '';
 
+      const labels = getProjectLabels(project);
+
       // Backward compatibility & migration
       if (project.thirdPartyBoxes && Array.isArray(project.thirdPartyBoxes)) {
         project.thirdPartyBoxes.forEach(b => {
@@ -3912,7 +4968,7 @@
           <div class="flex items-center space-x-2">
             <h4 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
               <i data-lucide="layers" class="w-4 h-4 text-brand-purple"></i>
-              <span>Third Party Integrations</span>
+              <span>${labels.thirdPartyNotesBlock || DEFAULT_SUBBLOCK_LABELS.thirdPartyNotesBlock}</span>
             </h4>
             <!-- COMPACT DONE BUTTON -->
             <div id="third-party-done-btn-container"></div>
@@ -3936,7 +4992,8 @@
       // BLOCK 2: DOMAINS, GOOGLE ANALYTICS 4 & GOOGLE MAPS API KEY (INSIDE CONTENT COLLECTION)
       // =========================================================================
       const block2 = document.createElement('div');
-      block2.className = 'bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3.5';
+      block2.id = 'domain-services-card';
+      block2.className = 'bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3.5 transition';
 
       let aliasesHtml = project.domainAliases.length > 0 ? `
         <div class="space-y-1.5 pt-1" id="domain-aliases-list">
@@ -3961,7 +5018,7 @@
           <div class="flex items-center space-x-2">
             <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
               <i data-lucide="globe" class="w-4 h-4 text-brand-purple"></i>
-              <span>Domain, Google Analytics & Maps</span>
+              <span>${labels.domainServicesBlock || DEFAULT_SUBBLOCK_LABELS.domainServicesBlock}</span>
             </h4>
             <!-- COMPACT DONE BUTTON -->
             <div id="domain-services-done-btn-container"></div>
@@ -3976,7 +5033,7 @@
                 <div class="flex items-center space-x-2">
                   <label class="block font-bold text-slate-800 text-xs flex items-center space-x-1.5">
                     <i data-lucide="link-2" class="w-3.5 h-3.5 text-brand-purple"></i>
-                    <span>Final domain name</span>
+                    <span>${labels.finalDomainBlock || DEFAULT_SUBBLOCK_LABELS.finalDomainBlock}</span>
                   </label>
                   <!-- COMPACT DONE BUTTON -->
                   <div id="final-domain-done-btn-container"></div>
@@ -3989,7 +5046,7 @@
             <div class="space-y-2 pt-2 border-t border-slate-100">
               <span class="block font-bold text-slate-700 text-xs flex items-center space-x-1.5">
                 <i data-lucide="layers" class="w-3.5 h-3.5 text-brand-purple"></i>
-                <span>Other domain names</span>
+                <span>${labels.otherDomainsBlock || DEFAULT_SUBBLOCK_LABELS.otherDomainsBlock}</span>
               </span>
               
               ${aliasesHtml}
@@ -4013,16 +5070,12 @@
                 <div class="flex items-center space-x-2">
                   <label class="block font-bold text-slate-800 text-xs flex items-center space-x-1.5">
                     <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-brand-purple"></i>
-                    <span>Google Analytics 4 ID</span>
+                    <span>${labels.ga4Block || DEFAULT_SUBBLOCK_LABELS.ga4Block}</span>
                   </label>
                   <!-- COMPACT DONE BUTTON -->
                   <div id="ga4-done-btn-container"></div>
                 </div>
-                <a href="https://drive.google.com/drive/folders/1U91BYoCxnF1o1-LV19PQcAw0kBrwepqH?usp=drive_link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 text-[11px] font-bold text-brand-purple bg-purple-100/90 hover:bg-brand-purple hover:text-white px-2.5 py-1 rounded-lg transition shadow-2xs border border-purple-200/80" title="Open GA4 Setup Guide">
-                  <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-                  <span>Guide</span>
-                  <i data-lucide="external-link" class="w-3 h-3 ml-0.5 opacity-70"></i>
-                </a>
+                <div id="ga4-guide-btn-container"></div>
               </div>
 
               <input type="text" id="tp-ga4-input" value="${project.ga4 || ''}" oninput="updateGa4(this.value)" placeholder="G-987654321" class="w-full border border-slate-200 bg-slate-50/70 text-slate-800 rounded-xl px-3 py-2 text-xs font-mono outline-none focus:ring-2 focus:ring-brand-purple focus:bg-white shadow-2xs transition">
@@ -4034,16 +5087,12 @@
                 <div class="flex items-center space-x-2">
                   <label class="block font-bold text-slate-800 text-xs flex items-center space-x-1.5">
                     <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-purple"></i>
-                    <span>Google Maps API Key</span>
+                    <span>${labels.mapsBlock || DEFAULT_SUBBLOCK_LABELS.mapsBlock}</span>
                   </label>
                   <!-- COMPACT DONE BUTTON -->
                   <div id="maps-done-btn-container"></div>
                 </div>
-                <a href="https://drive.google.com/file/d/14e-531pWLFTq9TW33YHDjM9ca3WkYiGN/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center space-x-1 text-[11px] font-bold text-brand-purple bg-purple-100/90 hover:bg-brand-purple hover:text-white px-2.5 py-1 rounded-lg transition shadow-2xs border border-purple-200/80" title="Open Google Maps API Setup Guide">
-                  <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-                  <span>Guide</span>
-                  <i data-lucide="external-link" class="w-3 h-3 ml-0.5 opacity-70"></i>
-                </a>
+                <div id="maps-guide-btn-container"></div>
               </div>
 
               <input type="text" id="tp-maps-input" value="${project.googleMapsKey || ''}" oninput="updateGoogleMapsKey(this.value)" placeholder="AIzaSy... (Optional)" class="w-full border border-slate-200 bg-slate-50/70 text-slate-800 rounded-xl px-3 py-2 text-xs font-mono outline-none focus:ring-2 focus:ring-brand-purple focus:bg-white shadow-2xs transition">
@@ -4059,6 +5108,7 @@
         domainContainer.innerHTML = '';
         domainContainer.appendChild(block2);
       }
+      renderGuideButtons(project);
       renderAllDoneButtons(project);
     }
 
@@ -4246,6 +5296,23 @@
       showSavingToast('Saving Go-live deadline...', 'Deadline saved');
     }
 
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function updateWpeVerificationTxt(newVal) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      project.wpeVerificationTxt = newVal;
+      showSavingToast('Saving TXT verification...', 'TXT record value saved');
+    }
+
     function updateServerSelection(newServer) {
       const project = projects.find(p => p.id === currentProjectId);
       if (!project) return;
@@ -4260,7 +5327,12 @@
         const btn = document.getElementById(btnId);
         if (btn) {
           const original = btn.innerHTML;
-          btn.innerHTML = `<i data-lucide="check" class="w-3 h-3 text-emerald-600"></i><span class="text-emerald-700 font-bold">Copied!</span>`;
+          const hasText = original.includes('<span');
+          if (hasText) {
+            btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i><span class="text-emerald-700 font-bold">Copied!</span>`;
+          } else {
+            btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>`;
+          }
           lucide.createIcons();
           setTimeout(() => {
             btn.innerHTML = original;
@@ -4284,12 +5356,16 @@
       project.dnsRecordsDone[key] = !project.dnsRecordsDone[key];
 
       const activeConfig = DNS_SERVERS_CONFIG[currentServer] || DNS_SERVERS_CONFIG['EMEAWEBFB3'];
-      const totalRecords = activeConfig && activeConfig.records ? activeConfig.records.length : 0;
+      const standardCount = activeConfig && activeConfig.records ? activeConfig.records.length : 0;
+      const totalRecords = standardCount + 1; // Standard records + TXT verification record
       let doneCount = 0;
-      for (let i = 0; i < totalRecords; i++) {
+      for (let i = 0; i < standardCount; i++) {
         if (project.dnsRecordsDone[`${currentServer}_${i}`]) {
           doneCount++;
         }
+      }
+      if (project.dnsRecordsDone[`${currentServer}_txt`]) {
+        doneCount++;
       }
 
       if (!project.completionStatus) project.completionStatus = {};
@@ -4310,10 +5386,20 @@
     }
 
     function copyAllDnsRecords(serverKey) {
+      const project = projects.find(p => p.id === currentProjectId);
       const config = DNS_SERVERS_CONFIG[serverKey];
       if (!config) return;
-      const formatted = config.records.map(r => `(${r.host}) ${r.type} record to ${r.type === 'A' ? 'IP ' : ''}${r.target}`).join('\n');
-      const textToCopy = `DNS Configuration for ${config.name}:\n\n${formatted}`;
+      const formatted = [];
+      const txtVal = project?.wpeVerificationTxt;
+      if (txtVal) {
+        formatted.push(`(_wpe_verification) TXT record to "${txtVal}"`);
+      } else {
+        formatted.push(`(_wpe_verification) TXT record`);
+      }
+      config.records.forEach(r => {
+        formatted.push(`(${r.host}) ${r.type} record to ${r.type === 'A' ? 'IP ' : ''}${r.target}`);
+      });
+      const textToCopy = `DNS Configuration for ${config.name}:\n\n${formatted.join('\n')}`;
       navigator.clipboard.writeText(textToCopy).then(() => {
         const btn = document.getElementById('btn-copy-all-dns');
         if (btn) {
@@ -4338,6 +5424,7 @@
       renderGoLiveDeadline(project);
       renderAllDoneButtons(project);
 
+      const labels = getProjectLabels(project);
       const currentServer = project.serverSelection || 'EMEAWEBFB3';
       const activeConfig = DNS_SERVERS_CONFIG[currentServer] || DNS_SERVERS_CONFIG['EMEAWEBFB3'];
 
@@ -4353,7 +5440,7 @@
               <div>
                 <label class="block font-bold text-slate-800 text-xs flex items-center space-x-1.5">
                   <i data-lucide="server" class="w-3.5 h-3.5 text-brand-purple"></i>
-                  <span>Production Server Selection</span>
+                  <span>${labels.serverSelectionBlock || DEFAULT_SUBBLOCK_LABELS.serverSelectionBlock}</span>
                 </label>
                 <p class="text-[11px] text-slate-500 mt-0.5">Select the target production cluster for DNS delegation & proxy mapping.</p>
               </div>
@@ -4415,6 +5502,8 @@
                     <span class="w-4 h-4 rounded-full border border-slate-300 group-hover:border-purple-400"></span>
                   `}
                 </div>
+              </button>
+            </div>
           </div>
         `;
       } else {
@@ -4430,40 +5519,22 @@
       const dnsRowsHtml = activeConfig.records.map((rec, idx) => {
         const copyVal = rec.target;
         const btnId = `btn-copy-dns-${idx}`;
+        const btnHostId = `btn-copy-host-${idx}`;
         const isDone = !!project.dnsRecordsDone[`${currentServer}_${idx}`];
         return `
-          <div class="bg-white p-3.5 rounded-xl border border-slate-200 hover:border-purple-200 transition-all flex flex-col gap-3 shadow-2xs">
-            <div class="flex items-center space-x-3 min-w-0">
-              <span class="w-16 shrink-0 inline-flex items-center justify-center font-mono font-bold text-xs px-2 py-1 rounded-lg ${
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200 hover:border-purple-200 transition-all flex flex-col justify-between gap-3 shadow-2xs">
+            <!-- Header: Record Type badge + Status toggle -->
+            <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
+              <span class="inline-flex items-center font-mono font-bold text-xs px-2.5 py-0.5 rounded-md ${
                 rec.type === 'A' ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-sky-50 text-sky-800 border border-sky-200'
               }">
-                ${rec.type}
+                ${rec.type} Record
               </span>
-              <div class="min-w-0 space-y-0.5">
-                <div class="flex items-center space-x-2">
-                  <span class="font-mono font-bold text-xs text-slate-900 select-all">${rec.host}</span>
-                  <span class="text-slate-300 text-xs">→</span>
-                  <span class="font-mono font-bold text-xs text-brand-purple select-all truncate" title="${rec.target}">${rec.target}</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex items-center space-x-2 pt-2 border-t border-slate-100">
-              <button 
-                type="button" 
-                id="${btnId}" 
-                onclick="copyDnsRecord('${copyVal}', '${btnId}')" 
-                class="px-2.5 py-1.5 bg-slate-50 hover:bg-purple-50 text-slate-600 hover:text-brand-purple border border-slate-200 hover:border-purple-300 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition shrink-0 cursor-pointer shadow-2xs"
-                title="Copy record target"
-              >
-                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                <span>Copy</span>
-              </button>
               <button 
                 type="button" 
                 id="btn-done-${idx}" 
                 onclick="toggleDnsRecordDone(${idx})"
-                class="inline-flex items-center space-x-1 text-[10px] font-bold px-2 py-1 rounded-lg border transition shadow-2xs cursor-pointer ${
+                class="inline-flex items-center space-x-1 text-[10px] font-bold px-2 py-0.5 rounded-md border transition shadow-2xs cursor-pointer ${
                   isDone 
                     ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100' 
                     : 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100'
@@ -4475,16 +5546,146 @@
                 ${isDone ? '<span class="text-[9px] text-emerald-600">✓</span>' : ''}
               </button>
             </div>
+
+            <!-- Content: Host & Points to (Value) -->
+            <div class="space-y-2 text-xs">
+              <div>
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Host (Name)</span>
+                <div class="flex items-center justify-between gap-2 mt-0.5 bg-slate-50 border border-slate-200/80 rounded-lg px-2.5 py-1.5 min-h-[34px]">
+                  <span class="font-mono font-bold text-xs text-slate-900 select-all truncate">${rec.host}</span>
+                  <button 
+                    type="button" 
+                    id="${btnHostId}" 
+                    onclick="copyDnsRecord('${rec.host}', '${btnHostId}')" 
+                    class="text-slate-400 hover:text-brand-purple p-1 hover:bg-purple-50 rounded transition shrink-0 cursor-pointer"
+                    title="Copy Host name"
+                  >
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Points to (Value)</span>
+                <div class="flex items-center justify-between gap-2 mt-0.5 bg-slate-50 border border-slate-200/80 rounded-lg px-2.5 py-1.5 min-h-[34px]">
+                  <span class="font-mono font-bold text-xs text-brand-purple select-all truncate" title="${rec.target}">${rec.target}</span>
+                  <button 
+                    type="button" 
+                    id="${btnId}" 
+                    onclick="copyDnsRecord('${copyVal}', '${btnId}')" 
+                    class="text-slate-400 hover:text-brand-purple p-1 hover:bg-purple-50 rounded transition shrink-0 cursor-pointer"
+                    title="Copy value"
+                  >
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         `;
       }).join('');
+
+      // TXT Record Block (Customizable field by PM)
+      const txtVal = project.wpeVerificationTxt !== undefined ? project.wpeVerificationTxt : '';
+      const isTxtDone = !!project.dnsRecordsDone[`${currentServer}_txt`];
+      const txtBtnId = `btn-copy-dns-txt`;
+      const txtHostBtnId = `btn-copy-host-txt`;
+
+      const txtCardHtml = `
+        <div class="bg-white p-3.5 rounded-xl border border-slate-200 hover:border-emerald-200 transition-all flex flex-col justify-between gap-3 shadow-2xs">
+          <!-- Header: Record Type badge + Status toggle -->
+          <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
+            <div class="flex items-center gap-1.5">
+              <span class="inline-flex items-center font-mono font-bold text-xs px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200">
+                TXT Record
+              </span>
+            </div>
+            <button 
+              type="button" 
+              id="btn-done-txt" 
+              onclick="toggleDnsRecordDone('txt')"
+              class="inline-flex items-center space-x-1 text-[10px] font-bold px-2 py-0.5 rounded-md border transition shadow-2xs cursor-pointer ${
+                isTxtDone 
+                  ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100' 
+                  : 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100'
+              }"
+              title="${isTxtDone ? 'Finished (Click to reopen)' : 'Status: To-do (Click to mark as Done)'}"
+            >
+              <i data-lucide="${isTxtDone ? 'check-circle-2' : 'clock'}" class="w-3 h-3 ${isTxtDone ? 'text-emerald-600' : 'text-amber-600'}"></i>
+              <span>${isTxtDone ? 'Done' : 'To-do'}</span>
+              ${isTxtDone ? '<span class="text-[9px] text-emerald-600">✓</span>' : ''}
+            </button>
+          </div>
+
+          <!-- Content: Host & Verification Value -->
+          <div class="space-y-2 text-xs">
+            <div>
+              <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Host (Name)</span>
+              <div class="flex items-center justify-between gap-2 mt-0.5 bg-slate-50 border border-slate-200/80 rounded-lg px-2.5 py-1.5 min-h-[34px]">
+                <span class="font-mono font-bold text-xs text-slate-900 select-all truncate">_wpe_verification</span>
+                <button 
+                  type="button" 
+                  id="${txtHostBtnId}" 
+                  onclick="copyDnsRecord('_wpe_verification', '${txtHostBtnId}')" 
+                  class="text-slate-400 hover:text-brand-purple p-1 hover:bg-purple-50 rounded transition shrink-0 cursor-pointer"
+                  title="Copy Host name"
+                >
+                  <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Points to (Value)</span>
+              ${currentRole === 'pm' ? `
+                <div class="flex items-center gap-1.5 mt-0.5">
+                  <input 
+                    type="text" 
+                    id="wpe-txt-val-input" 
+                    value="${escapeHtml(txtVal)}" 
+                    oninput="updateWpeVerificationTxt(this.value)" 
+                    placeholder="Enter verification value..." 
+                    class="flex-1 min-w-0 border border-purple-200 bg-purple-50/20 text-slate-900 font-mono text-xs rounded-lg px-2.5 py-1.5 outline-none focus:ring-2 focus:ring-brand-purple focus:bg-white transition shadow-2xs"
+                  >
+                  <button 
+                    type="button" 
+                    id="${txtBtnId}" 
+                    onclick="copyDnsRecord('${escapeHtml(txtVal || '_wpe_verification')}', '${txtBtnId}')" 
+                    class="text-slate-400 hover:text-brand-purple p-1.5 hover:bg-purple-50 rounded border border-slate-200 bg-slate-50 transition shrink-0 cursor-pointer"
+                    title="Copy value"
+                  >
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              ` : `
+                <div class="flex items-center justify-between gap-2 mt-0.5 bg-slate-50 border border-slate-200/80 rounded-lg px-2.5 py-1.5 min-h-[34px]">
+                  ${txtVal ? `
+                    <span class="font-mono font-bold text-xs text-brand-purple select-all break-all" title="${escapeHtml(txtVal)}">${escapeHtml(txtVal)}</span>
+                  ` : `
+                    <span class="text-xs text-slate-400 italic font-mono">Pending PM verification value</span>
+                  `}
+                  <button 
+                    type="button" 
+                    id="${txtBtnId}" 
+                    onclick="copyDnsRecord('${escapeHtml(txtVal || '_wpe_verification')}', '${txtBtnId}')" 
+                    class="text-slate-400 hover:text-brand-purple p-1 hover:bg-purple-50 rounded transition shrink-0 cursor-pointer"
+                    title="Copy value"
+                  >
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              `}
+            </div>
+          </div>
+        </div>
+      `;
 
       container.innerHTML = `
         <!-- SERVER SELECTION BLOCK -->
         ${serverSelectionHtml}
 
         <!-- DNS CONFIGURATION TABLE & INSTRUCTIONS -->
-        <div class="space-y-3 bg-slate-50/70 p-4 rounded-xl border border-slate-200 shadow-2xs">
+        <div id="go-live-card" class="space-y-3 bg-slate-50/70 p-4 rounded-xl border border-slate-200 shadow-2xs transition">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/80 pb-3">
             <div>
               <h4 class="font-bold text-slate-900 text-xs flex items-center space-x-1.5">
@@ -4507,7 +5708,8 @@
           </div>
 
           <!-- DNS RECORDS CONTAINER -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2.5">
+            ${txtCardHtml}
             ${dnsRowsHtml}
           </div>
 
@@ -4515,8 +5717,8 @@
           <div class="p-3 bg-purple-50/70 rounded-xl border border-purple-200/60 flex items-start space-x-2.5 text-[11px] text-slate-600">
             <i data-lucide="info" class="w-4 h-4 text-brand-purple shrink-0 mt-0.5"></i>
             <div>
-              <span class="font-bold text-slate-800">DNS Propagation Note:</span>
-              <span> Once these records are set up at your domain provider (e.g. OVH, GoDaddy, Cloudflare, Gandi), DNS propagation typically completes within 2 to 24 hours. The SSL certificate will automatically provision once the records resolve.</span>
+              <span class="font-bold text-slate-800">Need help?</span>
+              <span> If you don't manage your domain yourself, simply click <strong class="text-brand-purple font-semibold">Copy All Records</strong> and forward them to your IT team or domain registrar (e.g. OVH, GoDaddy, Cloudflare). Once saved, DNS propagation takes 2 to 24 hours, and your SSL certificate activates automatically.</span>
             </div>
           </div>
         </div>
@@ -4578,34 +5780,145 @@
       }
     }
 
-    // --- TIMELINE RENDER WITH EDITABLE DATES AND DRIVE LINKS ---
+    // --- TIMELINE STEP DATA SYNCHRONIZATION & ANCHOR NAVIGATION ---
+    const BLOCK_META_MAP = {
+      'seo-questionnaire-card': { name: 'SEO Questionnaire', parent: '1. Sitemap', parentNumber: '1', key: 'seoQuestionnaire', defaultDesc: 'Complete the SEO strategy & keyword questionnaire for copy optimization.' },
+      'sitemap-card': { name: 'Sitemap Validation', parent: '1. Sitemap', parentNumber: '1', key: 'sitemap', defaultDesc: 'Review and approve website architecture, page hierarchy and layout structure.' },
+      'templates-card': { name: 'Evolution Templates', parent: '1. Sitemap', parentNumber: '1', key: 'templates', defaultDesc: 'Select preferred Evolution template showcase framework for build.' },
+      'texts-card': { name: 'Texts & Copy', parent: '2. Content Collection', parentNumber: '2', key: 'texts', defaultDesc: 'Supply website copy, room details and multilingual translations in Google Docs.' },
+      'images-card': { name: 'Images & Logo', parent: '2. Content Collection', parentNumber: '2', key: 'images', defaultDesc: 'Upload high-resolution photography, logos and media assets to Google Drive.' },
+      'brand-identity-card': { name: 'Brand Identity', parent: '2. Content Collection', parentNumber: '2', key: 'brandIdentity', defaultDesc: 'Define primary/secondary brand color codes and heading/body typography.' },
+      'domain-services-card': { name: 'Domain & Services', parent: '2. Content Collection', parentNumber: '2', key: 'domainServices', defaultDesc: 'Specify target root domain, aliases, GA4 ID and Google Maps credentials.' },
+      'staging-card': { name: 'Staging Preview', parent: '3. Revision Phase', parentNumber: '3', key: 'staging', defaultDesc: 'D-EDGE team integrates content into staging environment for validation.' },
+      'first-wave-card': { name: 'First Wave Revisions', parent: '3. Revision Phase', parentNumber: '3', key: 'firstWaveRevisions', defaultDesc: 'Submit comprehensive batch feedback and adjustments on staging site.' },
+      'second-wave-card': { name: 'Second Wave Revisions', parent: '3. Revision Phase', parentNumber: '3', key: 'secondWaveRevisions', defaultDesc: 'Final validation round after applying first wave adjustments.' },
+      'go-live-card': { name: 'DNS & Go-Live', parent: '4. Go-Live', parentNumber: '4', key: 'goLive', defaultDesc: 'Configure production DNS A & CNAME records to point domain to live cluster.' }
+    };
+
+    function getStepBlockMeta(step) {
+      if (step.targetBlockId && BLOCK_META_MAP[step.targetBlockId]) {
+        return BLOCK_META_MAP[step.targetBlockId];
+      }
+      const title = (step.title || '').toLowerCase();
+      if (title.includes('seo questionnaire') || title.includes('seo')) return BLOCK_META_MAP['seo-questionnaire-card'];
+      if (title.includes('sitemap')) return BLOCK_META_MAP['sitemap-card'];
+      if (title.includes('template')) return BLOCK_META_MAP['templates-card'];
+      if (title.includes('text') || title.includes('copy')) return BLOCK_META_MAP['texts-card'];
+      if (title.includes('image') || title.includes('logo') || title.includes('media')) return BLOCK_META_MAP['images-card'];
+      if (title.includes('brand') || title.includes('color') || title.includes('font') || title.includes('identity')) return BLOCK_META_MAP['brand-identity-card'];
+      if (title.includes('domain') || title.includes('ga4') || title.includes('maps')) return BLOCK_META_MAP['domain-services-card'];
+      if (title.includes('staging') || title.includes('pre-production') || title.includes('publication milestone')) return BLOCK_META_MAP['staging-card'];
+      if (title.includes('first wave') || title.includes('wave 1') || title.includes('revision wave 1')) return BLOCK_META_MAP['first-wave-card'];
+      if (title.includes('second wave') || title.includes('wave 2') || title.includes('revision wave 2')) return BLOCK_META_MAP['second-wave-card'];
+      if (title.includes('live') || title.includes('dns') || title.includes('launch')) return BLOCK_META_MAP['go-live-card'];
+      
+      const parentNum = (step.group || '').startsWith('1') ? '1' : (step.group || '').startsWith('2') ? '2' : (step.group || '').startsWith('3') ? '3' : (step.group || '').startsWith('4') ? '4' : '★';
+      return { name: step.title, parent: step.group || 'Step', parentNumber: parentNum, key: null, defaultDesc: step.description || '' };
+    }
+
+    function scrollToTimelineBlock(targetBlockId) {
+      if (!targetBlockId) return;
+      const el = document.getElementById(targetBlockId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('ring-4', 'ring-brand-purple/50', 'bg-purple-100/40', 'transition-all', 'duration-300');
+        setTimeout(() => {
+          el.classList.remove('ring-4', 'ring-brand-purple/50', 'bg-purple-100/40');
+        }, 2200);
+      } else {
+        const sEl = document.getElementById(targetBlockId.startsWith('section-') ? targetBlockId : `section-${targetBlockId}`);
+        if (sEl) {
+          sEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+
+    function promptEditStepTitle(stepId) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      const step = project.steps.find(s => s.id === stepId);
+      if (!step) return;
+      const newTitle = prompt("Edit Milestone Step Title:", step.title);
+      if (newTitle && newTitle.trim()) {
+        step.title = newTitle.trim();
+        logActivity('Milestone Title Updated', `Renamed milestone to "${step.title}"`, 'edit-2', 'milestone', project.id);
+        renderApp();
+        showSavingToast('Saving milestone...', 'Title updated');
+      }
+    }
+
+    function promptEditStepDesc(stepId) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      const step = project.steps.find(s => s.id === stepId);
+      if (!step) return;
+      const newDesc = prompt("Edit Milestone Description:", step.description || '');
+      if (newDesc !== null) {
+        step.description = newDesc.trim();
+        logActivity('Milestone Description Updated', `Updated description for "${step.title}"`, 'file-text', 'milestone', project.id);
+        renderApp();
+        showSavingToast('Saving milestone description...', 'Description saved');
+      }
+    }
+
+    // --- TIMELINE RENDER WITH SYNCHRONIZED STEP CARDS, DESCRIPTIONS & ANCHOR LINKS ---
     function renderTimelineAxis(project) {
       const container = document.getElementById('timeline-nodes-container');
+      if (!container) return;
       container.innerHTML = '';
+
+      if (!project.completionStatus) {
+        project.completionStatus = {
+          sitemap: !!project.sitemapCompleted,
+          seoQuestionnaire: false,
+          templates: false,
+          brandIdentity: false,
+          colors: false,
+          fonts: false,
+          texts: false,
+          images: false,
+          staging: false,
+          firstWaveRevisions: false,
+          secondWaveRevisions: false,
+          thirdParty: false,
+          domainServices: false,
+          finalDomain: false,
+          ga4: false,
+          maps: false,
+          goLive: false
+        };
+      }
 
       project.steps.forEach((step, idx) => {
         const nodeWrapper = document.createElement('div');
         nodeWrapper.className = 'timeline-step-node relative flex flex-col items-center group shrink-0 transition-all duration-150';
-        nodeWrapper.setAttribute('draggable', 'true');
-        nodeWrapper.setAttribute('ondragstart', `handleTimelineStepDragStart(event, '${step.id}', ${idx})`);
-        nodeWrapper.setAttribute('ondragover', `handleTimelineStepDragOver(event, ${idx})`);
-        nodeWrapper.setAttribute('ondragleave', `handleTimelineStepDragLeave(event)`);
-        nodeWrapper.setAttribute('ondrop', `handleTimelineStepDrop(event, ${idx})`);
-        nodeWrapper.setAttribute('ondragend', `handleTimelineStepDragEnd(event)`);
 
         const position = idx % 2 === 0 ? 'top' : 'bottom';
+        const meta = getStepBlockMeta(step);
+        const targetBlockId = step.targetBlockId || Object.keys(BLOCK_META_MAP).find(k => BLOCK_META_MAP[k].name === meta.name) || 'section-sitemap';
 
-        let ownerColor = 'bg-cyan-500 text-white';
-        if (step.owner === 'DEDGE') ownerColor = 'bg-fuchsia-600 text-white';
-        if (step.owner === 'Both') ownerColor = 'bg-sky-500 text-white';
+        // Synchronize step status with project.completionStatus
+        let isStepDone = false;
+        if (meta.key && project.completionStatus[meta.key] !== undefined) {
+          isStepDone = !!project.completionStatus[meta.key];
+          step.status = isStepDone ? 'completed' : 'pending';
+        } else {
+          isStepDone = (step.status === 'completed');
+        }
 
-        let actionBtnHtml = step.status === 'completed'
-          ? `<button onclick="toggleStepValidation('${step.id}')" ${currentRole === 'client' ? 'disabled' : ''} class="flex items-center space-x-1 border border-slate-200 bg-purple-50 text-brand-purple hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 text-[11px] font-bold px-3 py-1 rounded-lg transition shadow-2xs">
-              <i data-lucide="check" class="w-3.5 h-3.5"></i>
-              <span>${currentRole === 'pm' ? 'Completed (Devalidate)' : 'Completed'}</span>
+        let ownerColor = 'bg-cyan-50 text-cyan-700 border border-cyan-200';
+        if (step.owner === 'DEDGE') ownerColor = 'bg-fuchsia-50 text-fuchsia-700 border border-fuchsia-200';
+        if (step.owner === 'Both') ownerColor = 'bg-purple-50 text-brand-purple border border-purple-200';
+
+        // STATUS TOGGLE BUTTON UNDER NODE CIRCLE
+        const actionBtnHtml = isStepDone
+          ? `<button type="button" onclick="toggleStepValidation('${step.id}')" ${currentRole === 'client' ? 'disabled' : ''} class="flex items-center space-x-1 border border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 text-[10px] font-bold px-2.5 py-1 rounded-lg transition shadow-2xs cursor-pointer" title="Status: Done (Click to reopen)">
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>${currentRole === 'pm' ? 'Done' : 'Done'}</span>
             </button>`
-          : `<button onclick="toggleStepValidation('${step.id}')" ${currentRole === 'client' && step.owner === 'DEDGE' ? 'disabled' : ''} class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[11px] px-3 py-1 rounded-lg shadow-sm transition">
-              Approve Milestone Step
+          : `<button type="button" onclick="toggleStepValidation('${step.id}')" ${currentRole === 'client' && step.owner === 'DEDGE' ? 'disabled' : ''} class="bg-amber-50 hover:bg-emerald-50 text-amber-700 hover:text-emerald-700 border border-amber-300 hover:border-emerald-300 font-bold text-[10px] px-2.5 py-1 rounded-lg shadow-2xs transition flex items-center space-x-1 cursor-pointer" title="Status: To-do (Click to mark as done)">
+              <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-600"></i>
+              <span>To-do</span>
             </button>`;
 
         const deleteStepBtn = currentRole === 'pm' ? `
@@ -4614,85 +5927,82 @@
           </button>
         ` : '';
 
-        const tasksHtml = step.tasks.map((taskText, tIdx) => `
-          <div class="flex items-center justify-between group/task py-0.5">
-            <label class="flex items-start space-x-2 text-[11px] text-slate-600 cursor-pointer flex-1">
-              <input type="checkbox" ${step.status === 'completed' || step.completedTaskIndices?.includes(tIdx) ? 'checked' : ''} onchange="toggleTaskCheck('${step.id}', ${tIdx})" class="mt-0.5 rounded border-slate-300 text-brand-purple focus:ring-brand-purple">
-              <span>${taskText}</span>
-            </label>
-            ${currentRole === 'pm' ? `
-              <button onclick="deleteStepTask('${step.id}', ${tIdx})" class="opacity-0 group-hover/task:opacity-100 text-slate-300 hover:text-rose-500 transition pl-1">
-                <i data-lucide="x" class="w-3 h-3"></i>
-              </button>
-            ` : ''}
-          </div>
-        `).join('');
-
-        // EDITABLE & SAVEABLE DATE PICKER WITH "DEADLINE:" LABEL FOR MANAGERS
+        // DEADLINE SYNCHRONIZATION (PM DATE SELECTOR / CLIENT READ-ONLY)
         const dateHtml = currentRole === 'pm' ? `
-          <div class="flex items-center space-x-1 text-[11px]">
+          <div class="flex items-center space-x-1 text-[10px]">
             <i data-lucide="calendar" class="w-3 h-3 text-slate-400 shrink-0"></i>
-            <span class="text-[10px] font-bold text-slate-500 shrink-0">Deadline:</span>
-            <input id="date-input-${step.id}" type="date" value="${step.date}" class="border border-slate-200 bg-slate-50 text-slate-700 font-medium rounded px-1 py-0.5 w-24 outline-none focus:ring-1 focus:ring-brand-purple text-[10px]">
-            <button onclick="saveStepDate('${step.id}')" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-[9px] font-bold px-1.5 py-0.5 rounded transition shrink-0">
-              Save
-            </button>
+            <span class="font-bold text-slate-500 shrink-0">Deadline:</span>
+            <input 
+              id="date-input-${step.id}" 
+              type="date" 
+              value="${step.date || ''}" 
+              onchange="saveStepDate('${step.id}')"
+              class="border border-slate-200 bg-slate-50 hover:bg-white text-slate-700 font-semibold rounded px-1.5 py-0.5 w-24 outline-none focus:ring-1 focus:ring-brand-purple text-[10px] cursor-pointer transition shadow-2xs"
+              title="Edit deadline for this milestone"
+            >
           </div>
         ` : `
           <span class="flex items-center space-x-1 text-[11px] text-slate-500 font-medium">
-            <i data-lucide="calendar" class="w-3 h-3"></i>
-            <span class="font-bold text-slate-600">Deadline: ${step.date}</span>
+            <i data-lucide="calendar" class="w-3 h-3 text-brand-purple shrink-0"></i>
+            <span class="text-slate-500 font-semibold text-[10px]">Deadline:</span>
+            <span class="font-bold text-slate-700 text-[10px]">${formatDisplayDate(step.date)}</span>
           </span>
         `;
 
-        // EDITABLE & SAVEABLE DRIVE LINK FOR MANAGERS
-        const driveHtml = currentRole === 'pm' ? `
-          <div class="flex items-center space-x-1.5 text-[10px]">
-            <span class="text-slate-400 font-medium shrink-0">Drive:</span>
-            <input id="drive-input-${step.id}" type="url" value="${step.drive || ''}" class="border border-slate-200 bg-slate-50 text-brand-purple underline font-semibold rounded px-1.5 py-0.5 w-32 outline-none focus:ring-1 focus:ring-brand-purple truncate">
-            <button onclick="saveStepDrive('${step.id}')" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-[9px] font-bold px-2 py-0.5 rounded transition shrink-0">
-              Save
-            </button>
-          </div>
-        ` : `
-          <div class="text-[11px]">
-            <span class="text-slate-500">Workspace Link: </span>
-            <a href="${step.drive || '#'}" target="_blank" class="text-brand-purple underline font-semibold">Google Drive Link</a>
-          </div>
-        `;
+        const stepDescription = step.description || meta.defaultDesc || 'Milestone step deliverable requirements and expectations.';
 
+        // TIMELINE CARD WITHOUT EXTERNAL LINKS & CHECKBOXES, WITH DESCRIPTION AND DIRECT ANCHOR LINK
         const cardHtml = `
-          <div class="timeline-card w-72 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm text-xs space-y-2.5 relative z-20 transition-all duration-150">
+          <div class="timeline-card w-72 bg-white border border-slate-200 hover:border-brand-purple rounded-2xl p-4 shadow-sm text-xs space-y-2.5 relative z-20 transition-all duration-200">
             <div class="flex items-center justify-between border-b border-slate-100 pb-2">
               <div class="flex items-center space-x-1.5 min-w-0">
-                <div class="cursor-grab active:cursor-grabbing text-slate-300 hover:text-brand-purple p-0.5 -ml-1 transition shrink-0" title="Drag to reorder milestone">
-                  <i data-lucide="grip-vertical" class="w-3.5 h-3.5"></i>
-                </div>
                 ${dateHtml}
               </div>
               <span class="px-2 py-0.5 rounded-full font-bold text-[9px] uppercase tracking-wider shrink-0 ${ownerColor}">${step.owner}</span>
             </div>
 
-            <h4 class="font-bold text-slate-900 leading-tight">${step.title}</h4>
-            ${driveHtml}
-
-            <div class="space-y-1 pt-1.5 border-t border-slate-100">
-              ${tasksHtml}
+            <!-- TITLE WITH OPTIONAL PM QUICK-EDIT -->
+            <div class="flex items-start justify-between gap-1">
+              <h4 class="font-bold text-slate-900 leading-tight text-xs">${step.title}</h4>
               ${currentRole === 'pm' ? `
-                <button onclick="promptAddStepTask('${step.id}')" class="mt-1 text-[10px] text-brand-purple font-bold flex items-center space-x-1 hover:underline">
-                  <i data-lucide="plus-circle" class="w-3 h-3"></i>
-                  <span>Add Checklist Item</span>
+                <button type="button" onclick="promptEditStepTitle('${step.id}')" class="text-slate-300 hover:text-brand-purple p-0.5 rounded transition shrink-0" title="Edit step title">
+                  <i data-lucide="edit-2" class="w-3 h-3"></i>
                 </button>
               ` : ''}
             </div>
+
+            <!-- STEP DESCRIPTION (REPLACING CHECKBOXES) -->
+            <div class="bg-slate-50/90 rounded-xl p-2.5 border border-slate-100/90 text-slate-600 text-[11px] leading-relaxed relative group/desc">
+              <p class="select-none">${stepDescription}</p>
+              ${currentRole === 'pm' ? `
+                <button type="button" onclick="promptEditStepDesc('${step.id}')" class="opacity-0 group-hover/desc:opacity-100 absolute top-1.5 right-1.5 p-1 bg-white hover:bg-purple-50 text-slate-400 hover:text-brand-purple border border-slate-200 rounded-md transition shadow-2xs cursor-pointer" title="Edit Step Description">
+                  <i data-lucide="pencil" class="w-2.5 h-2.5"></i>
+                </button>
+              ` : ''}
+            </div>
+
+            <!-- ANCHOR LINK TO SUBBLOCK IN PARENT SECTION -->
+            <button 
+              type="button" 
+              onclick="scrollToTimelineBlock('${targetBlockId}')" 
+              class="w-full flex items-center justify-between px-3 py-1.5 bg-purple-50 hover:bg-brand-purple hover:text-white text-brand-purple rounded-xl border border-purple-200/80 transition-all duration-200 shadow-2xs font-bold text-[11px] group cursor-pointer"
+              title="Jump to ${meta.name} in ${meta.parent}"
+            >
+              <div class="flex items-center space-x-1.5 min-w-0">
+                <i data-lucide="arrow-down-right" class="w-3.5 h-3.5 shrink-0 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition"></i>
+                <span class="truncate">Jump to ${meta.name}</span>
+              </div>
+              <span class="text-[9px] px-1.5 py-0.2 rounded-md bg-purple-100 text-brand-purple group-hover:bg-white/20 group-hover:text-white font-mono font-bold shrink-0 ml-1.5">Section ${meta.parentNumber}</span>
+            </button>
           </div>
         `;
 
         const lineHtml = `<div class="w-0.5 h-10 bg-slate-400"></div>`;
-        const groupPillHtml = `<div class="bg-brand-pillBg text-slate-600 text-[10px] font-bold px-3 py-1 rounded-full border border-slate-200/60 shadow-2xs whitespace-nowrap mb-1 cursor-grab active:cursor-grabbing" title="Drag to reorder milestone">${step.group}</div>`;
-        let circleHtml = step.status === 'completed'
-          ? `<div class="w-7 h-7 rounded-full bg-white border-2 border-slate-400 flex items-center justify-center shadow-xs"><div class="w-3.5 h-3.5 rounded-full bg-slate-500"></div></div>`
-          : `<div class="w-7 h-7 rounded-full bg-brand-purple border-2 border-brand-purple flex items-center justify-center shadow-md"><div class="w-3 h-3 rounded-full bg-white"></div></div>`;
+        const groupPillHtml = `<div class="bg-brand-pillBg text-slate-600 text-[10px] font-bold px-3 py-1 rounded-full border border-slate-200/60 shadow-2xs whitespace-nowrap mb-1">${step.group}</div>`;
+        
+        const circleHtml = isStepDone
+          ? `<div class="w-7 h-7 rounded-full bg-emerald-500 border-2 border-emerald-600 text-white flex items-center justify-center shadow-md"><i data-lucide="check" class="w-3.5 h-3.5 stroke-[3]"></i></div>`
+          : `<div class="w-7 h-7 rounded-full bg-brand-purple border-2 border-brand-purple flex items-center justify-center shadow-md"><div class="w-2.5 h-2.5 rounded-full bg-white"></div></div>`;
 
         if (position === 'top') {
           nodeWrapper.innerHTML = `
@@ -4724,31 +6034,38 @@
       }
     }
 
-    // --- SAVE STEP DATE ACTION ---
+    // --- SAVE STEP DATE ACTION WITH SECTION DEADLINE SYNCHRONIZATION ---
     function saveStepDate(stepId) {
-      const newDate = document.getElementById(`date-input-${stepId}`).value;
+      const input = document.getElementById(`date-input-${stepId}`);
+      if (!input) return;
+      const newDate = input.value;
       const project = projects.find(p => p.id === currentProjectId);
-      if (project) {
-        const step = project.steps.find(s => s.id === stepId);
-        if (step) {
-          step.date = newDate;
-          logActivity('Milestone Target Updated', `Updated target deadline for "${step.title}" to ${formatDisplayDate(newDate)}`, 'calendar', 'date', project.id);
-          showSavingToast('Saving milestone deadline...', 'Deadline saved');
-        }
+      if (!project) return;
+      const step = project.steps.find(s => s.id === stepId);
+      if (!step) return;
+      step.date = newDate;
+
+      // Synchronize section deadline based on step
+      const meta = getStepBlockMeta(step);
+      const parent = step.parentSectionId || step.group || meta.parent || '';
+      if (parent.includes('1') || parent.toLowerCase().includes('sitemap') || meta.key === 'sitemap' || meta.key === 'seoQuestionnaire' || meta.key === 'templates') {
+        project.sitemapDeadline = newDate;
+      } else if (parent.includes('2') || parent.toLowerCase().includes('content') || meta.key === 'texts' || meta.key === 'images' || meta.key === 'brandIdentity' || meta.key === 'domainServices') {
+        project.contentCollectionDeadline = newDate;
+      } else if (parent.includes('3') || parent.toLowerCase().includes('revision') || meta.key === 'staging' || meta.key === 'firstWaveRevisions' || meta.key === 'secondWaveRevisions') {
+        project.revisionPhaseDeadline = newDate;
+      } else if (parent.includes('4') || parent.toLowerCase().includes('live') || meta.key === 'goLive') {
+        project.goLiveDeadline = newDate;
       }
+
+      logActivity('Milestone Target Updated', `Updated target deadline for "${step.title}" to ${formatDisplayDate(newDate)}`, 'calendar', 'date', project.id);
+      renderApp();
+      showSavingToast('Saving milestone deadline...', 'Deadline saved');
     }
 
-    // --- SAVE DRIVE LINK ACTION ---
-    function saveStepDrive(stepId) {
-      const newUrl = document.getElementById(`drive-input-${stepId}`).value;
-      const project = projects.find(p => p.id === currentProjectId);
-      if (project) {
-        const step = project.steps.find(s => s.id === stepId);
-        if (step) {
-          step.drive = newUrl;
-          logActivity('Milestone Workspace Linked', `Attached Google Drive workspace link to "${step.title}"`, 'file-text', 'document', project.id);
-          showSavingToast('Saving Drive link...', 'Link saved');
-        }
+    function confirmDeleteStep(stepId) {
+      if (confirm("Are you sure you want to remove this milestone step from the roadmap?")) {
+        deleteStep(stepId);
       }
     }
 
@@ -4855,19 +6172,53 @@
     // --- TIMELINE STEP CONTROLS ---
     function toggleStepValidation(stepId) {
       const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
       const step = project.steps.find(s => s.id === stepId);
       if (!step) return;
 
-      if (step.status === 'completed') {
-        step.status = 'in_progress';
-        step.completedTaskIndices = [];
-        logActivity('Milestone Reopened', `Reopened milestone step "${step.title}"`, 'clock', 'milestone', project.id);
-      } else {
-        step.status = 'completed';
-        step.completedTaskIndices = step.tasks.map((_, i) => i);
-        logActivity('Milestone Validated', `Validated & approved milestone step "${step.title}"`, 'check-circle-2', 'milestone', project.id);
+      const isCurrentlyCompleted = (step.status === 'completed');
+      const newStatus = isCurrentlyCompleted ? 'pending' : 'completed';
+      step.status = newStatus;
+      const isNowDone = (newStatus === 'completed');
+
+      // Synchronize with completionStatus
+      const meta = getStepBlockMeta(step);
+      if (meta && meta.key) {
+        if (!project.completionStatus) project.completionStatus = {};
+        project.completionStatus[meta.key] = isNowDone;
+
+        // Parent-child synchronization
+        if (meta.key === 'brandIdentity') {
+          project.completionStatus.colors = isNowDone;
+          project.completionStatus.fonts = isNowDone;
+        } else if (meta.key === 'domainServices') {
+          project.completionStatus.finalDomain = isNowDone;
+          project.completionStatus.ga4 = isNowDone;
+          project.completionStatus.maps = isNowDone;
+        } else if (meta.key === 'sitemap') {
+          project.sitemapCompleted = isNowDone;
+        } else if (meta.key === 'goLive') {
+          const currentServer = project.serverSelection || 'EMEAWEBFB3';
+          const activeConfig = DNS_SERVERS_CONFIG[currentServer] || DNS_SERVERS_CONFIG['EMEAWEBFB3'];
+          if (!project.dnsRecordsDone) project.dnsRecordsDone = {};
+          if (activeConfig && activeConfig.records) {
+            activeConfig.records.forEach((_, idx) => {
+              project.dnsRecordsDone[`${currentServer}_${idx}`] = isNowDone;
+            });
+          }
+        }
       }
+
+      logActivity(
+        isNowDone ? 'Milestone Validated' : 'Milestone Reopened',
+        `${isNowDone ? 'Validated & approved' : 'Reopened'} milestone step "${step.title}"`,
+        isNowDone ? 'check-circle-2' : 'clock',
+        'milestone',
+        project.id
+      );
+
       renderApp();
+      showSavingToast(isNowDone ? 'Milestone Approved' : 'Milestone Reopened', step.title);
     }
 
     function toggleTaskCheck(stepId, taskIdx) {
@@ -5345,8 +6696,27 @@
       renderApp();
     }
 
+    function syncAddStepTargetBlock(groupValue) {
+      const targetSelect = document.getElementById('as-target-block');
+      if (!targetSelect) return;
+      if (groupValue === '1. Sitemap') targetSelect.value = 'sitemap-card';
+      else if (groupValue === '2. Content Collection') targetSelect.value = 'texts-card';
+      else if (groupValue === '3. Revision Phase') targetSelect.value = 'staging-card';
+      else if (groupValue === '4. Go-live') targetSelect.value = 'go-live-card';
+      else if (groupValue === 'Third Party Integrations') targetSelect.value = 'third-party-section';
+    }
+
     function openAddStepModal() {
+      const titleInput = document.getElementById('as-title');
+      const descInput = document.getElementById('as-description');
+      const dateInput = document.getElementById('as-date');
+      const groupSelect = document.getElementById('as-group');
+      if (titleInput) titleInput.value = '';
+      if (descInput) descInput.value = '';
+      if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+      if (groupSelect) syncAddStepTargetBlock(groupSelect.value);
       document.getElementById('modal-add-step').classList.remove('hidden');
+      lucide.createIcons();
     }
 
     function closeModal(id) {
@@ -5356,27 +6726,34 @@
     function handleAddStepSubmit(e) {
       e.preventDefault();
       const group = document.getElementById('as-group').value;
-      const title = document.getElementById('as-title').value;
+      const targetBlock = document.getElementById('as-target-block').value;
+      const title = document.getElementById('as-title').value.trim();
+      const description = document.getElementById('as-description').value.trim();
+      const date = document.getElementById('as-date').value;
       const owner = document.getElementById('as-owner').value;
-      const drive = document.getElementById('as-drive').value;
 
       const project = projects.find(p => p.id === currentProjectId);
       if (project) {
-        project.steps.push({
+        if (!project.steps) project.steps = [];
+        const newStep = {
           id: `step-${Date.now()}`,
           group: group,
+          parentSectionId: group === '1. Sitemap' ? 'section-sitemap' : group === '2. Content Collection' ? 'section-content-collection' : group === '3. Revision Phase' ? 'section-revision-phase' : group === '4. Go-live' ? 'section-go-live' : 'third-party-section',
+          targetBlockId: targetBlock,
           title: title,
-          date: new Date().toISOString().split('T')[0],
+          description: description || 'Milestone step requirements and deliverables.',
+          date: date || new Date().toISOString().split('T')[0],
           owner: owner,
           status: 'pending',
-          drive: drive,
-          tasks: ['Initial milestone requirement verification']
-        });
+          tasks: [description || 'Initial milestone requirement verification']
+        };
+        project.steps.push(newStep);
         logActivity('Milestone Step Created', `Added new milestone step "${title}" in phase ${group}`, 'plus-circle', 'milestone', project.id);
       }
 
       closeModal('modal-add-step');
       renderApp();
+      showSavingToast('Adding milestone...', 'Step added to timeline');
     }
   </script>
 </body>
