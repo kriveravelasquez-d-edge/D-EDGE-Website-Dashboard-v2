@@ -107,28 +107,37 @@
 
       <!-- VIEW 1: TIMELINE AXIS CANVAS -->
       <div id="view-timeline" class="space-y-6">
-        <section class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm relative min-h-[450px] md:min-h-[500px] flex flex-col justify-center overflow-x-auto">
+        <section id="section-timeline-axis" class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm relative flex flex-col space-y-5">
           
-          <!-- TIMELINE CANVAS HEADER WITH PROJECT NAME, PACKAGE TIER & TEMPLATE -->
-          <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-            <div class="flex items-center space-x-3">
-              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Project Timeline Axis:</span>
-              <h2 id="axis-project-name" class="text-sm md:text-base font-bold text-brand-purple">Le Grand Hotel Paris</h2>
+          <!-- TIMELINE CANVAS HEADER WITH PROJECT NAME, PACKAGE TIER & OVERALL PROGRESS -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+            <div class="space-y-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider bg-slate-100 px-2.5 py-0.5 rounded-md">Project Timeline View</span>
+                <span id="axis-package-tier" class="bg-amber-100 text-amber-900 border border-amber-200/90 text-[11px] px-2.5 py-0.5 rounded-full font-bold shadow-2xs">
+                  SEO Essential
+                </span>
+                <span id="axis-evolution-tag" class="bg-purple-100 text-brand-purple border border-purple-200 text-[11px] px-2.5 py-0.5 rounded-full font-mono font-bold">
+                  Template: Crystal
+                </span>
+              </div>
+              <h2 id="axis-project-name" class="text-base md:text-lg font-bold text-brand-purple">Le Grand Hotel Paris</h2>
             </div>
-            <div class="flex items-center space-x-2">
-              <span id="axis-package-tier" class="bg-amber-100 text-amber-900 border border-amber-200/90 text-xs px-3 py-1 rounded-full font-bold shadow-2xs">
-                SEO Essential
-              </span>
-              <span id="axis-evolution-tag" class="bg-purple-100 text-brand-purple border border-purple-200 text-xs px-3 py-1 rounded-full font-mono font-bold">
-                Template: Crystal
-              </span>
+
+            <!-- OVERALL PROJECT HEALTH & PROGRESS -->
+            <div id="axis-overall-progress" class="flex items-center gap-3">
+              <!-- Rendered dynamically -->
             </div>
           </div>
 
-          <div class="min-w-[1000px] md:min-w-[1200px] py-8 md:py-12 relative">
-            <div class="absolute top-1/2 left-12 right-12 h-1 bg-slate-700 -translate-y-1/2 z-0"></div>
-            <div id="timeline-nodes-container" class="relative z-10 flex items-center justify-start space-x-8 px-12">
-            </div>
+          <!-- SEQUENTIAL TIMELINE AXIS STEPPER & ACTIVE FOCUS BANNER -->
+          <div id="timeline-axis-stepper-container" class="space-y-3">
+            <!-- Rendered dynamically -->
+          </div>
+
+          <!-- STEP SECTIONS TIMELINE GRID -->
+          <div id="timeline-nodes-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+            <!-- Dynamically populated with a card per Step Section -->
           </div>
         </section>
 
@@ -168,25 +177,25 @@
             <!-- BLOCK 1 (Left 4 cols): SITEMAP DRIVE & SEO QUESTIONNAIRE -->
             <div class="lg:col-span-4 space-y-4">
               <!-- SITEMAP GOOGLE DRIVE LINK / DYNAMIC SITEMAP LINKS -->
-              <div id="sitemap-card" class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 transition">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center space-x-2">
-                    <h4 class="font-bold text-slate-900 flex items-center space-x-1.5">
-                      <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-purple"></i>
+              <div id="sitemap-card" class="bg-slate-50 p-3 sm:p-3.5 rounded-xl border border-slate-200 space-y-2.5 transition">
+                <div class="flex items-center justify-between gap-2 border-b border-slate-200/60 pb-2">
+                  <div class="flex items-center space-x-1.5 min-w-0">
+                    <i data-lucide="folder-git-2" class="w-4 h-4 text-brand-purple shrink-0"></i>
+                    <h4 class="font-bold text-slate-900 text-xs truncate">
                       <span id="title-block-sitemap">Sitemap</span>
                     </h4>
-                    <!-- COMPACT DONE BUTTON NEXT TO TITLE -->
-                    <div id="sitemap-done-btn-container"></div>
                   </div>
+                  <!-- COMPACT DONE BUTTON NEXT TO TITLE -->
+                  <div id="sitemap-done-btn-container" class="shrink-0 flex items-center"></div>
                 </div>
 
                 <!-- DYNAMIC LIST OF SITEMAP DOC LINKS BUTTONS -->
-                <div id="sitemap-drive-container" class="space-y-2">
+                <div id="sitemap-drive-container" class="space-y-1.5">
                   <!-- Rendered dynamically -->
                 </div>
 
                 <!-- PERSISTENT ADD BUTTON ALWAYS DIRECTLY UNDERNEATH LAST ITEM (PM VIEW) -->
-                <div id="sitemap-add-btn-container">
+                <div id="sitemap-add-btn-container" class="pt-0.5">
                   <!-- Rendered dynamically -->
                 </div>
               </div>
@@ -899,7 +908,7 @@
           <i data-lucide="file-text" class="w-4 h-4 text-brand-purple"></i>
           <h3 id="modal-text-doc-title" class="text-base font-bold text-brand-purple">Add Google Doc Link</h3>
         </div>
-        <button onclick="closeModal('modal-text-doc')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <button onclick="closeModal('modal-text-doc')" class="text-slate-400 hover:text-slate-600 cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
       <form onsubmit="handleTextDocSubmit(event)" class="space-y-3.5 text-xs">
@@ -913,14 +922,13 @@
           </select>
         </div>
 
+        <!-- DOCUMENT TITLE DISPLAY (FIXED / NON-EDITABLE BY PM) -->
         <div>
-          <label class="block text-slate-700 font-bold mb-1">Name of the document</label>
-          <div class="flex items-center rounded-xl border border-slate-200 bg-slate-50/50 focus-within:ring-2 focus-within:ring-brand-purple focus-within:border-transparent overflow-hidden">
-            <div id="mtd-prefix-badge" class="bg-purple-100/80 text-brand-purple font-bold font-mono px-3 py-2.5 text-xs select-none border-r border-slate-200 shrink-0 flex items-center space-x-1.5" title="Language initials (automatically added)">
-              <span id="mtd-prefix-flag">🇬🇧</span>
-              <span id="mtd-prefix-code">[EN]</span>
-            </div>
-            <input required id="mtd-label" type="text" placeholder="e.g. Main Website Copy, Room Descriptions" class="w-full bg-transparent px-3 py-2.5 outline-none text-xs text-slate-800 font-medium">
+          <label class="block text-slate-700 font-bold mb-1">Document Title</label>
+          <div class="flex items-center space-x-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50/80 text-slate-800 font-medium text-xs">
+            <span id="mtd-prefix-flag">🇬🇧</span>
+            <span id="mtd-title-preview" class="font-bold text-brand-purple">English Version</span>
+            <span class="text-[10px] text-slate-400 font-normal ml-auto">(Automatic from chosen language)</span>
           </div>
         </div>
 
@@ -930,8 +938,8 @@
         </div>
 
         <div class="pt-3 flex justify-end space-x-2 border-t border-slate-100">
-          <button type="button" onclick="closeModal('modal-text-doc')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition text-xs">Cancel</button>
-          <button type="submit" class="px-6 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm transition text-xs">Save</button>
+          <button type="button" onclick="closeModal('modal-text-doc')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition text-xs cursor-pointer">Cancel</button>
+          <button type="submit" class="px-6 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm transition text-xs cursor-pointer">Save</button>
         </div>
       </form>
     </div>
@@ -959,14 +967,13 @@
           </select>
         </div>
 
+        <!-- SITEMAP TITLE DISPLAY (FIXED / NON-EDITABLE BY PM) -->
         <div>
-          <label class="block text-slate-700 font-bold mb-1">Name of the sitemap</label>
-          <div class="flex items-center rounded-xl border border-slate-200 bg-slate-50/50 focus-within:ring-2 focus-within:ring-brand-purple focus-within:border-transparent overflow-hidden">
-            <div id="msd-prefix-badge" class="bg-purple-100/80 text-brand-purple font-bold font-mono px-3 py-2.5 text-xs select-none border-r border-slate-200 shrink-0 flex items-center space-x-1.5" title="Language initials (automatically added)">
-              <span id="msd-prefix-flag">🇬🇧</span>
-              <span id="msd-prefix-code">[EN]</span>
-            </div>
-            <input required id="msd-label" type="text" placeholder="e.g. Sitemap Architecture, Tree Structure, Main Version" class="w-full bg-transparent px-3 py-2.5 outline-none text-xs text-slate-800 font-medium">
+          <label class="block text-slate-700 font-bold mb-1">Document Title</label>
+          <div class="flex items-center space-x-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50/80 text-slate-800 font-medium text-xs">
+            <span id="msd-prefix-flag">🇬🇧</span>
+            <span id="msd-title-preview" class="font-bold text-brand-purple">English Version</span>
+            <span class="text-[10px] text-slate-400 font-normal ml-auto">(Automatic from chosen language)</span>
           </div>
         </div>
 
@@ -1489,7 +1496,7 @@
         evolutionTag: 'Crystal',
         sitemapDriveUrl: 'https://drive.google.com',
         sitemapDocs: [
-          { id: 'sd1', lang: 'French', label: '[FR] Proposed Sitemap Architecture', url: 'https://drive.google.com' }
+          { id: 'sd1', lang: 'French', label: 'French Version', url: 'https://drive.google.com', completed: false }
         ],
         sitemapCompleted: false,
         seoQuestionnaireUrl: 'https://docs.google.com/forms/d/e/1FAIpQLScseoHotelQuestionnaireExample/viewform',
@@ -1498,6 +1505,7 @@
         contentCollectionDeadline: '2026-06-10',
         revisionPhaseDeadline: '2026-07-25',
         stagingSiteUrl: 'https://staging.grandhotelparis.showcase.d-edge.ws',
+        hasFirstWaveRevisions: true,
         hasSecondWaveRevisions: true,
         firstWaveNotes: 'https://docs.google.com/spreadsheets/d/1GrandHotelParisWave1Feedback',
         secondWaveNotes: 'Final punchlist review before public launch',
@@ -1519,8 +1527,8 @@
         thirdPartyNotes: 'TablePlus for direct dining reservations.',
         customIntegrations: [],
         textDocs: [
-          { id: 'td1', lang: 'French', label: '[FR] Main Website Copy (Master)', url: 'https://docs.google.com/document/d/1GrandHotelParisMasterCopy' },
-          { id: 'td2', lang: 'English', label: '[EN] Rooms & Amenities Details', url: 'https://docs.google.com/document/d/2GrandHotelParisRoomsSpecs' }
+          { id: 'td1', lang: 'French', label: 'French Version', url: 'https://docs.google.com/document/d/1GrandHotelParisMasterCopy', completed: false },
+          { id: 'td2', lang: 'English', label: 'English Version', url: 'https://docs.google.com/document/d/2GrandHotelParisRoomsSpecs', completed: false }
         ],
         graphicElements: {
           imagesDrive: 'https://drive.google.com',
@@ -1538,7 +1546,7 @@
         evolutionTag: 'Sequoia',
         sitemapDriveUrl: 'https://drive.google.com',
         sitemapDocs: [
-          { id: 'sd1', lang: 'English', label: '[EN] Resort Sitemap Structure', url: 'https://drive.google.com' }
+          { id: 'sd1', lang: 'English', label: 'English Version', url: 'https://drive.google.com', completed: false }
         ],
         sitemapCompleted: false,
         seoQuestionnaireUrl: 'https://docs.google.com/forms/d/e/1FAIpQLScAlpineSeoQuestionnaire/viewform',
@@ -1547,6 +1555,7 @@
         contentCollectionDeadline: '2026-06-10',
         revisionPhaseDeadline: '2026-07-30',
         stagingSiteUrl: 'https://staging.alpineresort.showcase.d-edge.ws',
+        hasFirstWaveRevisions: true,
         hasSecondWaveRevisions: false,
         firstWaveNotes: '',
         secondWaveNotes: '',
@@ -1568,7 +1577,7 @@
         thirdPartyNotes: '',
         customIntegrations: [],
         textDocs: [
-          { id: 'td1', lang: 'English', label: '[EN] Alpine Resort Master Copy', url: 'https://docs.google.com/document/d/1AlpineResortContentDoc' }
+          { id: 'td1', lang: 'English', label: 'English Version', url: 'https://docs.google.com/document/d/1AlpineResortContentDoc', completed: false }
         ],
         graphicElements: {
           imagesDrive: 'https://drive.google.com',
@@ -1586,8 +1595,8 @@
         evolutionTag: 'Serene',
         sitemapDriveUrl: 'https://drive.google.com',
         sitemapDocs: [
-          { id: 'sd1', lang: 'Italian', label: '[IT] Custom Sitemap & Navigation Tree', url: 'https://drive.google.com' },
-          { id: 'sd2', lang: 'English', label: '[EN] Multilingual Sitemap Architecture', url: 'https://drive.google.com' }
+          { id: 'sd1', lang: 'Italian', label: 'Italian Version', url: 'https://drive.google.com', completed: false },
+          { id: 'sd2', lang: 'English', label: 'English Version', url: 'https://drive.google.com', completed: false }
         ],
         sitemapCompleted: false,
         seoQuestionnaireUrl: 'https://docs.google.com/forms/d/e/1FAIpQLScPalazzoVeneziaDiscovery/viewform',
@@ -1596,6 +1605,7 @@
         contentCollectionDeadline: '2026-06-15',
         revisionPhaseDeadline: '2026-08-05',
         stagingSiteUrl: 'https://staging.palazzovenezia.showcase.d-edge.ws',
+        hasFirstWaveRevisions: true,
         hasSecondWaveRevisions: true,
         firstWaveNotes: 'https://docs.google.com/spreadsheets/d/1PalazzoVeneziaFeedback',
         secondWaveNotes: 'Final boutique styling adjustments and high-res imagery check',
@@ -1617,8 +1627,8 @@
         thirdPartyNotes: 'SynXis CRS booking engine & OpenTable VIP widget integration.',
         customIntegrations: [],
         textDocs: [
-          { id: 'td1', lang: 'Italian', label: '[IT] Master Copy & Brand Narrative', url: 'https://docs.google.com/document/d/1PalazzoVeneziaCopy' },
-          { id: 'td2', lang: 'English', label: '[EN] International Guest Storytelling', url: 'https://docs.google.com/document/d/2PalazzoVeneziaEN' }
+          { id: 'td1', lang: 'Italian', label: 'Italian Version', url: 'https://docs.google.com/document/d/1PalazzoVeneziaCopy', completed: false },
+          { id: 'td2', lang: 'English', label: 'English Version', url: 'https://docs.google.com/document/d/2PalazzoVeneziaEN', completed: false }
         ],
         graphicElements: {
           imagesDrive: 'https://drive.google.com',
@@ -1631,6 +1641,64 @@
 
     let currentProjectId = 'p1';
     let currentRole = 'pm'; // 'pm' or 'client'
+    let timelineExpandedSteps = {}; // Map of step num -> boolean (true: expanded, false: collapsed)
+
+    function toggleTimelineStepCard(stepNum) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      if (timelineExpandedSteps[stepNum] === undefined) {
+        timelineExpandedSteps[stepNum] = false;
+      } else {
+        timelineExpandedSteps[stepNum] = !timelineExpandedSteps[stepNum];
+      }
+      renderTimelineAxis(project);
+    }
+
+    function expandTimelineStepCard(stepNum) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      timelineExpandedSteps[stepNum] = true;
+      renderTimelineAxis(project);
+    }
+
+    function handleStepperNodeClick(sectionId, stepNum) {
+      expandTimelineStepCard(stepNum);
+      setTimeout(() => {
+        const card = document.getElementById(`step-node-card-${stepNum}`);
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          card.classList.add('ring-4', 'ring-brand-purple/60');
+          setTimeout(() => card.classList.remove('ring-4', 'ring-brand-purple/60'), 1500);
+        } else {
+          scrollToTimelineBlock(sectionId);
+        }
+      }, 50);
+    }
+
+    function updateTimelineSectionsVisibility(project, activeStepIndex) {
+      const s1 = document.getElementById('section-sitemap');
+      const s2 = document.getElementById('section-content-collection');
+      const s3 = document.getElementById('section-revision-phase');
+      const s4 = document.getElementById('section-go-live');
+      const sections = [s1, s2, s3, s4];
+
+      if (currentRole === 'pm') {
+        sections.forEach(sec => {
+          if (sec) sec.classList.remove('hidden');
+        });
+        return;
+      }
+
+      // Client view: Next step is visible until all current step is finished; future steps are hidden
+      sections.forEach((sec, sIdx) => {
+        if (!sec) return;
+        if (activeStepIndex === -1 || sIdx <= activeStepIndex + 1) {
+          sec.classList.remove('hidden');
+        } else {
+          sec.classList.add('hidden');
+        }
+      });
+    }
 
     // --- RECENT ACTIVITY & HISTORY TRACKING STATE ---
     let activityRoleFilter = 'ALL'; // 'ALL', 'pm', 'client'
@@ -2099,6 +2167,7 @@
       if (!doc) return;
 
       const meta = getDocLangMeta(doc.lang || doc.label);
+      const displayLabel = `${doc.lang || meta.name || 'English'} Version`;
 
       showConfirmDialog({
         title: 'Delete Document Link',
@@ -2109,7 +2178,7 @@
               ${meta.iso ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-5 h-3.5 object-cover rounded-xs">` : `<span class="text-sm">${meta.flag}</span>`}
             </div>
             <div class="min-w-0 flex-1">
-              <div class="text-xs font-bold text-slate-900 truncate">${doc.label || 'Google Doc'}</div>
+              <div class="text-xs font-bold text-slate-900 truncate">${displayLabel}</div>
               <div class="text-[10px] text-slate-500 font-mono truncate">${doc.url || ''}</div>
             </div>
           </div>
@@ -2129,6 +2198,7 @@
       if (!doc) return;
 
       const meta = getDocLangMeta(doc.lang || doc.label);
+      const displayLabel = `${doc.lang || meta.name || 'English'} Version`;
 
       showConfirmDialog({
         title: 'Delete Sitemap Link',
@@ -2139,7 +2209,7 @@
               ${meta.iso ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-5 h-3.5 object-cover rounded-xs">` : `<span class="text-sm">${meta.flag}</span>`}
             </div>
             <div class="min-w-0 flex-1">
-              <div class="text-xs font-bold text-slate-900 truncate">${doc.label || 'Sitemap Link'}</div>
+              <div class="text-xs font-bold text-slate-900 truncate">${displayLabel}</div>
               <div class="text-[10px] text-slate-500 font-mono truncate">${doc.url || ''}</div>
             </div>
           </div>
@@ -2185,6 +2255,18 @@
         confirmVariant: 'danger',
         onConfirm: () => {
           deleteSeoQuestionnaire();
+        }
+      });
+    }
+
+    function confirmDeleteFirstWaveRevisions() {
+      showConfirmDialog({
+        title: 'Remove First Wave of Revision',
+        message: 'Are you sure you want to remove the First Wave of Revision round from the Revision Phase?',
+        confirmText: 'Remove Wave 1',
+        confirmVariant: 'danger',
+        onConfirm: () => {
+          deleteFirstWaveRevisions();
         }
       });
     }
@@ -3269,8 +3351,11 @@
       container.innerHTML = project.textDocs.map((doc, index) => {
         const meta = getDocLangMeta(doc.lang || doc.label);
         const flagImg = meta.iso ? `
-          <img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-5.5 h-4 object-cover rounded-xs shadow-2xs" onerror="this.outerHTML='<span class=\\'text-sm\\'>${meta.flag}</span>'">
-        ` : `<span class="text-sm">${meta.flag}</span>`;
+          <img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-5 h-3.5 object-cover rounded-xs shadow-2xs" onerror="this.outerHTML='<span class=\\'text-xs\\'>${meta.flag}</span>'">
+        ` : `<span class="text-xs">${meta.flag}</span>`;
+
+        const isDocDone = !!doc.completed;
+        const displayTitle = `${doc.lang || meta.name || 'English'} Version`;
 
         return `
           <div id="doc-card-${doc.id}" 
@@ -3281,49 +3366,74 @@
                ondrop="handleDocDrop(event, 'textDoc', ${index})"
                ondragend="handleDocDragEnd(event)"
                onclick="openDocUrl(event, '${doc.url}')" 
-               class="bg-white p-3 sm:p-3.5 rounded-xl border border-slate-200 shadow-2xs hover:border-purple-300 hover:shadow-md hover:scale-[1.01] transform transition-all duration-150 cursor-pointer flex items-center justify-between gap-2.5 group relative select-none" 
+               class="bg-white px-2.5 py-2 rounded-lg border ${isDocDone ? 'border-emerald-200 bg-emerald-50/20' : 'border-slate-200'} shadow-2xs hover:border-purple-300 hover:shadow-xs hover:scale-[1.005] transform transition-all duration-150 cursor-pointer flex items-center justify-between gap-2 group relative select-none" 
                title="Click to open Google Doc / Drag to reorder">
-            <div class="flex items-center space-x-2.5 min-w-0 flex-1">
+            <div class="flex items-center space-x-2 min-w-0 flex-1">
               <!-- DRAG HANDLE -->
               <div class="cursor-grab active:cursor-grabbing text-slate-300 group-hover:text-brand-purple p-0.5 -ml-1 shrink-0 transition" title="Drag to reorder">
                 <i data-lucide="grip-vertical" class="w-3.5 h-3.5"></i>
               </div>
 
               <!-- FLAG ICON BADGE -->
-              <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center shrink-0 shadow-2xs group-hover:border-purple-300 group-hover:bg-purple-50/70 transition overflow-hidden">
+              <div class="w-6 h-6 rounded-md bg-slate-50 border border-slate-200 flex items-center justify-center shrink-0 shadow-2xs group-hover:border-purple-300 group-hover:bg-purple-50/70 transition overflow-hidden">
                 ${flagImg}
               </div>
               <div class="min-w-0 flex-1">
-                <span class="font-bold text-xs text-slate-800 group-hover:text-brand-purple transition leading-snug block truncate">
-                  ${doc.label || `[${meta.code}] Google Doc`}
+                <span class="font-bold text-xs ${isDocDone ? 'text-slate-900' : 'text-slate-800'} group-hover:text-brand-purple transition leading-snug block truncate">
+                  ${displayTitle}
                 </span>
               </div>
             </div>
 
-            <!-- 3-DOTS ACTION MENU (FOR PM) -->
-            ${currentRole === 'pm' ? `
-              <div class="relative shrink-0" onclick="event.stopPropagation()">
-                <button type="button" onclick="toggleDocMenu(event, '${doc.id}')" title="More options" class="w-7 h-7 rounded-lg text-slate-400 hover:text-brand-purple hover:bg-purple-50 flex items-center justify-center transition">
-                  <i data-lucide="more-vertical" class="w-4 h-4"></i>
-                </button>
+            <!-- ACTIONS: TO-DO / DONE COMPONENT & OPTIONS -->
+            <div class="flex items-center space-x-1.5 shrink-0" onclick="event.stopPropagation()">
+              <!-- TO-DO / DONE COMPONENT BUTTON -->
+              <button 
+                type="button" 
+                onclick="toggleTextDocStatus(event, '${doc.id}')" 
+                class="inline-flex items-center space-x-1 text-[10px] font-bold px-2 py-0.5 rounded-lg border transition shadow-2xs cursor-pointer ${
+                  isDocDone 
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100' 
+                    : 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100'
+                }"
+                title="Status: ${isDocDone ? 'Done' : 'To-do'} (Click to toggle)"
+              >
+                <i data-lucide="${isDocDone ? 'check-circle-2' : 'clock'}" class="w-3 h-3 ${isDocDone ? 'text-emerald-600' : 'text-amber-600'}"></i>
+                <span>${isDocDone ? 'Done' : 'To-do'}</span>
+                ${isDocDone ? '<span class="text-[9px] text-emerald-600">✓</span>' : ''}
+              </button>
 
-                <!-- Dropdown Menu -->
-                <div id="doc-menu-${doc.id}" class="hidden absolute right-0 top-full mt-1 w-32 bg-white rounded-xl shadow-2xl border border-slate-200 py-1.5 z-50 text-xs divide-y divide-slate-100">
-                  <button type="button" onclick="openEditTextDocModal('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-slate-700 hover:bg-purple-50 hover:text-brand-purple flex items-center space-x-2 font-medium transition">
-                    <i data-lucide="edit-3" class="w-3.5 h-3.5 text-brand-purple"></i>
-                    <span>Edit</span>
-                  </button>
-                  <button type="button" onclick="confirmDeleteTextDoc('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-rose-600 hover:bg-rose-50 flex items-center space-x-2 font-medium transition cursor-pointer">
-                    <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-500"></i>
-                    <span>Delete</span>
-                  </button>
-                </div>
-              </div>
-            ` : `
-              <div class="text-slate-400 group-hover:text-brand-purple transition shrink-0">
+              <!-- EXTERNAL LINK BUTTON -->
+              <button 
+                type="button" 
+                onclick="event.stopPropagation(); window.open('${doc.url}', '_blank');" 
+                title="Open ${displayTitle} in new tab" 
+                class="w-6 h-6 rounded-md text-slate-400 hover:text-brand-purple hover:bg-purple-50 flex items-center justify-center transition cursor-pointer"
+              >
                 <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-              </div>
-            `}
+              </button>
+
+              <!-- 3-DOTS ACTION MENU (FOR PM) -->
+              ${currentRole === 'pm' ? `
+                <div class="relative shrink-0">
+                  <button type="button" onclick="toggleDocMenu(event, '${doc.id}')" title="More options" class="w-6 h-6 rounded-md text-slate-400 hover:text-brand-purple hover:bg-purple-50 flex items-center justify-center transition cursor-pointer">
+                    <i data-lucide="more-vertical" class="w-3.5 h-3.5"></i>
+                  </button>
+
+                  <!-- Dropdown Menu -->
+                  <div id="doc-menu-${doc.id}" class="hidden absolute right-0 top-full mt-1 w-32 bg-white rounded-xl shadow-2xl border border-slate-200 py-1.5 z-50 text-xs divide-y divide-slate-100">
+                    <button type="button" onclick="openEditTextDocModal('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-slate-700 hover:bg-purple-50 hover:text-brand-purple flex items-center space-x-2 font-medium transition cursor-pointer">
+                      <i data-lucide="edit-3" class="w-3.5 h-3.5 text-brand-purple"></i>
+                      <span>Edit</span>
+                    </button>
+                    <button type="button" onclick="confirmDeleteTextDoc('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-rose-600 hover:bg-rose-50 flex items-center space-x-2 font-medium transition cursor-pointer">
+                      <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-500"></i>
+                      <span>Delete</span>
+                    </button>
+                  </div>
+                </div>
+              ` : ''}
+            </div>
           </div>
         `;
       }).join('');
@@ -3393,12 +3503,12 @@
       if (!project.sitemapDocs) {
         if (project.sitemapDriveUrl) {
           const defaultLang = (project.languages && project.languages[0]) ? project.languages[0] : 'English';
-          const meta = getDocLangMeta(defaultLang);
           project.sitemapDocs = [{
             id: `sd-${Date.now()}`,
             lang: defaultLang,
-            label: `[${meta.code}] Proposed Sitemap Architecture`,
-            url: project.sitemapDriveUrl
+            label: `${defaultLang} Version`,
+            url: project.sitemapDriveUrl,
+            completed: !!project.completionStatus?.sitemap
           }];
         } else {
           project.sitemapDocs = [];
@@ -3407,8 +3517,8 @@
 
       if (project.sitemapDocs.length === 0) {
         container.innerHTML = `
-          <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-center text-slate-400 text-[11px] py-4 space-y-1">
-            <i data-lucide="folder-git-2" class="w-5 h-5 mx-auto text-slate-300"></i>
+          <div class="bg-white p-2.5 rounded-lg border border-slate-200 text-center text-slate-400 text-[11px] py-3 space-y-1">
+            <i data-lucide="folder-git-2" class="w-4 h-4 mx-auto text-slate-300"></i>
             <p>${currentRole === 'pm' ? 'No sitemap links added yet.' : 'Sitemap links will be provided by your Project Manager.'}</p>
           </div>
         `;
@@ -3416,8 +3526,11 @@
         container.innerHTML = project.sitemapDocs.map((doc, index) => {
           const meta = getDocLangMeta(doc.lang || doc.label);
           const flagImg = meta.iso ? `
-            <img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-5.5 h-4 object-cover rounded-xs shadow-2xs" onerror="this.outerHTML='<span class=\\'text-sm\\'>${meta.flag}</span>'">
-          ` : `<span class="text-sm">${meta.flag}</span>`;
+            <img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-5 h-3.5 object-cover rounded-xs shadow-2xs" onerror="this.outerHTML='<span class=\\'text-xs\\'>${meta.flag}</span>'">
+          ` : `<span class="text-xs">${meta.flag}</span>`;
+
+          const isDocDone = !!doc.completed;
+          const displayTitle = `${doc.lang || meta.name || 'English'} Version`;
 
           return `
             <div id="sitemap-doc-card-${doc.id}" 
@@ -3428,49 +3541,74 @@
                  ondrop="handleDocDrop(event, 'sitemap', ${index})"
                  ondragend="handleDocDragEnd(event)"
                  onclick="openDocUrl(event, '${doc.url}')" 
-                 class="bg-white p-3 sm:p-3.5 rounded-xl border border-slate-200 shadow-2xs hover:border-purple-300 hover:shadow-md hover:scale-[1.01] transform transition-all duration-150 cursor-pointer flex items-center justify-between gap-2.5 group relative select-none" 
+                 class="bg-white px-2.5 py-2 rounded-lg border ${isDocDone ? 'border-emerald-200 bg-emerald-50/20' : 'border-slate-200'} shadow-2xs hover:border-purple-300 hover:shadow-xs hover:scale-[1.005] transform transition-all duration-150 cursor-pointer flex items-center justify-between gap-2 group relative select-none" 
                  title="Click to open Sitemap / Drag to reorder">
-              <div class="flex items-center space-x-2.5 min-w-0 flex-1">
+              <div class="flex items-center space-x-2 min-w-0 flex-1">
                 <!-- DRAG HANDLE -->
-                <div class="cursor-grab active:cursor-grabbing text-slate-300 group-hover:text-brand-purple p-0.5 -ml-1 shrink-0 transition" title="Drag to reorder">
+                <div class="cursor-grab active:cursor-grabbing text-slate-300 group-hover:text-brand-purple p-0.5 -ml-0.5 shrink-0 transition" title="Drag to reorder">
                   <i data-lucide="grip-vertical" class="w-3.5 h-3.5"></i>
                 </div>
 
                 <!-- FLAG ICON BADGE -->
-                <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center shrink-0 shadow-2xs group-hover:border-purple-300 group-hover:bg-purple-50/70 transition overflow-hidden">
+                <div class="w-7 h-7 rounded-md bg-slate-50 border border-slate-200 flex items-center justify-center shrink-0 shadow-2xs group-hover:border-purple-300 group-hover:bg-purple-50/70 transition overflow-hidden">
                   ${flagImg}
                 </div>
                 <div class="min-w-0 flex-1">
-                  <span class="font-bold text-xs text-slate-800 group-hover:text-brand-purple transition leading-snug block truncate">
-                    ${doc.label || `[${meta.code}] Sitemap`}
+                  <span class="font-bold text-xs ${isDocDone ? 'text-slate-900' : 'text-slate-800'} group-hover:text-brand-purple transition leading-snug block truncate">
+                    ${displayTitle}
                   </span>
                 </div>
               </div>
 
-              <!-- 3-DOTS ACTION MENU (FOR PM) -->
-              ${currentRole === 'pm' ? `
-                <div class="relative shrink-0" onclick="event.stopPropagation()">
-                  <button type="button" onclick="toggleSitemapDocMenu(event, '${doc.id}')" title="More options" class="w-7 h-7 rounded-lg text-slate-400 hover:text-brand-purple hover:bg-purple-50 flex items-center justify-center transition">
-                    <i data-lucide="more-vertical" class="w-4 h-4"></i>
-                  </button>
+              <!-- ACTIONS: TO-DO / DONE COMPONENT & OPTIONS -->
+              <div class="flex items-center space-x-1.5 shrink-0" onclick="event.stopPropagation()">
+                <!-- TO-DO / DONE COMPONENT BUTTON -->
+                <button 
+                  type="button" 
+                  onclick="toggleSitemapDocStatus(event, '${doc.id}')" 
+                  class="inline-flex items-center space-x-1 text-[10px] font-bold px-2 py-0.5 rounded-lg border transition shadow-2xs cursor-pointer ${
+                    isDocDone 
+                      ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100' 
+                      : 'bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100'
+                  }"
+                  title="Status: ${isDocDone ? 'Done' : 'To-do'} (Click to toggle)"
+                >
+                  <i data-lucide="${isDocDone ? 'check-circle-2' : 'clock'}" class="w-3 h-3 ${isDocDone ? 'text-emerald-600' : 'text-amber-600'}"></i>
+                  <span>${isDocDone ? 'Done' : 'To-do'}</span>
+                  ${isDocDone ? '<span class="text-[9px] text-emerald-600">✓</span>' : ''}
+                </button>
 
-                  <!-- Dropdown Menu -->
-                  <div id="sitemap-doc-menu-${doc.id}" class="hidden absolute right-0 top-full mt-1 w-32 bg-white rounded-xl shadow-2xl border border-slate-200 py-1.5 z-50 text-xs divide-y divide-slate-100">
-                    <button type="button" onclick="openEditSitemapDocModal('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-slate-700 hover:bg-purple-50 hover:text-brand-purple flex items-center space-x-2 font-medium transition">
-                      <i data-lucide="edit-3" class="w-3.5 h-3.5 text-brand-purple"></i>
-                      <span>Edit</span>
-                    </button>
-                    <button type="button" onclick="confirmDeleteSitemapDoc('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-rose-600 hover:bg-rose-50 flex items-center space-x-2 font-medium transition cursor-pointer">
-                      <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-500"></i>
-                      <span>Delete</span>
-                    </button>
-                  </div>
-                </div>
-              ` : `
-                <div class="text-slate-400 group-hover:text-brand-purple transition shrink-0">
+                <!-- EXTERNAL LINK BUTTON -->
+                <button 
+                  type="button" 
+                  onclick="event.stopPropagation(); window.open('${doc.url}', '_blank');" 
+                  title="Open ${displayTitle} in new tab" 
+                  class="w-6 h-6 rounded-md text-slate-400 hover:text-brand-purple hover:bg-purple-50 flex items-center justify-center transition cursor-pointer"
+                >
                   <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                </div>
-              `}
+                </button>
+
+                <!-- 3-DOTS ACTION MENU (FOR PM) -->
+                ${currentRole === 'pm' ? `
+                  <div class="relative shrink-0">
+                    <button type="button" onclick="toggleSitemapDocMenu(event, '${doc.id}')" title="More options" class="w-6 h-6 rounded-md text-slate-400 hover:text-brand-purple hover:bg-purple-50 flex items-center justify-center transition cursor-pointer">
+                      <i data-lucide="more-vertical" class="w-3.5 h-3.5"></i>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div id="sitemap-doc-menu-${doc.id}" class="hidden absolute right-0 top-full mt-1 w-32 bg-white rounded-xl shadow-2xl border border-slate-200 py-1.5 z-50 text-xs divide-y divide-slate-100">
+                      <button type="button" onclick="openEditSitemapDocModal('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-slate-700 hover:bg-purple-50 hover:text-brand-purple flex items-center space-x-2 font-medium transition cursor-pointer">
+                        <i data-lucide="edit-3" class="w-3.5 h-3.5 text-brand-purple"></i>
+                        <span>Edit</span>
+                      </button>
+                      <button type="button" onclick="confirmDeleteSitemapDoc('${doc.id}'); hideAllDocMenus();" class="w-full text-left px-3 py-1.5 text-rose-600 hover:bg-rose-50 flex items-center space-x-2 font-medium transition cursor-pointer">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-500"></i>
+                        <span>Delete</span>
+                      </button>
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
             </div>
           `;
         }).join('');
@@ -3479,7 +3617,7 @@
       if (addBtnContainer) {
         if (currentRole === 'pm') {
           addBtnContainer.innerHTML = `
-            <button type="button" onclick="openAddSitemapDocModal()" class="w-full py-2 border border-dashed border-purple-300 hover:border-brand-purple hover:bg-purple-50/70 rounded-xl text-brand-purple font-bold text-xs flex items-center justify-center space-x-1.5 transition shadow-2xs">
+            <button type="button" onclick="openAddSitemapDocModal()" class="w-full py-1.5 border border-dashed border-purple-300 hover:border-brand-purple hover:bg-purple-50/70 rounded-lg text-brand-purple font-bold text-xs flex items-center justify-center space-x-1.5 transition shadow-2xs cursor-pointer">
               <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
               <span>+ Add Sitemap Link</span>
             </button>
@@ -3519,13 +3657,13 @@
     function handleSitemapDocLanguageChange(langName) {
       const meta = getDocLangMeta(langName);
       const flagElem = document.getElementById('msd-prefix-flag');
-      const codeElem = document.getElementById('msd-prefix-code');
+      const titlePreviewElem = document.getElementById('msd-title-preview');
 
       if (flagElem) {
         flagElem.innerHTML = meta.iso ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-4 h-3 object-cover rounded-xs inline-block shadow-2xs" onerror="this.outerHTML='<span>${meta.flag}</span>'">` : `<span>${meta.flag}</span>`;
       }
-      if (codeElem) {
-        codeElem.textContent = `[${meta.code}]`;
+      if (titlePreviewElem) {
+        titlePreviewElem.textContent = `${langName} Version`;
       }
     }
 
@@ -3535,10 +3673,10 @@
 
       document.getElementById('modal-sitemap-doc-title').textContent = 'Add Sitemap Link';
       document.getElementById('msd-doc-id').value = '';
-      document.getElementById('msd-label').value = '';
       document.getElementById('msd-url').value = '';
 
       populateSitemapDocLanguageSelect(defaultLang);
+      handleSitemapDocLanguageChange(defaultLang);
       document.getElementById('modal-sitemap-doc').classList.remove('hidden');
       lucide.createIcons();
     }
@@ -3554,12 +3692,10 @@
 
       document.getElementById('modal-sitemap-doc-title').textContent = 'Edit Sitemap Link';
       document.getElementById('msd-doc-id').value = doc.id;
-      
-      const cleanLabel = (doc.label || '').replace(/^\[[A-Za-z]{2}\]\s*/, '').replace(/^\([A-Za-z]{2}\)\s*/, '');
-      document.getElementById('msd-label').value = cleanLabel;
       document.getElementById('msd-url').value = doc.url;
 
       populateSitemapDocLanguageSelect(docLang);
+      handleSitemapDocLanguageChange(docLang);
       document.getElementById('modal-sitemap-doc').classList.remove('hidden');
       lucide.createIcons();
     }
@@ -3568,12 +3704,8 @@
       e.preventDefault();
       const docId = document.getElementById('msd-doc-id').value;
       const lang = document.getElementById('msd-lang').value;
-      const rawLabel = document.getElementById('msd-label').value.trim();
       const url = document.getElementById('msd-url').value.trim();
-
-      const meta = getDocLangMeta(lang);
-      const cleanLabel = rawLabel.replace(/^\[[A-Za-z]{2}\]\s*/, '').replace(/^\([A-Za-z]{2}\)\s*/, '').trim();
-      const fullLabel = `[${meta.code}] ${cleanLabel || 'Sitemap'}`;
+      const fullLabel = `${lang} Version`;
 
       const project = projects.find(p => p.id === currentProjectId);
       if (!project) return;
@@ -3592,7 +3724,8 @@
           id: `sd-${Date.now()}`,
           lang: lang,
           label: fullLabel,
-          url: url
+          url: url,
+          completed: false
         });
         logActivity('Sitemap Link Added', `Added sitemap link "${fullLabel}"`, 'folder-git-2', 'document', project.id);
       }
@@ -3603,22 +3736,77 @@
 
       closeModal('modal-sitemap-doc');
       renderSitemapDocs(project);
+      renderAllDoneButtons(project);
+      renderTimelineAxis(project);
       lucide.createIcons();
+    }
+
+    function toggleSitemapDocStatus(e, docId) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project || !project.sitemapDocs) return;
+      const doc = project.sitemapDocs.find(d => d.id === docId);
+      if (!doc) return;
+
+      doc.completed = !doc.completed;
+      const isDocDone = !!doc.completed;
+
+      // Check if all sitemap docs are completed to sync with sitemap step
+      const allDocsDone = project.sitemapDocs.length > 0 && project.sitemapDocs.every(d => !!d.completed);
+      if (allDocsDone) {
+        project.completionStatus.sitemap = true;
+        project.sitemapCompleted = true;
+      } else if (!isDocDone && project.completionStatus.sitemap) {
+        project.completionStatus.sitemap = false;
+        project.sitemapCompleted = false;
+      }
+
+      // Synchronize timeline steps
+      if (project.steps && Array.isArray(project.steps)) {
+        project.steps.forEach(s => {
+          const meta = getStepBlockMeta(s);
+          if (meta && meta.key === 'sitemap') {
+            s.status = project.completionStatus.sitemap ? 'completed' : 'pending';
+          }
+        });
+      }
+
+      logActivity(
+        isDocDone ? 'Sitemap Version Validated' : 'Sitemap Version Reopened',
+        `"${doc.lang || 'Sitemap'} Version" marked as ${isDocDone ? 'Done' : 'To-do'}`,
+        isDocDone ? 'check-circle-2' : 'clock',
+        'validation',
+        project.id
+      );
+
+      renderSitemapDocs(project);
+      renderAllDoneButtons(project);
+      renderTimelineAxis(project);
+      lucide.createIcons();
+      showSavingToast('Sitemap Status Updated', `${doc.lang || 'Sitemap'} Version is now ${isDocDone ? 'Done' : 'To-do'}`);
     }
 
     function deleteSitemapDoc(docId) {
       const project = projects.find(p => p.id === currentProjectId);
       if (!project || !project.sitemapDocs) return;
       const docToDelete = project.sitemapDocs.find(d => d.id === docId);
-      const label = docToDelete?.label || 'Sitemap Link';
+      const label = docToDelete ? `${docToDelete.lang || 'Sitemap'} Version` : 'Sitemap Link';
       project.sitemapDocs = project.sitemapDocs.filter(d => d.id !== docId);
       if (project.sitemapDocs.length > 0) {
         project.sitemapDriveUrl = project.sitemapDocs[0].url;
+        const allRemainingDone = project.sitemapDocs.every(d => !!d.completed);
+        project.completionStatus.sitemap = allRemainingDone;
+        project.sitemapCompleted = allRemainingDone;
       } else {
         project.sitemapDriveUrl = '';
       }
       logActivity('Sitemap Link Deleted', `Deleted sitemap link "${label}"`, 'trash-2', 'document', project.id);
       renderSitemapDocs(project);
+      renderAllDoneButtons(project);
+      renderTimelineAxis(project);
       lucide.createIcons();
     }
 
@@ -3651,13 +3839,13 @@
     function handleDocLanguageChange(langName) {
       const meta = getDocLangMeta(langName);
       const flagElem = document.getElementById('mtd-prefix-flag');
-      const codeElem = document.getElementById('mtd-prefix-code');
+      const titlePreviewElem = document.getElementById('mtd-title-preview');
 
       if (flagElem) {
         flagElem.innerHTML = meta.iso ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-4 h-3 object-cover rounded-xs inline-block shadow-2xs" onerror="this.outerHTML='<span>${meta.flag}</span>'">` : `<span>${meta.flag}</span>`;
       }
-      if (codeElem) {
-        codeElem.textContent = `[${meta.code}]`;
+      if (titlePreviewElem) {
+        titlePreviewElem.textContent = `${langName} Version`;
       }
     }
 
@@ -3667,10 +3855,10 @@
 
       document.getElementById('modal-text-doc-title').textContent = 'Add Google Doc Link';
       document.getElementById('mtd-doc-id').value = '';
-      document.getElementById('mtd-label').value = '';
       document.getElementById('mtd-url').value = '';
 
       populateDocLanguageSelect(defaultLang);
+      handleDocLanguageChange(defaultLang);
       document.getElementById('modal-text-doc').classList.remove('hidden');
       lucide.createIcons();
     }
@@ -3686,13 +3874,10 @@
 
       document.getElementById('modal-text-doc-title').textContent = 'Edit Google Doc Link';
       document.getElementById('mtd-doc-id').value = doc.id;
-      
-      // Clean leading [XX] or (XX) prefix so input only shows the user-editable name
-      const cleanLabel = (doc.label || '').replace(/^\[[A-Za-z]{2}\]\s*/, '').replace(/^\([A-Za-z]{2}\)\s*/, '');
-      document.getElementById('mtd-label').value = cleanLabel;
       document.getElementById('mtd-url').value = doc.url;
 
       populateDocLanguageSelect(docLang);
+      handleDocLanguageChange(docLang);
       document.getElementById('modal-text-doc').classList.remove('hidden');
       lucide.createIcons();
     }
@@ -3701,13 +3886,8 @@
       e.preventDefault();
       const docId = document.getElementById('mtd-doc-id').value;
       const lang = document.getElementById('mtd-lang').value;
-      const rawLabel = document.getElementById('mtd-label').value.trim();
       const url = document.getElementById('mtd-url').value.trim();
-
-      const meta = getDocLangMeta(lang);
-      // Remove any prefix the user might have manually typed
-      const cleanLabel = rawLabel.replace(/^\[[A-Za-z]{2}\]\s*/, '').replace(/^\([A-Za-z]{2}\)\s*/, '').trim();
-      const fullLabel = `[${meta.code}] ${cleanLabel || 'Google Doc'}`;
+      const fullLabel = `${lang} Version`;
 
       const project = projects.find(p => p.id === currentProjectId);
       if (!project) return;
@@ -3726,24 +3906,81 @@
           id: `td-${Date.now()}`,
           lang: lang,
           label: fullLabel,
-          url: url
+          url: url,
+          completed: false
         });
         logActivity('Google Doc Linked', `Linked document copy "${fullLabel}"`, 'file-text', 'document', project.id);
       }
 
       closeModal('modal-text-doc');
       renderTextDocs(project);
+      renderAllDoneButtons(project);
+      renderTimelineAxis(project);
       lucide.createIcons();
+    }
+
+    function toggleTextDocStatus(e, docId) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project || !project.textDocs) return;
+      const doc = project.textDocs.find(d => d.id === docId);
+      if (!doc) return;
+
+      doc.completed = !doc.completed;
+      const isDocDone = !!doc.completed;
+
+      // Check if all text docs are completed to sync with texts block
+      const allDocsDone = project.textDocs.length > 0 && project.textDocs.every(d => !!d.completed);
+      if (allDocsDone) {
+        project.completionStatus.texts = true;
+      } else if (!isDocDone && project.completionStatus.texts) {
+        project.completionStatus.texts = false;
+      }
+
+      // Synchronize timeline steps
+      if (project.steps && Array.isArray(project.steps)) {
+        project.steps.forEach(s => {
+          const meta = getStepBlockMeta(s);
+          if (meta && meta.key === 'texts') {
+            s.status = project.completionStatus.texts ? 'completed' : 'pending';
+          }
+        });
+      }
+
+      logActivity(
+        isDocDone ? 'Content Version Validated' : 'Content Version Reopened',
+        `"${doc.lang || 'Content'} Version" marked as ${isDocDone ? 'Done' : 'To-do'}`,
+        isDocDone ? 'check-circle-2' : 'clock',
+        'validation',
+        project.id
+      );
+
+      renderTextDocs(project);
+      renderAllDoneButtons(project);
+      renderTimelineAxis(project);
+      lucide.createIcons();
+      showSavingToast('Content Status Updated', `${doc.lang || 'Content'} Version is now ${isDocDone ? 'Done' : 'To-do'}`);
     }
 
     function deleteTextDoc(docId) {
       const project = projects.find(p => p.id === currentProjectId);
       if (!project || !project.textDocs) return;
       const docToDelete = project.textDocs.find(d => d.id === docId);
-      const label = docToDelete?.label || 'Google Doc';
+      const label = docToDelete ? `${docToDelete.lang || 'Content'} Version` : 'Google Doc';
       project.textDocs = project.textDocs.filter(d => d.id !== docId);
+
+      if (project.textDocs.length > 0) {
+        const allRemainingDone = project.textDocs.every(d => !!d.completed);
+        project.completionStatus.texts = allRemainingDone;
+      }
+
       logActivity('Google Doc Deleted', `Deleted document link "${label}"`, 'trash-2', 'document', project.id);
       renderTextDocs(project);
+      renderAllDoneButtons(project);
+      renderTimelineAxis(project);
       lucide.createIcons();
     }
 
@@ -4176,9 +4413,25 @@
         renderGoLiveSection(project);
       }
 
-      // Keep sitemapCompleted synced with completionStatus.sitemap
+      // Keep sitemapCompleted and individual sitemapDocs synced with completionStatus.sitemap
       if (blockKey === 'sitemap') {
         project.sitemapCompleted = project.completionStatus.sitemap;
+        if (project.sitemapDocs && Array.isArray(project.sitemapDocs)) {
+          project.sitemapDocs.forEach(d => {
+            d.completed = isNowDone;
+          });
+        }
+        renderSitemapDocs(project);
+      }
+
+      // Keep individual textDocs synced with completionStatus.texts
+      if (blockKey === 'texts') {
+        if (project.textDocs && Array.isArray(project.textDocs)) {
+          project.textDocs.forEach(d => {
+            d.completed = isNowDone;
+          });
+        }
+        renderTextDocs(project);
       }
 
       // Synchronize all timeline steps matching this block key
@@ -4329,7 +4582,10 @@
       }
 
       // --- SECTION 3: REVISION PHASE ---
-      const rpKeys = ['staging', 'firstWaveRevisions'];
+      const rpKeys = ['staging'];
+      if (project.hasFirstWaveRevisions) {
+        rpKeys.push('firstWaveRevisions');
+      }
       if (project.hasSecondWaveRevisions) {
         rpKeys.push('secondWaveRevisions');
       }
@@ -4706,6 +4962,7 @@
 
       const labels = getProjectLabels(project);
       const stagingUrl = project.stagingSiteUrl || '';
+      const hasFirstWave = !!project.hasFirstWaveRevisions;
       const hasSecondWave = !!project.hasSecondWaveRevisions;
 
       // 1. STAGING WEBSITE BLOCK (TOP)
@@ -4782,7 +5039,51 @@
         `;
       }
 
-      // 2. REVISION WAVES
+      // 2. REVISION WAVES (OPTIONAL BLOCKS)
+      let firstWaveCardHtml = '';
+      if (hasFirstWave) {
+        firstWaveCardHtml = `
+          <div id="first-wave-card" class="bg-purple-50/40 p-4 rounded-xl border border-purple-200/80 flex items-center justify-between gap-3 shadow-2xs transition">
+            <div class="flex items-center space-x-2.5 min-w-0">
+              <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-brand-purple shrink-0">
+                <i data-lucide="git-pull-request" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <h4 class="font-bold text-slate-900 text-xs truncate">${labels.firstWaveBlock || DEFAULT_SUBBLOCK_LABELS.firstWaveBlock}</h4>
+                <span class="text-[10px] text-slate-500 font-medium">Initial staging review</span>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2 shrink-0">
+              <div id="first-wave-done-btn-container"></div>
+              <span class="text-[10px] bg-purple-100 text-brand-purple font-bold px-2 py-0.5 rounded-md">Wave 1</span>
+              ${currentRole === 'pm' ? `
+                <button type="button" onclick="confirmDeleteFirstWaveRevisions()" class="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition cursor-pointer" title="Remove First Wave of Revision">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      } else if (currentRole === 'pm') {
+        firstWaveCardHtml = `
+          <div id="first-wave-card-placeholder" class="bg-slate-50/60 p-3.5 rounded-xl border border-dashed border-purple-200 flex items-center justify-between gap-3 transition">
+            <div class="flex items-center space-x-2.5 min-w-0">
+              <div class="w-8 h-8 rounded-lg bg-purple-50 border border-purple-100 flex items-center justify-center text-brand-purple shrink-0">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="text-xs font-bold text-slate-800">${labels.firstWaveBlock || DEFAULT_SUBBLOCK_LABELS.firstWaveBlock}</div>
+                <div class="text-[10px] text-slate-400 font-medium">Optional review round (activate for client)</div>
+              </div>
+            </div>
+            <button type="button" onclick="addFirstWaveRevisions()" class="px-2.5 py-1 bg-brand-purple hover:bg-brand-purpleDark text-white rounded-lg text-[11px] font-bold transition shadow-2xs flex items-center space-x-1 shrink-0 cursor-pointer">
+              <i data-lucide="plus" class="w-3 h-3"></i>
+              <span>Add Wave 1</span>
+            </button>
+          </div>
+        `;
+      }
+
       let secondWaveCardHtml = '';
       if (hasSecondWave) {
         secondWaveCardHtml = `
@@ -4809,7 +5110,7 @@
         `;
       } else if (currentRole === 'pm') {
         secondWaveCardHtml = `
-          <div id="second-wave-card" class="bg-slate-50/60 p-3.5 rounded-xl border border-dashed border-purple-200 flex items-center justify-between gap-3 transition">
+          <div id="second-wave-card-placeholder" class="bg-slate-50/60 p-3.5 rounded-xl border border-dashed border-purple-200 flex items-center justify-between gap-3 transition">
             <div class="flex items-center space-x-2.5 min-w-0">
               <div class="w-8 h-8 rounded-lg bg-purple-50 border border-purple-100 flex items-center justify-center text-brand-purple shrink-0">
                 <i data-lucide="plus" class="w-4 h-4"></i>
@@ -4819,7 +5120,7 @@
                 <div class="text-[10px] text-slate-400 font-medium">Optional additional round</div>
               </div>
             </div>
-            <button type="button" onclick="addSecondWaveRevisions()" class="px-2.5 py-1 bg-brand-purple hover:bg-brand-purpleDark text-white rounded-lg text-[11px] font-bold transition shadow-2xs flex items-center space-x-1 shrink-0">
+            <button type="button" onclick="addSecondWaveRevisions()" class="px-2.5 py-1 bg-brand-purple hover:bg-brand-purpleDark text-white rounded-lg text-[11px] font-bold transition shadow-2xs flex items-center space-x-1 shrink-0 cursor-pointer">
               <i data-lucide="plus" class="w-3 h-3"></i>
               <span>Add Wave 2</span>
             </button>
@@ -4827,7 +5128,23 @@
         `;
       }
 
-      const gridColsClass = (hasSecondWave || currentRole === 'pm') ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1';
+      let revisionCardsHtml = '';
+      if (firstWaveCardHtml || secondWaveCardHtml) {
+        revisionCardsHtml = `
+          <div class="grid grid-cols-1 gap-4">
+            ${firstWaveCardHtml}
+            ${secondWaveCardHtml}
+          </div>
+        `;
+      } else {
+        revisionCardsHtml = `
+          <div class="bg-slate-50/80 p-4 rounded-xl border border-dashed border-slate-200 text-center flex flex-col items-center justify-center space-y-1.5 py-6 text-slate-400">
+            <i data-lucide="info" class="w-5 h-5 text-slate-300"></i>
+            <div class="text-xs font-semibold text-slate-600">No revision rounds currently scheduled</div>
+            <p class="text-[11px] text-slate-400">Your Project Manager will open revision rounds once the staging build is ready for your feedback.</p>
+          </div>
+        `;
+      }
 
       dynamicContainer.innerHTML = `
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -4837,32 +5154,33 @@
           </div>
 
           <!-- Right Column: Revisions -->
-          <div class="grid grid-cols-1 gap-4">
-            <!-- CARD 1: FIRST WAVE OF REVISION -->
-            <div id="first-wave-card" class="bg-purple-50/40 p-4 rounded-xl border border-purple-200/80 flex items-center justify-between gap-3 shadow-2xs transition">
-              <div class="flex items-center space-x-2.5 min-w-0">
-                <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center text-brand-purple shrink-0">
-                  <i data-lucide="git-pull-request" class="w-4 h-4"></i>
-                </div>
-                <div class="min-w-0">
-                  <h4 class="font-bold text-slate-900 text-xs truncate">${labels.firstWaveBlock || DEFAULT_SUBBLOCK_LABELS.firstWaveBlock}</h4>
-                  <span class="text-[10px] text-slate-500 font-medium">Initial staging review</span>
-                </div>
-              </div>
-              <div class="flex items-center space-x-2 shrink-0">
-                <div id="first-wave-done-btn-container"></div>
-                <span class="text-[10px] bg-purple-100 text-brand-purple font-bold px-2 py-0.5 rounded-md">Wave 1</span>
-              </div>
-            </div>
-
-            <!-- CARD 2: SECOND WAVE OF REVISIONS (OR ADD BUTTON FOR PM) -->
-            ${secondWaveCardHtml}
-          </div>
+          ${revisionCardsHtml}
         </div>
       `;
 
       renderAllDoneButtons(project);
       lucide.createIcons();
+    }
+
+    function addFirstWaveRevisions() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      project.hasFirstWaveRevisions = true;
+      logActivity('Revision Wave Added', 'Added First Wave of Revision to revision phase', 'git-pull-request', 'milestone', project.id);
+      renderApp();
+      showSavingToast('Revision Wave Added', 'First Wave of Revision activated');
+    }
+
+    function deleteFirstWaveRevisions() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      project.hasFirstWaveRevisions = false;
+      if (project.completionStatus) {
+        project.completionStatus.firstWaveRevisions = false;
+      }
+      logActivity('Revision Wave Removed', 'Removed First Wave of Revision', 'trash-2', 'milestone', project.id);
+      renderApp();
+      showSavingToast('Revision Wave Removed', 'First Wave of Revision removed');
     }
 
     function addSecondWaveRevisions() {
@@ -4871,6 +5189,7 @@
       project.hasSecondWaveRevisions = true;
       logActivity('Revision Wave Added', 'Added Second Wave of Revision to publication milestone', 'git-merge', 'milestone', project.id);
       renderApp();
+      showSavingToast('Revision Wave Added', 'Second Wave of Revision activated');
     }
 
     function deleteSecondWaveRevisions() {
@@ -4882,6 +5201,7 @@
       }
       logActivity('Revision Wave Removed', 'Removed Second Wave of Revision', 'trash-2', 'milestone', project.id);
       renderApp();
+      showSavingToast('Revision Wave Removed', 'Second Wave of Revision removed');
     }
 
     function updateRevisionWaveNotes(field, val) {
@@ -5707,8 +6027,8 @@
             </button>
           </div>
 
-          <!-- DNS RECORDS CONTAINER -->
-          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2.5">
+          <!-- DNS RECORDS CONTAINER (4 COLUMNS x 1 ROW) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
             ${txtCardHtml}
             ${dnsRowsHtml}
           </div>
@@ -5861,12 +6181,15 @@
       }
     }
 
-    // --- TIMELINE RENDER WITH SYNCHRONIZED STEP CARDS, DESCRIPTIONS & ANCHOR LINKS ---
+    // --- TIMELINE RENDER WITH SEQUENTIAL AXIS, SINGLE-STEP FOCUS & GRAY FILTER FOR LOCKED STEPS ---
     function renderTimelineAxis(project) {
       const container = document.getElementById('timeline-nodes-container');
+      const stepperContainer = document.getElementById('timeline-axis-stepper-container');
       if (!container) return;
       container.innerHTML = '';
+      if (stepperContainer) stepperContainer.innerHTML = '';
 
+      if (!project) return;
       if (!project.completionStatus) {
         project.completionStatus = {
           sitemap: !!project.sitemapCompleted,
@@ -5875,7 +6198,7 @@
           brandIdentity: false,
           colors: false,
           fonts: false,
-          texts: false,
+          texts: project.textDocs && project.textDocs.length > 0 ? project.textDocs.every(d => !!d.completed) : false,
           images: false,
           staging: false,
           firstWaveRevisions: false,
@@ -5889,148 +6212,686 @@
         };
       }
 
-      project.steps.forEach((step, idx) => {
-        const nodeWrapper = document.createElement('div');
-        nodeWrapper.className = 'timeline-step-node relative flex flex-col items-center group shrink-0 transition-all duration-150';
+      let totalAllDeliverables = 0;
+      let totalAllDone = 0;
 
-        const position = idx % 2 === 0 ? 'top' : 'bottom';
-        const meta = getStepBlockMeta(step);
-        const targetBlockId = step.targetBlockId || Object.keys(BLOCK_META_MAP).find(k => BLOCK_META_MAP[k].name === meta.name) || 'section-sitemap';
+      const isSeoActive = project.hasSeoQuestionnaire ?? (project.packageTier === 'seo_essential' || project.packageTier === 'seo_content');
 
-        // Synchronize step status with project.completionStatus
-        let isStepDone = false;
-        if (meta.key && project.completionStatus[meta.key] !== undefined) {
-          isStepDone = !!project.completionStatus[meta.key];
-          step.status = isStepDone ? 'completed' : 'pending';
-        } else {
-          isStepDone = (step.status === 'completed');
-        }
-
-        let ownerColor = 'bg-cyan-50 text-cyan-700 border border-cyan-200';
-        if (step.owner === 'DEDGE') ownerColor = 'bg-fuchsia-50 text-fuchsia-700 border border-fuchsia-200';
-        if (step.owner === 'Both') ownerColor = 'bg-purple-50 text-brand-purple border border-purple-200';
-
-        // STATUS TOGGLE BUTTON UNDER NODE CIRCLE
-        const actionBtnHtml = isStepDone
-          ? `<button type="button" onclick="toggleStepValidation('${step.id}')" ${currentRole === 'client' ? 'disabled' : ''} class="flex items-center space-x-1 border border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 text-[10px] font-bold px-2.5 py-1 rounded-lg transition shadow-2xs cursor-pointer" title="Status: Done (Click to reopen)">
-              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
-              <span>${currentRole === 'pm' ? 'Done' : 'Done'}</span>
-            </button>`
-          : `<button type="button" onclick="toggleStepValidation('${step.id}')" ${currentRole === 'client' && step.owner === 'DEDGE' ? 'disabled' : ''} class="bg-amber-50 hover:bg-emerald-50 text-amber-700 hover:text-emerald-700 border border-amber-300 hover:border-emerald-300 font-bold text-[10px] px-2.5 py-1 rounded-lg shadow-2xs transition flex items-center space-x-1 cursor-pointer" title="Status: To-do (Click to mark as done)">
-              <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-600"></i>
-              <span>To-do</span>
-            </button>`;
-
-        const deleteStepBtn = currentRole === 'pm' ? `
-          <button onclick="confirmDeleteStep('${step.id}')" title="Delete Milestone Step" class="p-1 hover:bg-rose-50 rounded-lg text-slate-400 hover:text-rose-500 transition cursor-pointer">
-            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-          </button>
-        ` : '';
-
-        // DEADLINE SYNCHRONIZATION (PM DATE SELECTOR / CLIENT READ-ONLY)
-        const dateHtml = currentRole === 'pm' ? `
-          <div class="flex items-center space-x-1 text-[10px]">
-            <i data-lucide="calendar" class="w-3 h-3 text-slate-400 shrink-0"></i>
-            <span class="font-bold text-slate-500 shrink-0">Deadline:</span>
-            <input 
-              id="date-input-${step.id}" 
-              type="date" 
-              value="${step.date || ''}" 
-              onchange="saveStepDate('${step.id}')"
-              class="border border-slate-200 bg-slate-50 hover:bg-white text-slate-700 font-semibold rounded px-1.5 py-0.5 w-24 outline-none focus:ring-1 focus:ring-brand-purple text-[10px] cursor-pointer transition shadow-2xs"
-              title="Edit deadline for this milestone"
-            >
-          </div>
-        ` : `
-          <span class="flex items-center space-x-1 text-[11px] text-slate-500 font-medium">
-            <i data-lucide="calendar" class="w-3 h-3 text-brand-purple shrink-0"></i>
-            <span class="text-slate-500 font-semibold text-[10px]">Deadline:</span>
-            <span class="font-bold text-slate-700 text-[10px]">${formatDisplayDate(step.date)}</span>
-          </span>
-        `;
-
-        const stepDescription = step.description || meta.defaultDesc || 'Milestone step deliverable requirements and expectations.';
-
-        // TIMELINE CARD WITHOUT EXTERNAL LINKS & CHECKBOXES, WITH DESCRIPTION AND DIRECT ANCHOR LINK
-        const cardHtml = `
-          <div class="timeline-card w-72 bg-white border border-slate-200 hover:border-brand-purple rounded-2xl p-4 shadow-sm text-xs space-y-2.5 relative z-20 transition-all duration-200">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-              <div class="flex items-center space-x-1.5 min-w-0">
-                ${dateHtml}
-              </div>
-              <span class="px-2 py-0.5 rounded-full font-bold text-[9px] uppercase tracking-wider shrink-0 ${ownerColor}">${step.owner}</span>
-            </div>
-
-            <!-- TITLE WITH OPTIONAL PM QUICK-EDIT -->
-            <div class="flex items-start justify-between gap-1">
-              <h4 class="font-bold text-slate-900 leading-tight text-xs">${step.title}</h4>
-              ${currentRole === 'pm' ? `
-                <button type="button" onclick="promptEditStepTitle('${step.id}')" class="text-slate-300 hover:text-brand-purple p-0.5 rounded transition shrink-0" title="Edit step title">
-                  <i data-lucide="edit-2" class="w-3 h-3"></i>
-                </button>
-              ` : ''}
-            </div>
-
-            <!-- STEP DESCRIPTION (REPLACING CHECKBOXES) -->
-            <div class="bg-slate-50/90 rounded-xl p-2.5 border border-slate-100/90 text-slate-600 text-[11px] leading-relaxed relative group/desc">
-              <p class="select-none">${stepDescription}</p>
-              ${currentRole === 'pm' ? `
-                <button type="button" onclick="promptEditStepDesc('${step.id}')" class="opacity-0 group-hover/desc:opacity-100 absolute top-1.5 right-1.5 p-1 bg-white hover:bg-purple-50 text-slate-400 hover:text-brand-purple border border-slate-200 rounded-md transition shadow-2xs cursor-pointer" title="Edit Step Description">
-                  <i data-lucide="pencil" class="w-2.5 h-2.5"></i>
-                </button>
-              ` : ''}
-            </div>
-
-            <!-- ANCHOR LINK TO SUBBLOCK IN PARENT SECTION -->
-            <button 
-              type="button" 
-              onclick="scrollToTimelineBlock('${targetBlockId}')" 
-              class="w-full flex items-center justify-between px-3 py-1.5 bg-purple-50 hover:bg-brand-purple hover:text-white text-brand-purple rounded-xl border border-purple-200/80 transition-all duration-200 shadow-2xs font-bold text-[11px] group cursor-pointer"
-              title="Jump to ${meta.name} in ${meta.parent}"
-            >
-              <div class="flex items-center space-x-1.5 min-w-0">
-                <i data-lucide="arrow-down-right" class="w-3.5 h-3.5 shrink-0 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition"></i>
-                <span class="truncate">Jump to ${meta.name}</span>
-              </div>
-              <span class="text-[9px] px-1.5 py-0.2 rounded-md bg-purple-100 text-brand-purple group-hover:bg-white/20 group-hover:text-white font-mono font-bold shrink-0 ml-1.5">Section ${meta.parentNumber}</span>
-            </button>
-          </div>
-        `;
-
-        const lineHtml = `<div class="w-0.5 h-10 bg-slate-400"></div>`;
-        const groupPillHtml = `<div class="bg-brand-pillBg text-slate-600 text-[10px] font-bold px-3 py-1 rounded-full border border-slate-200/60 shadow-2xs whitespace-nowrap mb-1">${step.group}</div>`;
-        
-        const circleHtml = isStepDone
-          ? `<div class="w-7 h-7 rounded-full bg-emerald-500 border-2 border-emerald-600 text-white flex items-center justify-center shadow-md"><i data-lucide="check" class="w-3.5 h-3.5 stroke-[3]"></i></div>`
-          : `<div class="w-7 h-7 rounded-full bg-brand-purple border-2 border-brand-purple flex items-center justify-center shadow-md"><div class="w-2.5 h-2.5 rounded-full bg-white"></div></div>`;
-
-        if (position === 'top') {
-          nodeWrapper.innerHTML = `
-            <div class="flex flex-col items-center mb-2">${groupPillHtml}${cardHtml}${lineHtml}</div>
-            ${circleHtml}
-            <div class="flex items-center space-x-1 mt-2">${actionBtnHtml}${deleteStepBtn}</div>
-          `;
-        } else {
-          nodeWrapper.innerHTML = `
-            <div class="flex items-center space-x-1 mb-2">${actionBtnHtml}${deleteStepBtn}</div>
-            ${circleHtml}
-            <div class="flex flex-col items-center mt-2">${lineHtml}${cardHtml}<div class="mt-2">${groupPillHtml}</div></div>
-          `;
-        }
-
-        container.appendChild(nodeWrapper);
+      // 1. SECTION 1: SITEMAP SUB-BLOCKS
+      const sec1SubBlocks = [];
+      if (isSeoActive) {
+        sec1SubBlocks.push({
+          id: 'seo-questionnaire',
+          name: 'SEO Questionnaire',
+          targetBlockId: 'seo-questionnaire-card',
+          key: 'seoQuestionnaire',
+          icon: 'file-question',
+          isDone: !!project.completionStatus.seoQuestionnaire
+        });
+      }
+      sec1SubBlocks.push({
+        id: 'sitemap-val',
+        name: 'Sitemap Architecture',
+        targetBlockId: 'sitemap-card',
+        key: 'sitemap',
+        icon: 'folder-git-2',
+        isDone: !!project.completionStatus.sitemap
+      });
+      sec1SubBlocks.push({
+        id: 'templates-val',
+        name: 'Evolution Templates',
+        targetBlockId: 'templates-card',
+        key: 'templates',
+        icon: 'layout-template',
+        isDone: !!project.completionStatus.templates
       });
 
-      if (currentRole === 'pm') {
-        const addNodeBtn = document.createElement('div');
-        addNodeBtn.className = 'flex flex-col items-center justify-center pl-6 shrink-0';
-        addNodeBtn.innerHTML = `
-          <button onclick="openAddStepModal()" class="w-12 h-12 rounded-2xl bg-brand-purple hover:bg-brand-purpleDark text-white flex items-center justify-center shadow-lg transition transform hover:scale-105" title="Add New Milestone Step">
-            <i data-lucide="plus" class="w-6 h-6"></i>
-          </button>
-          <span class="text-[10px] font-bold text-brand-purple mt-2">Add Step</span>
+      // 2. SECTION 2: CONTENT COLLECTION SUB-BLOCKS
+      const sec2SubBlocks = [
+        {
+          id: 'texts-val',
+          name: 'Texts & Copywriting',
+          targetBlockId: 'texts-card',
+          key: 'texts',
+          icon: 'type',
+          isDone: !!project.completionStatus.texts
+        },
+        {
+          id: 'images-val',
+          name: 'Images & Media Drive',
+          targetBlockId: 'images-card',
+          key: 'images',
+          icon: 'image',
+          isDone: !!project.completionStatus.images
+        },
+        {
+          id: 'brand-identity-val',
+          name: 'Brand Colors & Fonts',
+          targetBlockId: 'brand-identity-card',
+          key: 'brandIdentity',
+          icon: 'palette',
+          isDone: !!(project.completionStatus.brandIdentity || (project.completionStatus.colors && project.completionStatus.fonts))
+        },
+        {
+          id: 'domain-services-val',
+          name: 'Domain, GA4 & Maps',
+          targetBlockId: 'domain-services-card',
+          key: 'domainServices',
+          icon: 'globe',
+          isDone: !!(project.completionStatus.domainServices || (project.completionStatus.finalDomain && project.completionStatus.ga4 && project.completionStatus.maps))
+        }
+      ];
+
+      // 3. SECTION 3: REVISION PHASE SUB-BLOCKS
+      const sec3SubBlocks = [
+        {
+          id: 'staging-val',
+          name: 'Staging Site Preview',
+          targetBlockId: 'staging-card',
+          key: 'staging',
+          icon: 'monitor',
+          isDone: !!project.completionStatus.staging
+        }
+      ];
+      if (project.hasFirstWaveRevisions) {
+        sec3SubBlocks.push({
+          id: 'first-wave-val',
+          name: 'First Wave Revisions',
+          targetBlockId: 'first-wave-card',
+          key: 'firstWaveRevisions',
+          icon: 'message-square',
+          isDone: !!project.completionStatus.firstWaveRevisions
+        });
+      }
+      if (project.hasSecondWaveRevisions) {
+        sec3SubBlocks.push({
+          id: 'second-wave-val',
+          name: 'Second Wave Revisions',
+          targetBlockId: 'second-wave-card',
+          key: 'secondWaveRevisions',
+          icon: 'check-check',
+          isDone: !!project.completionStatus.secondWaveRevisions
+        });
+      }
+
+      // 4. SECTION 4: GO-LIVE SUB-BLOCKS
+      const sec4SubBlocks = [
+        {
+          id: 'go-live-val',
+          name: 'DNS Records & Go-Live',
+          targetBlockId: 'go-live-card',
+          key: 'goLive',
+          icon: 'server',
+          isDone: !!project.completionStatus.goLive
+        }
+      ];
+
+      // Helper to compute section date
+      const getSectionDate = (sectionNum, fallbackDate) => {
+        if (sectionNum === 1 && project.sitemapDeadline) return project.sitemapDeadline;
+        if (sectionNum === 2 && (project.contentDeadline || project.contentCollectionDeadline)) return project.contentDeadline || project.contentCollectionDeadline;
+        if (sectionNum === 3 && (project.revisionPhaseDeadline || project.stagingDeadline)) return project.revisionPhaseDeadline || project.stagingDeadline;
+        if (sectionNum === 4 && project.goLiveDeadline) return project.goLiveDeadline;
+        if (project.steps && Array.isArray(project.steps)) {
+          const matched = project.steps.filter(s => (s.group || '').startsWith(String(sectionNum)));
+          if (matched.length > 0) {
+            const dates = matched.map(s => s.date).filter(Boolean);
+            if (dates.length > 0) return dates[dates.length - 1];
+          }
+        }
+        return fallbackDate || '';
+      };
+
+      const sectionSections = [
+        {
+          num: 1,
+          id: 'section-sitemap',
+          title: '1. Sitemap',
+          shortTitle: 'Sitemap',
+          icon: 'network',
+          deadline: getSectionDate(1, '2026-05-20'),
+          deadlineKey: 'sitemapDeadline',
+          subBlocks: sec1SubBlocks
+        },
+        {
+          num: 2,
+          id: 'section-content-collection',
+          title: '2. Content Collection',
+          shortTitle: 'Content',
+          icon: 'layers',
+          deadline: getSectionDate(2, '2026-06-10'),
+          deadlineKey: 'contentDeadline',
+          subBlocks: sec2SubBlocks
+        },
+        {
+          num: 3,
+          id: 'section-revision-phase',
+          title: '3. Revision Phase',
+          shortTitle: 'Revisions',
+          icon: 'repeat',
+          deadline: getSectionDate(3, '2026-07-30'),
+          deadlineKey: 'revisionPhaseDeadline',
+          subBlocks: sec3SubBlocks
+        },
+        {
+          num: 4,
+          id: 'section-go-live',
+          title: '4. Go-live',
+          shortTitle: 'Go-Live',
+          icon: 'rocket',
+          deadline: getSectionDate(4, '2026-08-20'),
+          deadlineKey: 'goLiveDeadline',
+          subBlocks: sec4SubBlocks
+        }
+      ];
+
+      // Custom step sections check
+      if (project.steps && Array.isArray(project.steps)) {
+        const standardGroups = ['1. Sitemap', '2. Content Collection', '3. Revision Phase', '4. Go-live', 'Sitemap', 'Content Collection', 'Revision Phase', 'Go Live'];
+        const customSteps = project.steps.filter(s => s.group && !standardGroups.some(g => s.group.toLowerCase().includes(g.toLowerCase())));
+        if (customSteps.length > 0) {
+          const customGroups = {};
+          customSteps.forEach(cs => {
+            if (!customGroups[cs.group]) customGroups[cs.group] = [];
+            customGroups[cs.group].push(cs);
+          });
+          Object.keys(customGroups).forEach((grpName, gIdx) => {
+            const cSteps = customGroups[grpName];
+            sectionSections.push({
+              num: 4 + gIdx + 1,
+              id: 'third-party-section',
+              title: grpName,
+              shortTitle: grpName,
+              icon: 'puzzle',
+              deadline: cSteps[0]?.date || '',
+              deadlineKey: null,
+              subBlocks: cSteps.map(cs => ({
+                id: cs.id,
+                name: cs.title,
+                targetBlockId: cs.targetBlockId || 'third-party-section',
+                key: null,
+                icon: 'check-square',
+                isDone: cs.status === 'completed'
+              }))
+            });
+          });
+        }
+      }
+
+      // 1. Calculate completion states and locate Active Step (First non-complete step)
+      const stepStates = [];
+      let foundActive = false;
+      let activeStepIndex = -1;
+
+      sectionSections.forEach((sec, idx) => {
+        const total = sec.subBlocks.length;
+        const done = sec.subBlocks.filter(b => b.isDone).length;
+        const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+        const isComplete = (done === total && total > 0);
+
+        totalAllDeliverables += total;
+        totalAllDone += done;
+
+        let state = 'locked';
+        if (isComplete) {
+          state = 'completed';
+        } else if (!foundActive) {
+          state = 'active';
+          foundActive = true;
+          activeStepIndex = idx;
+        } else {
+          state = 'locked';
+        }
+
+        stepStates.push({
+          ...sec,
+          total,
+          done,
+          pct,
+          isComplete,
+          state,
+          remaining: total - done
+        });
+      });
+
+      // If all are complete, activeStepIndex is -1
+      if (!foundActive) {
+        activeStepIndex = -1;
+      }
+
+      // 2. RENDER SEQUENTIAL AXIS STEPPER & ACTIVE FOCUS BANNER
+      if (stepperContainer) {
+        const activeSec = activeStepIndex !== -1 ? stepStates[activeStepIndex] : null;
+
+        // Stepper Nodes along the axis
+        const stepperNodesHtml = stepStates.map((st, idx) => {
+          const isCurrentActive = st.state === 'active';
+          const isDone = st.state === 'completed';
+          const isNext = activeStepIndex !== -1 && idx === activeStepIndex + 1;
+          const isLocked = !isDone && !isCurrentActive && !isNext;
+
+          let nodeCircle = '';
+          let nodeLabelColor = '';
+
+          if (isDone) {
+            nodeCircle = `
+              <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xs shadow-xs ring-4 ring-emerald-100 transition">
+                <i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>
+              </div>
+            `;
+            nodeLabelColor = 'text-emerald-700 font-bold';
+          } else if (isCurrentActive) {
+            nodeCircle = `
+              <div class="w-8 h-8 rounded-full bg-brand-purple text-white flex items-center justify-center font-bold text-xs shadow-md ring-4 ring-purple-200 animate-pulse transition">
+                <span>${st.num}</span>
+              </div>
+            `;
+            nodeLabelColor = 'text-brand-purple font-bold';
+          } else if (isNext) {
+            nodeCircle = `
+              <div class="w-8 h-8 rounded-full bg-amber-100 border-2 border-amber-400 text-amber-800 flex items-center justify-center font-bold text-xs shadow-xs ring-4 ring-amber-100/70 transition">
+                <span>${st.num}</span>
+              </div>
+            `;
+            nodeLabelColor = 'text-amber-800 font-bold';
+          } else {
+            nodeCircle = `
+              <div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-400 flex items-center justify-center font-bold text-xs shadow-2xs transition">
+                <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-400"></i>
+              </div>
+            `;
+            nodeLabelColor = 'text-slate-400 font-semibold';
+          }
+
+          // Connector line between steps
+          const connectorHtml = idx < stepStates.length - 1 ? `
+            <div class="flex-1 h-1.5 mx-2 rounded-full overflow-hidden ${
+              isDone ? 'bg-emerald-400' : isCurrentActive ? 'bg-gradient-to-r from-purple-400 to-amber-300' : isNext ? 'bg-amber-200' : 'bg-slate-200'
+            }"></div>
+          ` : '';
+
+          return `
+            <div class="flex items-center ${idx < stepStates.length - 1 ? 'flex-1' : ''}">
+              <div 
+                onclick="handleStepperNodeClick('${st.id}', ${st.num})"
+                class="flex flex-col items-center cursor-pointer group shrink-0" 
+                title="${st.title} (${st.isComplete ? 'Validated' : isCurrentActive ? 'Active Focus' : isNext ? 'Next Step' : 'Locked'}) - Click to expand"
+              >
+                ${nodeCircle}
+                <div class="text-[11px] mt-1.5 text-center whitespace-nowrap ${nodeLabelColor} group-hover:text-brand-purple transition">
+                  <span class="block">${st.shortTitle || st.title}</span>
+                  <span class="text-[9px] font-mono ${isNext ? 'text-amber-700 font-semibold' : 'text-slate-400'}">${isNext ? 'Next Step • ' : ''}${st.done}/${st.total}</span>
+                </div>
+              </div>
+              ${connectorHtml}
+            </div>
+          `;
+        }).join('');
+
+        stepperContainer.innerHTML = `
+          <!-- AXIS STEPPER TRACK -->
+          <div class="bg-slate-50/90 rounded-2xl border border-slate-200/90 p-4 shadow-2xs overflow-x-auto">
+            <div class="min-w-[500px] flex items-center justify-between px-3 py-1">
+              ${stepperNodesHtml}
+            </div>
+          </div>
         `;
-        container.appendChild(addNodeBtn);
+      }
+
+      // 3. RENDER STEP SECTION CARDS WITH ACTIVE FOCUS, COLLAPSIBLE EXPANSION & NEXT STEP VISIBILITY
+      container.innerHTML = '';
+
+      // Rule: "Next step should be visible for the client until all the current step is finished"
+      // For client: completed steps, current active step, and the immediate next step are visible.
+      // Subsequent steps beyond the next step are hidden from the client.
+      // For PM: all steps are visible, with clear indicator for steps hidden from client.
+      const visibleStepStates = stepStates.filter((sec, idx) => {
+        if (currentRole === 'client') {
+          return activeStepIndex === -1 || idx <= activeStepIndex + 1;
+        }
+        return true;
+      });
+
+      container.className = visibleStepStates.length <= 2 
+        ? 'grid grid-cols-1 md:grid-cols-2 gap-4' 
+        : 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4';
+
+      stepStates.forEach((sec, idx) => {
+        const isCurrentActive = sec.state === 'active';
+        const isDone = sec.state === 'completed';
+        const isNextStep = activeStepIndex !== -1 && idx === activeStepIndex + 1;
+        const isLocked = !isDone && !isCurrentActive && !isNextStep;
+
+        // Skip rendering for client if beyond the next step
+        if (currentRole === 'client' && (activeStepIndex !== -1 && idx > activeStepIndex + 1)) {
+          return;
+        }
+
+        // Expansion state:
+        // Default: active step is expanded, or step 1 if none active, or user-toggled state
+        const isDefaultExpanded = isCurrentActive || (activeStepIndex === -1 && idx === 0);
+        const isExpanded = timelineExpandedSteps[sec.num] !== undefined ? timelineExpandedSteps[sec.num] : isDefaultExpanded;
+
+        // Badges
+        let statusBadge = '';
+        if (isDone) {
+          statusBadge = `
+            <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 border border-emerald-300 text-[10px] font-bold shadow-2xs">
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>✓ Validated</span>
+            </span>
+          `;
+        } else if (isCurrentActive) {
+          statusBadge = `
+            <span class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-brand-purple text-white text-[10px] font-bold shadow-2xs">
+              <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+              <span>🎯 Current Focus</span>
+            </span>
+          `;
+        } else if (isNextStep) {
+          statusBadge = `
+            <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-bold shadow-2xs">
+              <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-600"></i>
+              <span>Next Step</span>
+            </span>
+          `;
+        } else {
+          statusBadge = `
+            <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md bg-slate-200 text-slate-600 border border-slate-300 text-[10px] font-bold">
+              <i data-lucide="lock" class="w-3 h-3 text-slate-500"></i>
+              <span>Locked</span>
+            </span>
+          `;
+        }
+
+        // Sub-blocks anchor buttons HTML
+        const subBlocksHtml = sec.subBlocks.map(sub => {
+          if (isLocked) {
+            return `
+              <div 
+                class="w-full flex items-center justify-between p-2 rounded-xl border border-slate-200 bg-slate-100/70 text-slate-400 select-none cursor-not-allowed opacity-80" 
+                title="Locked: Complete previous steps to unlock ${escapeHtml(sub.name)}"
+              >
+                <div class="flex items-center space-x-2 min-w-0 flex-1">
+                  <div class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 bg-slate-200 text-slate-400">
+                    <i data-lucide="${sub.icon}" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <span class="text-xs font-semibold truncate text-slate-400">${escapeHtml(sub.name)}</span>
+                </div>
+                <span class="inline-flex items-center space-x-1 text-[9px] font-bold text-slate-400 bg-slate-200 px-1.5 py-0.5 rounded-md">
+                  <i data-lucide="lock" class="w-2.5 h-2.5"></i>
+                  <span>Locked</span>
+                </span>
+              </div>
+            `;
+          }
+
+          return `
+            <button 
+              type="button" 
+              onclick="event.stopPropagation(); scrollToTimelineBlock('${sub.targetBlockId}')" 
+              class="w-full group/btn flex items-center justify-between p-2 rounded-xl border transition-all duration-150 text-left cursor-pointer shadow-2xs ${
+                sub.isDone 
+                  ? 'bg-emerald-50/40 border-emerald-200/80 hover:bg-emerald-50 hover:border-emerald-300' 
+                  : isCurrentActive
+                    ? 'bg-white border-purple-200 hover:border-brand-purple hover:bg-purple-50/50 ring-1 ring-purple-100'
+                    : isNextStep
+                      ? 'bg-white border-amber-200/90 hover:border-amber-400 hover:bg-amber-50/50'
+                      : 'bg-white border-slate-200/90 hover:border-purple-300 hover:bg-purple-50/40'
+              }" 
+              title="Jump to ${escapeHtml(sub.name)}"
+            >
+              <div class="flex items-center space-x-2 min-w-0 flex-1">
+                <div class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 ${
+                  sub.isDone ? 'bg-emerald-100/70 text-emerald-700' : isCurrentActive ? 'bg-purple-100 text-brand-purple' : isNextStep ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-500 group-hover/btn:bg-purple-100 group-hover/btn:text-brand-purple'
+                } transition">
+                  <i data-lucide="${sub.icon}" class="w-3.5 h-3.5"></i>
+                </div>
+                <span class="text-xs font-semibold truncate ${
+                  sub.isDone ? 'text-slate-800' : isCurrentActive ? 'text-slate-700 group-hover/btn:text-brand-purple font-bold' : isNextStep ? 'text-slate-700 group-hover/btn:text-amber-800 font-bold' : 'text-slate-700'
+                }">${escapeHtml(sub.name)}</span>
+              </div>
+
+              <div class="flex items-center space-x-1.5 shrink-0 ml-1.5">
+                ${sub.isDone 
+                  ? '<span class="inline-flex items-center text-[10px] font-bold text-emerald-700 bg-emerald-100/90 px-1.5 py-0.5 rounded-md">✓ Done</span>' 
+                  : '<span class="inline-flex items-center text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded-md">To-do</span>'
+                }
+                <i data-lucide="arrow-down-right" class="w-3.5 h-3.5 text-slate-300 group-hover/btn:text-brand-purple group-hover/btn:translate-x-0.5 group-hover/btn:translate-y-0.5 transition"></i>
+              </div>
+            </button>
+          `;
+        }).join('');
+
+        const card = document.createElement('div');
+        card.id = `step-node-card-${sec.num}`;
+
+        // Card Container Classes with Active Focus, Next Step styling, and Collapsible states
+        if (isCurrentActive) {
+          card.className = `bg-white rounded-2xl border-2 border-brand-purple ring-4 ring-brand-purple/15 shadow-md p-4 flex flex-col justify-between gap-3 relative transition-all duration-300 ${!isExpanded ? 'cursor-pointer hover:border-brand-purple hover:shadow-lg' : ''}`;
+        } else if (isDone) {
+          card.className = `bg-white rounded-2xl border border-emerald-300/80 bg-emerald-50/20 shadow-2xs p-4 flex flex-col justify-between gap-3 relative transition-all duration-300 ${!isExpanded ? 'cursor-pointer hover:border-emerald-400 hover:shadow-md' : ''}`;
+        } else if (isNextStep) {
+          card.className = `bg-white/95 rounded-2xl border-2 border-amber-300/90 bg-amber-50/25 shadow-2xs p-4 flex flex-col justify-between gap-3 relative transition-all duration-300 ${!isExpanded ? 'cursor-pointer hover:border-amber-400 hover:shadow-md' : ''}`;
+        } else {
+          // Locked (for PM)
+          card.className = `filter grayscale opacity-70 bg-slate-50/90 rounded-2xl border border-dashed border-slate-300 shadow-none p-4 flex flex-col justify-between gap-3 relative transition-all duration-300 ${!isExpanded ? 'cursor-pointer hover:opacity-90' : ''}`;
+        }
+
+        // If card is collapsed, clicking anywhere on the card toggles expand
+        if (!isExpanded) {
+          card.onclick = (e) => {
+            if (e.target.closest('button, a, input')) return;
+            toggleTimelineStepCard(sec.num);
+          };
+        }
+
+        const lockOverlayHtml = isLocked ? `
+          <div class="bg-slate-200/80 border border-slate-300/90 rounded-xl p-2 text-center text-slate-600 text-[11px] font-semibold flex items-center justify-center space-x-1.5 shadow-2xs">
+            <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-500"></i>
+            <span>Unlocks after Step ${activeStepIndex !== -1 ? stepStates[activeStepIndex].num : idx} is completed</span>
+          </div>
+        ` : '';
+
+        // PM info badge for steps hidden from client
+        const pmClientNotice = (currentRole === 'pm' && activeStepIndex !== -1 && idx > activeStepIndex + 1) ? `
+          <div class="bg-slate-100 border border-slate-200 rounded-lg px-2 py-1 text-[10px] text-slate-500 flex items-center space-x-1.5">
+            <i data-lucide="eye-off" class="w-3 h-3 text-slate-400 shrink-0"></i>
+            <span>Hidden from client until Step ${stepStates[activeStepIndex].num} finishes</span>
+          </div>
+        ` : '';
+
+        if (!isExpanded) {
+          // COLLAPSED CARD CONTENT
+          card.innerHTML = `
+            <div class="space-y-2.5">
+              <!-- SECTION HEADER -->
+              <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
+                <div class="flex items-center space-x-2 min-w-0">
+                  <span class="px-2 py-0.5 rounded-md ${isCurrentActive ? 'bg-brand-purple text-white' : isDone ? 'bg-emerald-100 text-emerald-800' : isNextStep ? 'bg-amber-100 text-amber-900 font-bold' : 'bg-slate-200 text-slate-600'} font-mono font-bold text-[10px] shrink-0">
+                    Step ${sec.num}
+                  </span>
+                  <span class="text-[11px] font-semibold text-slate-500 truncate flex items-center space-x-1">
+                    <i data-lucide="calendar" class="w-3 h-3 text-slate-400 shrink-0"></i>
+                    <span class="truncate">${formatDisplayDate(sec.deadline)}</span>
+                  </span>
+                </div>
+                <div class="flex items-center space-x-1.5 shrink-0">
+                  ${statusBadge}
+                  <button type="button" onclick="event.stopPropagation(); toggleTimelineStepCard(${sec.num})" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-purple-100 text-slate-500 hover:text-brand-purple flex items-center justify-center transition cursor-pointer" title="Expand card">
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- TITLE & ICON -->
+              <div class="flex items-center justify-between">
+                <h3 class="font-bold ${isCurrentActive ? 'text-brand-purple' : 'text-slate-900'} text-sm flex items-center space-x-2 leading-tight truncate">
+                  <i data-lucide="${sec.icon}" class="w-4 h-4 ${isCurrentActive ? 'text-brand-purple' : isDone ? 'text-emerald-600' : isNextStep ? 'text-amber-600' : 'text-slate-400'} shrink-0"></i>
+                  <span class="truncate">${escapeHtml(sec.title)}</span>
+                </h3>
+              </div>
+
+              <!-- MINI PROGRESS BAR -->
+              <div class="space-y-1">
+                <div class="flex items-center justify-between text-[11px] font-semibold text-slate-600">
+                  <span>${sec.done} of ${sec.total} Completed</span>
+                  <span class="font-bold ${isDone ? 'text-emerald-600' : isCurrentActive ? 'text-brand-purple' : isNextStep ? 'text-amber-700' : 'text-slate-500'}">${sec.pct}%</span>
+                </div>
+                <div class="w-full bg-slate-200/80 rounded-full h-1.5 overflow-hidden">
+                  <div class="h-full rounded-full transition-all duration-500 ${
+                    isDone ? 'bg-emerald-500' : isCurrentActive ? 'bg-gradient-to-r from-purple-500 to-brand-purple' : isNextStep ? 'bg-amber-500' : 'bg-slate-400'
+                  }" style="width: ${sec.pct}%"></div>
+                </div>
+              </div>
+
+              <!-- CLICK TO EXPAND PROMPT -->
+              <div class="pt-1.5 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-medium">
+                <span>${sec.subBlocks.length} deliverable${sec.subBlocks.length > 1 ? 's' : ''}</span>
+                <span class="text-brand-purple font-semibold flex items-center space-x-0.5">
+                  <span>Click to expand</span>
+                  <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                </span>
+              </div>
+            </div>
+          `;
+        } else {
+          // EXPANDED CARD CONTENT
+          card.innerHTML = `
+            <div class="space-y-3">
+              <!-- SECTION HEADER WITH COLLAPSE TOGGLE -->
+              <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-2.5 cursor-pointer select-none group/header" onclick="toggleTimelineStepCard(${sec.num})">
+                <div class="flex items-center space-x-2 min-w-0">
+                  <span class="px-2 py-0.5 rounded-md ${isCurrentActive ? 'bg-brand-purple text-white' : isDone ? 'bg-emerald-100 text-emerald-800' : isNextStep ? 'bg-amber-100 text-amber-900 font-bold' : 'bg-slate-200 text-slate-600'} font-mono font-bold text-[10px] shrink-0">
+                    Step ${sec.num}
+                  </span>
+                  <span class="text-[11px] font-semibold text-slate-500 truncate flex items-center space-x-1">
+                    <i data-lucide="calendar" class="w-3 h-3 text-slate-400 shrink-0"></i>
+                    <span class="truncate">${formatDisplayDate(sec.deadline)}</span>
+                  </span>
+                </div>
+                <div class="flex items-center space-x-1.5 shrink-0">
+                  ${statusBadge}
+                  <button type="button" onclick="event.stopPropagation(); toggleTimelineStepCard(${sec.num})" class="w-6 h-6 rounded-lg bg-slate-100 group-hover/header:bg-purple-100 text-slate-500 group-hover/header:text-brand-purple flex items-center justify-center transition cursor-pointer" title="Collapse card">
+                    <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- SECTION TITLE -->
+              <div>
+                <h3 class="font-bold ${isCurrentActive ? 'text-brand-purple' : 'text-slate-900'} text-sm md:text-base flex items-center space-x-2 leading-tight">
+                  <i data-lucide="${sec.icon}" class="w-4.5 h-4.5 ${isCurrentActive ? 'text-brand-purple' : isDone ? 'text-emerald-600' : isNextStep ? 'text-amber-600' : 'text-slate-400'} shrink-0"></i>
+                  <span class="truncate">${escapeHtml(sec.title)}</span>
+                </h3>
+              </div>
+
+              <!-- NOTICE (LOCKED, NEXT STEP OR PM HINT) -->
+              ${isNextStep ? `
+                <div class="bg-amber-100/70 border border-amber-200/90 rounded-xl p-2 text-center text-amber-900 text-[11px] font-semibold flex items-center justify-center space-x-1.5 shadow-2xs">
+                  <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-700 shrink-0"></i>
+                  <span>Next Step • Unlocks once Step ${activeStepIndex !== -1 ? stepStates[activeStepIndex].num : idx} is completed</span>
+                </div>
+              ` : lockOverlayHtml}
+
+              ${pmClientNotice}
+
+              <!-- PROGRESS BAR & COUNT -->
+              <div class="space-y-1.5 ${isCurrentActive ? 'bg-purple-50/70 border-purple-100' : isDone ? 'bg-emerald-50/50 border-emerald-100' : isNextStep ? 'bg-amber-50/60 border-amber-200' : 'bg-slate-100/70 border-slate-200'} p-2.5 rounded-xl border">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-semibold text-slate-600">${sec.done} of ${sec.total} Completed</span>
+                  <span class="font-bold ${isDone ? 'text-emerald-600' : isCurrentActive ? 'text-brand-purple' : isNextStep ? 'text-amber-700' : 'text-slate-500'}">${sec.pct}%</span>
+                </div>
+                <div class="w-full bg-slate-200/80 rounded-full h-2 overflow-hidden">
+                  <div class="h-full rounded-full transition-all duration-500 ${
+                    isDone ? 'bg-emerald-500' : isCurrentActive ? 'bg-gradient-to-r from-purple-500 to-brand-purple' : isNextStep ? 'bg-amber-500' : 'bg-slate-400'
+                  }" style="width: ${sec.pct}%"></div>
+                </div>
+              </div>
+
+              <!-- SUB-BLOCKS ANCHOR BUTTONS -->
+              <div class="space-y-1.5 pt-1">
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-0.5 flex items-center justify-between">
+                  <span>Deliverables & Sub-blocks</span>
+                  <span class="font-mono text-[9px] text-slate-400">${sec.done}/${sec.total}</span>
+                </div>
+                <div class="space-y-1.5 max-h-56 overflow-y-auto pr-0.5">
+                  ${subBlocksHtml}
+                </div>
+              </div>
+            </div>
+
+            <!-- FOOTER QUICK JUMP TO SECTION -->
+            <div class="pt-2.5 border-t border-slate-100 flex flex-col gap-1.5">
+              ${isLocked ? `
+                <button 
+                  type="button" 
+                  ${currentRole === 'pm' ? `onclick="scrollToTimelineBlock('${sec.id}')"` : 'disabled'}
+                  class="w-full flex items-center justify-center space-x-1.5 py-2 bg-slate-100 text-slate-400 font-bold text-xs rounded-xl border border-slate-200 cursor-not-allowed transition-all"
+                  title="${currentRole === 'pm' ? 'PM Preview' : `Complete Step ${idx} to unlock`}"
+                >
+                  <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                  <span>${currentRole === 'pm' ? `Preview ${escapeHtml(sec.shortTitle || sec.title)} (PM)` : `Locked • Complete Step ${idx}`}</span>
+                </button>
+              ` : isNextStep ? `
+                <button 
+                  type="button" 
+                  onclick="scrollToTimelineBlock('${sec.id}')"
+                  class="w-full flex items-center justify-center space-x-1.5 py-2 bg-amber-100/80 hover:bg-amber-200/90 text-amber-900 font-bold text-xs rounded-xl border border-amber-300 transition-all duration-150 group cursor-pointer"
+                  title="Preview upcoming ${escapeHtml(sec.title)}"
+                >
+                  <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                  <span>Preview Next Step: ${escapeHtml(sec.shortTitle || sec.title)}</span>
+                  <i data-lucide="arrow-down" class="w-3.5 h-3.5 group-hover:translate-y-0.5 transition"></i>
+                </button>
+              ` : `
+                <button 
+                  type="button" 
+                  onclick="scrollToTimelineBlock('${sec.id}')" 
+                  class="w-full flex items-center justify-center space-x-1.5 py-2 ${
+                    isCurrentActive 
+                      ? 'bg-brand-purple hover:bg-brand-purpleDark text-white shadow-xs' 
+                      : 'bg-slate-50 hover:bg-brand-purple hover:text-white text-slate-700'
+                  } font-bold text-xs rounded-xl border ${isCurrentActive ? 'border-brand-purple' : 'border-slate-200 hover:border-brand-purple'} transition-all duration-150 group cursor-pointer"
+                  title="Jump to ${escapeHtml(sec.title)}"
+                >
+                  <span>Jump to ${escapeHtml(sec.title)}</span>
+                  <i data-lucide="arrow-down" class="w-3.5 h-3.5 group-hover:translate-y-0.5 transition"></i>
+                </button>
+              `}
+              <button 
+                type="button" 
+                onclick="toggleTimelineStepCard(${sec.num})"
+                class="w-full text-center text-[10px] text-slate-400 hover:text-brand-purple py-0.5 font-medium transition cursor-pointer flex items-center justify-center space-x-1"
+              >
+                <span>Collapse card</span>
+                <i data-lucide="chevron-up" class="w-3 h-3"></i>
+              </button>
+            </div>
+          `;
+        }
+
+        container.appendChild(card);
+      });
+
+      // Synchronize visibility of lower sections for client
+      updateTimelineSectionsVisibility(project, activeStepIndex);
+
+      // Update Overall Progress in Header
+      const overallContainer = document.getElementById('axis-overall-progress');
+      if (overallContainer) {
+        const allPct = totalAllDeliverables > 0 ? Math.round((totalAllDone / totalAllDeliverables) * 100) : 0;
+        overallContainer.innerHTML = `
+          <div class="flex items-center space-x-3 bg-slate-50 px-3.5 py-1.5 rounded-xl border border-slate-200 shadow-2xs">
+            <div class="text-right">
+              <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Overall Progress</div>
+              <div class="text-xs font-bold text-slate-800">${totalAllDone} / ${totalAllDeliverables} Deliverables (${allPct}%)</div>
+            </div>
+            <div class="w-10 h-10 rounded-xl ${allPct === 100 ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-purple-50 text-brand-purple border border-purple-200'} flex items-center justify-center font-bold text-xs shrink-0 shadow-2xs">
+              ${allPct}%
+            </div>
+          </div>
+        `;
       }
     }
 
@@ -6649,7 +7510,7 @@
           evolutionTag: evo,
           sitemapDriveUrl: drive,
           sitemapDocs: [
-            { id: `sd-${Date.now()}`, lang: checkedLangs[0] || 'English', label: `[${getDocLangMeta(checkedLangs[0] || 'English').code}] Proposed Sitemap Architecture`, url: drive || 'https://drive.google.com' }
+            { id: `sd-${Date.now()}`, lang: checkedLangs[0] || 'English', label: `${checkedLangs[0] || 'English'} Version`, url: drive || 'https://drive.google.com', completed: false }
           ],
           seoQuestionnaireUrl: '',
           hasSeoQuestionnaire: hasSeo,
@@ -6659,6 +7520,7 @@
           goLiveDeadline: '2026-08-15',
           serverSelection: 'EMEAWEBFB3',
           stagingSiteUrl: '',
+          hasFirstWaveRevisions: false,
           hasSecondWaveRevisions: false,
           firstWaveNotes: '',
           secondWaveNotes: '',
@@ -6667,7 +7529,7 @@
           driveUrl: drive,
           colors: defaultColors,
           textDocs: [
-            { id: `td-${Date.now()}`, lang: checkedLangs[0] || 'English', label: `[${getDocLangMeta(checkedLangs[0] || 'English').code}] Website Content Master Doc`, url: 'https://docs.google.com' }
+            { id: `td-${Date.now()}`, lang: checkedLangs[0] || 'English', label: `${checkedLangs[0] || 'English'} Version`, url: 'https://docs.google.com', completed: false }
           ],
           graphicElements: {
             imagesDrive: drive,
