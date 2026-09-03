@@ -40,6 +40,8 @@
     ::-webkit-scrollbar-track { background: #f1f1f1; }
     ::-webkit-scrollbar-thumb { background: #c5b8d0; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #5B1E82; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 <body class="h-full text-slate-800 flex overflow-hidden font-sans antialiased bg-[#f4f5f9] relative">
@@ -135,9 +137,9 @@
             <!-- Rendered dynamically -->
           </div>
 
-          <!-- STEP SECTIONS TIMELINE GRID -->
-          <div id="timeline-nodes-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-            <!-- Dynamically populated with a card per Step Section -->
+          <!-- STEP SECTIONS TIMELINE CAROUSEL -->
+          <div id="timeline-nodes-container" class="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-3 pt-1 px-1 no-scrollbar items-stretch">
+            <!-- Dynamically populated with a card per Step Section in Carousel -->
           </div>
         </section>
 
@@ -604,23 +606,6 @@
             <!-- Rendered dynamically via renderGoLiveSection -->
           </div>
         </section>
-
-        <!-- THIRD PARTY INTEGRATIONS & FUNCTIONALITIES -->
-        <section id="third-party-section" class="bg-white rounded-2xl border border-slate-200 p-4 md:p-6 shadow-sm space-y-6">
-          <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
-            <h3 class="text-sm md:text-base font-bold text-brand-purple flex items-center space-x-2">
-              <i data-lucide="layers" class="w-5 h-5 text-brand-purple"></i>
-              <span id="title-section-third-party">Third Party Integrations and Functionalities</span>
-              <button type="button" onclick="openAdminEditorModal('sectionThirdParty')" class="pm-only-btn text-slate-400 hover:text-brand-purple hover:bg-purple-50 p-1 rounded-md transition" title="Rename Section 5">
-                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
-              </button>
-            </h3>
-            <div id="third-party-guide-btn-container"></div>
-          </div>
-
-          <div id="third-party-grid" class="grid grid-cols-1 gap-6 text-xs">
-          </div>
-        </section>
       </div>
 
       <!-- VIEW 2: ADMIN PROJECT BOARDS DASHBOARD (RESTRICTED TO MANAGERS ONLY) -->
@@ -1014,7 +999,6 @@
               <option value="2. Content Collection">2. Content Collection</option>
               <option value="3. Revision Phase">3. Revision Phase</option>
               <option value="4. Go-live">4. Go-live</option>
-              <option value="Third Party Integrations">Third Party Integrations</option>
             </select>
           </div>
 
@@ -1032,7 +1016,6 @@
               <option value="first-wave-card">3. Revision Phase → First Wave of Revision</option>
               <option value="second-wave-card">3. Revision Phase → Second Wave of Revision</option>
               <option value="go-live-card">4. Go-live → DNS Configuration</option>
-              <option value="third-party-section">Third Party Integrations</option>
             </select>
           </div>
         </div>
@@ -1049,8 +1032,11 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-slate-700 font-bold mb-1">Deadline Date</label>
-            <input required id="as-date" type="date" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple text-xs bg-white cursor-pointer">
+            <div>
+              <label class="block text-slate-700 font-bold mb-1">Deadline Target</label>
+              <input type="hidden" id="as-date" required>
+              <div id="as-deadline-selector-container"></div>
+            </div>
           </div>
 
           <div>
@@ -1068,6 +1054,85 @@
           <button type="submit" class="px-4 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm transition cursor-pointer">Append Step</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- UNIFIED ENGLISH CALENDAR PICKER MODAL (DAY / MULTIPLE DAYS / WEEK) -->
+  <div id="modal-english-calendar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4 transition-all" onclick="if(event.target===this)closeEnglishCalendarModal()">
+    <div class="bg-white rounded-2xl p-5 w-full max-w-sm sm:max-w-md shadow-2xl border border-slate-200 space-y-3.5" onclick="event.stopPropagation()">
+      <!-- Header -->
+      <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-xl bg-purple-100 text-brand-purple flex items-center justify-center shrink-0">
+            <i data-lucide="calendar" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 id="eng-cal-modal-title" class="text-sm font-bold text-slate-900 leading-tight">Select Deadline</h3>
+            <p class="text-[10.5px] text-slate-400">Select a single day, a date range, or an entire week</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeEnglishCalendarModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 transition cursor-pointer" title="Close">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Month Navigation in English -->
+      <div class="flex items-center justify-between px-1">
+        <button type="button" onclick="navigateEnglishCalendar(-1)" class="p-1.5 rounded-lg hover:bg-purple-50 text-slate-600 hover:text-brand-purple transition cursor-pointer" title="Previous Month">
+          <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        </button>
+        <div class="flex items-center space-x-1">
+          <span id="eng-cal-month-year" class="font-bold text-slate-800 text-sm"></span>
+        </div>
+        <button type="button" onclick="navigateEnglishCalendar(1)" class="p-1.5 rounded-lg hover:bg-purple-50 text-slate-600 hover:text-brand-purple transition cursor-pointer" title="Next Month">
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Calendar Header: Week Column + 7 Days (English) -->
+      <div class="grid grid-cols-8 gap-1 text-center font-bold text-[10px] text-slate-400 select-none items-center px-0.5">
+        <span class="text-brand-purple/80 text-[9px] uppercase tracking-wider font-extrabold" title="Click any week button to select the whole week">Week</span>
+        <span class="text-slate-500">Mon</span>
+        <span class="text-slate-500">Tue</span>
+        <span class="text-slate-500">Wed</span>
+        <span class="text-slate-500">Thu</span>
+        <span class="text-slate-500">Fri</span>
+        <span class="text-slate-500">Sat</span>
+        <span class="text-slate-500">Sun</span>
+      </div>
+
+      <!-- Calendar Rows with Week Buttons + 7 Days Grid -->
+      <div id="eng-cal-grid" class="space-y-1 text-xs"></div>
+
+      <!-- Dynamic Selection Feedback Banner -->
+      <div class="bg-purple-50/90 border border-purple-200/90 rounded-xl px-3.5 py-2 text-xs flex items-center justify-between">
+        <div class="min-w-0 pr-2">
+          <span class="text-slate-500 text-[10px] font-medium block">Active Selection:</span>
+          <span id="eng-cal-summary-text" class="font-bold text-brand-purple text-xs truncate block">To be defined</span>
+        </div>
+        <button type="button" onclick="clearEnglishCalendarSelection()" class="text-slate-400 hover:text-rose-500 text-[11px] font-semibold transition cursor-pointer shrink-0">
+          Clear
+        </button>
+      </div>
+
+      <!-- Quick presets & Actions -->
+      <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex items-center space-x-2">
+          <button type="button" onclick="pickEnglishCalendarPreset('today')" class="text-brand-purple font-semibold hover:underline cursor-pointer text-[11px]">Today</button>
+          <span class="text-slate-300">•</span>
+          <button type="button" onclick="pickEnglishCalendarPreset('this-week')" class="text-slate-600 font-medium hover:text-brand-purple cursor-pointer text-[11px]">This Week</button>
+          <span class="text-slate-300">•</span>
+          <button type="button" onclick="pickEnglishCalendarPreset('next-week')" class="text-slate-600 font-medium hover:text-brand-purple cursor-pointer text-[11px]">Next Week</button>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button type="button" onclick="closeEnglishCalendarModal()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition cursor-pointer text-xs">
+            Cancel
+          </button>
+          <button type="button" onclick="applyEnglishCalendarSelection()" class="px-3.5 py-1.5 bg-brand-purple hover:bg-brand-purpleDark text-white font-bold rounded-xl shadow-xs transition cursor-pointer text-xs">
+            Apply Deadline
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1243,20 +1308,6 @@
                 <button type="button" onclick="document.getElementById('ae-label-section4').value='4. Go-live'" class="px-2.5 py-2 bg-slate-100 hover:bg-purple-50 text-slate-600 hover:text-brand-purple font-semibold rounded-xl text-[11px] border border-slate-200 transition shrink-0" title="Reset to default">Reset</button>
               </div>
             </div>
-
-            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-1.5">
-              <label class="block font-bold text-slate-800 flex items-center justify-between">
-                <span class="flex items-center space-x-1.5">
-                  <i data-lucide="layers" class="w-4 h-4 text-brand-purple"></i>
-                  <span>Section 5 Title (Third Party Integrations)</span>
-                </span>
-                <span class="text-[10px] text-slate-400 font-mono">Default: Third Party Integrations and Functionalities</span>
-              </label>
-              <div class="flex items-center space-x-2">
-                <input type="text" id="ae-label-sectionThirdParty" placeholder="Third Party Integrations and Functionalities" class="flex-1 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-white shadow-2xs">
-                <button type="button" onclick="document.getElementById('ae-label-sectionThirdParty').value='Third Party Integrations and Functionalities'" class="px-2.5 py-2 bg-slate-100 hover:bg-purple-50 text-slate-600 hover:text-brand-purple font-semibold rounded-xl text-[11px] border border-slate-200 transition shrink-0" title="Reset to default">Reset</button>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -1378,10 +1429,6 @@
                 <label class="block font-semibold text-slate-700 mb-1">Production Server Selection</label>
                 <input type="text" id="ae-label-serverSelectionBlock" placeholder="Production Server Selection" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
               </div>
-              <div>
-                <label class="block font-semibold text-slate-700 mb-1">Third-Party Notes Title</label>
-                <input type="text" id="ae-label-thirdPartyNotesBlock" placeholder="Third Party Integrations" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 focus:bg-white shadow-2xs">
-              </div>
             </div>
           </div>
         </div>
@@ -1471,8 +1518,7 @@
         { id: 'scu8', group: '3. Revision Phase', title: 'Staging Site Preview & QA', date: '2026-08-05', owner: 'Both', status: 'pending', targetBlockId: 'staging-card', description: 'Pre-production staging website walkthrough, cross-device layout verification, and performance QA.' },
         { id: 'scu9', group: '3. Revision Phase', title: 'First Wave of Revision', date: '2026-08-05', owner: 'Both', status: 'pending', targetBlockId: 'first-wave-card', description: 'Comprehensive first wave feedback review with live annotations and design fine-tuning.' },
         { id: 'scu10', group: '3. Revision Phase', title: 'Second Wave & Final Punchlist', date: '2026-08-05', owner: 'Both', status: 'pending', targetBlockId: 'second-wave-card', description: 'Final iteration round to ensure 100% polish, typography balance, and asset alignment.' },
-        { id: 'scu11', group: '4. Go-live', title: 'DNS Cutover & Public Launch', date: '2026-08-25', owner: 'Both', status: 'pending', targetBlockId: 'go-live-card', description: 'DNS zone delegation, Cloudflare / WP Engine proxy cutover, and 1-on-1 CMS training handover.' },
-        { id: 'scu12', group: 'Third Party Integrations', title: 'Third Party Integrations & PMS', date: '2026-08-25', owner: 'Both', status: 'pending', targetBlockId: 'third-party-section', description: 'Integrate SynXis CRS / booking engine, OpenTable restaurant widget, and spa reservation tools.' }
+        { id: 'scu11', group: '4. Go-live', title: 'DNS Cutover & Public Launch', date: '2026-08-25', owner: 'Both', status: 'pending', targetBlockId: 'go-live-card', description: 'DNS zone delegation, Cloudflare / WP Engine proxy cutover, and 1-on-1 CMS training handover.' }
       ]
     };
 
@@ -1641,38 +1687,55 @@
 
     let currentProjectId = 'p1';
     let currentRole = 'pm'; // 'pm' or 'client'
-    let timelineExpandedSteps = {}; // Map of step num -> boolean (true: expanded, false: collapsed)
+    let currentCarouselStep = 1;
 
-    function toggleTimelineStepCard(stepNum) {
-      const project = projects.find(p => p.id === currentProjectId);
-      if (!project) return;
-      if (timelineExpandedSteps[stepNum] === undefined) {
-        timelineExpandedSteps[stepNum] = false;
-      } else {
-        timelineExpandedSteps[stepNum] = !timelineExpandedSteps[stepNum];
+    function scrollCarouselToStep(stepNum) {
+      currentCarouselStep = stepNum;
+      const container = document.getElementById('timeline-nodes-container');
+      const card = document.getElementById(`step-node-card-${stepNum}`);
+      if (container && card) {
+        const targetLeft = card.offsetLeft - container.offsetLeft - 8;
+        container.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
       }
-      renderTimelineAxis(project);
+      updateCarouselControls();
     }
 
-    function expandTimelineStepCard(stepNum) {
-      const project = projects.find(p => p.id === currentProjectId);
-      if (!project) return;
-      timelineExpandedSteps[stepNum] = true;
-      renderTimelineAxis(project);
+    function carouselPrevStep() {
+      const target = Math.max(1, currentCarouselStep - 1);
+      scrollCarouselToStep(target);
+    }
+
+    function carouselNextStep() {
+      const target = Math.min(4, currentCarouselStep + 1);
+      scrollCarouselToStep(target);
+    }
+
+    function updateCarouselControls() {
+      const prevBtn = document.getElementById('carousel-prev-btn');
+      const nextBtn = document.getElementById('carousel-next-btn');
+      const counter = document.getElementById('carousel-step-counter');
+      if (prevBtn) prevBtn.disabled = (currentCarouselStep <= 1);
+      if (nextBtn) nextBtn.disabled = (currentCarouselStep >= 4);
+      if (counter) counter.textContent = `Step ${currentCarouselStep} of 4`;
+
+      const dots = document.querySelectorAll('#carousel-dots-container button');
+      dots.forEach((dot, idx) => {
+        const stepNum = idx + 1;
+        if (stepNum === currentCarouselStep) {
+          dot.className = 'h-2 rounded-full bg-brand-purple w-5 transition-all cursor-pointer';
+        } else {
+          dot.className = 'h-2 rounded-full bg-slate-300 hover:bg-slate-400 w-2 transition-all cursor-pointer';
+        }
+      });
     }
 
     function handleStepperNodeClick(sectionId, stepNum) {
-      expandTimelineStepCard(stepNum);
-      setTimeout(() => {
-        const card = document.getElementById(`step-node-card-${stepNum}`);
-        if (card) {
-          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          card.classList.add('ring-4', 'ring-brand-purple/60');
-          setTimeout(() => card.classList.remove('ring-4', 'ring-brand-purple/60'), 1500);
-        } else {
-          scrollToTimelineBlock(sectionId);
-        }
-      }, 50);
+      scrollCarouselToStep(stepNum);
+      const card = document.getElementById(`step-node-card-${stepNum}`);
+      if (card) {
+        card.classList.add('ring-4', 'ring-brand-purple/60');
+        setTimeout(() => card.classList.remove('ring-4', 'ring-brand-purple/60'), 1500);
+      }
     }
 
     function updateTimelineSectionsVisibility(project, activeStepIndex) {
@@ -1689,10 +1752,10 @@
         return;
       }
 
-      // Client view: Next step is visible until all current step is finished; future steps are hidden
+      // Client view: active step and previous completed steps are visible; locked steps are hidden
       sections.forEach((sec, sIdx) => {
         if (!sec) return;
-        if (activeStepIndex === -1 || sIdx <= activeStepIndex + 1) {
+        if (activeStepIndex === -1 || sIdx <= activeStepIndex) {
           sec.classList.remove('hidden');
         } else {
           sec.classList.add('hidden');
@@ -2503,9 +2566,6 @@
 
       const s4 = document.getElementById('title-section-go-live');
       if (s4) s4.textContent = labels.section4 || DEFAULT_SECTION_LABELS.section4;
-
-      const s5 = document.getElementById('title-section-third-party');
-      if (s5) s5.textContent = labels.sectionThirdParty || DEFAULT_SECTION_LABELS.sectionThirdParty;
 
       // Subblock Titles in HTML
       const bSitemap = document.getElementById('title-block-sitemap');
@@ -4170,21 +4230,503 @@
       }
     }
 
-    function formatDisplayDate(dateStr) {
-      if (!dateStr) return 'To be defined';
+    const EN_MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const EN_MONTHS_FULL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const EN_DAYS_SHORT = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+    function getWeekDateRange(year, week) {
+      try {
+        const y = parseInt(year, 10);
+        const w = parseInt(week, 10);
+        if (isNaN(y) || isNaN(w)) return '';
+        const simple = new Date(y, 0, 4);
+        const dayOfWeek = simple.getDay() || 7;
+        const mondayWeek1 = new Date(simple);
+        mondayWeek1.setDate(simple.getDate() - dayOfWeek + 1);
+        
+        const monday = new Date(mondayWeek1);
+        monday.setDate(mondayWeek1.getDate() + (w - 1) * 7);
+        
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6);
+        
+        const monStr = `${monday.getDate()} ${EN_MONTHS_SHORT[monday.getMonth()]}`;
+        const sunStr = `${sunday.getDate()} ${EN_MONTHS_SHORT[sunday.getMonth()]} ${sunday.getFullYear()}`;
+        return `${monStr} – ${sunStr}`;
+      } catch (e) {
+        return '';
+      }
+    }
+
+    function getWeeksForYear(year) {
+      const y = parseInt(year, 10) || new Date().getFullYear();
+      const weeks = [];
+      const totalWeeks = 52;
+      for (let w = 1; w <= totalWeeks; w++) {
+        const wPad = String(w).padStart(2, '0');
+        const range = getWeekDateRange(y, w);
+        weeks.push({
+          weekNum: w,
+          val: `${y}-W${wPad}`,
+          label: `Week ${w} (${range})`
+        });
+      }
+      return weeks;
+    }
+
+    function dateToIsoWeek(dateStr) {
+      if (!dateStr) return '';
+      if (/^\d{4}-W\d{2}$/i.test(dateStr)) return dateStr;
       try {
         const parts = dateStr.split('-');
+        if (parts.length !== 3) return '';
+        const year = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        const day = parseInt(parts[2], 10);
+        const date = new Date(year, month, day);
+        if (isNaN(date.getTime())) return '';
+
+        const target = new Date(date.valueOf());
+        const dayNr = (date.getDay() + 6) % 7;
+        target.setDate(target.getDate() - dayNr + 3);
+        const firstThursday = target.valueOf();
+        target.setMonth(0, 1);
+        if (target.getDay() !== 4) {
+          target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
+        }
+        const weekNum = 1 + Math.ceil((firstThursday - target) / 604800000);
+        const weekYear = new Date(firstThursday).getFullYear();
+        return `${weekYear}-W${String(weekNum).padStart(2, '0')}`;
+      } catch (e) {
+        return '';
+      }
+    }
+
+    function isoWeekToDate(weekStr) {
+      if (!weekStr) return '';
+      if (/^\d{4}-\d{2}-\d{2}$/.test(weekStr)) return weekStr;
+      try {
+        const parts = weekStr.split('-W');
+        if (parts.length !== 2) return '';
+        const year = parseInt(parts[0], 10);
+        const week = parseInt(parts[1], 10);
+        
+        const simple = new Date(year, 0, 4);
+        const dayOfWeek = simple.getDay() || 7;
+        const mondayWeek1 = new Date(simple);
+        mondayWeek1.setDate(simple.getDate() - dayOfWeek + 1);
+        
+        const monday = new Date(mondayWeek1);
+        monday.setDate(mondayWeek1.getDate() + (week - 1) * 7);
+        
+        const y = monday.getFullYear();
+        const m = String(monday.getMonth() + 1).padStart(2, '0');
+        const d = String(monday.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+      } catch (e) {
+        return '';
+      }
+    }
+
+    function formatSingleDate(dateStr) {
+      if (!dateStr) return '';
+      try {
+        const parts = String(dateStr).split('-');
         if (parts.length === 3) {
           const year = parseInt(parts[0], 10);
           const month = parseInt(parts[1], 10) - 1;
           const day = parseInt(parts[2], 10);
-          const d = new Date(year, month, day);
-          if (!isNaN(d.getTime())) {
-            return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+          if (month >= 0 && month < 12 && !isNaN(day)) {
+            return `${day} ${EN_MONTHS_SHORT[month]} ${year}`;
           }
         }
       } catch (e) {}
-      return dateStr;
+      return String(dateStr);
+    }
+
+    function formatDisplayDate(dateStr) {
+      if (!dateStr) return 'To be defined';
+
+      // 1. Multiple days / date range: e.g. "2026-05-12 to 2026-05-16" or "2026-05-12/2026-05-16"
+      if (typeof dateStr === 'string' && (dateStr.includes(' to ') || dateStr.includes('/'))) {
+        const sep = dateStr.includes(' to ') ? ' to ' : '/';
+        const [startStr, endStr] = dateStr.split(sep);
+        const startFmt = formatSingleDate(startStr);
+        const endFmt = formatSingleDate(endStr);
+        if (startFmt && endFmt) {
+          if (startStr === endStr) return startFmt;
+          try {
+            const sParts = startStr.split('-');
+            const eParts = endStr.split('-');
+            if (sParts[0] === eParts[0] && sParts[1] === eParts[1]) {
+              const m = EN_MONTHS_SHORT[parseInt(sParts[1], 10) - 1];
+              return `${parseInt(sParts[2], 10)} – ${parseInt(eParts[2], 10)} ${m} ${sParts[0]}`;
+            }
+          } catch(e) {}
+          return `${startFmt} – ${endFmt}`;
+        }
+      }
+
+      // 2. Week format: e.g. "2026-W20"
+      if (typeof dateStr === 'string' && dateStr.includes('-W')) {
+        const parts = dateStr.split('-W');
+        if (parts.length === 2) {
+          const year = parts[0];
+          const weekNum = parseInt(parts[1], 10);
+          const range = getWeekDateRange(year, weekNum);
+          if (range) {
+            return `Week ${weekNum}, ${year} (${range})`;
+          }
+          return `Week ${weekNum}, ${year}`;
+        }
+      }
+
+      // 3. Single date: e.g. "2026-05-15"
+      return formatSingleDate(dateStr);
+    }
+
+    function getDeadlineToTypeLabel(val) {
+      if (!val) return 'Select';
+      if (typeof val === 'string' && (val.includes(' to ') || val.includes('/'))) return 'Days';
+      if (typeof val === 'string' && val.includes('-W')) return 'Week';
+      return 'Day';
+    }
+
+    function renderDeadlineComponent({ containerId, sectionKey, labelText, currentDeadline, inputId, onchangeFnName, titleTooltip }) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      if (currentRole === 'pm') {
+        const displayDate = formatDisplayDate(currentDeadline);
+        const typeLabel = getDeadlineToTypeLabel(currentDeadline);
+
+        container.innerHTML = `
+          <div class="flex items-center">
+            <!-- Hidden input for backward compatibility with form scripts -->
+            <input type="hidden" id="${inputId}" value="${currentDeadline || ''}">
+            
+            <!-- PM Calendar Modal Trigger Button (Single day, multiple days, or week) -->
+            <button 
+              type="button" 
+              onclick="openEnglishCalendarModal('${sectionKey}', '${onchangeFnName}', '${currentDeadline || ''}', '${labelText}')" 
+              class="group flex items-center space-x-2.5 bg-white hover:bg-purple-50/80 active:bg-purple-100 border border-purple-200/90 hover:border-brand-purple rounded-xl px-3 py-1.5 text-xs transition-all shadow-2xs cursor-pointer select-none"
+              title="${titleTooltip || 'Click to choose deadline (single day, multiple days, or a week)'}"
+            >
+              <div class="flex items-center space-x-1.5">
+                <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-purple group-hover:scale-110 transition-transform shrink-0"></i>
+                <span class="text-slate-500 font-medium text-[11px]">${labelText}:</span>
+                <span class="font-bold text-brand-purple text-xs tracking-tight">${displayDate}</span>
+              </div>
+              <div class="flex items-center space-x-1.5 pl-1.5 border-l border-purple-200/60">
+                <span class="text-[9.5px] uppercase font-extrabold text-brand-purple bg-purple-100/80 border border-purple-200/60 px-1.5 py-0.5 rounded">
+                  ${typeLabel}
+                </span>
+                <i data-lucide="calendar-days" class="w-3.5 h-3.5 text-slate-400 group-hover:text-brand-purple transition-colors shrink-0"></i>
+              </div>
+            </button>
+          </div>
+        `;
+      } else {
+        const displayDate = formatDisplayDate(currentDeadline);
+        container.innerHTML = `
+          <div class="inline-flex items-center space-x-1.5 bg-purple-50 border border-purple-200/80 rounded-xl px-3 py-1 text-xs shadow-2xs">
+            <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-purple shrink-0"></i>
+            <span class="text-slate-500 font-semibold text-[11px]">${labelText}:</span>
+            <span class="font-bold text-brand-purple text-xs">${displayDate}</span>
+          </div>
+        `;
+      }
+      lucide.createIcons();
+    }
+
+    // --- UNIFIED ENGLISH CALENDAR MODAL CONTROLS (NO TWO MODES) ---
+    let currentEngCalContext = null;
+    let engCalYear = new Date().getFullYear();
+    let engCalMonth = new Date().getMonth();
+    let engCalSelectedValue = '';
+    let rangeSelectionAnchor = null;
+
+    function openEnglishCalendarModal(sectionKey, onchangeFnName, initialDate, label) {
+      currentEngCalContext = { sectionKey, onchangeFnName, label: label || 'Deadline' };
+      rangeSelectionAnchor = null;
+      engCalSelectedValue = initialDate || '';
+
+      const modalTitle = document.getElementById('eng-cal-modal-title');
+      if (modalTitle) {
+        modalTitle.textContent = label ? `Select ${label}` : 'Select Deadline';
+      }
+
+      let d = new Date();
+      if (initialDate) {
+        if (initialDate.includes('-W')) {
+          const conv = isoWeekToDate(initialDate);
+          if (conv) d = new Date(conv);
+        } else if (initialDate.includes(' to ')) {
+          const s = initialDate.split(' to ')[0];
+          if (s) d = new Date(s);
+        } else if (initialDate.includes('-')) {
+          const parts = initialDate.split('-');
+          if (parts.length === 3) {
+            d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+          }
+        }
+      }
+
+      if (!isNaN(d.getTime())) {
+        engCalYear = d.getFullYear();
+        engCalMonth = d.getMonth();
+      }
+
+      renderEnglishCalendarModal();
+      document.getElementById('modal-english-calendar').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeEnglishCalendarModal() {
+      const modal = document.getElementById('modal-english-calendar');
+      if (modal) modal.classList.add('hidden');
+      currentEngCalContext = null;
+      rangeSelectionAnchor = null;
+    }
+
+    function navigateEnglishCalendar(deltaMonths) {
+      engCalMonth += deltaMonths;
+      if (engCalMonth < 0) {
+        engCalMonth = 11;
+        engCalYear -= 1;
+      } else if (engCalMonth > 11) {
+        engCalMonth = 0;
+        engCalYear += 1;
+      }
+      renderEnglishCalendarModal();
+    }
+
+    function onCalendarDayClick(dStr) {
+      if (!rangeSelectionAnchor) {
+        // First click: selected single day
+        rangeSelectionAnchor = dStr;
+        engCalSelectedValue = dStr;
+      } else {
+        // Second click: create multiple days range
+        if (rangeSelectionAnchor === dStr) {
+          engCalSelectedValue = dStr;
+          rangeSelectionAnchor = null;
+        } else {
+          const dates = [rangeSelectionAnchor, dStr].sort();
+          engCalSelectedValue = `${dates[0]} to ${dates[1]}`;
+          rangeSelectionAnchor = null;
+        }
+      }
+      renderEnglishCalendarModal();
+    }
+
+    function onCalendarWeekClick(weekIso) {
+      rangeSelectionAnchor = null;
+      engCalSelectedValue = weekIso;
+      renderEnglishCalendarModal();
+    }
+
+    function renderEnglishCalendarModal() {
+      const titleEl = document.getElementById('eng-cal-month-year');
+      const gridEl = document.getElementById('eng-cal-grid');
+      const summaryEl = document.getElementById('eng-cal-summary-text');
+      if (!titleEl || !gridEl) return;
+
+      titleEl.textContent = `${EN_MONTHS_FULL[engCalMonth]} ${engCalYear}`;
+
+      if (summaryEl) {
+        if (!engCalSelectedValue) {
+          summaryEl.textContent = 'None selected';
+        } else {
+          const isWk = engCalSelectedValue.includes('-W');
+          const isRange = engCalSelectedValue.includes(' to ');
+          let typeDesc = 'Single Day';
+          if (isWk) typeDesc = 'Full Calendar Week';
+          else if (isRange) typeDesc = 'Multiple Days Range';
+          else if (rangeSelectionAnchor) typeDesc = 'Start Day Selected (click another day for a range, or click Apply)';
+
+          summaryEl.innerHTML = `
+            <div class="flex items-center space-x-1.5 flex-wrap">
+              <span class="font-bold text-brand-purple">${formatDisplayDate(engCalSelectedValue)}</span>
+              <span class="text-[10px] font-semibold text-purple-600 bg-purple-100 px-1.5 py-0.2 rounded">${typeDesc}</span>
+            </div>
+          `;
+        }
+      }
+
+      // Parse selection states
+      const isWeekSelected = engCalSelectedValue && engCalSelectedValue.includes('-W');
+      let rangeStart = null;
+      let rangeEnd = null;
+
+      if (engCalSelectedValue && engCalSelectedValue.includes(' to ')) {
+        const parts = engCalSelectedValue.split(' to ');
+        rangeStart = parts[0];
+        rangeEnd = parts[1];
+      } else if (engCalSelectedValue && !isWeekSelected) {
+        rangeStart = engCalSelectedValue;
+        rangeEnd = engCalSelectedValue;
+      }
+
+      const firstDayOfMonth = new Date(engCalYear, engCalMonth, 1);
+      let startDay = firstDayOfMonth.getDay();
+      startDay = startDay === 0 ? 7 : startDay;
+
+      const daysInMonth = new Date(engCalYear, engCalMonth + 1, 0).getDate();
+      const prevMonthDays = new Date(engCalYear, engCalMonth, 0).getDate();
+
+      const rows = [];
+      let currentRow = [];
+
+      // Prev month filler
+      for (let i = startDay - 2; i >= 0; i--) {
+        const prevDay = prevMonthDays - i;
+        const prevM = engCalMonth === 0 ? 11 : engCalMonth - 1;
+        const prevY = engCalMonth === 0 ? engCalYear - 1 : engCalYear;
+        const dStr = `${prevY}-${String(prevM + 1).padStart(2, '0')}-${String(prevDay).padStart(2, '0')}`;
+        currentRow.push({ day: prevDay, isCurrentMonth: false, dateStr: dStr });
+      }
+
+      // Current month days
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dStr = `${engCalYear}-${String(engCalMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        currentRow.push({ day, isCurrentMonth: true, dateStr: dStr });
+        if (currentRow.length === 7) {
+          rows.push(currentRow);
+          currentRow = [];
+        }
+      }
+
+      // Next month filler
+      if (currentRow.length > 0) {
+        let nextDay = 1;
+        const nextM = engCalMonth === 11 ? 0 : engCalMonth + 1;
+        const nextY = engCalMonth === 11 ? engCalYear + 1 : engCalYear;
+        while (currentRow.length < 7) {
+          const dStr = `${nextY}-${String(nextM + 1).padStart(2, '0')}-${String(nextDay).padStart(2, '0')}`;
+          currentRow.push({ day: nextDay, isCurrentMonth: false, dateStr: dStr });
+          nextDay++;
+        }
+        rows.push(currentRow);
+      }
+
+      const todayStr = new Date().toISOString().split('T')[0];
+      let rowsHtml = '';
+
+      rows.forEach(weekDays => {
+        const refDate = weekDays.find(d => d.isCurrentMonth)?.dateStr || weekDays[0].dateStr;
+        const weekIso = dateToIsoWeek(refDate);
+        const weekNum = weekIso ? parseInt(weekIso.split('-W')[1], 10) : '';
+        const thisWeekIsSelected = (isWeekSelected && engCalSelectedValue === weekIso);
+
+        let rowClass = 'grid grid-cols-8 gap-1 items-center p-0.5 rounded-xl transition ';
+        if (thisWeekIsSelected) {
+          rowClass += 'bg-purple-100/90 ring-1.5 ring-brand-purple shadow-2xs';
+        } else {
+          rowClass += 'hover:bg-purple-50/40';
+        }
+
+        // Week column button
+        let weekBtnClass = 'w-7 h-7 mx-auto flex items-center justify-center rounded-lg font-bold text-[10px] transition cursor-pointer ';
+        if (thisWeekIsSelected) {
+          weekBtnClass += 'bg-brand-purple text-white shadow-2xs';
+        } else {
+          weekBtnClass += 'text-brand-purple/80 bg-purple-50 hover:bg-brand-purple hover:text-white';
+        }
+
+        let daysHtml = `
+          <div class="text-center">
+            <button 
+              type="button" 
+              onclick="onCalendarWeekClick('${weekIso}')" 
+              class="${weekBtnClass}" 
+              title="Click to select Week ${weekNum}"
+            >
+              W${weekNum}
+            </button>
+          </div>
+        `;
+
+        // 7 Days
+        weekDays.forEach(cell => {
+          const isToday = cell.dateStr === todayStr;
+          const isInRange = rangeStart && rangeEnd && (cell.dateStr >= rangeStart && cell.dateStr <= rangeEnd);
+          const isRangeEdge = (cell.dateStr === rangeStart || cell.dateStr === rangeEnd);
+          const isAnchorOnly = (rangeSelectionAnchor && cell.dateStr === rangeSelectionAnchor && !rangeEnd);
+
+          let dayBtnClass = 'w-7 h-7 mx-auto flex items-center justify-center rounded-lg font-semibold transition cursor-pointer text-xs ';
+
+          if (thisWeekIsSelected) {
+            dayBtnClass += 'text-purple-900 font-bold hover:bg-brand-purple hover:text-white';
+          } else if (isRangeEdge || isAnchorOnly) {
+            dayBtnClass += 'bg-brand-purple text-white font-bold shadow-2xs';
+          } else if (isInRange) {
+            dayBtnClass += 'bg-purple-100 text-brand-purple font-semibold hover:bg-purple-200';
+          } else if (isToday) {
+            dayBtnClass += 'bg-purple-50 text-brand-purple font-bold hover:bg-purple-100';
+          } else if (!cell.isCurrentMonth) {
+            dayBtnClass += 'text-slate-300 hover:bg-slate-100 hover:text-slate-500';
+          } else {
+            dayBtnClass += 'text-slate-700 hover:bg-purple-50 hover:text-brand-purple';
+          }
+
+          daysHtml += `
+            <div class="text-center">
+              <button 
+                type="button" 
+                onclick="onCalendarDayClick('${cell.dateStr}')" 
+                class="${dayBtnClass}"
+                title="${cell.dateStr}"
+              >
+                ${cell.day}
+              </button>
+            </div>
+          `;
+        });
+
+        rowsHtml += `<div class="${rowClass}">${daysHtml}</div>`;
+      });
+
+      gridEl.innerHTML = rowsHtml;
+    }
+
+    function clearEnglishCalendarSelection() {
+      engCalSelectedValue = '';
+      rangeSelectionAnchor = null;
+      renderEnglishCalendarModal();
+    }
+
+    function pickEnglishCalendarPreset(preset) {
+      const now = new Date();
+      rangeSelectionAnchor = null;
+
+      if (preset === 'today') {
+        const y = now.getFullYear();
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const d = String(now.getDate()).padStart(2, '0');
+        engCalSelectedValue = `${y}-${m}-${d}`;
+        engCalYear = now.getFullYear();
+        engCalMonth = now.getMonth();
+      } else if (preset === 'this-week') {
+        const todayIso = now.toISOString().split('T')[0];
+        engCalSelectedValue = dateToIsoWeek(todayIso);
+        engCalYear = now.getFullYear();
+        engCalMonth = now.getMonth();
+      } else if (preset === 'next-week') {
+        now.setDate(now.getDate() + 7);
+        const nextIso = now.toISOString().split('T')[0];
+        engCalSelectedValue = dateToIsoWeek(nextIso);
+        engCalYear = now.getFullYear();
+        engCalMonth = now.getMonth();
+      }
+      renderEnglishCalendarModal();
+    }
+
+    function applyEnglishCalendarSelection() {
+      if (currentEngCalContext && typeof window[currentEngCalContext.onchangeFnName] === 'function') {
+        window[currentEngCalContext.onchangeFnName](engCalSelectedValue);
+      }
+      closeEnglishCalendarModal();
     }
 
     function getContentCollectionDeadline(project) {
@@ -4194,37 +4736,15 @@
     }
 
     function renderContentCollectionDeadline(project) {
-      const container = document.getElementById('content-collection-deadline-container');
-      if (!container) return;
-
-      const currentDeadline = getContentCollectionDeadline(project);
-
-      if (currentRole === 'pm') {
-        container.innerHTML = `
-          <div class="flex items-center space-x-1.5 bg-purple-50/90 border border-purple-200/90 rounded-xl px-2.5 py-1 text-xs shadow-2xs">
-            <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-purple shrink-0"></i>
-            <span class="text-slate-600 font-semibold text-[11px] select-none">Deadline:</span>
-            <input 
-              type="date" 
-              id="cc-deadline-input" 
-              value="${currentDeadline}" 
-              onchange="updateContentCollectionDeadline(this.value)" 
-              class="bg-white border border-purple-200 text-slate-800 font-bold text-xs rounded-lg px-2 py-0.5 outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer shadow-2xs transition" 
-              title="Set deadline for Content Collection"
-            >
-          </div>
-        `;
-      } else {
-        const displayDate = formatDisplayDate(currentDeadline);
-        container.innerHTML = `
-          <div class="inline-flex items-center space-x-1.5 bg-purple-50 border border-purple-200/80 rounded-xl px-3 py-1 text-xs shadow-2xs">
-            <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-purple shrink-0"></i>
-            <span class="text-slate-500 font-semibold text-[11px]">Deadline:</span>
-            <span class="font-bold text-brand-purple text-xs">${displayDate}</span>
-          </div>
-        `;
-      }
-      lucide.createIcons();
+      renderDeadlineComponent({
+        containerId: 'content-collection-deadline-container',
+        sectionKey: 'cc',
+        labelText: 'Deadline',
+        currentDeadline: getContentCollectionDeadline(project),
+        inputId: 'cc-deadline-input',
+        onchangeFnName: 'updateContentCollectionDeadline',
+        titleTooltip: 'Set deadline for Content Collection'
+      });
     }
 
     function updateContentCollectionDeadline(newDate) {
@@ -4243,6 +4763,7 @@
 
       logActivity('Content Deadline Updated', `Updated content collection deadline to ${formatDisplayDate(newDate)}`, 'calendar', 'date', project.id);
       renderTimelineAxis(project);
+      renderContentCollectionDeadline(project);
       showSavingToast('Saving deadline...', 'Deadline saved');
       lucide.createIcons();
     }
@@ -4301,37 +4822,15 @@
     }
 
     function renderSitemapDeadline(project) {
-      const container = document.getElementById('sitemap-deadline-container');
-      if (!container) return;
-
-      const currentDeadline = getSitemapDeadline(project);
-
-      if (currentRole === 'pm') {
-        container.innerHTML = `
-          <div class="flex items-center space-x-1.5 bg-purple-50/90 border border-purple-200/90 rounded-xl px-2.5 py-1 text-xs shadow-2xs">
-            <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-purple shrink-0"></i>
-            <span class="text-slate-600 font-semibold text-[11px] select-none">Deadline:</span>
-            <input 
-              type="date" 
-              id="sitemap-deadline-input" 
-              value="${currentDeadline}" 
-              onchange="updateSitemapDeadline(this.value)" 
-              class="bg-white border border-purple-200 text-slate-800 font-bold text-xs rounded-lg px-2 py-0.5 outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer shadow-2xs transition" 
-              title="Set deadline for Sitemap"
-            >
-          </div>
-        `;
-      } else {
-        const displayDate = formatDisplayDate(currentDeadline);
-        container.innerHTML = `
-          <div class="inline-flex items-center space-x-1.5 bg-purple-50 border border-purple-200/80 rounded-xl px-3 py-1 text-xs shadow-2xs">
-            <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-purple shrink-0"></i>
-            <span class="text-slate-500 font-semibold text-[11px]">Deadline:</span>
-            <span class="font-bold text-brand-purple text-xs">${displayDate}</span>
-          </div>
-        `;
-      }
-      lucide.createIcons();
+      renderDeadlineComponent({
+        containerId: 'sitemap-deadline-container',
+        sectionKey: 'sitemap',
+        labelText: 'Deadline',
+        currentDeadline: getSitemapDeadline(project),
+        inputId: 'sitemap-deadline-input',
+        onchangeFnName: 'updateSitemapDeadline',
+        titleTooltip: 'Set deadline for Sitemap'
+      });
     }
 
     function updateSitemapDeadline(newDate) {
@@ -4350,6 +4849,8 @@
 
       logActivity('Sitemap Target Updated', `Updated sitemap deadline to ${formatDisplayDate(newDate)}`, 'calendar', 'date', project.id);
       renderTimelineAxis(project);
+      renderSitemapDeadline(project);
+      showSavingToast('Saving sitemap deadline...', 'Deadline saved');
       lucide.createIcons();
     }
 
@@ -4901,37 +5402,15 @@
     }
 
     function renderRevisionPhaseDeadline(project) {
-      const container = document.getElementById('revision-phase-deadline-container');
-      if (!container) return;
-
-      const currentDeadline = getRevisionPhaseDeadline(project);
-
-      if (currentRole === 'pm') {
-        container.innerHTML = `
-          <div class="flex items-center space-x-1.5 bg-purple-50/90 border border-purple-200/90 rounded-xl px-2.5 py-1 text-xs shadow-2xs">
-            <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-purple shrink-0"></i>
-            <span class="text-slate-600 font-semibold text-[11px] select-none">Deadline:</span>
-            <input 
-              type="date" 
-              id="rp-deadline-input" 
-              value="${currentDeadline}" 
-              onchange="updateRevisionPhaseDeadline(this.value)" 
-              class="bg-white border border-purple-200 text-slate-800 font-bold text-xs rounded-lg px-2 py-0.5 outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer shadow-2xs transition" 
-              title="Set deadline for Revision Phase"
-            >
-          </div>
-        `;
-      } else {
-        const displayDate = formatDisplayDate(currentDeadline);
-        container.innerHTML = `
-          <div class="inline-flex items-center space-x-1.5 bg-purple-50 border border-purple-200/80 rounded-xl px-3 py-1 text-xs shadow-2xs">
-            <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-purple shrink-0"></i>
-            <span class="text-slate-500 font-semibold text-[11px]">Deadline:</span>
-            <span class="font-bold text-brand-purple text-xs">${displayDate}</span>
-          </div>
-        `;
-      }
-      lucide.createIcons();
+      renderDeadlineComponent({
+        containerId: 'revision-phase-deadline-container',
+        sectionKey: 'rp',
+        labelText: 'Deadline',
+        currentDeadline: getRevisionPhaseDeadline(project),
+        inputId: 'rp-deadline-input',
+        onchangeFnName: 'updateRevisionPhaseDeadline',
+        titleTooltip: 'Set deadline for Revision Phase'
+      });
     }
 
     function updateRevisionPhaseDeadline(newDate) {
@@ -4948,7 +5427,9 @@
         });
       }
 
+      logActivity('Revision Deadline Updated', `Updated revision deadline to ${formatDisplayDate(newDate)}`, 'calendar', 'date', project.id);
       renderTimelineAxis(project);
+      renderRevisionPhaseDeadline(project);
       showSavingToast('Saving deadline...', 'Deadline saved');
       lucide.createIcons();
     }
@@ -5239,8 +5720,7 @@
     // --- THIRD PARTY INTEGRATIONS & DOMAINS / GOOGLE SERVICES ---
     function renderThirdPartyBoxes(project) {
       const grid = document.getElementById('third-party-grid');
-      if (!grid) return;
-      grid.innerHTML = '';
+      if (grid) grid.innerHTML = '';
 
       const labels = getProjectLabels(project);
 
@@ -5421,7 +5901,9 @@
         </div>
       `;
 
-      grid.appendChild(block1);
+      if (grid) {
+        grid.appendChild(block1);
+      }
 
       const domainContainer = document.getElementById('content-collection-domain-container');
       if (domainContainer) {
@@ -5564,37 +6046,15 @@
     }
 
     function renderGoLiveDeadline(project) {
-      const container = document.getElementById('go-live-deadline-container');
-      if (!container) return;
-
-      const currentDeadline = getGoLiveDeadline(project);
-
-      if (currentRole === 'pm') {
-        container.innerHTML = `
-          <div class="flex items-center space-x-1.5 bg-purple-50/90 border border-purple-200/90 rounded-xl px-2.5 py-1 text-xs shadow-2xs">
-            <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-purple shrink-0"></i>
-            <span class="text-slate-600 font-semibold text-[11px] select-none">Deadline:</span>
-            <input 
-              type="date" 
-              id="gl-deadline-input" 
-              value="${currentDeadline}" 
-              onchange="updateGoLiveDeadline(this.value)" 
-              class="bg-white border border-purple-200 text-slate-800 font-bold text-xs rounded-lg px-2 py-0.5 outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer shadow-2xs transition" 
-              title="Set target date for Go-Live & DNS pointing"
-            >
-          </div>
-        `;
-      } else {
-        const displayDate = formatDisplayDate(currentDeadline);
-        container.innerHTML = `
-          <div class="inline-flex items-center space-x-1.5 bg-purple-50 border border-purple-200/80 rounded-xl px-3 py-1 text-xs shadow-2xs">
-            <i data-lucide="calendar" class="w-3.5 h-3.5 text-brand-purple shrink-0"></i>
-            <span class="text-slate-500 font-semibold text-[11px]">Target Launch:</span>
-            <span class="font-bold text-brand-purple text-xs">${displayDate}</span>
-          </div>
-        `;
-      }
-      lucide.createIcons();
+      renderDeadlineComponent({
+        containerId: 'go-live-deadline-container',
+        sectionKey: 'gl',
+        labelText: 'Target Launch',
+        currentDeadline: getGoLiveDeadline(project),
+        inputId: 'gl-deadline-input',
+        onchangeFnName: 'updateGoLiveDeadline',
+        titleTooltip: 'Set target date for Go-Live & DNS pointing'
+      });
     }
 
     function updateGoLiveDeadline(newDate) {
@@ -6053,12 +6513,13 @@
       if (!project) return;
 
       const pendingStep = project.steps.find(s => s.status !== 'completed') || project.steps[project.steps.length - 1];
+      const deadlineEnglish = formatDisplayDate(pendingStep.date);
 
       document.getElementById('na-email').value = project.clientEmail || 'client@hotel.com';
       document.getElementById('na-step').value = pendingStep.title;
-      document.getElementById('na-date').value = pendingStep.date;
+      document.getElementById('na-date').value = deadlineEnglish;
 
-      const defaultMsg = `Dear ${project.name} Team,\n\nThis is an urgent reminder regarding your website creation timeline. We are currently waiting on your action for the step "${pendingStep.title}" due by ${pendingStep.date}.\n\nPlease validate or send the required assets as soon as possible. If this step is delayed, the website creation process will stagnate and push back your target launch date.\n\nBest regards,\n${project.pmName || 'Dounia'} (D-EDGE Project Manager)`;
+      const defaultMsg = `Dear ${project.name} Team,\n\nThis is an urgent reminder regarding your website creation timeline. We are currently waiting on your action for the step "${pendingStep.title}" due by ${deadlineEnglish}.\n\nPlease validate or send the required assets as soon as possible. If this step is delayed, the website creation process will stagnate and push back your target launch date.\n\nBest regards,\n${project.pmName || 'Dounia'} (D-EDGE Project Manager)`;
 
       document.getElementById('na-message').value = defaultMsg;
       document.getElementById('modal-notify').classList.remove('hidden');
@@ -6399,7 +6860,7 @@
             const cSteps = customGroups[grpName];
             sectionSections.push({
               num: 4 + gIdx + 1,
-              id: 'third-party-section',
+              id: cSteps[0]?.parentSectionId || 'section-go-live',
               title: grpName,
               shortTitle: grpName,
               icon: 'puzzle',
@@ -6408,7 +6869,7 @@
               subBlocks: cSteps.map(cs => ({
                 id: cs.id,
                 name: cs.title,
-                targetBlockId: cs.targetBlockId || 'third-party-section',
+                targetBlockId: cs.targetBlockId || 'go-live-card',
                 key: null,
                 icon: 'check-square',
                 isDone: cs.status === 'completed'
@@ -6459,420 +6920,162 @@
         activeStepIndex = -1;
       }
 
-      // 2. RENDER SEQUENTIAL AXIS STEPPER & ACTIVE FOCUS BANNER
+      // 2. TIMELINE AXIS STEPPER CONTAINER
       if (stepperContainer) {
-        const activeSec = activeStepIndex !== -1 ? stepStates[activeStepIndex] : null;
-
-        // Stepper Nodes along the axis
-        const stepperNodesHtml = stepStates.map((st, idx) => {
-          const isCurrentActive = st.state === 'active';
-          const isDone = st.state === 'completed';
-          const isNext = activeStepIndex !== -1 && idx === activeStepIndex + 1;
-          const isLocked = !isDone && !isCurrentActive && !isNext;
-
-          let nodeCircle = '';
-          let nodeLabelColor = '';
-
-          if (isDone) {
-            nodeCircle = `
-              <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xs shadow-xs ring-4 ring-emerald-100 transition">
-                <i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>
-              </div>
-            `;
-            nodeLabelColor = 'text-emerald-700 font-bold';
-          } else if (isCurrentActive) {
-            nodeCircle = `
-              <div class="w-8 h-8 rounded-full bg-brand-purple text-white flex items-center justify-center font-bold text-xs shadow-md ring-4 ring-purple-200 animate-pulse transition">
-                <span>${st.num}</span>
-              </div>
-            `;
-            nodeLabelColor = 'text-brand-purple font-bold';
-          } else if (isNext) {
-            nodeCircle = `
-              <div class="w-8 h-8 rounded-full bg-amber-100 border-2 border-amber-400 text-amber-800 flex items-center justify-center font-bold text-xs shadow-xs ring-4 ring-amber-100/70 transition">
-                <span>${st.num}</span>
-              </div>
-            `;
-            nodeLabelColor = 'text-amber-800 font-bold';
-          } else {
-            nodeCircle = `
-              <div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-400 flex items-center justify-center font-bold text-xs shadow-2xs transition">
-                <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-400"></i>
-              </div>
-            `;
-            nodeLabelColor = 'text-slate-400 font-semibold';
-          }
-
-          // Connector line between steps
-          const connectorHtml = idx < stepStates.length - 1 ? `
-            <div class="flex-1 h-1.5 mx-2 rounded-full overflow-hidden ${
-              isDone ? 'bg-emerald-400' : isCurrentActive ? 'bg-gradient-to-r from-purple-400 to-amber-300' : isNext ? 'bg-amber-200' : 'bg-slate-200'
-            }"></div>
-          ` : '';
-
-          return `
-            <div class="flex items-center ${idx < stepStates.length - 1 ? 'flex-1' : ''}">
-              <div 
-                onclick="handleStepperNodeClick('${st.id}', ${st.num})"
-                class="flex flex-col items-center cursor-pointer group shrink-0" 
-                title="${st.title} (${st.isComplete ? 'Validated' : isCurrentActive ? 'Active Focus' : isNext ? 'Next Step' : 'Locked'}) - Click to expand"
-              >
-                ${nodeCircle}
-                <div class="text-[11px] mt-1.5 text-center whitespace-nowrap ${nodeLabelColor} group-hover:text-brand-purple transition">
-                  <span class="block">${st.shortTitle || st.title}</span>
-                  <span class="text-[9px] font-mono ${isNext ? 'text-amber-700 font-semibold' : 'text-slate-400'}">${isNext ? 'Next Step • ' : ''}${st.done}/${st.total}</span>
-                </div>
-              </div>
-              ${connectorHtml}
-            </div>
-          `;
-        }).join('');
-
-        stepperContainer.innerHTML = `
-          <!-- AXIS STEPPER TRACK -->
-          <div class="bg-slate-50/90 rounded-2xl border border-slate-200/90 p-4 shadow-2xs overflow-x-auto">
-            <div class="min-w-[500px] flex items-center justify-between px-3 py-1">
-              ${stepperNodesHtml}
-            </div>
-          </div>
-        `;
+        stepperContainer.innerHTML = '';
+        stepperContainer.classList.add('hidden');
       }
 
-      // 3. RENDER STEP SECTION CARDS WITH ACTIVE FOCUS, COLLAPSIBLE EXPANSION & NEXT STEP VISIBILITY
+      // 3. RENDER STEP SECTION CARDS IN HORIZONTAL CAROUSEL
       container.innerHTML = '';
+      container.className = 'flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-3 pt-1 px-1 no-scrollbar items-stretch';
 
-      // Rule: "Next step should be visible for the client until all the current step is finished"
-      // For client: completed steps, current active step, and the immediate next step are visible.
-      // Subsequent steps beyond the next step are hidden from the client.
-      // For PM: all steps are visible, with clear indicator for steps hidden from client.
-      const visibleStepStates = stepStates.filter((sec, idx) => {
-        if (currentRole === 'client') {
-          return activeStepIndex === -1 || idx <= activeStepIndex + 1;
-        }
-        return true;
-      });
-
-      container.className = visibleStepStates.length <= 2 
-        ? 'grid grid-cols-1 md:grid-cols-2 gap-4' 
-        : 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4';
-
-      stepStates.forEach((sec, idx) => {
+      stepStates.forEach((sec) => {
         const isCurrentActive = sec.state === 'active';
         const isDone = sec.state === 'completed';
-        const isNextStep = activeStepIndex !== -1 && idx === activeStepIndex + 1;
-        const isLocked = !isDone && !isCurrentActive && !isNextStep;
-
-        // Skip rendering for client if beyond the next step
-        if (currentRole === 'client' && (activeStepIndex !== -1 && idx > activeStepIndex + 1)) {
-          return;
-        }
-
-        // Expansion state:
-        // Default: active step is expanded, or step 1 if none active, or user-toggled state
-        const isDefaultExpanded = isCurrentActive || (activeStepIndex === -1 && idx === 0);
-        const isExpanded = timelineExpandedSteps[sec.num] !== undefined ? timelineExpandedSteps[sec.num] : isDefaultExpanded;
-
-        // Badges
-        let statusBadge = '';
-        if (isDone) {
-          statusBadge = `
-            <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 border border-emerald-300 text-[10px] font-bold shadow-2xs">
-              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
-              <span>✓ Validated</span>
-            </span>
-          `;
-        } else if (isCurrentActive) {
-          statusBadge = `
-            <span class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-brand-purple text-white text-[10px] font-bold shadow-2xs">
-              <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
-              <span>🎯 Current Focus</span>
-            </span>
-          `;
-        } else if (isNextStep) {
-          statusBadge = `
-            <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-bold shadow-2xs">
-              <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-600"></i>
-              <span>Next Step</span>
-            </span>
-          `;
-        } else {
-          statusBadge = `
-            <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md bg-slate-200 text-slate-600 border border-slate-300 text-[10px] font-bold">
-              <i data-lucide="lock" class="w-3 h-3 text-slate-500"></i>
-              <span>Locked</span>
-            </span>
-          `;
-        }
-
-        // Sub-blocks anchor buttons HTML
-        const subBlocksHtml = sec.subBlocks.map(sub => {
-          if (isLocked) {
-            return `
-              <div 
-                class="w-full flex items-center justify-between p-2 rounded-xl border border-slate-200 bg-slate-100/70 text-slate-400 select-none cursor-not-allowed opacity-80" 
-                title="Locked: Complete previous steps to unlock ${escapeHtml(sub.name)}"
-              >
-                <div class="flex items-center space-x-2 min-w-0 flex-1">
-                  <div class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 bg-slate-200 text-slate-400">
-                    <i data-lucide="${sub.icon}" class="w-3.5 h-3.5"></i>
-                  </div>
-                  <span class="text-xs font-semibold truncate text-slate-400">${escapeHtml(sub.name)}</span>
-                </div>
-                <span class="inline-flex items-center space-x-1 text-[9px] font-bold text-slate-400 bg-slate-200 px-1.5 py-0.5 rounded-md">
-                  <i data-lucide="lock" class="w-2.5 h-2.5"></i>
-                  <span>Locked</span>
-                </span>
-              </div>
-            `;
-          }
-
-          return `
-            <button 
-              type="button" 
-              onclick="event.stopPropagation(); scrollToTimelineBlock('${sub.targetBlockId}')" 
-              class="w-full group/btn flex items-center justify-between p-2 rounded-xl border transition-all duration-150 text-left cursor-pointer shadow-2xs ${
-                sub.isDone 
-                  ? 'bg-emerald-50/40 border-emerald-200/80 hover:bg-emerald-50 hover:border-emerald-300' 
-                  : isCurrentActive
-                    ? 'bg-white border-purple-200 hover:border-brand-purple hover:bg-purple-50/50 ring-1 ring-purple-100'
-                    : isNextStep
-                      ? 'bg-white border-amber-200/90 hover:border-amber-400 hover:bg-amber-50/50'
-                      : 'bg-white border-slate-200/90 hover:border-purple-300 hover:bg-purple-50/40'
-              }" 
-              title="Jump to ${escapeHtml(sub.name)}"
-            >
-              <div class="flex items-center space-x-2 min-w-0 flex-1">
-                <div class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 ${
-                  sub.isDone ? 'bg-emerald-100/70 text-emerald-700' : isCurrentActive ? 'bg-purple-100 text-brand-purple' : isNextStep ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-500 group-hover/btn:bg-purple-100 group-hover/btn:text-brand-purple'
-                } transition">
-                  <i data-lucide="${sub.icon}" class="w-3.5 h-3.5"></i>
-                </div>
-                <span class="text-xs font-semibold truncate ${
-                  sub.isDone ? 'text-slate-800' : isCurrentActive ? 'text-slate-700 group-hover/btn:text-brand-purple font-bold' : isNextStep ? 'text-slate-700 group-hover/btn:text-amber-800 font-bold' : 'text-slate-700'
-                }">${escapeHtml(sub.name)}</span>
-              </div>
-
-              <div class="flex items-center space-x-1.5 shrink-0 ml-1.5">
-                ${sub.isDone 
-                  ? '<span class="inline-flex items-center text-[10px] font-bold text-emerald-700 bg-emerald-100/90 px-1.5 py-0.5 rounded-md">✓ Done</span>' 
-                  : '<span class="inline-flex items-center text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded-md">To-do</span>'
-                }
-                <i data-lucide="arrow-down-right" class="w-3.5 h-3.5 text-slate-300 group-hover/btn:text-brand-purple group-hover/btn:translate-x-0.5 group-hover/btn:translate-y-0.5 transition"></i>
-              </div>
-            </button>
-          `;
-        }).join('');
+        const isLocked = !isDone && !isCurrentActive;
+        const cleanTitle = sec.title.replace(/^\d+\.\s*/, '');
 
         const card = document.createElement('div');
         card.id = `step-node-card-${sec.num}`;
 
-        // Card Container Classes with Active Focus, Next Step styling, and Collapsible states
+        // Highlight active step, lock upcoming steps
         if (isCurrentActive) {
-          card.className = `bg-white rounded-2xl border-2 border-brand-purple ring-4 ring-brand-purple/15 shadow-md p-4 flex flex-col justify-between gap-3 relative transition-all duration-300 ${!isExpanded ? 'cursor-pointer hover:border-brand-purple hover:shadow-lg' : ''}`;
+          card.className = 'shrink-0 snap-start w-[88vw] sm:w-[350px] md:w-[380px] lg:w-[400px] bg-white rounded-2xl border-2 border-brand-purple ring-4 ring-brand-purple/15 shadow-md p-5 flex flex-col gap-3.5 relative transition-all duration-300';
         } else if (isDone) {
-          card.className = `bg-white rounded-2xl border border-emerald-300/80 bg-emerald-50/20 shadow-2xs p-4 flex flex-col justify-between gap-3 relative transition-all duration-300 ${!isExpanded ? 'cursor-pointer hover:border-emerald-400 hover:shadow-md' : ''}`;
-        } else if (isNextStep) {
-          card.className = `bg-white/95 rounded-2xl border-2 border-amber-300/90 bg-amber-50/25 shadow-2xs p-4 flex flex-col justify-between gap-3 relative transition-all duration-300 ${!isExpanded ? 'cursor-pointer hover:border-amber-400 hover:shadow-md' : ''}`;
+          card.className = 'shrink-0 snap-start w-[88vw] sm:w-[350px] md:w-[380px] lg:w-[400px] bg-white rounded-2xl border border-emerald-300/80 bg-emerald-50/15 shadow-2xs p-5 flex flex-col gap-3.5 relative transition-all duration-300';
         } else {
-          // Locked (for PM)
-          card.className = `filter grayscale opacity-70 bg-slate-50/90 rounded-2xl border border-dashed border-slate-300 shadow-none p-4 flex flex-col justify-between gap-3 relative transition-all duration-300 ${!isExpanded ? 'cursor-pointer hover:opacity-90' : ''}`;
+          // Locked
+          card.className = 'shrink-0 snap-start w-[88vw] sm:w-[350px] md:w-[380px] lg:w-[400px] filter grayscale opacity-75 bg-slate-50/80 rounded-2xl border border-dashed border-slate-300 shadow-none p-5 flex flex-col gap-3.5 relative transition-all duration-300 select-none';
         }
 
-        // If card is collapsed, clicking anywhere on the card toggles expand
-        if (!isExpanded) {
-          card.onclick = (e) => {
-            if (e.target.closest('button, a, input')) return;
-            toggleTimelineStepCard(sec.num);
-          };
-        }
-
-        const lockOverlayHtml = isLocked ? `
-          <div class="bg-slate-200/80 border border-slate-300/90 rounded-xl p-2 text-center text-slate-600 text-[11px] font-semibold flex items-center justify-center space-x-1.5 shadow-2xs">
-            <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-500"></i>
-            <span>Unlocks after Step ${activeStepIndex !== -1 ? stepStates[activeStepIndex].num : idx} is completed</span>
-          </div>
-        ` : '';
-
-        // PM info badge for steps hidden from client
-        const pmClientNotice = (currentRole === 'pm' && activeStepIndex !== -1 && idx > activeStepIndex + 1) ? `
-          <div class="bg-slate-100 border border-slate-200 rounded-lg px-2 py-1 text-[10px] text-slate-500 flex items-center space-x-1.5">
-            <i data-lucide="eye-off" class="w-3 h-3 text-slate-400 shrink-0"></i>
-            <span>Hidden from client until Step ${stepStates[activeStepIndex].num} finishes</span>
-          </div>
-        ` : '';
-
-        if (!isExpanded) {
-          // COLLAPSED CARD CONTENT
-          card.innerHTML = `
-            <div class="space-y-2.5">
-              <!-- SECTION HEADER -->
-              <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
+        // Sub-blocks deliverables checklist
+        const deliverablesHtml = sec.subBlocks.map(sub => {
+          if (isLocked) {
+            return `
+              <div class="flex items-center justify-between p-2 rounded-xl bg-slate-100/60 border border-slate-200 text-slate-400 text-xs select-none cursor-not-allowed">
                 <div class="flex items-center space-x-2 min-w-0">
-                  <span class="px-2 py-0.5 rounded-md ${isCurrentActive ? 'bg-brand-purple text-white' : isDone ? 'bg-emerald-100 text-emerald-800' : isNextStep ? 'bg-amber-100 text-amber-900 font-bold' : 'bg-slate-200 text-slate-600'} font-mono font-bold text-[10px] shrink-0">
-                    Step ${sec.num}
-                  </span>
-                  <span class="text-[11px] font-semibold text-slate-500 truncate flex items-center space-x-1">
-                    <i data-lucide="calendar" class="w-3 h-3 text-slate-400 shrink-0"></i>
-                    <span class="truncate">${formatDisplayDate(sec.deadline)}</span>
-                  </span>
+                  <i data-lucide="${sub.icon}" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+                  <span class="truncate">${escapeHtml(sub.name)}</span>
                 </div>
-                <div class="flex items-center space-x-1.5 shrink-0">
-                  ${statusBadge}
-                  <button type="button" onclick="event.stopPropagation(); toggleTimelineStepCard(${sec.num})" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-purple-100 text-slate-500 hover:text-brand-purple flex items-center justify-center transition cursor-pointer" title="Expand card">
-                    <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
-                  </button>
-                </div>
+                <i data-lucide="lock" class="w-3 h-3 text-slate-400 shrink-0"></i>
               </div>
-
-              <!-- TITLE & ICON -->
-              <div class="flex items-center justify-between">
-                <h3 class="font-bold ${isCurrentActive ? 'text-brand-purple' : 'text-slate-900'} text-sm flex items-center space-x-2 leading-tight truncate">
-                  <i data-lucide="${sec.icon}" class="w-4 h-4 ${isCurrentActive ? 'text-brand-purple' : isDone ? 'text-emerald-600' : isNextStep ? 'text-amber-600' : 'text-slate-400'} shrink-0"></i>
-                  <span class="truncate">${escapeHtml(sec.title)}</span>
-                </h3>
+            `;
+          }
+          return `
+            <button 
+              type="button" 
+              onclick="scrollToTimelineBlock('${sub.targetBlockId}')"
+              class="w-full flex items-center justify-between p-2 rounded-xl border text-xs text-left cursor-pointer transition shadow-2xs ${
+                sub.isDone 
+                  ? 'bg-emerald-50/40 border-emerald-200/70 hover:bg-emerald-50 text-slate-800' 
+                  : 'bg-white border-purple-200/80 hover:border-brand-purple hover:bg-purple-50/40 text-slate-800'
+              }"
+              title="Jump to ${escapeHtml(sub.name)}"
+            >
+              <div class="flex items-center space-x-2 min-w-0">
+                <i data-lucide="${sub.icon}" class="w-3.5 h-3.5 ${sub.isDone ? 'text-emerald-600' : 'text-brand-purple'} shrink-0"></i>
+                <span class="truncate font-medium">${escapeHtml(sub.name)}</span>
               </div>
-
-              <!-- MINI PROGRESS BAR -->
-              <div class="space-y-1">
-                <div class="flex items-center justify-between text-[11px] font-semibold text-slate-600">
-                  <span>${sec.done} of ${sec.total} Completed</span>
-                  <span class="font-bold ${isDone ? 'text-emerald-600' : isCurrentActive ? 'text-brand-purple' : isNextStep ? 'text-amber-700' : 'text-slate-500'}">${sec.pct}%</span>
-                </div>
-                <div class="w-full bg-slate-200/80 rounded-full h-1.5 overflow-hidden">
-                  <div class="h-full rounded-full transition-all duration-500 ${
-                    isDone ? 'bg-emerald-500' : isCurrentActive ? 'bg-gradient-to-r from-purple-500 to-brand-purple' : isNextStep ? 'bg-amber-500' : 'bg-slate-400'
-                  }" style="width: ${sec.pct}%"></div>
-                </div>
-              </div>
-
-              <!-- CLICK TO EXPAND PROMPT -->
-              <div class="pt-1.5 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-medium">
-                <span>${sec.subBlocks.length} deliverable${sec.subBlocks.length > 1 ? 's' : ''}</span>
-                <span class="text-brand-purple font-semibold flex items-center space-x-0.5">
-                  <span>Click to expand</span>
-                  <i data-lucide="chevron-down" class="w-3 h-3"></i>
-                </span>
-              </div>
-            </div>
+              <span class="text-[10px] font-bold ${sub.isDone ? 'text-emerald-700 bg-emerald-100/80' : 'text-amber-700 bg-amber-50 border border-amber-200'} px-1.5 py-0.5 rounded-md shrink-0">
+                ${sub.isDone ? '✓ Done' : 'To-do'}
+              </span>
+            </button>
           `;
-        } else {
-          // EXPANDED CARD CONTENT
-          card.innerHTML = `
-            <div class="space-y-3">
-              <!-- SECTION HEADER WITH COLLAPSE TOGGLE -->
-              <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-2.5 cursor-pointer select-none group/header" onclick="toggleTimelineStepCard(${sec.num})">
-                <div class="flex items-center space-x-2 min-w-0">
-                  <span class="px-2 py-0.5 rounded-md ${isCurrentActive ? 'bg-brand-purple text-white' : isDone ? 'bg-emerald-100 text-emerald-800' : isNextStep ? 'bg-amber-100 text-amber-900 font-bold' : 'bg-slate-200 text-slate-600'} font-mono font-bold text-[10px] shrink-0">
-                    Step ${sec.num}
-                  </span>
-                  <span class="text-[11px] font-semibold text-slate-500 truncate flex items-center space-x-1">
+        }).join('');
+
+        card.innerHTML = `
+          <div class="space-y-3.5">
+            <!-- SECTION HEADER: Number, Title, Deadline & Status -->
+            <div class="flex items-start justify-between gap-2 border-b border-slate-100 pb-3">
+              <div class="flex items-center space-x-2.5 min-w-0">
+                <div class="w-8 h-8 rounded-xl ${
+                  isCurrentActive 
+                    ? 'bg-brand-purple text-white shadow-xs' 
+                    : isDone 
+                      ? 'bg-emerald-100 text-emerald-800' 
+                      : 'bg-slate-200 text-slate-500'
+                } flex items-center justify-center font-bold text-xs shrink-0">
+                  ${sec.num}
+                </div>
+                <div class="min-w-0">
+                  <h3 class="font-bold text-sm ${isCurrentActive ? 'text-brand-purple' : 'text-slate-900'} truncate leading-tight">
+                    ${escapeHtml(cleanTitle)}
+                  </h3>
+                  <p class="text-[11px] text-slate-500 flex items-center space-x-1 mt-0.5">
                     <i data-lucide="calendar" class="w-3 h-3 text-slate-400 shrink-0"></i>
-                    <span class="truncate">${formatDisplayDate(sec.deadline)}</span>
+                    <span>Due ${formatDisplayDate(sec.deadline)}</span>
+                  </p>
+                </div>
+              </div>
+              <div class="shrink-0">
+                ${isDone ? `
+                  <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 text-[10px] font-bold shadow-2xs">
+                    <i data-lucide="check" class="w-3 h-3 text-emerald-600"></i>
+                    <span>Validated</span>
                   </span>
-                </div>
-                <div class="flex items-center space-x-1.5 shrink-0">
-                  ${statusBadge}
-                  <button type="button" onclick="event.stopPropagation(); toggleTimelineStepCard(${sec.num})" class="w-6 h-6 rounded-lg bg-slate-100 group-hover/header:bg-purple-100 text-slate-500 group-hover/header:text-brand-purple flex items-center justify-center transition cursor-pointer" title="Collapse card">
-                    <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>
-                  </button>
-                </div>
-              </div>
-
-              <!-- SECTION TITLE -->
-              <div>
-                <h3 class="font-bold ${isCurrentActive ? 'text-brand-purple' : 'text-slate-900'} text-sm md:text-base flex items-center space-x-2 leading-tight">
-                  <i data-lucide="${sec.icon}" class="w-4.5 h-4.5 ${isCurrentActive ? 'text-brand-purple' : isDone ? 'text-emerald-600' : isNextStep ? 'text-amber-600' : 'text-slate-400'} shrink-0"></i>
-                  <span class="truncate">${escapeHtml(sec.title)}</span>
-                </h3>
-              </div>
-
-              <!-- NOTICE (LOCKED, NEXT STEP OR PM HINT) -->
-              ${isNextStep ? `
-                <div class="bg-amber-100/70 border border-amber-200/90 rounded-xl p-2 text-center text-amber-900 text-[11px] font-semibold flex items-center justify-center space-x-1.5 shadow-2xs">
-                  <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-700 shrink-0"></i>
-                  <span>Next Step • Unlocks once Step ${activeStepIndex !== -1 ? stepStates[activeStepIndex].num : idx} is completed</span>
-                </div>
-              ` : lockOverlayHtml}
-
-              ${pmClientNotice}
-
-              <!-- PROGRESS BAR & COUNT -->
-              <div class="space-y-1.5 ${isCurrentActive ? 'bg-purple-50/70 border-purple-100' : isDone ? 'bg-emerald-50/50 border-emerald-100' : isNextStep ? 'bg-amber-50/60 border-amber-200' : 'bg-slate-100/70 border-slate-200'} p-2.5 rounded-xl border">
-                <div class="flex items-center justify-between text-xs">
-                  <span class="font-semibold text-slate-600">${sec.done} of ${sec.total} Completed</span>
-                  <span class="font-bold ${isDone ? 'text-emerald-600' : isCurrentActive ? 'text-brand-purple' : isNextStep ? 'text-amber-700' : 'text-slate-500'}">${sec.pct}%</span>
-                </div>
-                <div class="w-full bg-slate-200/80 rounded-full h-2 overflow-hidden">
-                  <div class="h-full rounded-full transition-all duration-500 ${
-                    isDone ? 'bg-emerald-500' : isCurrentActive ? 'bg-gradient-to-r from-purple-500 to-brand-purple' : isNextStep ? 'bg-amber-500' : 'bg-slate-400'
-                  }" style="width: ${sec.pct}%"></div>
-                </div>
-              </div>
-
-              <!-- SUB-BLOCKS ANCHOR BUTTONS -->
-              <div class="space-y-1.5 pt-1">
-                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-0.5 flex items-center justify-between">
-                  <span>Deliverables & Sub-blocks</span>
-                  <span class="font-mono text-[9px] text-slate-400">${sec.done}/${sec.total}</span>
-                </div>
-                <div class="space-y-1.5 max-h-56 overflow-y-auto pr-0.5">
-                  ${subBlocksHtml}
-                </div>
+                ` : isLocked ? `
+                  <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-slate-200/90 text-slate-600 text-[10px] font-semibold">
+                    <i data-lucide="lock" class="w-3 h-3 text-slate-500"></i>
+                    <span>Locked</span>
+                  </span>
+                ` : `
+                  <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-purple-50 text-brand-purple border border-purple-200 text-[10px] font-bold">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-purple animate-pulse"></span>
+                    <span>In Progress</span>
+                  </span>
+                `}
               </div>
             </div>
 
-            <!-- FOOTER QUICK JUMP TO SECTION -->
-            <div class="pt-2.5 border-t border-slate-100 flex flex-col gap-1.5">
-              ${isLocked ? `
-                <button 
-                  type="button" 
-                  ${currentRole === 'pm' ? `onclick="scrollToTimelineBlock('${sec.id}')"` : 'disabled'}
-                  class="w-full flex items-center justify-center space-x-1.5 py-2 bg-slate-100 text-slate-400 font-bold text-xs rounded-xl border border-slate-200 cursor-not-allowed transition-all"
-                  title="${currentRole === 'pm' ? 'PM Preview' : `Complete Step ${idx} to unlock`}"
-                >
-                  <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-                  <span>${currentRole === 'pm' ? `Preview ${escapeHtml(sec.shortTitle || sec.title)} (PM)` : `Locked • Complete Step ${idx}`}</span>
-                </button>
-              ` : isNextStep ? `
-                <button 
-                  type="button" 
-                  onclick="scrollToTimelineBlock('${sec.id}')"
-                  class="w-full flex items-center justify-center space-x-1.5 py-2 bg-amber-100/80 hover:bg-amber-200/90 text-amber-900 font-bold text-xs rounded-xl border border-amber-300 transition-all duration-150 group cursor-pointer"
-                  title="Preview upcoming ${escapeHtml(sec.title)}"
-                >
-                  <i data-lucide="eye" class="w-3.5 h-3.5"></i>
-                  <span>Preview Next Step: ${escapeHtml(sec.shortTitle || sec.title)}</span>
-                  <i data-lucide="arrow-down" class="w-3.5 h-3.5 group-hover:translate-y-0.5 transition"></i>
-                </button>
-              ` : `
-                <button 
-                  type="button" 
-                  onclick="scrollToTimelineBlock('${sec.id}')" 
-                  class="w-full flex items-center justify-center space-x-1.5 py-2 ${
-                    isCurrentActive 
-                      ? 'bg-brand-purple hover:bg-brand-purpleDark text-white shadow-xs' 
-                      : 'bg-slate-50 hover:bg-brand-purple hover:text-white text-slate-700'
-                  } font-bold text-xs rounded-xl border ${isCurrentActive ? 'border-brand-purple' : 'border-slate-200 hover:border-brand-purple'} transition-all duration-150 group cursor-pointer"
-                  title="Jump to ${escapeHtml(sec.title)}"
-                >
-                  <span>Jump to ${escapeHtml(sec.title)}</span>
-                  <i data-lucide="arrow-down" class="w-3.5 h-3.5 group-hover:translate-y-0.5 transition"></i>
-                </button>
-              `}
-              <button 
-                type="button" 
-                onclick="toggleTimelineStepCard(${sec.num})"
-                class="w-full text-center text-[10px] text-slate-400 hover:text-brand-purple py-0.5 font-medium transition cursor-pointer flex items-center justify-center space-x-1"
-              >
-                <span>Collapse card</span>
-                <i data-lucide="chevron-up" class="w-3 h-3"></i>
-              </button>
+            <!-- PROGRESS (Concise, no duplicate counts) -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-xs font-semibold text-slate-600">
+                <span>${sec.done} of ${sec.total} completed</span>
+                <span class="${isDone ? 'text-emerald-600 font-bold' : isCurrentActive ? 'text-brand-purple font-bold' : 'text-slate-500'}">${sec.pct}%</span>
+              </div>
+              <div class="w-full bg-slate-200/80 rounded-full h-1.5 overflow-hidden">
+                <div class="h-full rounded-full transition-all duration-500 ${
+                  isDone ? 'bg-emerald-500' : isCurrentActive ? 'bg-brand-purple' : 'bg-slate-400'
+                }" style="width: ${sec.pct}%"></div>
+              </div>
             </div>
-          `;
-        }
+
+            <!-- DELIVERABLES LIST -->
+            <div class="space-y-1.5 pt-0.5">
+              ${deliverablesHtml}
+            </div>
+          </div>
+        `;
 
         container.appendChild(card);
       });
+
+      // Synchronize carousel scroll listener to track active card
+      container.onscroll = () => {
+        const cards = container.querySelectorAll('[id^="step-node-card-"]');
+        let closestStep = currentCarouselStep;
+        let minDiff = Infinity;
+        cards.forEach(card => {
+          const cardLeft = card.offsetLeft - container.offsetLeft - 8;
+          const diff = Math.abs(cardLeft - container.scrollLeft);
+          if (diff < minDiff) {
+            minDiff = diff;
+            const match = card.id.match(/\d+$/);
+            if (match) closestStep = parseInt(match[0], 10);
+          }
+        });
+        if (closestStep !== currentCarouselStep) {
+          currentCarouselStep = closestStep;
+          updateCarouselControls();
+        }
+      };
+
+      // Automatically slide carousel to active step
+      const targetStep = activeStepIndex !== -1 ? (activeStepIndex + 1) : 1;
+      setTimeout(() => {
+        scrollCarouselToStep(targetStep);
+      }, 50);
 
       // Synchronize visibility of lower sections for client
       updateTimelineSectionsVisibility(project, activeStepIndex);
@@ -7565,7 +7768,106 @@
       else if (groupValue === '2. Content Collection') targetSelect.value = 'texts-card';
       else if (groupValue === '3. Revision Phase') targetSelect.value = 'staging-card';
       else if (groupValue === '4. Go-live') targetSelect.value = 'go-live-card';
-      else if (groupValue === 'Third Party Integrations') targetSelect.value = 'third-party-section';
+    }
+
+    let addStepPickerMode = 'date';
+
+    function setAddStepDatePicker(mode) {
+      addStepPickerMode = mode;
+      const input = document.getElementById('as-date');
+      const btnDate = document.getElementById('as-picker-date-btn');
+      const btnWeek = document.getElementById('as-picker-week-btn');
+      if (btnDate && btnWeek) {
+        if (mode === 'week') {
+          btnDate.className = 'px-2 py-0.5 rounded-md font-semibold text-slate-600 hover:text-brand-purple cursor-pointer';
+          btnWeek.className = 'px-2 py-0.5 rounded-md font-semibold bg-brand-purple text-white shadow-2xs cursor-pointer';
+        } else {
+          btnDate.className = 'px-2 py-0.5 rounded-md font-semibold bg-brand-purple text-white shadow-2xs cursor-pointer';
+          btnWeek.className = 'px-2 py-0.5 rounded-md font-semibold text-slate-600 hover:text-brand-purple cursor-pointer';
+        }
+      }
+
+      if (input) {
+        const cur = input.value;
+        if (mode === 'week') {
+          if (cur && !cur.includes('-W')) {
+            input.value = dateToIsoWeek(cur);
+          } else if (!cur) {
+            input.value = dateToIsoWeek(new Date().toISOString().split('T')[0]);
+          }
+        } else {
+          if (cur && cur.includes('-W')) {
+            input.value = isoWeekToDate(cur);
+          } else if (!cur) {
+            input.value = new Date().toISOString().split('T')[0];
+          }
+        }
+      }
+
+      renderAddStepSelector();
+    }
+
+    function renderAddStepSelector() {
+      const container = document.getElementById('as-deadline-selector-container');
+      const input = document.getElementById('as-date');
+      if (!container || !input) return;
+
+      const currentVal = input.value || new Date().toISOString().split('T')[0];
+      const displayDate = formatDisplayDate(currentVal);
+      const typeLabel = getDeadlineToTypeLabel(currentVal);
+
+      container.innerHTML = `
+        <button 
+          type="button" 
+          onclick="openEnglishCalendarModal('modal-add-step', 'updateAddStepTargetDate', '${currentVal}', 'Target Date')" 
+          class="w-full group flex items-center justify-between bg-white hover:bg-purple-50/80 active:bg-purple-100 border border-slate-200 hover:border-brand-purple rounded-xl p-2.5 text-xs transition shadow-2xs cursor-pointer select-none"
+          title="Click to select target date, multiple days, or week"
+        >
+          <div class="flex items-center space-x-2">
+            <i data-lucide="calendar" class="w-4 h-4 text-brand-purple shrink-0"></i>
+            <span class="font-bold text-slate-800 text-xs">${displayDate}</span>
+          </div>
+          <div class="flex items-center space-x-1.5">
+            <span class="text-[9.5px] uppercase font-extrabold text-brand-purple bg-purple-100/80 border border-purple-200/60 px-2 py-0.5 rounded">
+              ${typeLabel}
+            </span>
+            <i data-lucide="calendar-days" class="w-3.5 h-3.5 text-slate-400 group-hover:text-brand-purple transition-colors"></i>
+          </div>
+        </button>
+      `;
+      lucide.createIcons();
+    }
+
+    function handleAsDateChange() {
+      const dEl = document.getElementById('as-day-select');
+      const mEl = document.getElementById('as-month-select');
+      const yEl = document.getElementById('as-year-select');
+      const input = document.getElementById('as-date');
+      if (!dEl || !mEl || !yEl || !input) return;
+      input.value = `${yEl.value}-${mEl.value}-${dEl.value}`;
+    }
+
+    function handleAsWeekChange(weekVal) {
+      const input = document.getElementById('as-date');
+      if (input) input.value = weekVal;
+    }
+
+    function handleAsWeekYearChange(yearVal) {
+      const weekEl = document.getElementById('as-week-select');
+      const input = document.getElementById('as-date');
+      let wNum = 1;
+      if (weekEl && weekEl.value && weekEl.value.includes('-W')) {
+        wNum = parseInt(weekEl.value.split('-W')[1], 10) || 1;
+      }
+      const newWeekVal = `${yearVal}-W${String(wNum).padStart(2, '0')}`;
+      if (input) input.value = newWeekVal;
+      renderAddStepSelector();
+    }
+
+    function updateAddStepTargetDate(dateStr) {
+      const input = document.getElementById('as-date');
+      if (input) input.value = dateStr;
+      renderAddStepSelector();
     }
 
     function openAddStepModal() {
@@ -7576,6 +7878,7 @@
       if (titleInput) titleInput.value = '';
       if (descInput) descInput.value = '';
       if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+      setAddStepDatePicker('date');
       if (groupSelect) syncAddStepTargetBlock(groupSelect.value);
       document.getElementById('modal-add-step').classList.remove('hidden');
       lucide.createIcons();
@@ -7600,7 +7903,7 @@
         const newStep = {
           id: `step-${Date.now()}`,
           group: group,
-          parentSectionId: group === '1. Sitemap' ? 'section-sitemap' : group === '2. Content Collection' ? 'section-content-collection' : group === '3. Revision Phase' ? 'section-revision-phase' : group === '4. Go-live' ? 'section-go-live' : 'third-party-section',
+          parentSectionId: group === '1. Sitemap' ? 'section-sitemap' : group === '2. Content Collection' ? 'section-content-collection' : group === '3. Revision Phase' ? 'section-revision-phase' : 'section-go-live',
           targetBlockId: targetBlock,
           title: title,
           description: description || 'Milestone step requirements and deliverables.',
