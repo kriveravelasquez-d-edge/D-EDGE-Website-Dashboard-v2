@@ -75,9 +75,9 @@
 
       <nav class="mt-4 md:mt-6 px-3 space-y-1.5">
         <!-- PROJECT BOARDS: STRICTLY HIDDEN FOR CLIENTS -->
-        <button onclick="switchView('boards')" id="nav-boards" title="Project Boards (Admin)" class="sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-medium text-purple-200 hover:bg-white/10 transition">
+        <button onclick="switchView('boards')" id="nav-boards" title="Project Boards" class="sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-medium text-purple-200 hover:bg-white/10 transition">
           <i data-lucide="kanban" class="w-4 h-4 shrink-0"></i>
-          <span class="sidebar-text truncate">Project Boards (Admin)</span>
+          <span class="sidebar-text truncate">Project Boards</span>
         </button>
         <button onclick="switchView('timeline')" id="nav-timeline" title="Timeline Axis" class="sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-semibold bg-white/15 text-white shadow-sm transition">
           <i data-lucide="git-commit" class="w-4 h-4 shrink-0"></i>
@@ -117,15 +117,6 @@
       </div>
 
       <div class="flex items-center space-x-2 md:space-x-3 shrink-0">
-        <!-- EDITABLE CLIENT EMAIL -->
-        <div id="header-email-container" class="hidden lg:flex items-center space-x-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs">
-          <i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400"></i>
-          <span class="text-slate-500 font-semibold text-[11px]">Client:</span>
-          <input id="header-client-email" type="email" class="bg-transparent text-slate-800 text-xs font-medium outline-none w-36 xl:w-44 truncate">
-          <button id="btn-save-header-email" onclick="saveHeaderClientEmail()" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-2xs transition">
-            Save
-          </button>
-        </div>
 
         <button id="btn-push-notify" onclick="openNotifyModal()" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-2.5 md:px-3 py-1.5 rounded-lg flex items-center space-x-1.5 shadow-sm transition">
           <i data-lucide="bell" class="w-3.5 h-3.5"></i>
@@ -898,6 +889,7 @@
 
       if (tab === 'boards') {
         boardsBtn.className = 'sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-semibold bg-white/15 text-white shadow-sm transition';
+        if (currentRole === 'client') boardsBtn.classList.add('hidden');
         timelineBtn.className = 'sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-medium text-purple-200 hover:bg-white/10 transition';
         viewTimeline.classList.add('hidden');
         viewBoards.classList.remove('hidden');
@@ -905,6 +897,7 @@
       } else {
         timelineBtn.className = 'sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-semibold bg-white/15 text-white shadow-sm transition';
         boardsBtn.className = 'sidebar-nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-xs md:text-sm font-medium text-purple-200 hover:bg-white/10 transition';
+        if (currentRole === 'client') boardsBtn.classList.add('hidden');
         viewBoards.classList.add('hidden');
         viewTimeline.classList.remove('hidden');
         renderApp();
@@ -1982,8 +1975,57 @@
       };
     }
 
+    function getProjectOverallProgress(project) {
+      if (!project) return { pct: 0, done: 0, total: 0 };
+      let totalTasks = 0;
+      let doneTasks = 0;
+
+      for (let secNum = 1; secNum <= 4; secNum++) {
+        let stats = { isComplete: false, doneCount: 0, totalCount: 0 };
+        if (typeof getSectionStats === 'function') {
+          stats = getSectionStats(project, secNum);
+        }
+
+        if (project.steps && Array.isArray(project.steps)) {
+          const customSteps = project.steps.filter(st => {
+            if (!st.isCustom && (!st.id || !String(st.id).startsWith('step-'))) return false;
+            const grp = (st.group || '').toLowerCase();
+            if (secNum === 1) return grp.startsWith('1') || grp.includes('sitemap') || grp.includes('structure');
+            if (secNum === 2) return grp.startsWith('2') || grp.includes('content') || grp.includes('text');
+            if (secNum === 3) return grp.startsWith('3') || grp.includes('revision') || grp.includes('staging');
+            if (secNum === 4) return grp.startsWith('4') || grp.includes('go-live') || grp.includes('live');
+            return false;
+          });
+          if (customSteps.length > 0) {
+            stats.totalCount += customSteps.length;
+            stats.doneCount += customSteps.filter(cs => cs.status === 'completed').length;
+          }
+        }
+
+        totalTasks += stats.totalCount;
+        doneTasks += stats.doneCount;
+      }
+
+      if (totalTasks === 0) {
+        return { pct: 0, done: 0, total: 0 };
+      }
+
+      const stageInfo = typeof getProjectCurrentStageInfo === 'function' ? getProjectCurrentStageInfo(project) : null;
+      if (stageInfo && stageInfo.isAllDone) {
+        doneTasks = totalTasks;
+      }
+
+      const pct = Math.min(100, Math.round((doneTasks / totalTasks) * 100));
+      return {
+        pct,
+        done: doneTasks,
+        total: totalTasks
+      };
+    }
+
     function renderBoardsGrid() {
       const container = document.getElementById('projects-grid');
+      if (!container) return;
       container.innerHTML = '';
 
       const pmFilter = document.getElementById('filter-pm')?.value || 'ALL';
@@ -2019,6 +2061,7 @@
 
       filteredProjects.forEach(p => {
         const stageInfo = getProjectCurrentStageInfo(p);
+        const prog = getProjectOverallProgress(p);
 
         const card = document.createElement('div');
         card.className = 'bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 hover:border-brand-purple hover:shadow-md transition relative group cursor-pointer';
@@ -2052,6 +2095,27 @@
             <div class="flex items-center space-x-1.5 text-xs font-semibold text-slate-600 shrink-0">
               <i data-lucide="${stageInfo.isAllDone ? 'check-circle' : 'list-todo'}" class="w-3.5 h-3.5 ${stageInfo.isAllDone ? 'text-emerald-500' : 'text-brand-purple'} shrink-0"></i>
               <span>${stageInfo.remainingTasks} task${stageInfo.remainingTasks === 1 ? '' : 's'} remaining</span>
+            </div>
+          </div>
+
+          <!-- DISCREET ROADMAP PROGRESS BAR -->
+          <div class="pt-0.5 space-y-1.5" title="${prog.done} of ${prog.total} deliverables completed (${prog.pct}%)">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-[11px] font-semibold text-slate-500 flex items-center space-x-1.5">
+                <i data-lucide="${prog.pct === 100 ? 'check-circle-2' : 'activity'}" class="w-3.5 h-3.5 ${prog.pct === 100 ? 'text-emerald-500' : 'text-brand-purple'} shrink-0"></i>
+                <span>Roadmap Progress</span>
+              </span>
+              <div class="flex items-center space-x-1.5 font-mono text-[11px]">
+                <span class="text-slate-400 font-medium">${prog.done}/${prog.total}</span>
+                <span class="font-bold ${prog.pct === 100 ? 'text-emerald-600' : 'text-brand-purple'}">${prog.pct}%</span>
+              </div>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden p-[0.5px] border border-slate-200/70">
+              <div class="h-full rounded-full transition-all duration-500 ${
+                prog.pct === 100 
+                  ? 'bg-gradient-to-r from-emerald-500 to-teal-400' 
+                  : 'bg-gradient-to-r from-brand-purple to-purple-500'
+              }" style="width: ${prog.pct}%"></div>
             </div>
           </div>
         `;

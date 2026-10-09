@@ -1,141 +1,195 @@
-# Refonte Chromatique Pastel des Sections Étapes & Modernisation UX des Blocs Enfants
+# Three-Tier Role-Based Access Control & Admin Governance
 
-Harmonisation visuelle des 4 sections étapes (`#section-sitemap`, `#section-content-collection`, `#section-revision-phase`, `#section-go-live`) avec une palette pastel douce et distinctive par étape, combinée à une modernisation UX des blocs enfants (cartes structurées avec barre d'accent et statuts clairs) tout en préservant une structure globale rigoureuse et cohérente.
+Implementation plan for establishing three distinct operational roles (**Admin**, **Project Manager**, **Client**), an in-app Account Center with sign-up and authentication, project access isolation, and an Admin Governance Hub with inline quick-edit controls for system tooltips and default guides.
 
 ---
 
-## Décisions Validées avec l'Utilisateur
+## User Review & Critical Decisions
 
 > [!IMPORTANT]
-> Les deux orientations esthétiques et fonctionnelles validées :
-> 1. **Ambiance chromatique des sections étapes** : *Thèmes doux pastel avec contrastes de statut* — Chaque étape bénéficie d'un ton pastel doux et distinctif (Lavande/Indigo pastel pour l'Étape 1, Cyan/Azur pastel pour l'Étape 2, Ambre/Pêche pastel pour l'Étape 3, et Émeraude/Menthe pastel pour l'Étape 4), offrant un repérage spatial immédiat sans agressivité visuelle.
-> 2. **Traitement UX des blocs enfants** : *Cartes structurées avec barre d'accent et statuts clairs* — Chaque bloc enfant (Sitemap, SEO, Templates, Textes, Médias, Brand & Typo, Révisions, Go-Live) adopte un conteneur en carte blanche immaculée dotée d'une barre d'accent latérale gauche (3px ou 4px), d'un en-tête structuré avec icône et badge de statut explicite (Complété, En cours, Optionnel, À faire), et de micro-interactions fluides.
-> 3. **Homogénéité structurelle garantie** : Toutes les sections étapes conservent exactement la même anatomie maîtresse (En-tête standardisé avec titre numéroté, jauge de complétion temps réel, sélecteur/badge de deadline, bouton d'aide contextuelle, bouton de repli accordéon et séparateurs inter-étapes).
+> The architectural decisions confirmed during Phase 1:
+> 1. **Third User Role**: **Client** — Hotel client role with clean, view-only access to their specific hotel roadmap, tracking progress, milestones, and deliverables without edit controls.
+> 2. **PM Authentication & Registration**: **In-app Account Center** — Modal-driven authentication enabling Project Managers to register new accounts (Name, Email, Password/PIN), sign in, and manage their active session with persistent local storage.
+> 3. **Admin Configuration Experience**: **Hybrid Admin Hub & Inline Quick-Edit** — Centralized Admin Settings Hub accessible from the top bar for comprehensive oversight of all tooltips and default guides, paired with contextual inline pencil/gear icons next to tooltips and guides when logged in as Admin.
 
 ---
 
-## 1. Vue d'Ensemble & Objectifs
+## 1. Overview & Core Concept
 
-- **Problème résolu** : Auparavant, les 4 sections étapes présentaient une structure visuelle uniformément neutre (`bg-white border-slate-200`) avec les mêmes bordures grises monotones, rendant difficile la distinction rapide entre la structure du site, la collecte des contenus, les révisions et la mise en ligne. Par ailleurs, certains blocs enfants manquaient de clarté sur leur statut d'avancement et leur priorité opérationnelle.
-- **Bénéfice utilisateur** :
-  - **Repérage intuitif** : Le chef de projet (PM) et le client hôtelier identifient instantanément l'étape sur laquelle ils travaillent grâce à un bandeau d'en-tête pastel doux spécifique et des accents chromatiques coordonnés.
-  - **Clarté d'action** : Les blocs enfants indiquent immédiatement ce qui est requis, ce qui est complété (vert menthe doux avec coche) et ce qui reste à renseigner, avec des barres d'accent visuelles nettes.
-  - **Cohérence d'usage** : Aucun dépaysement : chaque étape propose les mêmes contrôles au même endroit (accordéon, progression, deadline, guide d'étape).
+### What It Does
+Transforms the single-tenant roadmap interface into a secure, multi-tier collaborative portal tailored for hotel website rollouts:
+- **Admin**: Master supervisor with complete visibility across all projects, power to configure global default guides (links, PDFs, labels), and authority to customize system-wide tooltip guidance texts.
+- **Project Manager (PM)**: Operational lead who can create a personal account, manage only their assigned hotel projects, and override project guides (custom links or PDF uploads) without altering global defaults.
+- **Client**: Hotel owner or marketing director with dedicated, distraction-free view-only access to their project's milestones, deadlines, and guide resources.
 
----
-
-## 2. Expérience Utilisateur & Design Visuel
-
-### A. Charte Chromatique Pastel par Étape
-
-Chaque section étape hérite d'une identité pastel raffinée, respectant les ratios de contraste WCAG AA :
-
-```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│ ÉTAPE 1 : STRUCTURE DU SITE (Sitemap & Templates Showcase)                              │
-│ • En-tête : Fond doux lavande pastel (bg-gradient-to-r from-violet-50/80 to-indigo-50/40)│
-│ • Accentuation : Violet royal & Indigo (#5B1E82, border-violet-200, text-violet-900)    │
-│ • Barre d'accent des blocs enfants : border-l-violet-600 / border-l-indigo-500          │
-├────────────────────────────────────────────────────────────────────────────────────────┤
-│ ÉTAPE 2 : COLLECTE DE CONTENU (Textes, Photos, Typographies & Palette)                  │
-│ • En-tête : Fond doux azur/cyan pastel (bg-gradient-to-r from-sky-50/80 to-blue-50/40)   │
-│ • Accentuation : Bleu océan & Azur (#0284c7, border-sky-200, text-sky-900)            │
-│ • Barre d'accent des blocs enfants : border-l-sky-500 / border-l-blue-600               │
-├────────────────────────────────────────────────────────────────────────────────────────┤
-│ ÉTAPE 3 : PHASE DE RÉVISION (Staging, Vague 1 & Vague 2)                               │
-│ • En-tête : Fond doux ambre/pêche pastel (bg-gradient-to-r from-amber-50/80 to-orange-50/40)│
-│ • Accentuation : Ambre chaleureux (#d97706, border-amber-200, text-amber-900)          │
-│ • Barre d'accent des blocs enfants : border-l-amber-500 / border-l-orange-500           │
-├────────────────────────────────────────────────────────────────────────────────────────┤
-│ ÉTAPE 4 : MISE EN LIGNE (DNS, Domaine, Booking Engine & Lancement)                     │
-│ • En-tête : Fond doux émeraude/menthe pastel (bg-gradient-to-r from-emerald-50/80 to-teal-50/40)│
-│ • Accentuation : Vert émeraude succès (#059669, border-emerald-200, text-emerald-900)  │
-│ • Barre d'accent des blocs enfants : border-l-emerald-500 / border-l-teal-600          │
-└────────────────────────────────────────────────────────────────────────────────────────┘
-```
-
-### B. Traitement UX des Blocs Enfants
-
-Pour chaque sous-bloc opérationnel :
-1. **Conteneur Carte Structurée** :
-   - Fond blanc pur (`bg-white`), bordure douce (`border border-slate-200/80`), ombre légère (`shadow-xs hover:shadow-sm transition-all`).
-   - **Barre d'accent latérale gauche** : 3.5px d'épaisseur, teintée selon l'étape et modulant sa couleur selon l'état (barre violette/azur par défaut, devenant vert émeraude vibrant lorsque le bloc est validé/terminé).
-2. **En-tête de Bloc avec Hiérarchie Claire** :
-   - Icône vectorielle dédiée dans une puce teintée pastel douce (`p-1.5 rounded-lg bg-...-100/70 text-...-700`).
-   - Titre en gras lisible (`text-slate-900 font-bold text-xs sm:text-sm`).
-   - Infobulle d'aide discrète (`help-circle` avec tooltip enrichi).
-   - **Badge de statut dynamique** :
-     - *Complété* : Pastille vert menthe douce (`bg-emerald-50 text-emerald-700 border border-emerald-200/80`) avec icône coche.
-     - *En attente / To-do* : Pastille neutre élégante (`bg-slate-100 text-slate-600 border border-slate-200`).
-     - *Optionnel* : Pastille ardoise douce (`text-slate-400 font-medium text-[11px]`).
-3. **Zone de Contenu & Actions** :
-   - Boutons d'action rapides et homogènes (boutons Google Docs, liens Drive, upload, sélecteur de templates).
-   - Bouton de bascule de complétion (ex. `Mark as Done` / `Done`) parfaitement positionné en regard du titre ou en pied de carte.
+### Target Audience & Persona
+- **Platform Administrators & Operations Leads**: Maintain standardized onboarding best practices, update documentation URLs, and fine-tune guidance copy across the organization.
+- **D-EDGE Project Managers**: Coordinate day-to-day website deliveries, upload client-specific sitemaps or text documents, and monitor completion timelines for their own portfolio.
+- **Hotel Stakeholders & Clients**: Review progress transparently and download guidance materials without risk of unintended layout modifications.
 
 ---
 
-## 3. Architecture Technique & Hiérarchie des Composants
+## 2. User Experience & Visual Design
 
-```
-#view-timeline
-  │
-  ├── section#section-timeline-axis (Cockpit d'ensemble sombre exécutif)
-  │
-  ├── #divider-timeline-sitemap (Bouton de navigation fluide vers Étape 1)
-  │
-  ├── section#section-sitemap [THEME PASTEL VIOLET / LAVANDE]
-  │     ├── En-tête unifié (Icône, Titre, Jauge, Deadline, Accordéon)
-  │     └── Corps (#section-sitemap-body)
-  │           ├── Bloc 1.1 : Sitemap Google Drive (Barre d'accent lavande/émeraude)
-  │           ├── Bloc 1.2 : Questionnaire SEO (Barre d'accent lavande/émeraude)
-  │           └── Bloc 1.3 : Showcase Templates Evolution (Barre d'accent indigo)
-  │
-  ├── #divider-sitemap-content-collection (Bouton de navigation fluide vers Étape 2)
-  │
-  ├── section#section-content-collection [THEME PASTEL SKY / AZUR]
-  │     ├── En-tête unifié (Icône, Titre, Jauge, Deadline, Save Elements, Accordéon)
-  │     └── Corps (#section-content-collection-body)
-  │           ├── Bloc 2.1 : Textes & Google Docs (Barre d'accent azur/émeraude)
-  │           ├── Bloc 2.2 : Photos & Médias (Barre d'accent azur/émeraude)
-  │           ├── Bloc 2.3 : Charte Graphique & Logo (Barre d'accent azur/émeraude)
-  │           └── Bloc 2.4 : Typographies & Palette de Couleurs (Barre d'accent azur)
-  │
-  ├── #divider-content-collection-revision (Bouton de navigation fluide vers Étape 3)
-  │
-  ├── section#section-revision-phase [THEME PASTEL AMBRE / PÊCHE]
-  │     ├── En-tête unifié (Icône, Titre, Jauge, Deadline, Guide, Accordéon)
-  │     └── Corps (#section-revision-phase-body)
-  │           ├── Bloc 3.1 : Liens Staging (Barre d'accent ambre/émeraude)
-  │           ├── Bloc 3.2 : 1ère Vague de Révisions (Barre d'accent ambre)
-  │           └── Bloc 3.3 : 2ème Vague de Révisions (Barre d'accent ambre)
-  │
-  ├── #divider-revision-go-live (Bouton de navigation fluide vers Étape 4)
-  │
-  └── section#section-go-live [THEME PASTEL ÉMERAUDE / MENTHE]
-        ├── En-tête unifié (Icône, Titre, Jauge, Deadline, Accordéon)
-        └── Corps (#section-go-live-body)
-              ├── Bloc 4.1 : Checklist Pré-lancement DNS & Domaines (Barre d'accent émeraude)
-              ├── Bloc 4.2 : Moteur de Réservation & Booking Engine (Barre d'accent émeraude)
-              └── Bloc 4.3 : Validation Finale & Go-Live (Barre d'accent émeraude)
-```
+### A. Top Navigation & Identity Center
+- **Unified Identity Bar**: A refined session status indicator in the top right navigation:
+  - Displays user avatar with role badge: `[Admin · All Projects]`, `[Dounia · PM (1 Project)]`, or `[Le Grand Hotel Paris · Client View]`.
+  - Action button: `Account Center` (Sign in, Register PM, Switch Persona, or Log Out).
+- **Interactive Role & Persona Switcher**: Quick-test dropdown allowing instant role previewing during demonstrations, backed by persistent credentials.
+
+### B. In-App Account Center (Modal Dialog)
+- **Sign-In View**:
+  - Email and Password/PIN input with instant client-side validation.
+  - Quick-login shortcuts for pre-seeded profiles:
+    - **Master Admin** (`admin@d-edge.com`)
+    - **PM Dounia** (`dounia@d-edge.com` — Le Grand Hotel Paris)
+    - **PM Marc** (`marc@d-edge.com` — Resort Alpine & Spa)
+    - **Client View** (read-only hotel visitor)
+- **Create PM Account View**:
+  - Full Name, D-EDGE Work Email, Password / Access PIN.
+  - Automatic assignment of initial projects or creation of a new managed project.
+  - Instant session establishment with toast notification feedback.
+
+### C. Admin Governance Hub & Inline Quick-Edit Experience
+- **Centralized Admin Hub**: Accessible via a prominent `Admin Hub` button in the top bar for Admin users:
+  - **Tooltips Manager Tab**: Searchable catalog of all 12+ system tooltips (Sitemap, SEO Questionnaire, Evolution Templates, Texts, Images, Brand Colors & Typo, Staging, Wave 1, Wave 2, DNS Pre-launch, Booking Engine, Server Selection). Admins can edit copy in real time, view previews, and reset to factory defaults.
+  - **Default Guides Manager Tab**: Overview of the 4 step guides (Sitemap Guide, Content Collection Guide, Revisions Guide, Go-Live Protocol). Admins can edit default documentation URLs, upload default PDF references, change button labels, or toggle visibility for newly generated projects.
+  - **All Projects Directory Tab**: Complete list of all hotels in the database with their assigned PMs, with the ability to reassign PM ownership or create new hotel projects.
+- **Inline Quick-Edit Controls**:
+  - In Admin mode, every tooltip help icon (`?`) features an adjacent subtle purple pencil button. Clicking it opens a lightweight inline popover allowing instantaneous text editing without navigating away.
+  - Guide action buttons display an Admin gear icon allowing fast editing of the global default resource.
+
+### D. Scoped Project Management for PMs
+- **Project Dropdown Isolation**:
+  - When logged in as a PM, the project selector only lists projects where `pmEmail === currentUser.email`.
+  - Other PMs' projects are completely hidden from the dropdown, ensuring focused workspace hygiene.
+  - PMs have a `+ New Project` button that automatically sets the creator as the owning PM.
+- **Project-Level Guide Customization**:
+  - When a PM edits a guide (e.g. changing the Sitemap Guide link or uploading a bespoke PDF), the change is saved strictly into `project.customGuides[guideId]`.
+  - A visual badge indicates *"Customized for this hotel (Global default unchanged)"*.
+  - A convenient button *"Reset to Admin Default"* allows PMs to revert their project back to global defaults anytime.
+
+### E. Client Read-Only Experience
+- All editing controls (deadline pickers, checklist completion toggles, file upload modals, custom label edits) are disabled or replaced with readable text.
+- Clean presentation highlighting the milestone calendar, stage completion gauges, and clickable guide resources for review.
 
 ---
 
-## 4. Plan de Modifications par Fichier
+## 3. Key Product Decisions & Trade-Offs
 
-1. **`index.html` (Balisage HTML statique des 4 sections)** :
-   - Mise à jour des classes d'en-tête de `#section-sitemap`, `#section-content-collection`, `#section-revision-phase`, `#section-go-live` pour intégrer leurs fonds dégradés pastel doux respectifs, leurs bordures délicates (`border-violet-100`, `border-sky-100`, `border-amber-100`, `border-emerald-100`) et leurs badges d'étape.
-   - Amélioration des conteneurs statiques des blocs enfants (`#sitemap-card`, `#seo-questionnaire-card`, `#templates-card`, `#texts-card`, `#images-card`, `#branding-card`, etc.) avec classes de base `border-l-4` et styles d'en-tête épurés.
-   - Ajustement harmonieux des séparateurs inter-étapes (`#divider-timeline-sitemap`, `#divider-sitemap-content-collection`, `#divider-content-collection-revision`, `#divider-revision-go-live`) avec pastilles pastel subtiles au survol.
+### Decision 1: Project Scoping & Isolation
+- **Approach**: Strict filtering of the project selector based on authenticated user email for PMs, whereas Admins receive an unrestricted selector with a "Show All Projects" indicator.
+- **Why**: Protects PM focus and prevents accidental edits to colleagues' roadmaps while preserving instant oversight for the Admin.
 
-2. **`index.html` (Scripts JavaScript dynamiques de rendu)** :
-   - Fonction `renderSitemapSection()` : Mise à jour des classes dynamiques pour refléter la barre d'accent violette/émeraude et les statuts clairs.
-   - Fonction `renderTemplatesSection()` : Harmonisation des cartes de templates avec bordures nettes et badges de sélection.
-   - Fonction `renderContentCollectionSection()` & sous-fonctions (`renderTextsCard`, `renderImagesCard`, `renderBrandingCard`) : Application des bordures d'accent Sky/Azur et badges de statut.
-   - Fonction `renderRevisionPhaseSection()` : Application des bordures d'accent Ambre/Pêche et cartes Staging/Vagues structurées.
-   - Fonction `renderGoLiveSection()` : Application des bordures d'accent Émeraude/Menthe et checklist de validation claire.
-   - Fonctions de mise à jour des jauges de complétion par section pour une synchronisation chromatique harmonieuse.
+### Decision 2: Two-Tier Guides Architecture (Global Defaults vs. Project Overrides)
+- **Approach**: Maintain a global `systemGuidesConfig` managed exclusively by Admins. Projects inherit from `systemGuidesConfig` unless explicitly overridden in `project.customGuides`.
+- **Why**: Allows Admins to update global best practices (e.g., updating a company-wide Google Drive link or PDF template) and have it automatically propagate to all projects that haven't set a bespoke guide, while PMs retain the freedom to customize on demand.
 
-3. **Vérification & Validation** :
-   - Exécution de `compile_applet` pour garantir l'absence d'erreurs de build ou de script.
-   - Contrôle du bon fonctionnement des micro-interactions : accordéon physique, bascule de statut to-do/done, sélection de templates, et sauvegarde des éléments graphiques.
+### Decision 3: Dual Admin Editing (Centralized Hub + Inline Quick Edits)
+- **Approach**: Provide both a comprehensive Admin Hub modal and contextual inline hover-edit buttons.
+- **Why**: The user specifically requested both options. Inline edit allows quick typo fixes during page browsing, while the Admin Hub provides bulk review and configuration.
+
+### Decision 4: Persistent Local & State Storage
+- **Approach**: Persist accounts, session state, customized tooltips, and project guides in `localStorage` with initial seeds and reset capabilities.
+- **Why**: Zero external backend dependencies needed, seamless immediate functionality, resilient across browser refreshes, and instant loading.
+
+---
+
+## 4. Technical Architecture & Data Strategy
+
+### System Layout & Component Hierarchy
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│ TOP NAVIGATION BAR                                                                      │
+│ ┌───────────────┐  ┌────────────────────────────────────┐  ┌──────────────────────────┐ │
+│ │ D-EDGE Brand  │  │ Project Selector (Filtered by PM)  │  │ User Identity & Auth Hub │ │
+│ │ Wordmark      │  │ • Admin: All Projects              │  │ • Active Role Badge      │ │
+│ │               │  │ • PM: Owned Projects Only          │  │ • Admin Hub Button       │ │
+│ └───────────────┘  └────────────────────────────────────┘  └──────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+         ┌─────────────────────────────────┼─────────────────────────────────┐
+         ▼                                 ▼                                 ▼
+┌──────────────────┐             ┌──────────────────┐              ┌──────────────────┐
+│   ADMIN ROLE     │             │     PM ROLE      │              │   CLIENT ROLE    │
+│                  │             │                  │              │                  │
+│ • Access All     │             │ • Access Own     │              │ • View Assigned  │
+│   Projects       │             │   Projects Only  │              │   Hotel Roadmap  │
+│ • Global Default │             │ • Override Own   │              │ • Read Guides &  │
+│   Guides Editor  │             │   Guides (Local) │              │   Tooltips       │
+│ • Global Tooltip │             │ • Full Timeline  │              │ • View-Only Mode │
+│   Text Editor    │             │   Editing        │              │   (No Edits)     │
+│ • Inline Pencil  │             │ • In-App Account │              │                  │
+│   Icons Enabled  │             │   Center Access  │              │                  │
+└──────────────────┘             └──────────────────┘              └──────────────────┘
+         │                                 │                                 │
+         └─────────────────────────────────┼─────────────────────────────────┘
+                                           ▼
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│ APPLICATION STATE & PERSISTENCE ENGINE                                                  │
+│ • currentUser: { id, name, email, role: 'admin' | 'pm' | 'client' }                     │
+│ • users: [ { id, name, email, password, role } ] (Persisted in localStorage)            │
+│ • globalTooltips: { [tooltipKey]: string } (Customizable by Admin)                      │
+│ • globalGuides: { [guideKey]: { name, url, pdfName, pdfData, enabled } }                │
+│ • projects: [ { id, name, pmEmail, customGuides: {...}, steps: [...] } ]               │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Data Model & Entities
+
+```typescript
+type UserRole = 'admin' | 'pm' | 'client';
+
+interface UserAccount {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  password?: string;
+}
+
+interface TooltipConfig {
+  id: string;
+  label: string;
+  defaultText: string;
+  currentText: string;
+}
+
+interface GuideConfig {
+  id: string;
+  name: string;
+  section: string;
+  buttonLabel: string;
+  resourceType: 'link' | 'pdf' | 'none';
+  resourceUrl: string;
+  pdfAttachmentName: string;
+  pdfAttachmentData?: string; // Data URL for uploaded guide PDFs
+  enabled: boolean;
+}
+```
+
+### Interactive Component & State Mapping
+
+1. **Authentication & Session Lifecycle**:
+   - `initAuthSystem()`: Loads stored user accounts, sets initial session (defaults to Admin or remembers last user), updates top bar UI.
+   - `handlePMRegister(formData)`: Validates unique email, saves new PM to `users` array, triggers immediate sign-in, and filters projects to new PM.
+   - `handleLogin(email, password)`: Verifies credentials, updates `currentUser`, and re-renders project list and interface according to role.
+   - `switchRole(role, specificUser)`: Updates session, dynamically toggles edit affordances (enables Admin Hub / inline pencils for Admin; enables PM editing & filters projects for PM; locks into view-only for Client).
+
+2. **Admin Tooltip Management**:
+   - `openAdminHub('tooltips')`: Displays modal catalog of all tooltips with search and quick edit inputs.
+   - `saveTooltipText(tooltipId, newText)`: Updates `globalTooltips[tooltipId]`, saves to `localStorage`, and instantly updates DOM text and `title` attributes.
+   - `openInlineTooltipEditor(tooltipId, event)`: Spawns popover next to clicked help icon allowing immediate text editing with "Save" and "Reset Default" actions.
+
+3. **Two-Tier Guides Engine**:
+   - `openAdminHub('guides')`: Displays default guides editor allowing Admin to configure global URLs, upload master PDFs, and set labels.
+   - `saveDefaultGuide(guideId, guideData)`: Updates `globalGuides[guideId]`, which serves as the default for all projects.
+   - `openPMGuideEditor(guideId)`: Accessible by PMs on the current project. Allows editing `project.customGuides[guideId]` (link, PDF upload, enabled state) without touching `globalGuides`.
+
+4. **Project Visibility Filtering**:
+   - `getAccessibleProjects()`:
+     - If `currentUser.role === 'admin'`: returns all `projects`.
+     - If `currentUser.role === 'pm'`: returns `projects.filter(p => p.pmEmail === currentUser.email)`.
+     - If `currentUser.role === 'client'`: returns `[currentProject]`.
+   - `renderProjectSelector()`: Refreshes top bar dropdown options based on `getAccessibleProjects()`. If the current project is not accessible to the active PM, automatically switches to their first accessible project.

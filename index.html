@@ -313,10 +313,10 @@
 
         <!-- NAVIGATION TABS -->
         <nav class="flex items-center space-x-1.5 shrink-0">
-          <!-- PROJECT BOARDS: STRICTLY HIDDEN FOR CLIENTS -->
-          <button onclick="switchView('boards')" id="nav-boards" title="Project Boards (Admin)" class="flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-brand-purple hover:bg-purple-50 transition border border-transparent">
+          <!-- PROJECT BOARDS: VISIBLE ONLY FOR PM AND ADMIN, HIDDEN FOR CLIENT -->
+          <button onclick="switchView('boards')" id="nav-boards" title="Project Boards" class="pm-only-btn flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-brand-purple hover:bg-purple-50 transition border border-transparent">
             <i data-lucide="kanban" class="w-3.5 h-3.5 shrink-0"></i>
-            <span class="truncate">Project Boards (Admin)</span>
+            <span class="truncate">Project Boards</span>
           </button>
           <button onclick="switchView('timeline')" id="nav-timeline" title="Timeline Axis" class="flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-purple text-white shadow-2xs transition">
             <i data-lucide="git-commit" class="w-3.5 h-3.5 shrink-0"></i>
@@ -325,22 +325,39 @@
         </nav>
       </div>
 
-      <!-- TOP RIGHT: ACTIONS & ROLE -->
-      <div class="flex items-center space-x-2 md:space-x-3 shrink-0">
-        <!-- DYNAMIC EMAIL CONTAINER: CLIENT EMAIL (PM VIEW) / PM CONTACT + COPY ICON (CLIENT VIEW) -->
-        <div id="header-email-container" class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs">
-          <!-- Populated by renderHeaderEmail() -->
-        </div>
+      <!-- TOP RIGHT: ACTIONS, ROLES & ACCOUNT CENTER -->
+      <div class="flex items-center space-x-1.5 md:space-x-2.5 shrink-0">
 
+        <!-- ADMIN / GOVERNANCE HUB BUTTON (ADMIN & PM VIEW) -->
+        <button id="btn-admin-hub" type="button" onclick="openAdminHub()" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-xs font-bold px-2.5 md:px-3 py-1.5 rounded-lg flex items-center space-x-1.5 shadow-sm hover:shadow transition cursor-pointer select-none active:scale-95" title="Governance &amp; Admin Hub: Tooltips, Default Guides &amp; Projects">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-300"></i>
+          <span class="hidden md:inline">Admin Hub</span>
+        </button>
+
+        <!-- SEND ALERT (PM & ADMIN VIEW) -->
         <button id="btn-push-notify" onclick="openNotifyModal()" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-2.5 md:px-3 py-1.5 rounded-lg flex items-center space-x-1.5 shadow-sm transition cursor-pointer">
           <i data-lucide="bell" class="w-3.5 h-3.5"></i>
           <span class="hidden sm:inline">Send Alert</span>
         </button>
 
-        <div class="bg-slate-100 p-0.5 md:p-1 rounded-xl flex items-center border border-slate-200 text-xs font-semibold">
-          <button id="btn-pm-view" onclick="setRole('pm')" class="px-2.5 md:px-4 py-1.5 rounded-lg bg-brand-purple text-white shadow-sm transition text-[11px] md:text-xs">PM</button>
-          <button id="btn-client-view" onclick="setRole('client')" class="px-2.5 md:px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs">Client</button>
+        <!-- 3-ROLE TOGGLE SWITCHER -->
+        <div class="bg-slate-100 p-0.5 rounded-xl flex items-center border border-slate-200 text-xs font-semibold">
+          <button id="btn-admin-view" type="button" onclick="selectRole('admin')" class="px-2 md:px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs">Admin</button>
+          <button id="btn-pm-view" type="button" onclick="selectRole('pm')" class="px-2 md:px-3 py-1.5 rounded-lg bg-brand-purple text-white shadow-sm transition text-[11px] md:text-xs">PM</button>
+          <button id="btn-client-view" type="button" onclick="selectRole('client')" class="px-2 md:px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs">Client</button>
         </div>
+
+        <!-- USER IDENTITY & ACCOUNT CENTER TRIGGER -->
+        <button id="btn-account-center" type="button" onclick="openAccountCenterModal()" class="flex items-center space-x-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1 text-xs font-medium text-slate-700 shadow-2xs transition cursor-pointer" title="Account Center: Switch user, sign in, or create PM account">
+          <div id="user-avatar-badge" class="w-6 h-6 rounded-full bg-brand-purple text-white font-bold flex items-center justify-center text-[10px] shrink-0">
+            A
+          </div>
+          <div class="text-left hidden lg:block leading-tight">
+            <div id="user-display-name" class="font-bold text-[11px] text-slate-900 truncate max-w-[90px]">Admin</div>
+            <div id="user-display-role" class="text-[9.5px] text-slate-500 font-medium">Administrator</div>
+          </div>
+          <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400 shrink-0"></i>
+        </button>
       </div>
     </header>
 
@@ -349,6 +366,9 @@
 
       <!-- VIEW 1: TIMELINE AXIS CANVAS -->
       <div id="view-timeline" class="space-y-6">
+        <!-- TIMELINE PERMISSION / DELEGATION BANNER -->
+        <div id="timeline-permission-banner" class="hidden"></div>
+
         <section id="section-timeline-axis" class="bg-gradient-to-br from-[#180d26] via-[#24133b] to-[#140b20] rounded-2xl border border-purple-700/40 p-4 md:p-6 shadow-xl shadow-purple-950/30 relative flex flex-col space-y-5 overflow-hidden transition-all duration-300">
           
           <!-- AMBIENT GLOW ACCENTS -->
@@ -411,10 +431,10 @@
           <div id="section-sitemap-header" class="border-b border-violet-100 pb-3.5 -mx-4 md:-mx-6 -mt-4 md:-mt-6 px-4 md:px-6 pt-4 md:pt-5 bg-gradient-to-r from-violet-50/90 via-purple-50/40 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-300">
             <div class="flex flex-wrap items-center gap-3">
               <h3 class="text-sm md:text-base font-bold text-slate-900 flex items-center space-x-2.5">
-                <div class="w-8 h-8 rounded-xl bg-violet-100/90 text-violet-800 flex items-center justify-center shrink-0 shadow-2xs">
-                  <i data-lucide="network" class="w-4.5 h-4.5"></i>
+                <div class="w-8 h-8 rounded-xl bg-violet-100/90 text-violet-800 flex items-center justify-center shrink-0 shadow-2xs font-bold text-sm select-none">
+                  1
                 </div>
-                <span id="title-section-sitemap" class="tracking-tight">1. Website Structure</span>
+                <span id="title-section-sitemap" class="tracking-tight">Website Structure</span>
               </h3>
 
               <!-- SITEMAP PROGRESS BAR CONTAINER -->
@@ -452,11 +472,14 @@
                     </h4>
                     <!-- Tooltip next to title -->
                     <div class="relative group/tooltip inline-flex items-center shrink-0">
-                      <button type="button" class="text-slate-400 hover:text-violet-700 transition cursor-help p-0.5 rounded-full" aria-label="Sitemap guidance" title="Review your proposed page tree and navigation menu below to confirm all hotel sections and languages before copywriting begins.">
+                      <button id="tooltip-btn-sitemap" type="button" class="text-slate-400 hover:text-violet-700 transition cursor-help p-0.5 rounded-full" aria-label="Sitemap guidance" title="Review your proposed page tree and navigation menu below to confirm all hotel sections and languages before copywriting begins.">
                         <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
                       </button>
+                      <button type="button" onclick="openInlineTooltipEditor('sitemap', event)" class="admin-tooltip-edit-btn hidden text-purple-600 hover:text-purple-800 p-0.5 ml-0.5 transition cursor-pointer" title="Admin: Edit tooltip text">
+                        <i data-lucide="pencil" class="w-3 h-3"></i>
+                      </button>
                       <div class="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 bottom-full mb-1.5 hidden group-hover/tooltip:block z-30 w-64 p-2.5 bg-slate-900 text-white text-[11px] leading-relaxed rounded-lg shadow-lg pointer-events-none font-normal">
-                        Review your proposed page tree and navigation menu below to confirm all hotel sections and languages before copywriting begins.
+                        <span id="tooltip-text-sitemap">Review your proposed page tree and navigation menu below to confirm all hotel sections and languages before copywriting begins.</span>
                         <div class="absolute top-full left-4 sm:left-1/2 sm:-translate-x-1/2 border-4 border-transparent border-t-slate-900"></div>
                       </div>
                     </div>
@@ -487,11 +510,14 @@
                     </h4>
                     <!-- Tooltip next to the title -->
                     <div class="relative group/tooltip inline-flex items-center shrink-0">
-                      <button type="button" class="text-slate-400 hover:text-violet-700 transition cursor-help p-0.5 rounded-full" aria-label="SEO Questionnaire guidance" title="Submit your key target personas, competitors, and hotel selling points to help our SEO team craft optimized copy.">
+                      <button id="tooltip-btn-seo" type="button" class="text-slate-400 hover:text-violet-700 transition cursor-help p-0.5 rounded-full" aria-label="SEO Questionnaire guidance" title="Submit your key target personas, competitors, and hotel selling points to help our SEO team craft optimized copy.">
                         <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
                       </button>
+                      <button type="button" onclick="openInlineTooltipEditor('seo', event)" class="admin-tooltip-edit-btn hidden text-purple-600 hover:text-purple-800 p-0.5 ml-0.5 transition cursor-pointer" title="Admin: Edit tooltip text">
+                        <i data-lucide="pencil" class="w-3 h-3"></i>
+                      </button>
                       <div class="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 bottom-full mb-1.5 hidden group-hover/tooltip:block z-30 w-64 p-2.5 bg-slate-900 text-white text-[11px] leading-relaxed rounded-lg shadow-lg pointer-events-none font-normal">
-                        Submit your key target personas, competitors, and hotel selling points to help our SEO team craft optimized copy.
+                        <span id="tooltip-text-seo">Submit your key target personas, competitors, and hotel selling points to help our SEO team craft optimized copy.</span>
                         <div class="absolute top-full left-4 sm:left-1/2 sm:-translate-x-1/2 border-4 border-transparent border-t-slate-900"></div>
                       </div>
                     </div>
@@ -527,12 +553,15 @@
                     </h4>
                     <!-- Tooltip next to title -->
                     <div class="relative group/tooltip inline-flex items-center shrink-0">
-                      <button type="button" class="text-slate-400 hover:text-violet-700 transition cursor-help p-0.5 rounded-full" aria-label="Evolution Framework guidance" title="D-EDGE Evolution Framework: Every template is 100% mobile-responsive, built for direct booking conversion, and connected seamlessly to your booking engine. Your custom branding, photography, and custom palette will be fully integrated during Step 2.">
+                      <button id="tooltip-btn-templates" type="button" class="text-slate-400 hover:text-violet-700 transition cursor-help p-0.5 rounded-full" aria-label="Evolution Framework guidance" title="D-EDGE Evolution Framework: Every template is 100% mobile-responsive, built for direct booking conversion, and connected seamlessly to your booking engine. Your custom branding, photography, and custom palette will be fully integrated during Step 2.">
                         <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+                      </button>
+                      <button type="button" onclick="openInlineTooltipEditor('templates', event)" class="admin-tooltip-edit-btn hidden text-purple-600 hover:text-purple-800 p-0.5 ml-0.5 transition cursor-pointer" title="Admin: Edit tooltip text">
+                        <i data-lucide="pencil" class="w-3 h-3"></i>
                       </button>
                       <div class="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 bottom-full mb-1.5 hidden group-hover/tooltip:block z-30 w-72 p-2.5 bg-slate-900 text-white text-[11px] leading-relaxed rounded-lg shadow-lg pointer-events-none font-normal">
                         <span class="font-bold text-white block mb-0.5">D-EDGE Evolution Framework</span>
-                        Every template is 100% mobile-responsive, built for direct booking conversion, and connected seamlessly to your booking engine. Your custom branding, photography, and custom palette will be fully integrated during Step 2.
+                        <span id="tooltip-text-templates">Every template is 100% mobile-responsive, built for direct booking conversion, and connected seamlessly to your booking engine. Your custom branding, photography, and custom palette will be fully integrated during Step 2.</span>
                         <div class="absolute top-full left-4 sm:left-1/2 sm:-translate-x-1/2 border-4 border-transparent border-t-slate-900"></div>
                       </div>
                     </div>
@@ -581,10 +610,10 @@
           <div id="section-content-collection-header" class="border-b border-sky-100 pb-3.5 -mx-4 md:-mx-6 -mt-4 md:-mt-6 px-4 md:px-6 pt-4 md:pt-5 bg-gradient-to-r from-sky-50/90 via-blue-50/40 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-300">
             <div class="flex flex-wrap items-center gap-3">
               <h3 class="text-sm md:text-base font-bold text-slate-900 flex items-center space-x-2.5">
-                <div class="w-8 h-8 rounded-xl bg-sky-100/90 text-sky-800 flex items-center justify-center shrink-0 shadow-2xs">
-                  <i data-lucide="palette" class="w-4.5 h-4.5"></i>
+                <div class="w-8 h-8 rounded-xl bg-sky-100/90 text-sky-800 flex items-center justify-center shrink-0 shadow-2xs font-bold text-sm select-none">
+                  2
                 </div>
-                <span id="title-section-content-collection" class="tracking-tight">2. Content Collection</span>
+                <span id="title-section-content-collection" class="tracking-tight">Content Collection</span>
               </h3>
 
               <!-- CONTENT COLLECTION PROGRESS BAR CONTAINER -->
@@ -623,12 +652,15 @@
                     </h4>
                     <!-- Tooltip next to title before the to-do component -->
                     <div class="relative group/tooltip inline-flex items-center shrink-0">
-                      <button type="button" class="text-slate-400 hover:text-sky-700 transition cursor-help p-0.5 rounded-full" aria-label="Texts guidance" title="Review and provide your multilingual website copy, room descriptions, and dining details in Google Docs.">
+                      <button id="tooltip-btn-texts" type="button" class="text-slate-400 hover:text-sky-700 transition cursor-help p-0.5 rounded-full" aria-label="Texts guidance" title="Review and provide your multilingual website copy, room descriptions, and dining details in Google Docs.">
                         <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+                      </button>
+                      <button type="button" onclick="openInlineTooltipEditor('texts', event)" class="admin-tooltip-edit-btn hidden text-purple-600 hover:text-purple-800 p-0.5 ml-0.5 transition cursor-pointer" title="Admin: Edit tooltip text">
+                        <i data-lucide="pencil" class="w-3 h-3"></i>
                       </button>
                       <div class="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 bottom-full mb-1.5 hidden group-hover/tooltip:block z-30 w-64 p-2.5 bg-slate-900 text-white text-[11px] leading-relaxed rounded-lg shadow-lg pointer-events-none font-normal">
                         <span class="font-bold text-white block mb-0.5">Multilingual Content</span>
-                        Review and provide your website copy, room descriptions, and dining details in Google Docs.
+                        <span id="tooltip-text-texts">Review and provide your website copy, room descriptions, and dining details in Google Docs.</span>
                         <div class="absolute top-full left-4 sm:left-1/2 sm:-translate-x-1/2 border-4 border-transparent border-t-slate-900"></div>
                       </div>
                     </div>
@@ -660,12 +692,15 @@
                     </h4>
                     <!-- Tooltip next to title -->
                     <div class="relative group/tooltip inline-flex items-center shrink-0">
-                      <button type="button" class="text-slate-400 hover:text-sky-700 transition cursor-help p-0.5 rounded-full" aria-label="Images guidance" title="Upload your high-resolution hotel photography, room photos, and amenities to the shared Google Drive folder.">
+                      <button id="tooltip-btn-images" type="button" class="text-slate-400 hover:text-sky-700 transition cursor-help p-0.5 rounded-full" aria-label="Images guidance" title="Upload your high-resolution hotel photography, room photos, and amenities to the shared Google Drive folder.">
                         <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+                      </button>
+                      <button type="button" onclick="openInlineTooltipEditor('images', event)" class="admin-tooltip-edit-btn hidden text-purple-600 hover:text-purple-800 p-0.5 ml-0.5 transition cursor-pointer" title="Admin: Edit tooltip text">
+                        <i data-lucide="pencil" class="w-3 h-3"></i>
                       </button>
                       <div class="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 bottom-full mb-1.5 hidden group-hover/tooltip:block z-30 w-64 p-2.5 bg-slate-900 text-white text-[11px] leading-relaxed rounded-lg shadow-lg pointer-events-none font-normal">
                         <span class="font-bold text-white block mb-0.5">Media &amp; Photography</span>
-                        Upload high-resolution hotel photography, room photos, and amenities to the shared Google Drive folder.
+                        <span id="tooltip-text-images">Upload high-resolution hotel photography, room photos, and amenities to the shared Google Drive folder.</span>
                         <div class="absolute top-full left-4 sm:left-1/2 sm:-translate-x-1/2 border-4 border-transparent border-t-slate-900"></div>
                       </div>
                     </div>
@@ -697,12 +732,15 @@
                     </label>
                     <!-- Tooltip next to title -->
                     <div class="relative group/tooltip inline-flex items-center shrink-0">
-                      <button type="button" class="text-slate-400 hover:text-sky-700 transition cursor-help p-0.5 rounded-full" aria-label="Brand colors &amp; typography guidance" title="Define the hotel brand color palette and select curated Google Fonts pairings for headings and body copy.">
+                      <button id="tooltip-btn-colors" type="button" class="text-slate-400 hover:text-sky-700 transition cursor-help p-0.5 rounded-full" aria-label="Brand colors &amp; typography guidance" title="Define the hotel brand color palette and select curated Google Fonts pairings for headings and body copy.">
                         <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+                      </button>
+                      <button type="button" onclick="openInlineTooltipEditor('colors', event)" class="admin-tooltip-edit-btn hidden text-purple-600 hover:text-purple-800 p-0.5 ml-0.5 transition cursor-pointer" title="Admin: Edit tooltip text">
+                        <i data-lucide="pencil" class="w-3 h-3"></i>
                       </button>
                       <div class="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 bottom-full mb-1.5 hidden group-hover/tooltip:block z-30 w-72 p-2.5 bg-slate-900 text-white text-[11px] leading-relaxed rounded-lg shadow-lg pointer-events-none font-normal">
                         <span class="font-bold text-white block mb-0.5">Colors &amp; Typography System</span>
-                        Harmonize hotel brand colors (primary CTA, secondary accent, and light surfaces) alongside luxury editorial Google Fonts pairings.
+                        <span id="tooltip-text-colors">Define the hotel brand color palette and select curated Google Fonts pairings for headings and body copy.</span>
                         <div class="absolute top-full left-4 sm:left-1/2 sm:-translate-x-1/2 border-4 border-transparent border-t-slate-900"></div>
                       </div>
                     </div>
@@ -950,10 +988,10 @@
           <div id="section-revision-phase-header" class="border-b border-amber-100 pb-3.5 -mx-4 md:-mx-6 -mt-4 md:-mt-6 px-4 md:px-6 pt-4 md:pt-5 bg-gradient-to-r from-amber-50/90 via-orange-50/40 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-300">
             <div class="flex flex-wrap items-center gap-3">
               <h3 class="text-sm md:text-base font-bold text-slate-900 flex items-center space-x-2.5">
-                <div class="w-8 h-8 rounded-xl bg-amber-100/90 text-amber-800 flex items-center justify-center shrink-0 shadow-2xs">
-                  <i data-lucide="check-square" class="w-4.5 h-4.5"></i>
+                <div class="w-8 h-8 rounded-xl bg-amber-100/90 text-amber-800 flex items-center justify-center shrink-0 shadow-2xs font-bold text-sm select-none">
+                  3
                 </div>
-                <span id="title-section-revision-phase" class="tracking-tight">3. Revision phase</span>
+                <span id="title-section-revision-phase" class="tracking-tight">Revision Phase</span>
               </h3>
 
               <!-- REVISION PHASE PROGRESS BAR CONTAINER -->
@@ -1006,10 +1044,10 @@
           <div id="section-go-live-header" class="border-b border-emerald-100 pb-3.5 -mx-4 md:-mx-6 -mt-4 md:-mt-6 px-4 md:px-6 pt-4 md:pt-5 bg-gradient-to-r from-emerald-50/90 via-teal-50/40 to-white flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-300">
             <div class="flex flex-wrap items-center gap-3">
               <h3 class="text-sm md:text-base font-bold text-slate-900 flex items-center space-x-2.5">
-                <div class="w-8 h-8 rounded-xl bg-emerald-100/90 text-emerald-800 flex items-center justify-center shrink-0 shadow-2xs">
-                  <i data-lucide="rocket" class="w-4.5 h-4.5"></i>
+                <div class="w-8 h-8 rounded-xl bg-emerald-100/90 text-emerald-800 flex items-center justify-center shrink-0 shadow-2xs font-bold text-sm select-none">
+                  4
                 </div>
-                <span id="title-section-go-live" class="tracking-tight">4. Go-live</span>
+                <span id="title-section-go-live" class="tracking-tight">Go-Live</span>
               </h3>
 
               <!-- GO-LIVE PROGRESS BAR CONTAINER -->
@@ -1090,10 +1128,10 @@
               </label>
               <select id="filter-stage" class="hidden" onchange="renderBoardsGrid()">
                 <option value="ALL">All Stages</option>
-                <option value="1">1. Website Structure</option>
-                <option value="2">2. Content Collection</option>
-                <option value="3">3. Revision Phase</option>
-                <option value="4">4. Go-Live</option>
+                <option value="1">Website Structure</option>
+                <option value="2">Content Collection</option>
+                <option value="3">Revision Phase</option>
+                <option value="4">Go-Live</option>
                 <option value="completed">Completed / Finished</option>
               </select>
               <button type="button" id="btn-custom-filter-stage" onclick="toggleCustomFilterDropdown('stage', event)" class="w-full flex items-center justify-between px-3.5 py-2.5 bg-slate-50/90 hover:bg-slate-100/90 border border-slate-200/90 hover:border-purple-300 rounded-xl text-xs font-semibold text-slate-800 transition-all shadow-2xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple group">
@@ -1268,9 +1306,25 @@
           </div>
 
           <div>
-            <label class="block text-slate-700 font-bold mb-1">Project Name</label>
+            <label class="block text-slate-700 font-bold mb-1">Project Manager (Créateur)</label>
             <input required id="mp-pm-name" type="text" placeholder="e.g. Dounia" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
           </div>
+        </div>
+
+        <!-- SECTION DÉLÉGATION PM (AUTORISATION DE MODIFIER) -->
+        <div class="p-3.5 bg-indigo-50/70 border border-indigo-200/90 rounded-xl space-y-1.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-1.5">
+              <i data-lucide="shield-check" class="w-4 h-4 text-indigo-600 shrink-0"></i>
+              <label class="block text-slate-800 font-bold text-xs">PM Autorisé à modifier (Délégation)</label>
+            </div>
+            <span class="text-[10px] text-indigo-700 font-semibold bg-white px-2 py-0.5 rounded-full border border-indigo-200 shadow-2xs">Co-Gestion</span>
+          </div>
+          <p class="text-[11px] text-slate-500">Donner la permission à un autre PM de modifier ce projet (livrables, étapes, dates et paramètres).</p>
+          <select id="mp-authorized-pm" class="w-full border border-slate-200 rounded-xl p-2 outline-none focus:ring-2 focus:ring-brand-purple bg-white text-xs text-slate-800 font-medium">
+            <option value="">-- Aucun PM autorisé (Seul le PM créateur peut modifier) --</option>
+          </select>
+          <p id="mp-auth-pm-note" class="text-[10px] text-slate-500 italic"></p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1340,6 +1394,61 @@
         <div class="pt-3 flex justify-end space-x-2 border-t border-slate-100">
           <button type="button" onclick="closeModal('modal-project')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition">Cancel</button>
           <button type="submit" class="px-5 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm transition">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: DÉLÉGATION DE PERMISSION PM -->
+  <div id="modal-pm-permission" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-3 sm:p-4" onclick="if(event.target===this)closeModal('modal-pm-permission')">
+    <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl border border-slate-200 overflow-hidden" onclick="event.stopPropagation()">
+      <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-slate-900">Délégation de permission PM</h3>
+            <p class="text-[11px] text-slate-500">Autoriser un autre PM à modifier ce projet</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('modal-pm-permission')" class="p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-200/50 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleGrantPmPermissionSubmit(event)" class="p-5 space-y-4 text-xs">
+        <input type="hidden" id="perm-project-id">
+        
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400 font-bold text-[10px] uppercase tracking-wider">Hôtel / Projet</span>
+            <span id="perm-project-name" class="font-bold text-slate-900 text-right truncate max-w-[200px]"></span>
+          </div>
+          <div class="flex items-center justify-between border-t border-slate-200/60 pt-1.5">
+            <span class="text-slate-400 font-bold text-[10px] uppercase tracking-wider">PM Créateur</span>
+            <span id="perm-creator-name" class="font-bold text-brand-purple text-right truncate max-w-[200px]"></span>
+          </div>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="block font-bold text-slate-800">Sélectionnez le PM autorisé :</label>
+          <p class="text-[11px] text-slate-500 leading-relaxed">
+            Le PM choisi aura l'autorisation complète de modifier les étapes, livrables, dates limites et spécificités de ce projet.
+          </p>
+          <select id="perm-pm-select" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-white text-xs font-semibold text-slate-800">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <div class="pt-2 flex items-center justify-end space-x-2 border-t border-slate-100">
+          <button type="button" onclick="closeModal('modal-pm-permission')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold transition cursor-pointer">
+            Annuler
+          </button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-brand-purple hover:bg-purple-800 text-white font-bold flex items-center space-x-1.5 shadow-sm transition cursor-pointer">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Enregistrer la permission</span>
+          </button>
         </div>
       </form>
     </div>
@@ -1685,6 +1794,465 @@
     </div>
   </div>
 
+  <!-- MODAL: ACCOUNT CENTER & PM REGISTRATION -->
+  <div id="modal-account-center" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-3 sm:p-4 transition-all" onclick="if(event.target===this)closeModal('modal-account-center')">
+    <div class="bg-white rounded-2xl w-full max-w-xl shadow-2xl border border-slate-200 overflow-hidden space-y-0" onclick="event.stopPropagation()">
+      <!-- MODAL HEADER -->
+      <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-xl bg-purple-100 text-brand-purple flex items-center justify-center shrink-0">
+            <i data-lucide="user-check" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-slate-900">Account Center &amp; Access Control</h3>
+            <p class="text-[11px] text-slate-500">Manage authenticated profiles, create PM accounts, and switch roles.</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('modal-account-center')" class="p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-200/50 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- TABS -->
+      <div class="flex border-b border-slate-200 bg-white px-4 sm:px-5 pt-2">
+        <button id="tab-ac-profiles" type="button" onclick="switchAccountCenterTab('profiles')" class="pb-2.5 px-3 text-xs font-bold border-b-2 border-brand-purple text-brand-purple transition">
+          Active Session &amp; Switch
+        </button>
+        <button id="tab-ac-register" type="button" onclick="switchAccountCenterTab('register')" class="pb-2.5 px-3 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition">
+          + Create PM Account
+        </button>
+      </div>
+
+      <!-- TAB 1 CONTENT: ACTIVE SESSION & PROFILES -->
+      <div id="ac-tab-profiles-content" class="p-4 sm:p-5 space-y-4 max-h-[75vh] overflow-y-auto">
+        <!-- CURRENT SESSION STATUS CARD -->
+        <div class="bg-purple-50/60 border border-purple-200/80 rounded-xl p-3.5 flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div id="ac-current-avatar" class="w-10 h-10 rounded-xl bg-brand-purple text-white font-bold flex items-center justify-center text-sm shadow-2xs">
+              A
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <span id="ac-current-name" class="font-bold text-slate-900 text-xs sm:text-sm">Master Admin</span>
+                <span id="ac-current-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-200/80 text-purple-900">Administrator</span>
+              </div>
+              <p id="ac-current-email" class="text-[11px] text-slate-500 mt-0.5">admin@d-edge.com</p>
+            </div>
+          </div>
+          <span class="text-[10.5px] font-semibold text-emerald-700 bg-emerald-100/80 border border-emerald-200 px-2 py-1 rounded-lg flex items-center space-x-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Active</span>
+          </span>
+        </div>
+
+        <!-- QUICK DEMO PERSONAS -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Fast Persona Switcher</h4>
+            <span class="text-[10px] text-slate-400">Click to switch instant session</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="ac-quick-personas-list">
+            <!-- Populated dynamically via renderAccountPersonas() -->
+          </div>
+        </div>
+
+        <!-- CUSTOM LOGIN FORM -->
+        <div class="border-t border-slate-100 pt-3 space-y-3">
+          <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Log In With Email</h4>
+          <form onsubmit="handleAccountLoginForm(event)" class="space-y-2.5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Email</label>
+                <input id="ac-login-email" type="email" required placeholder="name@d-edge.com" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 outline-none">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Password / PIN</label>
+                <input id="ac-login-password" type="password" required placeholder="••••••••" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 outline-none">
+              </div>
+            </div>
+            <div class="flex justify-end pt-1">
+              <button type="submit" class="px-4 py-1.5 bg-brand-purple hover:bg-brand-purpleDark text-white font-bold text-xs rounded-xl shadow-2xs transition">
+                Sign In
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- TAB 2 CONTENT: CREATE PM ACCOUNT -->
+      <div id="ac-tab-register-content" class="p-4 sm:p-5 space-y-4 max-h-[75vh] overflow-y-auto hidden">
+        <div class="bg-blue-50/60 border border-blue-200/80 rounded-xl p-3 text-xs text-blue-900 leading-relaxed">
+          <strong class="font-bold">Project Manager Privileges:</strong>
+          PM accounts can create new projects, edit timelines &amp; milestones, and customize guides for their assigned hotels. PMs are strictly restricted to accessing their own projects.
+        </div>
+
+        <form onsubmit="handleCreatePmAccount(event)" class="space-y-3 text-xs">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Full Name *</label>
+            <input id="new-pm-name" type="text" required placeholder="e.g. Sarah Laurent" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none">
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">D-EDGE Work Email *</label>
+            <input id="new-pm-email" type="email" required placeholder="e.g. sarah.laurent@d-edge.com" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none">
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Password or Access PIN *</label>
+            <input id="new-pm-password" type="password" required placeholder="Choose a password or PIN" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none">
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Initial Hotel Project (Optional)</label>
+            <input id="new-pm-hotel" type="text" placeholder="e.g. Grand Hotel Riviera (Leave empty to start clean)" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none">
+            <p class="text-[10.5px] text-slate-400 mt-1">If provided, an initial hotel roadmap will be initialized under your ownership.</p>
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-end space-x-2">
+            <button type="button" onclick="switchAccountCenterTab('profiles')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition">
+              Cancel
+            </button>
+            <button type="submit" class="px-5 py-2 rounded-xl bg-brand-purple hover:bg-brand-purpleDark text-white font-bold shadow-sm transition">
+              Create Account &amp; Sign In
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADMIN GOVERNANCE HUB -->
+  <div id="modal-admin-hub" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-3 sm:p-4 transition-all" onclick="if(event.target===this)closeModal('modal-admin-hub')">
+    <div class="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] shadow-2xl border border-slate-200 flex flex-col overflow-hidden" onclick="event.stopPropagation()">
+      <!-- HEADER -->
+      <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/80 shrink-0">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-xl bg-brand-purple text-white flex items-center justify-center shrink-0 shadow-2xs">
+            <i data-lucide="shield-check" class="w-5 h-5 text-amber-300"></i>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <h3 class="text-base font-bold text-slate-900">Governance &amp; Admin Hub</h3>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-brand-purple border border-purple-200">Admin &amp; PM Privileges</span>
+            </div>
+            <p class="text-[11px] text-slate-500">Configure global default guides, customize tooltip copy, and oversee all projects.</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('modal-admin-hub')" class="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-200/50 transition cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- ADMIN TABS -->
+      <div class="flex border-b border-slate-200 bg-white px-4 sm:px-6 pt-2 shrink-0">
+        <button id="admin-hub-tab-tooltips" type="button" onclick="switchAdminHubTab('tooltips')" class="pb-2.5 px-3 sm:px-4 text-xs font-bold border-b-2 border-brand-purple text-brand-purple transition">
+          Default Text (For New Projects)
+        </button>
+        <button id="admin-hub-tab-guides" type="button" onclick="switchAdminHubTab('guides')" class="pb-2.5 px-3 sm:px-4 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition">
+          Default Guides: Link/PDF (For New Projects)
+        </button>
+        <button id="admin-hub-tab-projects" type="button" onclick="switchAdminHubTab('projects')" class="pb-2.5 px-3 sm:px-4 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition">
+          All Projects &amp; PM Assignment
+        </button>
+      </div>
+
+      <!-- TAB 1: TOOLTIPS TEXTS CUSTOMIZER -->
+      <div id="admin-hub-content-tooltips" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-purple-50/70 border border-purple-200/80 rounded-xl p-3">
+          <div>
+            <h4 class="font-bold text-purple-950">Default Guidance Text (Applied to All New Projects)</h4>
+            <p class="text-[11px] text-purple-800/80">Changing text here sets the default copy applied to all new projects created after this modification. Projects already created remain completely unchanged.</p>
+          </div>
+          <button type="button" onclick="resetAllTooltipsToDefault()" class="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-xl text-xs font-semibold shadow-2xs transition self-start sm:self-auto cursor-pointer">
+            Reset All to Defaults
+          </button>
+        </div>
+
+        <!-- SEARCH BAR -->
+        <div>
+          <input id="admin-tooltips-search" type="text" oninput="filterAdminTooltips(this.value)" placeholder="Search default text by name or section..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 outline-none">
+        </div>
+
+        <!-- TOOLTIPS LIST -->
+        <div id="admin-tooltips-list" class="space-y-3">
+          <!-- Populated dynamically via renderAdminTooltipsList() -->
+        </div>
+      </div>
+
+      <!-- TAB 2: DEFAULT GUIDES CUSTOMIZER -->
+      <div id="admin-hub-content-guides" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs hidden">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-indigo-50/70 border border-indigo-200/80 rounded-xl p-3">
+          <div>
+            <h4 class="font-bold text-indigo-950">Default Guides: Link / PDF (Applied to All New Projects)</h4>
+            <p class="text-[11px] text-indigo-800/80">Configure default URLs, PDFs, and labels. Changing resources here sets the default applied to all new projects created after this modification. Projects already created remain completely unchanged.</p>
+          </div>
+          <button type="button" onclick="resetAllDefaultGuides()" class="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-xl text-xs font-semibold shadow-2xs transition self-start sm:self-auto cursor-pointer">
+            Reset All Guides
+          </button>
+        </div>
+
+        <!-- DEFAULT GUIDES LIST -->
+        <div id="admin-default-guides-list" class="space-y-3">
+          <!-- Populated dynamically via renderAdminDefaultGuidesList() -->
+        </div>
+      </div>
+
+      <!-- TAB 3: ALL PROJECTS DIRECTORY -->
+      <div id="admin-hub-content-projects" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs hidden">
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between">
+          <div>
+            <h4 class="font-bold text-slate-900">Hotel Roadmaps Portfolio</h4>
+            <p class="text-[11px] text-slate-500">Admins have unrestricted access to all projects and can reassign PM ownership on demand.</p>
+          </div>
+          <button type="button" onclick="closeModal('modal-admin-hub'); openCreateProjectModal();" class="px-3.5 py-1.5 bg-brand-purple hover:bg-brand-purpleDark text-white font-bold text-xs rounded-xl shadow-2xs transition cursor-pointer">
+            + New Project
+          </button>
+        </div>
+
+        <!-- PROJECTS TABLE -->
+        <div class="border border-slate-200 rounded-xl overflow-hidden bg-white">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
+              <tr>
+                <th class="p-3">Hotel Project</th>
+                <th class="p-3">Package &amp; Template</th>
+                <th class="p-3">Assigned PM</th>
+                <th class="p-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-projects-table-body" class="divide-y divide-slate-100">
+              <!-- Populated dynamically via renderAdminProjectsTable() -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: INLINE TOOLTIP / GUIDANCE TEXT EDITOR (ADMIN & PM) -->
+  <div id="modal-inline-tooltip-editor" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center hidden p-3 transition-all" onclick="if(event.target===this)closeModal('modal-inline-tooltip-editor')">
+    <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl border border-slate-200 p-5 space-y-4 text-xs" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <div class="w-7 h-7 rounded-lg bg-purple-100 text-brand-purple flex items-center justify-center shrink-0">
+            <i data-lucide="edit-3" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 id="inline-tooltip-title" class="font-bold text-slate-900 text-sm">Edit Guidance Text</h3>
+            <p id="inline-tooltip-section" class="text-[10.5px] text-slate-400">Section Guidance</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('modal-inline-tooltip-editor')" class="p-1 text-slate-400 hover:text-slate-600 rounded-lg">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- DYNAMIC SCOPE BANNER -->
+      <div id="inline-tooltip-scope-banner">
+        <!-- Populated dynamically based on role -->
+      </div>
+
+      <input type="hidden" id="inline-tooltip-key">
+
+      <div>
+        <label class="block font-bold text-slate-700 mb-1">Guidance Text / Description</label>
+        <textarea id="inline-tooltip-textarea" rows="4" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none leading-relaxed text-xs"></textarea>
+      </div>
+
+      <!-- PM ACTION BUTTONS -->
+      <div id="inline-tooltip-pm-controls" class="flex items-center justify-between pt-2 border-t border-slate-100">
+        <button type="button" onclick="revertInlineTooltipToDefault()" class="px-3 py-1.5 text-slate-600 hover:text-amber-800 font-semibold bg-slate-100 hover:bg-amber-100 rounded-xl transition cursor-pointer" title="Revert this project to use the default copy">
+          Revert to Default Copy
+        </button>
+        <div class="flex space-x-2">
+          <button type="button" onclick="closeModal('modal-inline-tooltip-editor')" class="px-3 py-1.5 text-slate-600 font-semibold rounded-xl hover:bg-slate-100 transition cursor-pointer">
+            Cancel
+          </button>
+          <button type="button" onclick="saveInlineTooltipForProject()" class="px-4 py-1.5 bg-brand-purple hover:bg-brand-purpleDark text-white font-bold rounded-xl shadow-2xs transition cursor-pointer">
+            Save for This Hotel
+          </button>
+        </div>
+      </div>
+
+      <!-- ADMIN ACTION BUTTONS -->
+      <div id="inline-tooltip-admin-controls" class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 pt-3 border-t border-slate-100">
+        <button type="button" onclick="revertInlineTooltipToDefault()" class="px-3 py-1.5 text-slate-600 hover:text-amber-800 font-semibold bg-slate-100 hover:bg-amber-100 rounded-xl transition cursor-pointer text-left sm:text-center" title="Revert text to default copy">
+          Revert to Default Copy
+        </button>
+        <div class="flex flex-wrap items-center justify-end gap-1.5 sm:gap-2">
+          <button type="button" onclick="closeModal('modal-inline-tooltip-editor')" class="px-3 py-1.5 text-slate-600 font-semibold rounded-xl hover:bg-slate-100 transition cursor-pointer">
+            Cancel
+          </button>
+          <button type="button" id="btn-inline-tooltip-save-default" onclick="saveInlineTooltipAsDefault()" class="admin-only-btn px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-brand-purple border border-purple-200 font-bold rounded-xl shadow-2xs transition cursor-pointer flex items-center space-x-1" title="Save as default template for all new projects (Existing projects preserved)">
+            <i data-lucide="shield" class="w-3.5 h-3.5 text-brand-purple"></i>
+            <span>Save as Default</span>
+          </button>
+          <button type="button" onclick="saveInlineTooltipForProject()" class="px-4 py-1.5 bg-brand-purple hover:bg-brand-purpleDark text-white font-bold rounded-xl shadow-2xs transition cursor-pointer">
+            Save for This Hotel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PM PROJECT GUIDE CUSTOMIZER (LOCAL HOTEL OVERRIDE) -->
+  <div id="modal-pm-guide-editor" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-3 transition-all" onclick="if(event.target===this)closeModal('modal-pm-guide-editor')">
+    <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl border border-slate-200 p-5 space-y-4 text-xs" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <div class="w-7 h-7 rounded-lg bg-sky-100 text-sky-800 flex items-center justify-center shrink-0">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 id="pm-guide-modal-title" class="font-bold text-slate-900 text-sm">Customize Project Guide</h3>
+            <p id="pm-guide-modal-subtitle" class="text-[10.5px] text-slate-500">Le Grand Hotel Paris</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('modal-pm-guide-editor')" class="p-1 text-slate-400 hover:text-slate-600 rounded-lg">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div id="pm-guide-modal-scope-banner" class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-2.5 text-[11px] text-amber-900 leading-relaxed">
+        <strong class="font-bold">Project Scope:</strong> Changes saved here will customize the guide link/PDF specifically for this hotel. The global Admin default is kept safe and intact.
+      </div>
+
+      <input type="hidden" id="pm-guide-key">
+
+      <div class="space-y-3">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Button Label</label>
+          <input id="pm-guide-button-label" type="text" placeholder="e.g. Guide, Hotel Sitemap Spec" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Resource Type</label>
+          <div class="flex space-x-4">
+            <label class="flex items-center space-x-1.5 cursor-pointer">
+              <input type="radio" name="pm-guide-type" value="link" checked onchange="togglePmGuideType('link')" class="text-brand-purple">
+              <span>External Link (Google Drive / Docs / URL)</span>
+            </label>
+            <label class="flex items-center space-x-1.5 cursor-pointer">
+              <input type="radio" name="pm-guide-type" value="pdf" onchange="togglePmGuideType('pdf')" class="text-brand-purple">
+              <span>Upload PDF Document</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="pm-guide-url-group">
+          <label class="block font-bold text-slate-700 mb-1">Guide URL Link</label>
+          <input id="pm-guide-url" type="url" placeholder="https://drive.google.com/..." class="w-full px-3 py-1.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none">
+        </div>
+
+        <div id="pm-guide-pdf-group" class="hidden">
+          <label class="block font-bold text-slate-700 mb-1">Upload Project PDF Guide</label>
+          <input id="pm-guide-pdf-file" type="file" accept="application/pdf" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs">
+          <p id="pm-guide-pdf-status" class="text-[10px] text-slate-400 mt-1">Accepts standard PDF files for in-app preview.</p>
+        </div>
+
+        <div class="flex items-center space-x-2 pt-1">
+          <input id="pm-guide-enabled" type="checkbox" checked class="w-4 h-4 text-brand-purple rounded border-slate-300">
+          <label for="pm-guide-enabled" class="text-xs font-semibold text-slate-700 cursor-pointer">Enable guide button on roadmap</label>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 pt-3 border-t border-slate-100">
+        <button type="button" onclick="revertPmGuideToAdminDefault()" class="px-3 py-1.5 text-slate-600 hover:text-amber-800 font-semibold bg-slate-100 hover:bg-amber-100 rounded-xl transition cursor-pointer text-left sm:text-center" title="Discard custom project guide and use Admin default">
+          Revert to Admin Default
+        </button>
+        <div class="flex flex-wrap items-center justify-end gap-1.5 sm:gap-2">
+          <button type="button" onclick="closeModal('modal-pm-guide-editor')" class="px-3 py-1.5 text-slate-600 font-semibold rounded-xl hover:bg-slate-100 transition cursor-pointer">
+            Cancel
+          </button>
+          <button type="button" id="btn-pm-guide-save-default" onclick="savePmGuideAsDefault()" class="admin-only-btn px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-brand-purple border border-purple-200 font-bold rounded-xl shadow-2xs transition cursor-pointer flex items-center space-x-1" title="Save as default template for all new projects (Existing projects preserved)">
+            <i data-lucide="shield" class="w-3.5 h-3.5 text-brand-purple"></i>
+            <span>Save as Default</span>
+          </button>
+          <button type="button" onclick="savePmProjectGuide()" class="px-4 py-1.5 bg-brand-purple hover:bg-brand-purpleDark text-white font-bold rounded-xl shadow-2xs transition cursor-pointer">
+            Save for This Hotel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADMIN DEFAULT GUIDE EDITOR (GLOBAL STANDARDS) -->
+  <div id="modal-admin-guide-editor" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-3 transition-all" onclick="if(event.target===this)closeModal('modal-admin-guide-editor')">
+    <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl border border-slate-200 p-5 space-y-4 text-xs" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <div class="w-7 h-7 rounded-lg bg-purple-100 text-brand-purple flex items-center justify-center shrink-0">
+            <i data-lucide="shield" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 id="admin-guide-modal-title" class="font-bold text-slate-900 text-sm">Edit Default Guide Template</h3>
+            <p class="text-[10.5px] text-purple-700 font-semibold">Admin Default Standard (For All New Projects)</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('modal-admin-guide-editor')" class="p-1 text-slate-400 hover:text-slate-600 rounded-lg">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="bg-purple-50/70 border border-purple-200/80 rounded-xl p-2.5 text-[11px] text-purple-950 leading-relaxed">
+        <strong class="font-bold">Default Standard:</strong> This defines the default template guide (Link / PDF) that applies to all <u>new projects</u> created after this modification. Projects already created are preserved and will not be changed.
+      </div>
+
+      <input type="hidden" id="admin-guide-key">
+
+      <div class="space-y-3">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Guide Name</label>
+          <input id="admin-guide-name" type="text" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Button Label</label>
+          <input id="admin-guide-button-label" type="text" placeholder="Guide" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Resource Type</label>
+          <div class="flex space-x-4">
+            <label class="flex items-center space-x-1.5 cursor-pointer">
+              <input type="radio" name="admin-guide-type" value="link" checked onchange="toggleAdminGuideType('link')" class="text-brand-purple">
+              <span>External Link URL</span>
+            </label>
+            <label class="flex items-center space-x-1.5 cursor-pointer">
+              <input type="radio" name="admin-guide-type" value="pdf" onchange="toggleAdminGuideType('pdf')" class="text-brand-purple">
+              <span>PDF Document</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="admin-guide-url-group">
+          <label class="block font-bold text-slate-700 mb-1">Default Link URL</label>
+          <input id="admin-guide-url" type="url" placeholder="https://drive.google.com/..." class="w-full px-3 py-1.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none">
+        </div>
+
+        <div id="admin-guide-pdf-group" class="hidden">
+          <label class="block font-bold text-slate-700 mb-1">Upload Default PDF</label>
+          <input id="admin-guide-pdf-file" type="file" accept="application/pdf" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs">
+          <p id="admin-guide-pdf-status" class="text-[10px] text-slate-400 mt-1">Accepts standard PDF files.</p>
+        </div>
+
+        <div class="flex items-center space-x-2 pt-1">
+          <input id="admin-guide-enabled" type="checkbox" checked class="w-4 h-4 text-brand-purple rounded border-slate-300">
+          <label for="admin-guide-enabled" class="text-xs font-semibold text-slate-700 cursor-pointer">Enabled by default for new projects</label>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end space-x-2 pt-3 border-t border-slate-100">
+        <button type="button" onclick="closeModal('modal-admin-guide-editor')" class="px-3 py-1.5 text-slate-600 font-semibold rounded-xl hover:bg-slate-100 transition cursor-pointer">
+          Cancel
+        </button>
+        <button type="button" onclick="saveAdminDefaultGuide()" class="px-4 py-1.5 bg-brand-purple hover:bg-brand-purpleDark text-white font-bold rounded-xl shadow-2xs transition cursor-pointer" title="Save as default for all new projects. Existing projects remain unchanged.">
+          Save as Default (New Projects)
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- SUBTLE SAVING TOAST NOTIFICATION -->
   <div id="save-toast-container" class="fixed bottom-5 right-5 z-50 pointer-events-none transition-all duration-300 transform translate-y-4 opacity-0 scale-95 flex items-center">
     <div id="save-toast-content" class="bg-slate-900/95 backdrop-blur-md text-white border border-slate-700/80 shadow-2xl rounded-2xl px-3.5 py-2.5 flex items-center space-x-2.5 text-xs font-semibold">
@@ -1749,12 +2317,14 @@
     }
 
     // --- STATE MANAGEMENT ---
-    let projects = [
+    const INITIAL_PROJECTS = [
       {
         id: 'p1',
         name: 'Le Grand Hotel Paris',
         pmName: 'Dounia',
         pmEmail: 'dounia@d-edge.com',
+        authorizedPmName: 'Marc',
+        authorizedPmEmail: 'marc@d-edge.com',
         clientEmail: 'client@grandhotelparis.com',
         evolutionTag: 'Crystal',
         sitemapDriveUrl: 'https://drive.google.com',
@@ -1807,6 +2377,8 @@
         name: 'Resort Alpine & Spa',
         pmName: 'Marc',
         pmEmail: 'marc@d-edge.com',
+        authorizedPmName: '',
+        authorizedPmEmail: '',
         clientEmail: 'contact@alpineresort.com',
         evolutionTag: 'Sequoia',
         sitemapDriveUrl: 'https://drive.google.com',
@@ -1858,6 +2430,8 @@
         name: 'Palazzo Venezia Boutique Hotel',
         pmName: 'Dounia',
         pmEmail: 'dounia@d-edge.com',
+        authorizedPmName: '',
+        authorizedPmEmail: '',
         clientEmail: 'info@palazzoveneziahotel.it',
         evolutionTag: 'Serene',
         sitemapDriveUrl: 'https://drive.google.com',
@@ -1908,8 +2482,67 @@
       }
     ];
 
+    let projects = [];
+    try {
+      const savedProjects = localStorage.getItem('dedge_projects');
+      projects = savedProjects ? JSON.parse(savedProjects) : JSON.parse(JSON.stringify(INITIAL_PROJECTS));
+      // Ensure authorizedPm fields are always present
+      projects.forEach(p => {
+        if (p.authorizedPmName === undefined) {
+          if (p.id === 'p1') {
+            p.authorizedPmName = 'Marc';
+            p.authorizedPmEmail = 'marc@d-edge.com';
+          } else {
+            p.authorizedPmName = '';
+            p.authorizedPmEmail = '';
+          }
+        }
+      });
+    } catch (e) {
+      projects = JSON.parse(JSON.stringify(INITIAL_PROJECTS));
+    }
+
+    function saveProjectsToStorage() {
+      try {
+        localStorage.setItem('dedge_projects', JSON.stringify(projects));
+      } catch (e) {
+        console.error('Failed to save projects to storage', e);
+      }
+    }
+
+    // --- SYSTEM USERS & AUTHENTICATION STATE ---
+    const DEFAULT_USERS = [
+      { id: 'u_admin', name: 'Master Admin', email: 'admin@d-edge.com', role: 'admin', password: 'admin', avatar: 'A' },
+      { id: 'u_pm1', name: 'Dounia', email: 'dounia@d-edge.com', role: 'pm', password: 'pm', avatar: 'D' },
+      { id: 'u_pm2', name: 'Marc', email: 'marc@d-edge.com', role: 'pm', password: 'pm', avatar: 'M' },
+      { id: 'u_client', name: 'Le Grand Hotel Client', email: 'client@grandhotelparis.com', role: 'client', projectId: 'p1', avatar: 'G' }
+    ];
+
+    let users = [];
+    try {
+      const savedUsers = localStorage.getItem('dedge_users');
+      users = savedUsers ? JSON.parse(savedUsers) : JSON.parse(JSON.stringify(DEFAULT_USERS));
+    } catch (e) {
+      users = JSON.parse(JSON.stringify(DEFAULT_USERS));
+    }
+
+    function saveUsersToStorage() {
+      try {
+        localStorage.setItem('dedge_users', JSON.stringify(users));
+      } catch (e) {}
+    }
+
+    let currentUser = null;
+    try {
+      const savedCurrent = localStorage.getItem('dedge_current_user');
+      currentUser = savedCurrent ? JSON.parse(savedCurrent) : users.find(u => u.role === 'admin') || users[0];
+    } catch (e) {
+      currentUser = users[0];
+    }
+    if (!currentUser) currentUser = users[0];
+
     let currentProjectId = 'p1';
-    let currentRole = 'pm'; // 'pm' or 'client'
+    let currentRole = currentUser.role || 'admin';
     let currentCarouselStep = 1;
 
     function scrollCarouselToStep(stepNum) {
@@ -1918,7 +2551,11 @@
       const card = document.getElementById(`step-node-card-${stepNum}`);
       if (container && card) {
         const targetLeft = card.offsetLeft - container.offsetLeft - 8;
-        container.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+        if (typeof container.scrollTo === 'function') {
+          container.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+        } else {
+          container.scrollLeft = Math.max(0, targetLeft);
+        }
       }
       updateCarouselControls();
     }
@@ -2588,10 +3225,10 @@
     // --- ADMIN SECTION, SUBBLOCK & GUIDE CONFIGURATION ENGINE ---
     // =========================================================================
     const DEFAULT_SECTION_LABELS = {
-      section1: '1. Website Structure',
-      section2: '2. Content Collection',
-      section3: '3. Revision phase',
-      section4: '4. Go-live',
+      section1: 'Website Structure',
+      section2: 'Content Collection',
+      section3: 'Revision Phase',
+      section4: 'Go-Live',
       sectionThirdParty: 'Third Party Integrations and Functionalities'
     };
 
@@ -2619,6 +3256,90 @@
       thirdPartyNotesBlock: 'Third Party Integrations'
     };
 
+    // --- DEFAULT SYSTEM GUIDANCE TOOLTIPS REGISTRY ---
+    const DEFAULT_TOOLTIPS_CONFIG = {
+      sitemap: {
+        id: 'sitemap',
+        label: 'Sitemap Architecture',
+        section: '1. Sitemap',
+        text: 'Review your proposed page tree and navigation menu below to confirm all hotel sections and languages before copywriting begins.'
+      },
+      seo: {
+        id: 'seo',
+        label: 'SEO Questionnaire',
+        section: '1. Sitemap - SEO Discovery',
+        text: 'Submit your key target personas, competitors, and hotel selling points to help our SEO team craft optimized copy.'
+      },
+      templates: {
+        id: 'templates',
+        label: 'Evolution Templates Showcase',
+        section: '1. Sitemap - Templates',
+        text: 'D-EDGE Evolution Framework: Every template is 100% mobile-responsive, built for direct booking conversion, and connected seamlessly to your booking engine. Your custom branding, photography, and custom palette will be fully integrated during Step 2.'
+      },
+      texts: {
+        id: 'texts',
+        label: 'Multilingual Texts & Copywriting',
+        section: '2. Content Collection - Texts',
+        text: 'Review and provide your multilingual website copy, room descriptions, and dining details in Google Docs.'
+      },
+      images: {
+        id: 'images',
+        label: 'Photography & Media Assets',
+        section: '2. Content Collection - Images',
+        text: 'Upload your high-resolution hotel photography, room photos, and amenities to the shared Google Drive folder.'
+      },
+      colors: {
+        id: 'colors',
+        label: 'Color Palette & Typography System',
+        section: '2. Content Collection - Colors & Fonts',
+        text: 'Define the hotel brand color palette and select curated Google Fonts pairings for headings and body copy.'
+      },
+      staging: {
+        id: 'staging',
+        label: 'Staging Site Preview & QA',
+        section: '3. Revision Phase - Staging',
+        text: 'Access the staging environment to preview your hotel website across desktop and mobile before public DNS propagation and live cutover.'
+      },
+      wave1: {
+        id: 'wave1',
+        label: '1st Wave Revisions',
+        section: '3. Revision Phase - Wave 1',
+        text: 'Consolidate and review all first-round feedback on copy, imagery placement, and styling within the feedback tracker.'
+      },
+      wave2: {
+        id: 'wave2',
+        label: '2nd Wave Revisions & Punchlist',
+        section: '3. Revision Phase - Wave 2',
+        text: 'Final review and sign-off on adjustments prior to scheduling DNS cutover and public launch.'
+      },
+      dns: {
+        id: 'dns',
+        label: 'DNS Delegation & Go-Live Cutover',
+        section: '4. Go-Live - DNS & Launch',
+        text: 'Coordinate DNS records delegation, SSL certification, and booking engine domain mapping for launch day.'
+      }
+    };
+
+    let globalTooltips = {};
+    try {
+      const savedTooltips = localStorage.getItem('dedge_global_tooltips');
+      globalTooltips = savedTooltips ? JSON.parse(savedTooltips) : {};
+    } catch (e) {
+      globalTooltips = {};
+    }
+    Object.keys(DEFAULT_TOOLTIPS_CONFIG).forEach(k => {
+      if (!globalTooltips[k]) {
+        globalTooltips[k] = DEFAULT_TOOLTIPS_CONFIG[k].text;
+      }
+    });
+
+    function saveTooltipsToStorage() {
+      try {
+        localStorage.setItem('dedge_global_tooltips', JSON.stringify(globalTooltips));
+      } catch (e) {}
+    }
+
+    // --- DEFAULT SYSTEM GUIDES CONFIGURATION ---
     const DEFAULT_GUIDES_CONFIG = {
       sitemap: {
         id: 'sitemap',
@@ -2754,6 +3475,25 @@
       }
     };
 
+    let globalGuides = {};
+    try {
+      const savedGuides = localStorage.getItem('dedge_global_guides');
+      globalGuides = savedGuides ? JSON.parse(savedGuides) : JSON.parse(JSON.stringify(DEFAULT_GUIDES_CONFIG));
+    } catch (e) {
+      globalGuides = JSON.parse(JSON.stringify(DEFAULT_GUIDES_CONFIG));
+    }
+    Object.keys(DEFAULT_GUIDES_CONFIG).forEach(k => {
+      if (!globalGuides[k]) {
+        globalGuides[k] = JSON.parse(JSON.stringify(DEFAULT_GUIDES_CONFIG[k]));
+      }
+    });
+
+    function saveGlobalGuidesToStorage() {
+      try {
+        localStorage.setItem('dedge_global_guides', JSON.stringify(globalGuides));
+      } catch (e) {}
+    }
+
     let currentPdfViewerData = {
       url: '',
       title: '',
@@ -2776,18 +3516,64 @@
       };
     }
 
-    function getProjectGuides(project) {
-      if (!project) return JSON.parse(JSON.stringify(DEFAULT_GUIDES_CONFIG));
-      if (!project.customGuides) {
-        project.customGuides = JSON.parse(JSON.stringify(DEFAULT_GUIDES_CONFIG));
-      }
-      // Ensure all keys exist
-      Object.keys(DEFAULT_GUIDES_CONFIG).forEach(k => {
-        if (!project.customGuides[k]) {
-          project.customGuides[k] = JSON.parse(JSON.stringify(DEFAULT_GUIDES_CONFIG[k]));
+    // --- PROJECT ISOLATION SYSTEM FOR GUIDES AND TEXT ---
+    // Admin defines global default standard that applies to all NEW projects created after modification.
+    // Existing projects retain their own isolated snapshot and do NOT change when defaults are updated.
+    // PM can only modify guides/text for the current project.
+    function ensureProjectsIsolation() {
+      if (!Array.isArray(projects)) return;
+      let changed = false;
+      projects.forEach(p => {
+        if (!p.guides) {
+          p.guides = {};
+          Object.keys(DEFAULT_GUIDES_CONFIG).forEach(k => {
+            if (p.customGuides && p.customGuides[k]) {
+              p.guides[k] = JSON.parse(JSON.stringify(p.customGuides[k]));
+            } else if (globalGuides && globalGuides[k]) {
+              p.guides[k] = JSON.parse(JSON.stringify(globalGuides[k]));
+            } else {
+              p.guides[k] = JSON.parse(JSON.stringify(DEFAULT_GUIDES_CONFIG[k]));
+            }
+          });
+          changed = true;
+        } else {
+          Object.keys(DEFAULT_GUIDES_CONFIG).forEach(k => {
+            if (!p.guides[k]) {
+              p.guides[k] = (globalGuides && globalGuides[k]) 
+                ? JSON.parse(JSON.stringify(globalGuides[k])) 
+                : JSON.parse(JSON.stringify(DEFAULT_GUIDES_CONFIG[k]));
+              changed = true;
+            }
+          });
+        }
+
+        if (!p.tooltips) {
+          p.tooltips = {};
+          Object.keys(DEFAULT_TOOLTIPS_CONFIG).forEach(k => {
+            p.tooltips[k] = (globalTooltips && globalTooltips[k]) || DEFAULT_TOOLTIPS_CONFIG[k].text;
+          });
+          changed = true;
+        } else {
+          Object.keys(DEFAULT_TOOLTIPS_CONFIG).forEach(k => {
+            if (!p.tooltips[k]) {
+              p.tooltips[k] = (globalTooltips && globalTooltips[k]) || DEFAULT_TOOLTIPS_CONFIG[k].text;
+              changed = true;
+            }
+          });
         }
       });
-      return project.customGuides;
+      if (changed) {
+        saveProjectsToStorage();
+      }
+    }
+    ensureProjectsIsolation();
+
+    function getProjectGuides(project) {
+      if (!project) return JSON.parse(JSON.stringify(globalGuides));
+      if (!project.guides) {
+        ensureProjectsIsolation();
+      }
+      return project.guides || JSON.parse(JSON.stringify(globalGuides));
     }
 
     function applyProjectLabels(project) {
@@ -2796,16 +3582,28 @@
 
       // Section Titles
       const s1 = document.getElementById('title-section-sitemap');
-      if (s1) s1.textContent = labels.section1 || DEFAULT_SECTION_LABELS.section1;
+      if (s1) {
+        const val1 = labels.section1 || DEFAULT_SECTION_LABELS.section1 || 'Website Structure';
+        s1.textContent = val1.replace(/^\d+\.?\s*/, '').trim();
+      }
 
       const s2 = document.getElementById('title-section-content-collection');
-      if (s2) s2.textContent = labels.section2 || DEFAULT_SECTION_LABELS.section2;
+      if (s2) {
+        const val2 = labels.section2 || DEFAULT_SECTION_LABELS.section2 || 'Content Collection';
+        s2.textContent = val2.replace(/^\d+\.?\s*/, '').trim();
+      }
 
       const s3 = document.getElementById('title-section-revision-phase');
-      if (s3) s3.textContent = labels.section3 || DEFAULT_SECTION_LABELS.section3;
+      if (s3) {
+        const val3 = labels.section3 || DEFAULT_SECTION_LABELS.section3 || 'Revision Phase';
+        s3.textContent = val3.replace(/^\d+\.?\s*/, '').trim();
+      }
 
       const s4 = document.getElementById('title-section-go-live');
-      if (s4) s4.textContent = labels.section4 || DEFAULT_SECTION_LABELS.section4;
+      if (s4) {
+        const val4 = labels.section4 || DEFAULT_SECTION_LABELS.section4 || 'Go-Live';
+        s4.textContent = val4.replace(/^\d+\.?\s*/, '').trim();
+      }
 
       // Step Section Separator Labels
       const cleanStepName = (val, def) => (val || def || '').replace(/^\d+\.?\s*/, '').trim();
@@ -2850,6 +3648,160 @@
       if (bBrandFiles) bBrandFiles.textContent = labels.brandFilesBlock || DEFAULT_SUBBLOCK_LABELS.brandFilesBlock;
     }
 
+    // --- APPLY SYSTEM TOOLTIPS COPY & ROLE INLINE AFFORDANCES ---
+    function applyTooltips(project) {
+      const currentProj = project || projects.find(p => p.id === currentProjectId);
+      Object.keys(DEFAULT_TOOLTIPS_CONFIG).forEach(key => {
+        const text = (currentProj && currentProj.tooltips && currentProj.tooltips[key]) || globalTooltips[key] || DEFAULT_TOOLTIPS_CONFIG[key].text;
+        const textEl = document.getElementById(`tooltip-text-${key}`);
+        if (textEl) textEl.textContent = text;
+        const btnEl = document.getElementById(`tooltip-btn-${key}`);
+        if (btnEl) btnEl.setAttribute('title', text);
+      });
+
+      // Show inline pencil icons for Admin and PM (hidden for Client)
+      document.querySelectorAll('.admin-tooltip-edit-btn').forEach(btn => {
+        btn.classList.toggle('hidden', currentRole === 'client');
+        btn.setAttribute('title', currentRole === 'admin' ? 'Admin: Edit default copy or customize project text' : 'PM: Customize guidance text for this hotel only');
+      });
+    }
+
+    // --- INLINE TOOLTIP / GUIDANCE TEXT EDITOR (ADMIN & PM) ---
+    function openInlineTooltipEditor(tooltipKey, event) {
+      if (event && event.stopPropagation) event.stopPropagation();
+      if (currentRole === 'client') return;
+
+      const cfg = DEFAULT_TOOLTIPS_CONFIG[tooltipKey];
+      if (!cfg) return;
+
+      const project = projects.find(p => p.id === currentProjectId);
+      const keyEl = document.getElementById('inline-tooltip-key');
+      if (keyEl) keyEl.value = tooltipKey;
+
+      const titleEl = document.getElementById('inline-tooltip-title');
+      if (titleEl) {
+        titleEl.textContent = currentRole === 'admin' 
+          ? `Edit Guidance Text: ${cfg.label}` 
+          : `Customize Text: ${cfg.label}`;
+      }
+
+      const secEl = document.getElementById('inline-tooltip-section');
+      if (secEl) {
+        secEl.textContent = `${cfg.section} • Hotel: ${project ? project.name : 'Current Hotel'}`;
+      }
+
+      const textEl = document.getElementById('inline-tooltip-textarea');
+      if (textEl) {
+        textEl.value = (project && project.tooltips && project.tooltips[tooltipKey]) || globalTooltips[tooltipKey] || cfg.text;
+      }
+
+      const scopeBanner = document.getElementById('inline-tooltip-scope-banner');
+      const adminControls = document.getElementById('inline-tooltip-admin-controls');
+      const pmControls = document.getElementById('inline-tooltip-pm-controls');
+
+      if (currentRole === 'admin') {
+        if (scopeBanner) {
+          scopeBanner.innerHTML = `
+            <div class="bg-purple-50 border border-purple-200 text-purple-900 rounded-xl p-2.5 text-[11px] leading-relaxed">
+              <strong class="font-bold">Admin Authority:</strong> Choose to save as <em>Default for All New Projects</em> (existing projects are preserved untouched), or update for <em>${project ? project.name : 'Current Project'}</em> only.
+            </div>
+          `;
+        }
+        if (adminControls) adminControls.classList.remove('hidden');
+        if (pmControls) pmControls.classList.add('hidden');
+      } else {
+        if (scopeBanner) {
+          scopeBanner.innerHTML = `
+            <div class="bg-amber-50 border border-amber-200 text-amber-900 rounded-xl p-2.5 text-[11px] leading-relaxed">
+              <strong class="font-bold">PM Project Scope:</strong> Editing this text will <u>only</u> change it for <em>${project ? project.name : 'this project'}</em>. Global defaults and all other projects will not change.
+            </div>
+          `;
+        }
+        if (adminControls) adminControls.classList.add('hidden');
+        if (pmControls) pmControls.classList.remove('hidden');
+      }
+
+      const modal = document.getElementById('modal-inline-tooltip-editor');
+      if (modal) modal.classList.remove('hidden');
+      if (window.lucide && lucide.createIcons) lucide.createIcons();
+    }
+    window.openInlineTooltipEditor = openInlineTooltipEditor;
+
+    function saveInlineTooltipForProject() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      const key = document.getElementById('inline-tooltip-key').value;
+      const text = document.getElementById('inline-tooltip-textarea').value.trim();
+      if (!key || !text) return;
+
+      if (!project.tooltips) project.tooltips = {};
+      project.tooltips[key] = text;
+      saveProjectsToStorage();
+      applyTooltips(project);
+      closeModal('modal-inline-tooltip-editor');
+      showSavingToast('Guidance Text Saved', `Saved bespoke text for ${project.name} only (Defaults intact)`);
+    }
+    window.saveInlineTooltipForProject = saveInlineTooltipForProject;
+
+    function saveInlineTooltipAsDefault() {
+      if (currentRole !== 'admin') return;
+      const key = document.getElementById('inline-tooltip-key').value;
+      const text = document.getElementById('inline-tooltip-textarea').value.trim();
+      if (!key || !text) return;
+
+      globalTooltips[key] = text;
+      saveTooltipsToStorage();
+      // NOTE: Existing projects remain untouched!
+      closeModal('modal-inline-tooltip-editor');
+      showSavingToast('Default Text Updated', 'Applies to all new projects created from now on (Existing projects unchanged)');
+    }
+    window.saveInlineTooltipAsDefault = saveInlineTooltipAsDefault;
+
+    function revertInlineTooltipToDefault() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      const key = document.getElementById('inline-tooltip-key').value;
+      if (!key) return;
+
+      const defaultText = globalTooltips[key] || DEFAULT_TOOLTIPS_CONFIG[key]?.text || '';
+      document.getElementById('inline-tooltip-textarea').value = defaultText;
+      if (currentRole === 'pm') {
+        if (!project.tooltips) project.tooltips = {};
+        project.tooltips[key] = defaultText;
+        saveProjectsToStorage();
+        applyTooltips(project);
+        showSavingToast('Default Restored', `Restored default guidance text for ${project.name}`);
+      }
+    }
+    window.revertInlineTooltipToDefault = revertInlineTooltipToDefault;
+
+    function saveInlineTooltipText() {
+      if (currentRole === 'admin') {
+        saveInlineTooltipAsDefault();
+      } else {
+        saveInlineTooltipForProject();
+      }
+    }
+    window.saveInlineTooltipText = saveInlineTooltipText;
+
+    function resetInlineTooltipToDefault() {
+      revertInlineTooltipToDefault();
+    }
+    window.resetInlineTooltipToDefault = resetInlineTooltipToDefault;
+
+    function resetAllTooltipsToDefault() {
+      if (currentRole !== 'admin') return;
+      Object.keys(DEFAULT_TOOLTIPS_CONFIG).forEach(k => {
+        globalTooltips[k] = DEFAULT_TOOLTIPS_CONFIG[k].text;
+      });
+      saveTooltipsToStorage();
+      // NOTE: Existing projects remain untouched!
+      renderAdminTooltipsList();
+      showSavingToast('All Default Tooltips Reset', 'Restored default copy for all future new projects (Existing projects unchanged)');
+    }
+    window.resetAllTooltipsToDefault = resetAllTooltipsToDefault;
+
+    // --- RENDER GUIDE BUTTONS WITH PM CUSTOMIZE & ADMIN EDIT CONTROLS ---
     function renderGuideButtons(project) {
       if (!project) return;
       const guides = getProjectGuides(project);
@@ -2873,31 +3825,72 @@
         const container = document.getElementById(item.containerId);
         if (!container) return;
 
-        const g = guides[guideKey] || DEFAULT_GUIDES_CONFIG[guideKey];
+        const g = guides[guideKey] || globalGuides[guideKey] || DEFAULT_GUIDES_CONFIG[guideKey];
         if (!g || !g.enabled) {
-          container.innerHTML = '';
+          if (currentRole === 'admin') {
+            container.innerHTML = `
+              <button type="button" onclick="openAdminDefaultGuideModal('${guideKey}')" class="text-[10px] text-purple-700 bg-purple-50 hover:bg-purple-100 border border-dashed border-purple-300 px-2 py-0.5 rounded-lg flex items-center space-x-1">
+                <i data-lucide="plus" class="w-3 h-3"></i>
+                <span>Enable Default Guide</span>
+              </button>
+            `;
+          } else if (currentRole === 'pm') {
+            container.innerHTML = `
+              <button type="button" onclick="openPmProjectGuideModal('${guideKey}')" class="text-[10px] text-slate-500 bg-slate-50 hover:bg-slate-100 border border-dashed border-slate-300 px-2 py-0.5 rounded-lg flex items-center space-x-1">
+                <i data-lucide="plus" class="w-3 h-3"></i>
+                <span>Enable Guide for Hotel</span>
+              </button>
+            `;
+          } else {
+            container.innerHTML = '';
+          }
           return;
         }
 
         const isPdf = g.type === 'pdf';
         const iconName = isPdf ? 'file-text' : 'book-open';
-        const badgeText = isPdf ? 'PDF Guide' : (g.buttonLabel || 'Guide');
+        const badgeText = isPdf ? (g.buttonLabel || 'PDF Guide') : (g.buttonLabel || 'Guide');
         const tooltipText = isPdf ? `Preview PDF: ${g.name}` : `Open Guide: ${g.name}`;
+        // Check if project has customized this guide
+        const hasProjectOverride = Boolean(project.guides && project.guides[guideKey] && (
+          project.guides[guideKey].url !== (globalGuides[guideKey]?.url) ||
+          project.guides[guideKey].type !== (globalGuides[guideKey]?.type) ||
+          project.guides[guideKey].pdfName !== (globalGuides[guideKey]?.pdfName) ||
+          project.guides[guideKey].buttonLabel !== (globalGuides[guideKey]?.buttonLabel)
+        ));
 
-        container.innerHTML = `
+        // Edit Button: Opens Guide Editor (allows PM to customize for this hotel, and Admin to either customize or save as default)
+        const pmBtnHtml = (currentRole === 'pm' || currentRole === 'admin') ? `
           <button 
             type="button" 
-            onclick="openGuideResource('${guideKey}')"
-            class="inline-flex items-center space-x-1.5 text-[11px] font-bold ${item.colorClass} px-2.5 py-1 rounded-lg transition-all duration-150 shadow-2xs border cursor-pointer group"
-            title="${tooltipText}"
+            onclick="openPmProjectGuideModal('${guideKey}')" 
+            class="pm-only-btn inline-flex items-center justify-center p-1 rounded-md text-slate-600 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition shadow-2xs cursor-pointer ml-1"
+            title="${currentRole === 'admin' ? 'Edit Guide (Customize for this hotel or save as default for new projects)' : 'Customize guide for this hotel only'}"
           >
-            <i data-lucide="${iconName}" class="w-3.5 h-3.5 group-hover:scale-105 transition-transform"></i>
-            <span>${badgeText}</span>
-            <i data-lucide="${isPdf ? 'eye' : 'external-link'}" class="w-3 h-3 ml-0.5 opacity-70 group-hover:opacity-100"></i>
+            <i data-lucide="edit-2" class="w-3 h-3"></i>
           </button>
+        ` : '';
+
+        container.innerHTML = `
+          <div class="inline-flex items-center">
+            <button 
+              type="button" 
+              onclick="openGuideResource('${guideKey}')"
+              class="inline-flex items-center space-x-1.5 text-[11px] font-bold ${item.colorClass} px-2.5 py-1 rounded-lg transition-all duration-150 shadow-2xs border cursor-pointer group"
+              title="${tooltipText}"
+            >
+              <i data-lucide="${iconName}" class="w-3.5 h-3.5 group-hover:scale-105 transition-transform"></i>
+              <span>${badgeText}</span>
+              ${hasProjectOverride ? '<span class="w-1.5 h-1.5 rounded-full bg-amber-500 ml-0.5" title="Customized for this hotel"></span>' : ''}
+              <i data-lucide="${isPdf ? 'eye' : 'external-link'}" class="w-3 h-3 ml-0.5 opacity-70 group-hover:opacity-100"></i>
+            </button>
+            ${pmBtnHtml}
+          </div>
         `;
       });
-      lucide.createIcons();
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
+      }
     }
 
     function openGuideResource(guideId) {
@@ -2966,53 +3959,1001 @@
       }
     }
 
-    // --- INITIALIZATION ---
-    window.addEventListener('DOMContentLoaded', () => {
+    // --- PM GUIDE CUSTOMIZER (LOCAL PROJECT OVERRIDE) ---
+    function openPmProjectGuideModal(guideKey) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+
+      const guides = getProjectGuides(project);
+      const g = guides[guideKey] || globalGuides[guideKey] || DEFAULT_GUIDES_CONFIG[guideKey];
+      if (!g) return;
+
+      const keyEl = document.getElementById('pm-guide-key');
+      if (keyEl) keyEl.value = guideKey;
+      const titleEl = document.getElementById('pm-guide-modal-title');
+      if (titleEl) titleEl.textContent = currentRole === 'admin' ? `Edit Guide: ${g.name}` : `Customize ${g.name}`;
+      const subtitleEl = document.getElementById('pm-guide-modal-subtitle');
+      if (subtitleEl) subtitleEl.textContent = `Hotel: ${project.name}`;
+      const labelEl = document.getElementById('pm-guide-button-label');
+      if (labelEl) labelEl.value = g.buttonLabel || 'Guide';
+      const urlEl = document.getElementById('pm-guide-url');
+      if (urlEl) urlEl.value = g.url || '';
+      const enabledEl = document.getElementById('pm-guide-enabled');
+      if (enabledEl) enabledEl.checked = (g.enabled !== false);
+
+      const isPdf = g.type === 'pdf';
+      const typeRadio = document.querySelector(`input[name="pm-guide-type"][value="${isPdf ? 'pdf' : 'link'}"]`);
+      if (typeRadio) typeRadio.checked = true;
+      togglePmGuideType(isPdf ? 'pdf' : 'link');
+
+      const statusEl = document.getElementById('pm-guide-pdf-status');
+      if (statusEl) {
+        statusEl.textContent = g.pdfName ? `Current attached PDF: ${g.pdfName}` : 'No PDF attached yet.';
+      }
+
+      const banner = document.getElementById('pm-guide-modal-scope-banner');
+      if (banner) {
+        if (currentRole === 'admin') {
+          banner.className = 'bg-purple-50/70 border border-purple-200/80 rounded-xl p-2.5 text-[11px] text-purple-950 leading-relaxed';
+          banner.innerHTML = '<strong class="font-bold">Admin Authority:</strong> Save for <em>this hotel only</em>, or click <strong class="text-brand-purple">Save as Default</strong> to establish this as the default template for all <u>new projects</u> (existing projects remain preserved).';
+        } else {
+          banner.className = 'bg-amber-50/70 border border-amber-200/80 rounded-xl p-2.5 text-[11px] text-amber-900 leading-relaxed';
+          banner.innerHTML = '<strong class="font-bold">Project Scope:</strong> Changes saved here will customize the guide link/PDF specifically for this hotel. The global Admin default is kept safe and intact.';
+        }
+      }
+
+      const saveDefaultBtn = document.getElementById('btn-pm-guide-save-default');
+      if (saveDefaultBtn) {
+        saveDefaultBtn.classList.toggle('hidden', currentRole !== 'admin');
+      }
+
+      const modal = document.getElementById('modal-pm-guide-editor');
+      if (modal) modal.classList.remove('hidden');
+      if (window.lucide && lucide.createIcons) lucide.createIcons();
+    }
+    window.openPmProjectGuideModal = openPmProjectGuideModal;
+
+    function togglePmGuideType(type) {
+      const urlGroup = document.getElementById('pm-guide-url-group');
+      const pdfGroup = document.getElementById('pm-guide-pdf-group');
+      if (urlGroup) urlGroup.classList.toggle('hidden', type === 'pdf');
+      if (pdfGroup) pdfGroup.classList.toggle('hidden', type !== 'pdf');
+    }
+
+    function savePmProjectGuide() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      const key = document.getElementById('pm-guide-key').value;
+      if (!key) return;
+
+      if (!project.guides) project.guides = {};
+      const baseGuide = project.guides[key] || globalGuides[key] || DEFAULT_GUIDES_CONFIG[key];
+
+      const type = document.querySelector('input[name="pm-guide-type"]:checked')?.value || 'link';
+      const label = document.getElementById('pm-guide-button-label').value.trim() || 'Guide';
+      const url = document.getElementById('pm-guide-url').value.trim();
+      const enabled = document.getElementById('pm-guide-enabled').checked;
+      const fileInput = document.getElementById('pm-guide-pdf-file');
+
+      const updatedGuide = {
+        id: key,
+        name: baseGuide.name,
+        section: baseGuide.section,
+        buttonLabel: label,
+        type: type,
+        url: url || baseGuide.url,
+        pdfData: project.guides[key]?.pdfData || baseGuide.pdfData || '',
+        pdfName: project.guides[key]?.pdfName || baseGuide.pdfName || '',
+        enabled: enabled
+      };
+
+      const finishSave = () => {
+        project.guides[key] = updatedGuide;
+        if (!project.customGuides) project.customGuides = {};
+        project.customGuides[key] = updatedGuide;
+        saveProjectsToStorage();
+        renderGuideButtons(project);
+        closeModal('modal-pm-guide-editor');
+        showSavingToast('Guide Customized', `Saved bespoke guide for ${project.name} only (Global defaults intact)`);
+      };
+
+      if (type === 'pdf' && fileInput && fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          updatedGuide.pdfData = evt.target.result;
+          updatedGuide.pdfName = file.name;
+          finishSave();
+        };
+        reader.readAsDataURL(file);
+      } else {
+        finishSave();
+      }
+    }
+
+    function savePmGuideAsDefault() {
+      if (currentRole !== 'admin') return;
+      const key = document.getElementById('pm-guide-key').value;
+      if (!key) return;
+
+      const project = projects.find(p => p.id === currentProjectId);
+      const label = document.getElementById('pm-guide-button-label').value.trim() || 'Guide';
+      const type = document.querySelector('input[name="pm-guide-type"]:checked')?.value || 'link';
+      const url = document.getElementById('pm-guide-url').value.trim();
+      const enabled = document.getElementById('pm-guide-enabled').checked;
+      const fileInput = document.getElementById('pm-guide-pdf-file');
+
+      const existing = globalGuides[key] || DEFAULT_GUIDES_CONFIG[key] || {};
+      const updated = {
+        ...existing,
+        id: key,
+        name: existing.name || (project?.guides?.[key]?.name) || 'Guide',
+        section: existing.section || (project?.guides?.[key]?.section) || '',
+        buttonLabel: label,
+        type: type,
+        url: url || existing.url || '',
+        pdfData: existing.pdfData || (project?.guides?.[key]?.pdfData) || '',
+        pdfName: existing.pdfName || (project?.guides?.[key]?.pdfName) || '',
+        enabled: enabled
+      };
+
+      const finishSave = () => {
+        // Save as global default template for all new projects
+        globalGuides[key] = updated;
+        saveGlobalGuidesToStorage();
+
+        // Also update the current active project so the change takes effect immediately on this hotel
+        if (project) {
+          if (!project.guides) project.guides = {};
+          project.guides[key] = JSON.parse(JSON.stringify(updated));
+          if (!project.customGuides) project.customGuides = {};
+          project.customGuides[key] = JSON.parse(JSON.stringify(updated));
+          saveProjectsToStorage();
+          renderGuideButtons(project);
+        }
+
+        // NOTE: Other existing projects in `projects` remain preserved!
+        closeModal('modal-pm-guide-editor');
+        if (typeof renderAdminDefaultGuidesList === 'function') {
+          renderAdminDefaultGuidesList();
+        }
+        showSavingToast('Default Guide Saved', 'Saved as global default for all new projects (Existing projects preserved)');
+      };
+
+      if (type === 'pdf' && fileInput && fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          updated.pdfData = evt.target.result;
+          updated.pdfName = file.name;
+          finishSave();
+        };
+        reader.readAsDataURL(file);
+      } else {
+        if (type === 'pdf' && project && project.guides && project.guides[key]?.pdfData) {
+          updated.pdfData = project.guides[key].pdfData;
+          updated.pdfName = project.guides[key].pdfName || 'Guide.pdf';
+        }
+        finishSave();
+      }
+    }
+    window.savePmGuideAsDefault = savePmGuideAsDefault;
+
+    function revertPmGuideToAdminDefault() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      const key = document.getElementById('pm-guide-key').value;
+      if (!key) return;
+
+      const defaultGuide = globalGuides[key] || DEFAULT_GUIDES_CONFIG[key];
+      if (defaultGuide) {
+        if (!project.guides) project.guides = {};
+        project.guides[key] = JSON.parse(JSON.stringify(defaultGuide));
+        if (project.customGuides && project.customGuides[key]) {
+          delete project.customGuides[key];
+        }
+        saveProjectsToStorage();
+        renderGuideButtons(project);
+        closeModal('modal-pm-guide-editor');
+        showSavingToast('Reverted to Default', `Restored default guide for ${project.name}`);
+      }
+    }
+
+    // --- ADMIN & PM GLOBAL DEFAULT GUIDE MODAL & CONTROLS ---
+    function openAdminDefaultGuideModal(guideKey) {
+      if (currentRole !== 'admin') return;
+      const g = globalGuides[guideKey] || DEFAULT_GUIDES_CONFIG[guideKey];
+      if (!g) return;
+
+      const keyEl = document.getElementById('admin-guide-key');
+      if (keyEl) keyEl.value = guideKey;
+      const nameEl = document.getElementById('admin-guide-name');
+      if (nameEl) nameEl.value = g.name || '';
+      const labelEl = document.getElementById('admin-guide-button-label');
+      if (labelEl) labelEl.value = g.buttonLabel || 'Guide';
+      const urlEl = document.getElementById('admin-guide-url');
+      if (urlEl) urlEl.value = g.url || '';
+      const enabledEl = document.getElementById('admin-guide-enabled');
+      if (enabledEl) enabledEl.checked = (g.enabled !== false);
+
+      const isPdf = g.type === 'pdf';
+      const typeRadio = document.querySelector(`input[name="admin-guide-type"][value="${isPdf ? 'pdf' : 'link'}"]`);
+      if (typeRadio) typeRadio.checked = true;
+      toggleAdminGuideType(isPdf ? 'pdf' : 'link');
+
+      const statusEl = document.getElementById('admin-guide-pdf-status');
+      if (statusEl) {
+        statusEl.textContent = g.pdfName ? `Current default PDF: ${g.pdfName}` : 'No default PDF attached.';
+      }
+
+      const modal = document.getElementById('modal-admin-guide-editor');
+      if (modal) modal.classList.remove('hidden');
+      if (window.lucide && lucide.createIcons) lucide.createIcons();
+    }
+    window.openAdminDefaultGuideModal = openAdminDefaultGuideModal;
+
+    function toggleAdminGuideType(type) {
+      const urlGroup = document.getElementById('admin-guide-url-group');
+      const pdfGroup = document.getElementById('admin-guide-pdf-group');
+      if (urlGroup) urlGroup.classList.toggle('hidden', type === 'pdf');
+      if (pdfGroup) pdfGroup.classList.toggle('hidden', type !== 'pdf');
+    }
+
+    function saveAdminDefaultGuide() {
+      if (currentRole !== 'admin') return;
+      const key = document.getElementById('admin-guide-key').value;
+      if (!key) return;
+
+      const name = document.getElementById('admin-guide-name').value.trim();
+      const label = document.getElementById('admin-guide-button-label').value.trim() || 'Guide';
+      const type = document.querySelector('input[name="admin-guide-type"]:checked')?.value || 'link';
+      const url = document.getElementById('admin-guide-url').value.trim();
+      const enabled = document.getElementById('admin-guide-enabled').checked;
+      const fileInput = document.getElementById('admin-guide-pdf-file');
+
+      const existing = globalGuides[key] || DEFAULT_GUIDES_CONFIG[key];
+      const updated = {
+        ...existing,
+        name: name || existing.name,
+        buttonLabel: label,
+        type: type,
+        url: url || existing.url,
+        enabled: enabled
+      };
+
+      const finishSave = () => {
+        globalGuides[key] = updated;
+        saveGlobalGuidesToStorage();
+        // NOTE: Existing projects already created retain their own project.guides and DO NOT change!
+        closeModal('modal-admin-guide-editor');
+        renderAdminDefaultGuidesList();
+        showSavingToast('Default Guide Saved', 'Applies to all new projects created from now on (Existing projects unchanged)');
+      };
+
+      if (type === 'pdf' && fileInput && fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          updated.pdfData = evt.target.result;
+          updated.pdfName = file.name;
+          finishSave();
+        };
+        reader.readAsDataURL(file);
+      } else {
+        finishSave();
+      }
+    }
+    window.saveAdminDefaultGuide = saveAdminDefaultGuide;
+
+    function resetAllDefaultGuides() {
+      if (currentRole !== 'admin') return;
+      globalGuides = JSON.parse(JSON.stringify(DEFAULT_GUIDES_CONFIG));
+      saveGlobalGuidesToStorage();
+      // NOTE: Existing projects remain untouched!
+      renderAdminDefaultGuidesList();
+      showSavingToast('Defaults Restored', 'Reset default guide templates for all future new projects (Existing projects unchanged)');
+    }
+    window.resetAllDefaultGuides = resetAllDefaultGuides;
+
+    // --- ADMIN & PM GOVERNANCE HUB MODAL LOGIC ---
+    function openAdminHub(tab = 'tooltips') {
+      if (currentRole === 'client') return;
+      const modal = document.getElementById('modal-admin-hub');
+      if (modal) modal.classList.remove('hidden');
+      switchAdminHubTab(tab);
+      if (window.lucide) lucide.createIcons();
+    }
+    window.openAdminHub = openAdminHub;
+
+    function switchAdminHubTab(tab = 'tooltips') {
+      const tabTooltips = document.getElementById('admin-hub-tab-tooltips');
+      const tabGuides = document.getElementById('admin-hub-tab-guides');
+      const tabProjects = document.getElementById('admin-hub-tab-projects');
+
+      const contentTooltips = document.getElementById('admin-hub-content-tooltips');
+      const contentGuides = document.getElementById('admin-hub-content-guides');
+      const contentProjects = document.getElementById('admin-hub-content-projects');
+
+      const activeClass = 'pb-2.5 px-3 sm:px-4 text-xs font-bold border-b-2 border-brand-purple text-brand-purple transition';
+      const inactiveClass = 'pb-2.5 px-3 sm:px-4 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition';
+
+      if (tabTooltips) tabTooltips.className = tab === 'tooltips' ? activeClass : inactiveClass;
+      if (tabGuides) tabGuides.className = tab === 'guides' ? activeClass : inactiveClass;
+      if (tabProjects) tabProjects.className = tab === 'projects' ? activeClass : inactiveClass;
+
+      if (contentTooltips) contentTooltips.classList.toggle('hidden', tab !== 'tooltips');
+      if (contentGuides) contentGuides.classList.toggle('hidden', tab !== 'guides');
+      if (contentProjects) contentProjects.classList.toggle('hidden', tab !== 'projects');
+
+      if (tab === 'tooltips') {
+        renderAdminTooltipsList();
+      } else if (tab === 'guides') {
+        renderAdminDefaultGuidesList();
+      } else {
+        renderAdminProjectsTable();
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+    window.switchAdminHubTab = switchAdminHubTab;
+
+    function renderAdminTooltipsList(filterQuery = '') {
+      const container = document.getElementById('admin-tooltips-list');
+      if (!container) return;
+
+      const q = filterQuery.toLowerCase().trim();
+      const keys = Object.keys(DEFAULT_TOOLTIPS_CONFIG).filter(k => {
+        const item = DEFAULT_TOOLTIPS_CONFIG[k];
+        return !q || item.label.toLowerCase().includes(q) || item.section.toLowerCase().includes(q) || (globalTooltips[k] || '').toLowerCase().includes(q);
+      });
+
+      if (keys.length === 0) {
+        container.innerHTML = '<div class="text-center p-6 text-slate-400">No tooltips match your query.</div>';
+        return;
+      }
+
+      container.innerHTML = keys.map(k => {
+        const item = DEFAULT_TOOLTIPS_CONFIG[k];
+        const val = globalTooltips[k] || item.text;
+        const isModified = (val !== item.text);
+
+        return `
+          <div class="bg-white border border-slate-200 rounded-xl p-3.5 space-y-2 shadow-2xs">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-slate-900 text-xs sm:text-sm">${item.label}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-mono">${item.section}</span>
+                ${isModified ? '<span class="text-[9.5px] px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 font-bold">Custom</span>' : ''}
+              </div>
+              <div class="flex items-center space-x-1.5">
+                <button type="button" onclick="resetAdminTooltipToDefault('${k}')" class="text-[10.5px] text-slate-500 hover:text-slate-800 px-2 py-1 rounded bg-slate-50 hover:bg-slate-100 border border-slate-200 transition cursor-pointer">
+                  Reset
+                </button>
+                <button type="button" onclick="saveAdminTooltip('${k}')" class="text-[10.5px] text-white font-bold px-2.5 py-1 rounded bg-brand-purple hover:bg-brand-purpleDark transition cursor-pointer shadow-2xs">
+                  Save
+                </button>
+              </div>
+            </div>
+            <textarea id="admin-tooltip-input-${k}" rows="2" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 outline-none leading-relaxed text-slate-800">${val}</textarea>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterAdminTooltips(val) {
+      renderAdminTooltipsList(val);
+    }
+
+    function saveAdminTooltip(key) {
+      if (currentRole !== 'admin') return;
+      const textarea = document.getElementById(`admin-tooltip-input-${key}`);
+      if (!textarea) return;
+      const val = textarea.value.trim();
+      if (!val) return;
+
+      globalTooltips[key] = val;
+      saveTooltipsToStorage();
+      // NOTE: Existing projects remain untouched!
+      renderAdminTooltipsList(document.getElementById('admin-tooltips-search')?.value || '');
+      showSavingToast('Default Text Saved', 'Applies to all new projects created from now on (Existing projects unchanged)');
+    }
+
+    function resetAdminTooltipToDefault(key) {
+      if (currentRole !== 'admin') return;
+      if (!DEFAULT_TOOLTIPS_CONFIG[key]) return;
+      globalTooltips[key] = DEFAULT_TOOLTIPS_CONFIG[key].text;
+      saveTooltipsToStorage();
+      // NOTE: Existing projects remain untouched!
+      renderAdminTooltipsList(document.getElementById('admin-tooltips-search')?.value || '');
+      showSavingToast('Reset to Default', 'Restored default copy for all future new projects (Existing projects unchanged)');
+    }
+
+    function renderAdminDefaultGuidesList() {
+      const container = document.getElementById('admin-default-guides-list');
+      if (!container) return;
+
+      container.innerHTML = Object.keys(globalGuides).map(k => {
+        const g = globalGuides[k];
+        const isPdf = g.type === 'pdf';
+
+        return `
+          <div class="bg-white border border-slate-200 rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-slate-900 text-xs sm:text-sm">${g.name}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-semibold">${g.section}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-md ${isPdf ? 'bg-amber-100 text-amber-800 font-bold' : 'bg-blue-50 text-blue-700'}">${isPdf ? 'PDF' : 'Link'}</span>
+                ${!g.enabled ? '<span class="text-[9.5px] px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 font-bold">Disabled</span>' : ''}
+              </div>
+              <p class="text-[11px] text-slate-500 font-mono truncate max-w-lg">
+                ${isPdf ? (g.pdfName || 'Uploaded PDF Attachment') : (g.url || 'No URL configured')}
+              </p>
+            </div>
+            <div class="flex items-center space-x-2 shrink-0">
+              <button type="button" onclick="openAdminDefaultGuideModal('${k}')" class="px-3 py-1.5 text-xs font-bold bg-brand-purple hover:bg-brand-purpleDark text-white rounded-xl shadow-2xs transition flex items-center space-x-1 cursor-pointer">
+                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                <span>Configure Default</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    function renderAdminProjectsTable() {
+      const tbody = document.getElementById('admin-projects-table-body');
+      if (!tbody) return;
+
+      const pmUsers = users.filter(u => u.role === 'pm');
+
+      tbody.innerHTML = projects.map(p => {
+        const currentPmEmail = (p.pmEmail || '').toLowerCase();
+
+        const optionsHtml = pmUsers.map(pm => {
+          const selected = pm.email.toLowerCase() === currentPmEmail ? 'selected' : '';
+          return `<option value="${pm.email}" ${selected}>${pm.name} (${pm.email})</option>`;
+        }).join('');
+
+        return `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="p-3">
+              <div class="font-bold text-slate-900">${p.name}</div>
+              <div class="text-[11px] text-slate-400 font-mono">ID: ${p.id}</div>
+            </td>
+            <td class="p-3">
+              <span class="px-2 py-0.5 rounded-md bg-purple-50 text-purple-800 font-semibold text-[11px]">${getPackageLabel(p.packageTier)}</span>
+              <span class="text-[11px] text-slate-500 ml-1">(${p.evolutionTag})</span>
+            </td>
+            <td class="p-3">
+              <select onchange="reassignProjectPm('${p.id}', this.value)" class="bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-purple-200 outline-none">
+                ${optionsHtml}
+              </select>
+            </td>
+            <td class="p-3 text-right">
+              <button type="button" onclick="selectProject('${p.id}'); closeModal('modal-admin-hub');" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] transition cursor-pointer">
+                View Roadmap
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function reassignProjectPm(projId, newPmEmail) {
+      if (currentRole !== 'admin') return;
+      const project = projects.find(p => p.id === projId);
+      const targetUser = users.find(u => u.email.toLowerCase() === newPmEmail.toLowerCase());
+      if (!project || !targetUser) return;
+
+      project.pmName = targetUser.name;
+      project.pmEmail = targetUser.email;
+      saveProjectsToStorage();
+      renderProjectSelector();
+      renderBoardsGrid();
+      showSavingToast('Project Reassigned', `${project.name} assigned to PM ${targetUser.name}`);
+    }
+
+    // --- ACCOUNT CENTER & MULTI-USER PROFILES ---
+    function openAccountCenterModal() {
+      document.getElementById('modal-account-center').classList.remove('hidden');
+      switchAccountCenterTab('profiles');
+      lucide.createIcons();
+    }
+
+    function switchAccountCenterTab(tab) {
+      const tabProfiles = document.getElementById('tab-ac-profiles');
+      const tabRegister = document.getElementById('tab-ac-register');
+      const contentProfiles = document.getElementById('ac-tab-profiles-content');
+      const contentRegister = document.getElementById('ac-tab-register-content');
+
+      const activeClass = 'pb-2.5 px-3 text-xs font-bold border-b-2 border-brand-purple text-brand-purple transition';
+      const inactiveClass = 'pb-2.5 px-3 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition';
+
+      if (tab === 'profiles') {
+        tabProfiles.className = activeClass;
+        tabRegister.className = inactiveClass;
+        contentProfiles.classList.remove('hidden');
+        contentRegister.classList.add('hidden');
+        renderAccountPersonas();
+      } else {
+        tabRegister.className = activeClass;
+        tabProfiles.className = inactiveClass;
+        contentRegister.classList.remove('hidden');
+        contentProfiles.classList.add('hidden');
+      }
+      lucide.createIcons();
+    }
+
+    function renderAccountPersonas() {
+      const currentAvatar = document.getElementById('ac-current-avatar');
+      const currentName = document.getElementById('ac-current-name');
+      const currentBadge = document.getElementById('ac-current-badge');
+      const currentEmail = document.getElementById('ac-current-email');
+
+      if (currentUser) {
+        if (currentAvatar) currentAvatar.textContent = (currentUser.name || 'U').charAt(0).toUpperCase();
+        if (currentName) currentName.textContent = currentUser.name;
+        if (currentBadge) currentBadge.textContent = currentUser.role === 'admin' ? 'Administrator' : currentUser.role === 'pm' ? 'Project Manager' : 'Client View';
+        if (currentEmail) currentEmail.textContent = currentUser.email;
+      }
+
+      const container = document.getElementById('ac-quick-personas-list');
+      if (!container) return;
+
+      container.innerHTML = users.map(u => {
+        const isCurrent = (currentUser && currentUser.email === u.email);
+        const roleLabel = u.role === 'admin' ? 'Admin · All Projects' : u.role === 'pm' ? 'PM · Scoped Access' : 'Client · View-Only';
+        const roleColor = u.role === 'admin' ? 'bg-purple-100 text-brand-purple border-purple-200' : u.role === 'pm' ? 'bg-sky-100 text-sky-800 border-sky-200' : 'bg-emerald-100 text-emerald-800 border-emerald-200';
+
+        return `
+          <button 
+            type="button" 
+            onclick="switchPersonaTo('${u.id}')"
+            class="text-left p-2.5 rounded-xl border ${isCurrent ? 'border-brand-purple bg-purple-50/70 ring-1 ring-brand-purple' : 'border-slate-200 bg-white hover:bg-slate-50'} transition flex items-center justify-between cursor-pointer group"
+          >
+            <div class="flex items-center space-x-2.5 min-w-0">
+              <div class="w-8 h-8 rounded-lg bg-brand-purple text-white font-bold flex items-center justify-center text-xs shrink-0 shadow-2xs">
+                ${(u.name || 'U').charAt(0).toUpperCase()}
+              </div>
+              <div class="min-w-0 truncate">
+                <div class="font-bold text-slate-900 text-xs truncate">${u.name}</div>
+                <div class="text-[10.5px] text-slate-500 font-mono truncate">${u.email}</div>
+              </div>
+            </div>
+            <span class="text-[9.5px] px-1.5 py-0.5 rounded-md border ${roleColor} shrink-0 ml-1">
+              ${u.role.toUpperCase()}
+            </span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function switchPersonaTo(userId) {
+      const user = users.find(u => u.id === userId);
+      if (!user) return;
+      selectRole(user.role, user);
+      closeModal('modal-account-center');
+      showSavingToast('Session Switched', `Logged in as ${user.name} (${user.role.toUpperCase()})`);
+    }
+
+    function handleAccountLoginForm(e) {
+      e.preventDefault();
+      const email = document.getElementById('ac-login-email').value.trim();
+      const password = document.getElementById('ac-login-password').value.trim();
+
+      const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+      if (user) {
+        if (user.password && user.password !== password) {
+          showSavingToast('Login Failed', 'Incorrect password / PIN');
+          return;
+        }
+        selectRole(user.role, user);
+        closeModal('modal-account-center');
+        showSavingToast('Logged In', `Welcome back, ${user.name}!`);
+      } else {
+        // If email not found, prompt to create account
+        showSavingToast('User Not Found', 'No account with this email. Use "+ Create PM Account" tab.');
+      }
+    }
+
+    function handleCreatePmAccount(e) {
+      e.preventDefault();
+      const name = document.getElementById('new-pm-name').value.trim();
+      const email = document.getElementById('new-pm-email').value.trim();
+      const password = document.getElementById('new-pm-password').value.trim();
+      const hotel = document.getElementById('new-pm-hotel').value.trim();
+
+      if (!name || !email || !password) {
+        showSavingToast('Validation Error', 'Please complete all required fields');
+        return;
+      }
+
+      if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+        showSavingToast('Email Taken', 'An account with this email already exists');
+        return;
+      }
+
+      const newUser = {
+        id: `u_${Date.now()}`,
+        name: name,
+        email: email,
+        role: 'pm',
+        password: password,
+        avatar: name.charAt(0).toUpperCase()
+      };
+
+      users.push(newUser);
+      saveUsersToStorage();
+
+      // If PM specified an initial hotel project, initialize it under their ownership
+      if (hotel) {
+        const newProj = {
+          id: `proj-${Date.now()}`,
+          name: hotel,
+          pmName: name,
+          pmEmail: email,
+          clientEmail: `contact@${hotel.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`,
+          evolutionTag: 'Crystal',
+          sitemapDriveUrl: 'https://drive.google.com',
+          sitemapDocs: [
+            { id: `sd-${Date.now()}`, lang: 'English', label: 'English Version', url: 'https://drive.google.com', completed: false }
+          ],
+          sitemapCompleted: false,
+          hasSeoQuestionnaire: true,
+          sitemapDeadline: '2026-06-01',
+          contentCollectionDeadline: '2026-06-20',
+          revisionPhaseDeadline: '2026-07-15',
+          stagingSiteUrl: '',
+          hasFirstWaveRevisions: true,
+          hasSecondWaveRevisions: true,
+          firstWaveNotes: '',
+          secondWaveNotes: '',
+          goLiveDeadline: '2026-08-01',
+          serverSelection: 'EMEAWEBFB3',
+          wpeVerificationTxt: '',
+          languages: ['English'],
+          packageTier: 'seo_essential',
+          driveUrl: 'https://drive.google.com',
+          colors: { primary: '#5B1E82', secondary: '#C5A059', tertiary: '#F4F5F9' },
+          currentDomain: '',
+          finalDomain: '',
+          domainAliases: [],
+          ga4: '',
+          googleMapsKey: '',
+          thirdPartyNotes: '',
+          customIntegrations: [],
+          textDocs: [
+            { id: `td-${Date.now()}`, lang: 'English', label: 'English Master Copy', url: 'https://docs.google.com', completed: false }
+          ],
+          graphicElements: {
+            imagesDrive: 'https://drive.google.com',
+            brandIdentityDrive: 'https://drive.google.com',
+            colors: 'Primary: #5B1E82, Secondary: #C5A059',
+            fonts: 'Title: Playfair Display, Text: Inter'
+          },
+          steps: JSON.parse(JSON.stringify(PRD_TEMPLATES.seo_essential))
+        };
+        projects.unshift(newProj);
+        currentProjectId = newProj.id;
+        saveProjectsToStorage();
+      }
+
+      selectRole('pm', newUser);
+      closeModal('modal-account-center');
+      showSavingToast('Account Created', `Welcome, ${name}! Your PM account is active.`);
+    }
+
+    // --- PROJECT OWNERSHIP & PERMISSION DELEGATION CONTROLLER ---
+    function isProjectOwner(project, user = currentUser, role = currentRole) {
+      if (!project) return false;
+      if (role === 'admin') return true;
+      if (role !== 'pm') return false;
+      const userEmail = (user && user.email) ? user.email.toLowerCase().trim() : '';
+      const userName = (user && user.name) ? user.name.toLowerCase().trim() : '';
+      const pmEmail = (project.pmEmail || '').toLowerCase().trim();
+      const pmName = (project.pmName || '').toLowerCase().trim();
+      return (userEmail && pmEmail && userEmail === pmEmail) || (userName && pmName && userName === pmName);
+    }
+
+    function isAuthorizedPm(project, user = currentUser, role = currentRole) {
+      if (!project) return false;
+      if (role === 'admin') return true;
+      if (role !== 'pm') return false;
+      const userEmail = (user && user.email) ? user.email.toLowerCase().trim() : '';
+      const userName = (user && user.name) ? user.name.toLowerCase().trim() : '';
+      const authEmail = (project.authorizedPmEmail || '').toLowerCase().trim();
+      const authName = (project.authorizedPmName || '').toLowerCase().trim();
+      if (!authEmail && !authName) return false;
+      return (userEmail && authEmail && userEmail === authEmail) || (userName && authName && userName === authName);
+    }
+
+    function canEditProject(project, user = currentUser, role = currentRole) {
+      if (!project) return false;
+      if (role === 'admin') return true;
+      if (role === 'client') return false;
+      if (role === 'pm') {
+        return isProjectOwner(project, user, role) || isAuthorizedPm(project, user, role);
+      }
+      return false;
+    }
+
+    function showUnauthorizedProjectToast(projectName, pmName) {
+      showSavingToast('Modification restreinte', `Seul le PM créateur (${pmName || 'PM'}) ou le PM autorisé peut modifier "${projectName}".`, 'shield-alert');
+    }
+
+    function openGrantPmPermissionModal(projId) {
+      const project = projects.find(p => p.id === projId);
+      if (!project) return;
+      if (!isProjectOwner(project) && currentRole !== 'admin') {
+        showSavingToast('Action restreinte', `Seul le PM créateur (${project.pmName || 'PM'}) ou un administrateur peut gérer les délégations.`, 'shield-alert');
+        return;
+      }
+      const idInput = document.getElementById('perm-project-id');
+      const nameEl = document.getElementById('perm-project-name');
+      const creatorEl = document.getElementById('perm-creator-name');
+      const select = document.getElementById('perm-pm-select');
+
+      if (idInput) idInput.value = project.id;
+      if (nameEl) nameEl.textContent = project.name;
+      if (creatorEl) creatorEl.textContent = `${project.pmName || 'PM'} (${project.pmEmail || ''})`;
+
+      if (select) {
+        const pmUsers = users.filter(u => u.role === 'pm');
+        const curPmEmail = (project.pmEmail || '').toLowerCase();
+        const currentAuthEmail = (project.authorizedPmEmail || '').toLowerCase();
+
+        select.innerHTML = `
+          <option value="" ${!currentAuthEmail ? 'selected' : ''}>-- Aucun (Désactiver la délégation) --</option>
+          ${pmUsers
+            .filter(u => u.email.toLowerCase() !== curPmEmail)
+            .map(u => `<option value="${u.email}" ${u.email.toLowerCase() === currentAuthEmail ? 'selected' : ''}>${u.name} (${u.email})</option>`)
+            .join('')}
+        `;
+      }
+
+      document.getElementById('modal-pm-permission').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function handleGrantPmPermissionSubmit(e) {
+      e.preventDefault();
+      const projId = document.getElementById('perm-project-id').value;
+      const project = projects.find(p => p.id === projId);
+      if (!project) return;
+
+      if (!isProjectOwner(project) && currentRole !== 'admin') {
+        showSavingToast('Action restreinte', 'Seul le PM créateur ou un administrateur peut gérer les délégations.', 'shield-alert');
+        return;
+      }
+
+      const select = document.getElementById('perm-pm-select');
+      const authEmail = select ? select.value.trim() : '';
+
+      if (authEmail) {
+        const authUser = users.find(u => u.email.toLowerCase() === authEmail.toLowerCase());
+        project.authorizedPmEmail = authEmail;
+        project.authorizedPmName = authUser ? authUser.name : authEmail.split('@')[0];
+        logActivity('Permission PM Accordée', `${currentUser?.name || 'PM'} a accordé la permission de modifier à ${project.authorizedPmName}`, 'user-check', 'project', project.id);
+        showSavingToast('Permission accordée', `${project.authorizedPmName} est désormais autorisé à modifier "${project.name}".`);
+      } else {
+        project.authorizedPmEmail = '';
+        project.authorizedPmName = '';
+        logActivity('Permission PM Révoquée', `${currentUser?.name || 'PM'} a révoqué la délégation de permission`, 'shield-alert', 'project', project.id);
+        showSavingToast('Permission révoquée', `Seul le PM créateur (${project.pmName}) peut désormais modifier ce projet.`);
+      }
+
+      saveProjectsToStorage();
+      closeModal('modal-pm-permission');
+      renderBoardsGrid();
       renderProjectSelector();
       renderApp();
-      updatePmFilterOptions();
-      lucide.createIcons();
-    });
+    }
 
-    // --- ROLE-BASED ACCESS CONTROL (RBAC) CONTROLLER ---
-    function setRole(role) {
+    function updateTimelinePermissionBanner() {
+      const banner = document.getElementById('timeline-permission-banner');
+      if (!banner) return;
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project || currentRole !== 'pm') {
+        banner.classList.add('hidden');
+        banner.innerHTML = '';
+        return;
+      }
+
+      const isOwner = isProjectOwner(project);
+      const isAuth = isAuthorizedPm(project);
+
+      if (!isOwner && !isAuth) {
+        banner.className = 'bg-amber-50/95 border border-amber-200/90 rounded-2xl p-4 flex items-center justify-between gap-3 text-amber-900 shadow-xs mb-4';
+        banner.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+              <i data-lucide="lock" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="font-bold text-xs text-amber-950">Mode Consultation Seule</p>
+              <p class="text-[11px] text-amber-800">
+                Ce projet appartient au PM créateur <strong>${project.pmName || 'PM'}</strong>. Seul ce PM ou le PM autorisé (${project.authorizedPmName || 'aucun'}) a la permission de modifier ce projet.
+              </p>
+            </div>
+          </div>
+        `;
+        banner.classList.remove('hidden');
+      } else if (isAuth && !isOwner) {
+        banner.className = 'bg-indigo-50/90 border border-indigo-200/80 rounded-2xl p-3 flex items-center justify-between gap-3 text-indigo-950 shadow-2xs mb-4';
+        banner.innerHTML = `
+          <div class="flex items-center space-x-2.5">
+            <div class="w-7 h-7 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0">
+              <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+            </div>
+            <div>
+              <span class="font-bold text-xs">Permission accordée par ${project.pmName || 'le PM créateur'}</span>
+              <span class="text-[11px] text-indigo-700 block">Vous êtes le PM autorisé à modifier ce projet en co-gestion.</span>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded-lg bg-indigo-100 text-indigo-800 text-[10.5px] font-bold border border-indigo-200/60 shrink-0">
+            Co-PM Autorisé
+          </span>
+        `;
+        banner.classList.remove('hidden');
+      } else if (isOwner && project.authorizedPmName) {
+        banner.className = 'bg-purple-50/70 border border-purple-200/70 rounded-2xl p-3 flex items-center justify-between gap-3 text-purple-950 shadow-2xs mb-4';
+        banner.innerHTML = `
+          <div class="flex items-center space-x-2.5">
+            <div class="w-7 h-7 rounded-xl bg-purple-100 text-brand-purple flex items-center justify-center shrink-0">
+              <i data-lucide="users" class="w-3.5 h-3.5"></i>
+            </div>
+            <div>
+              <span class="font-bold text-xs">Projet co-géré</span>
+              <span class="text-[11px] text-slate-600 block">Vous avez autorisé <strong>${project.authorizedPmName}</strong> à modifier ce projet.</span>
+            </div>
+          </div>
+          <button type="button" onclick="openGrantPmPermissionModal('${project.id}')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-purple-100 text-brand-purple text-[10.5px] font-bold border border-purple-200 shadow-2xs transition cursor-pointer">
+            Gérer la permission
+          </button>
+        `;
+        banner.classList.remove('hidden');
+      } else {
+        banner.classList.add('hidden');
+        banner.innerHTML = '';
+      }
+      lucide.createIcons();
+    }
+
+    // --- SCOPED PROJECT ACCESS CONTROLLER ---
+    function getAccessibleProjects() {
+      if (currentRole === 'admin') {
+        return projects;
+      }
+      if (currentRole === 'pm') {
+        const userEmail = (currentUser && currentUser.email) ? currentUser.email.toLowerCase().trim() : '';
+        const userName = (currentUser && currentUser.name) ? currentUser.name.toLowerCase().trim() : '';
+        const accessible = projects.filter(p => {
+          const pmEmail = (p.pmEmail || '').toLowerCase().trim();
+          const pmName = (p.pmName || '').toLowerCase().trim();
+          const authEmail = (p.authorizedPmEmail || '').toLowerCase().trim();
+          const authName = (p.authorizedPmName || '').toLowerCase().trim();
+          const isOwner = (userEmail && pmEmail === userEmail) || (userName && pmName === userName);
+          const isAuthorized = (userEmail && authEmail === userEmail) || (userName && authName === userName);
+          return isOwner || isAuthorized;
+        });
+        return accessible.length > 0 ? accessible : [];
+      }
+      if (currentRole === 'client') {
+        const clientProjId = (currentUser && currentUser.projectId) ? currentUser.projectId : currentProjectId;
+        const clientProj = projects.filter(p => p.id === clientProjId);
+        return clientProj.length > 0 ? clientProj : (projects.length > 0 ? [projects[0]] : []);
+      }
+      return projects;
+    }
+
+    // --- UNIFIED ROLE-BASED ACCESS CONTROL (RBAC) CONTROLLER ---
+    function selectRole(role, specificUser = null) {
       currentRole = role;
+
+      if (specificUser) {
+        currentUser = specificUser;
+      } else {
+        // Sync currentUser with role
+        if (role === 'admin') {
+          currentUser = users.find(u => u.role === 'admin') || { id: 'u_admin', name: 'Master Admin', email: 'admin@d-edge.com', role: 'admin' };
+        } else if (role === 'pm') {
+          if (!currentUser || currentUser.role !== 'pm') {
+            currentUser = users.find(u => u.role === 'pm') || users[1] || users[0];
+          }
+        } else if (role === 'client') {
+          currentUser = users.find(u => u.role === 'client') || { id: 'u_client', name: 'Hotel Client', email: 'client@grandhotelparis.com', role: 'client', projectId: 'p1' };
+        }
+      }
+
+      try {
+        localStorage.setItem('dedge_current_user', JSON.stringify(currentUser));
+      } catch (e) {}
+
+      // Update Top Nav 3-Role Switcher buttons
+      const adminBtn = document.getElementById('btn-admin-view');
       const pmBtn = document.getElementById('btn-pm-view');
       const clientBtn = document.getElementById('btn-client-view');
+
+      const activeBtnClass = 'px-2 md:px-3 py-1.5 rounded-lg bg-brand-purple text-white shadow-sm transition text-[11px] md:text-xs font-bold';
+      const inactiveBtnClass = 'px-2 md:px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs font-semibold';
+
+      if (adminBtn) adminBtn.className = role === 'admin' ? activeBtnClass : inactiveBtnClass;
+      if (pmBtn) pmBtn.className = role === 'pm' ? activeBtnClass : inactiveBtnClass;
+      if (clientBtn) clientBtn.className = role === 'client' ? activeBtnClass : inactiveBtnClass;
+
+      // Update User Identity pill
+      const avatarEl = document.getElementById('user-avatar-badge');
+      const nameEl = document.getElementById('user-display-name');
+      const roleEl = document.getElementById('user-display-role');
+
+      if (avatarEl) avatarEl.textContent = (currentUser.name || 'U').charAt(0).toUpperCase();
+      if (nameEl) nameEl.textContent = currentUser.name || 'User';
+      if (roleEl) roleEl.textContent = role === 'admin' ? 'Admin' : role === 'pm' ? 'PM' : 'Client';
+
+      // Update UI elements visibility
+      const btnAdminHub = document.getElementById('btn-admin-hub');
       const navBoardsBtn = document.getElementById('nav-boards');
       const projectSelector = document.getElementById('project-selector');
       const headerEmailContainer = document.getElementById('header-email-container');
       const btnPushNotify = document.getElementById('btn-push-notify');
       const btnLanguages = document.getElementById('btn-edit-languages');
 
-      if (role === 'pm') {
-        pmBtn.className = 'px-2.5 md:px-4 py-1.5 rounded-lg bg-brand-purple text-white shadow-sm transition text-[11px] md:text-xs';
-        clientBtn.className = 'px-2.5 md:px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs';
-
+      if (role === 'admin' || role === 'pm') {
+        if (btnAdminHub) btnAdminHub.classList.remove('hidden');
         if (navBoardsBtn) navBoardsBtn.classList.remove('hidden');
         if (projectSelector) projectSelector.classList.remove('hidden');
         if (headerEmailContainer) headerEmailContainer.classList.remove('hidden');
         if (btnPushNotify) btnPushNotify.classList.remove('hidden');
         if (btnLanguages) btnLanguages.classList.remove('hidden');
       } else {
-        clientBtn.className = 'px-2.5 md:px-4 py-1.5 rounded-lg bg-brand-purple text-white shadow-sm transition text-[11px] md:text-xs';
-        pmBtn.className = 'px-2.5 md:px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs';
-
+        // Client view
+        if (btnAdminHub) btnAdminHub.classList.add('hidden');
         if (navBoardsBtn) navBoardsBtn.classList.add('hidden');
         if (projectSelector) projectSelector.classList.add('hidden');
         if (headerEmailContainer) headerEmailContainer.classList.remove('hidden');
         if (btnPushNotify) btnPushNotify.classList.add('hidden');
         if (btnLanguages) btnLanguages.classList.add('hidden');
-
         switchView('timeline');
       }
 
+      // PM edit buttons (e.g. add google doc, edit deadlines, checklist toggles)
       document.querySelectorAll('.pm-only-btn').forEach(btn => {
-        btn.classList.toggle('hidden', role !== 'pm');
+        btn.classList.toggle('hidden', role === 'client');
       });
 
+      // Admin only buttons (e.g. edit default guides, inline tooltip pencils)
+      document.querySelectorAll('.admin-only-btn').forEach(btn => {
+        btn.classList.toggle('hidden', role !== 'admin');
+      });
+
+      // Synchronize tooltips and accessible projects
+      applyTooltips();
+      renderProjectSelector();
       renderApp();
+      updatePmFilterOptions();
+      if (role !== 'client') renderBoardsGrid();
+      lucide.createIcons();
     }
+
+    // Alias for backward compatibility
+    function setRole(role) {
+      selectRole(role);
+    }
+
+    // --- INITIALIZATION ON LOAD ---
+    window.addEventListener('DOMContentLoaded', () => {
+      ensureProjectsIsolation();
+      applyTooltips();
+      selectRole(currentRole, currentUser);
+
+      const btnAdminHub = document.getElementById('btn-admin-hub');
+      if (btnAdminHub) {
+        btnAdminHub.addEventListener('click', (e) => {
+          e.preventDefault();
+          openAdminHub();
+        });
+      }
+    });
 
     function switchView(tab) {
       if (currentRole === 'client' && tab === 'boards') {
@@ -3028,14 +4969,20 @@
       const inactiveClass = 'flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-brand-purple hover:bg-purple-50 transition border border-transparent';
 
       if (tab === 'boards') {
-        if (boardsBtn) boardsBtn.className = activeClass;
+        if (boardsBtn) {
+          boardsBtn.className = `${activeClass} pm-only-btn`;
+          if (currentRole === 'client') boardsBtn.classList.add('hidden');
+        }
         if (timelineBtn) timelineBtn.className = inactiveClass;
         if (viewTimeline) viewTimeline.classList.add('hidden');
         if (viewBoards) viewBoards.classList.remove('hidden');
         renderBoardsGrid();
       } else {
         if (timelineBtn) timelineBtn.className = activeClass;
-        if (boardsBtn) boardsBtn.className = inactiveClass;
+        if (boardsBtn) {
+          boardsBtn.className = `${inactiveClass} pm-only-btn`;
+          if (currentRole === 'client') boardsBtn.classList.add('hidden');
+        }
         if (viewBoards) viewBoards.classList.add('hidden');
         if (viewTimeline) viewTimeline.classList.remove('hidden');
         renderApp();
@@ -3060,8 +5007,14 @@
       // Update Section Titles and Subblock Headings dynamically
       applyProjectLabels(project);
 
+      // Update Timeline Delegation / Permission Banner
+      updateTimelinePermissionBanner();
+
       // Render Dynamic Guide Buttons (PDF or Web Link)
       renderGuideButtons(project);
+
+      // Render Project-Specific Guidance Texts and Tooltips
+      applyTooltips(project);
 
       // Enforce role-specific UI visibility
       document.querySelectorAll('.pm-only-btn').forEach(btn => {
@@ -4202,7 +6155,23 @@
       const selector = document.getElementById('project-selector');
       if (!selector) return;
       selector.innerHTML = '';
-      projects.forEach(p => {
+      const accessible = getAccessibleProjects();
+
+      if (!accessible.some(p => p.id === currentProjectId)) {
+        if (accessible.length > 0) {
+          currentProjectId = accessible[0].id;
+        }
+      }
+
+      if (accessible.length === 0) {
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.textContent = 'No projects assigned';
+        selector.appendChild(opt);
+        return;
+      }
+
+      accessible.forEach(p => {
         const opt = document.createElement('option');
         opt.value = p.id;
         opt.textContent = `${p.name} (${getPackageLabel(p.packageTier)})`;
@@ -9162,9 +11131,10 @@ Thank you!`;
     // --- ADMIN BOARDS GRID & CUSTOM FILTER SYSTEM ---
     function updatePmFilterOptions() {
       const select = document.getElementById('filter-pm');
+      const accessible = getAccessibleProjects();
       if (select) {
         select.innerHTML = '<option value="ALL">All Project Managers</option>';
-        const pmNames = [...new Set(projects.map(p => p.pmName || 'Dounia'))];
+        const pmNames = [...new Set(accessible.map(p => p.pmName || 'Dounia'))];
         pmNames.forEach(name => {
           const opt = document.createElement('option');
           opt.value = name;
@@ -9180,12 +11150,13 @@ Thank you!`;
       const menu = document.getElementById('menu-custom-filter-pm');
       if (!menu) return;
       const currentVal = document.getElementById('filter-pm')?.value || 'ALL';
-      const pmNames = [...new Set(projects.map(p => p.pmName || 'Dounia'))];
-      const items = [{ val: 'ALL', label: 'All Project Managers' }, ...pmNames.map(n => ({ val: n, label: n }))];
+      const accessible = getAccessibleProjects();
+      const pmNames = [...new Set(accessible.map(p => p.pmName || 'Dounia'))];
+      const items = [{ val: 'ALL', label: currentRole === 'pm' ? 'My Assigned Projects' : 'All Project Managers' }, ...pmNames.map(n => ({ val: n, label: n }))];
 
       const header = `
         <div class="px-3 py-1.5 flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 mb-1">
-          <span>Project Managers</span>
+          <span>${currentRole === 'pm' ? 'My Scope' : 'Project Managers'}</span>
           <span class="text-brand-purple font-bold">${pmNames.length} available</span>
         </div>
       `;
@@ -9193,8 +11164,8 @@ Thank you!`;
       const options = items.map(item => {
         const isSelected = item.val === currentVal;
         const count = item.val === 'ALL'
-          ? projects.length
-          : projects.filter(p => (p.pmName || 'Dounia') === item.val).length;
+          ? accessible.length
+          : accessible.filter(p => (p.pmName || 'Dounia') === item.val).length;
 
         const avatar = item.val === 'ALL'
           ? `<span class="w-6 h-6 rounded-lg bg-purple-50 text-brand-purple flex items-center justify-center shrink-0 shadow-2xs"><i data-lucide="users" class="w-3.5 h-3.5"></i></span>`
@@ -9224,10 +11195,10 @@ Thank you!`;
       const currentVal = document.getElementById('filter-stage')?.value || 'ALL';
       const items = [
         { val: 'ALL', label: 'All Stages', icon: 'layers', badge: null },
-        { val: '1', label: '1. Website Structure', icon: null, badge: '1' },
-        { val: '2', label: '2. Content Collection', icon: null, badge: '2' },
-        { val: '3', label: '3. Revision Phase', icon: null, badge: '3' },
-        { val: '4', label: '4. Go-Live', icon: null, badge: '4' },
+        { val: '1', label: 'Website Structure', icon: null, badge: '1' },
+        { val: '2', label: 'Content Collection', icon: null, badge: '2' },
+        { val: '3', label: 'Revision Phase', icon: null, badge: '3' },
+        { val: '4', label: 'Go-Live', icon: null, badge: '4' },
         { val: 'completed', label: 'Completed / Finished', icon: 'check-circle-2', badge: null }
       ];
 
@@ -9456,10 +11427,10 @@ Thank you!`;
 
       if (stageVal !== 'ALL') {
         const stageLabels = {
-          '1': 'Stage 1: Website Structure',
-          '2': 'Stage 2: Content Collection',
-          '3': 'Stage 3: Revision Phase',
-          '4': 'Stage 4: Go-Live',
+          '1': 'Website Structure',
+          '2': 'Content Collection',
+          '3': 'Revision Phase',
+          '4': 'Go-Live',
           'completed': 'Completed'
         };
         const sLabel = stageLabels[stageVal] || stageVal;
@@ -9525,7 +11496,7 @@ Thank you!`;
     });
 
     function getProjectCurrentStageInfo(project) {
-      if (!project) return { stageName: '1. Website Structure', remainingTasks: 0, isAllDone: false, stageNum: 1 };
+      if (!project) return { stageName: 'Website Structure', remainingTasks: 0, isAllDone: false, stageNum: 1 };
       const labels = typeof getProjectLabels === 'function' ? getProjectLabels(project) : DEFAULT_SECTION_LABELS;
 
       for (let secNum = 1; secNum <= 4; secNum++) {
@@ -9553,7 +11524,7 @@ Thank you!`;
         }
 
         if (!stats.isComplete) {
-          const rawLabel = labels[`section${secNum}`] || DEFAULT_SECTION_LABELS[`section${secNum}`] || `Stage ${secNum}`;
+          const rawLabel = (labels[`section${secNum}`] || DEFAULT_SECTION_LABELS[`section${secNum}`] || `Stage ${secNum}`).replace(/^\d+\.?\s*/, '').trim();
           const remaining = Math.max(0, stats.totalCount - stats.doneCount);
           return {
             stageName: rawLabel,
@@ -9572,8 +11543,58 @@ Thank you!`;
       };
     }
 
+    function getProjectOverallProgress(project) {
+      if (!project) return { pct: 0, done: 0, total: 0 };
+      let totalTasks = 0;
+      let doneTasks = 0;
+
+      for (let secNum = 1; secNum <= 4; secNum++) {
+        let stats = { isComplete: false, doneCount: 0, totalCount: 0 };
+        if (typeof getSectionStats === 'function') {
+          stats = getSectionStats(project, secNum);
+        }
+
+        // Incorporate any custom steps created in this section
+        if (project.steps && Array.isArray(project.steps)) {
+          const customSteps = project.steps.filter(st => {
+            if (!st.isCustom && (!st.id || !String(st.id).startsWith('step-'))) return false;
+            const grp = (st.group || '').toLowerCase();
+            if (secNum === 1) return grp.startsWith('1') || grp.includes('sitemap') || grp.includes('structure');
+            if (secNum === 2) return grp.startsWith('2') || grp.includes('content') || grp.includes('text');
+            if (secNum === 3) return grp.startsWith('3') || grp.includes('revision') || grp.includes('staging');
+            if (secNum === 4) return grp.startsWith('4') || grp.includes('go-live') || grp.includes('live');
+            return false;
+          });
+          if (customSteps.length > 0) {
+            stats.totalCount += customSteps.length;
+            stats.doneCount += customSteps.filter(cs => cs.status === 'completed').length;
+          }
+        }
+
+        totalTasks += stats.totalCount;
+        doneTasks += stats.doneCount;
+      }
+
+      if (totalTasks === 0) {
+        return { pct: 0, done: 0, total: 0 };
+      }
+
+      const stageInfo = typeof getProjectCurrentStageInfo === 'function' ? getProjectCurrentStageInfo(project) : null;
+      if (stageInfo && stageInfo.isAllDone) {
+        doneTasks = totalTasks;
+      }
+
+      const pct = Math.min(100, Math.round((doneTasks / totalTasks) * 100));
+      return {
+        pct,
+        done: doneTasks,
+        total: totalTasks
+      };
+    }
+
     function renderBoardsGrid() {
       const container = document.getElementById('projects-grid');
+      if (!container) return;
       container.innerHTML = '';
 
       updateActivityProjectFilterOptions();
@@ -9583,7 +11604,8 @@ Thank you!`;
       const stageFilter = document.getElementById('filter-stage')?.value || 'ALL';
       const pkgFilter = document.getElementById('filter-package')?.value || 'ALL';
 
-      const filteredProjects = projects.filter(p => {
+      const baseProjects = getAccessibleProjects();
+      const filteredProjects = baseProjects.filter(p => {
         const matchesPm = (pmFilter === 'ALL' || (p.pmName || 'Dounia') === pmFilter);
         const matchesPkg = (pkgFilter === 'ALL' || p.packageTier === pkgFilter);
 
@@ -9612,6 +11634,7 @@ Thank you!`;
 
       filteredProjects.forEach(p => {
         const stageInfo = getProjectCurrentStageInfo(p);
+        const prog = getProjectOverallProgress(p);
 
         const card = document.createElement('div');
         card.className = 'bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 hover:border-brand-purple hover:shadow-md transition relative group cursor-pointer';
@@ -9645,6 +11668,27 @@ Thank you!`;
             <div class="flex items-center space-x-1.5 text-xs font-semibold text-slate-600 shrink-0">
               <i data-lucide="${stageInfo.isAllDone ? 'check-circle' : 'list-todo'}" class="w-3.5 h-3.5 ${stageInfo.isAllDone ? 'text-emerald-500' : 'text-brand-purple'} shrink-0"></i>
               <span>${stageInfo.remainingTasks} task${stageInfo.remainingTasks === 1 ? '' : 's'} remaining</span>
+            </div>
+          </div>
+
+          <!-- DISCREET ROADMAP PROGRESS BAR -->
+          <div class="pt-0.5 space-y-1.5" title="${prog.done} of ${prog.total} deliverables completed (${prog.pct}%)">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-[11px] font-semibold text-slate-500 flex items-center space-x-1.5">
+                <i data-lucide="${prog.pct === 100 ? 'check-circle-2' : 'activity'}" class="w-3.5 h-3.5 ${prog.pct === 100 ? 'text-emerald-500' : 'text-brand-purple'} shrink-0"></i>
+                <span>Roadmap Progress</span>
+              </span>
+              <div class="flex items-center space-x-1.5 font-mono text-[11px]">
+                <span class="text-slate-400 font-medium">${prog.done}/${prog.total}</span>
+                <span class="font-bold ${prog.pct === 100 ? 'text-emerald-600' : 'text-brand-purple'}">${prog.pct}%</span>
+              </div>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden p-[0.5px] border border-slate-200/70">
+              <div class="h-full rounded-full transition-all duration-500 ${
+                prog.pct === 100 
+                  ? 'bg-gradient-to-r from-emerald-500 to-teal-400' 
+                  : 'bg-gradient-to-r from-brand-purple to-purple-500'
+              }" style="width: ${prog.pct}%"></div>
             </div>
           </div>
         `;
@@ -9884,7 +11928,8 @@ Thank you!`;
       document.getElementById('modal-project-title-text').textContent = 'Create New Hotel Project';
       document.getElementById('mp-project-id').value = '';
       document.getElementById('mp-name').value = '';
-      document.getElementById('mp-pm-name').value = 'Dounia';
+      const defaultPm = (currentRole === 'pm' && currentUser?.name) ? currentUser.name : 'Dounia';
+      document.getElementById('mp-pm-name').value = defaultPm;
       document.getElementById('mp-client-email').value = '';
       document.getElementById('mp-evolution').value = 'Crystal';
       document.getElementById('mp-package').value = 'seo_essential';
@@ -9948,7 +11993,10 @@ Thank you!`;
         if (project) {
           project.name = name;
           project.pmName = pmName;
-          project.pmEmail = `${(pmName || 'pm').toLowerCase().trim().replace(/[^a-z0-9]/g, '')}@d-edge.com`;
+          const assignedEmail = (currentRole === 'pm' && currentUser && currentUser.name === pmName && currentUser.email)
+            ? currentUser.email
+            : `${(pmName || 'pm').toLowerCase().trim().replace(/[^a-z0-9]/g, '')}@d-edge.com`;
+          project.pmEmail = assignedEmail;
           project.clientEmail = clientEmail;
           project.evolutionTag = evo;
           project.languages = checkedLangs.length ? checkedLangs : ['English'];
@@ -9962,13 +12010,18 @@ Thank you!`;
         }
       } else {
         const defaultColors = { primary: '#5B1E82', secondary: '#C5A059', tertiary: '#F4F5F9' };
+        const assignedEmail = (currentRole === 'pm' && currentUser?.email)
+          ? currentUser.email
+          : `${(pmName || 'pm').toLowerCase().trim().replace(/[^a-z0-9]/g, '')}@d-edge.com`;
         const newProj = {
           id: `proj-${Date.now()}`,
           name: name,
           pmName: pmName,
-          pmEmail: `${(pmName || 'pm').toLowerCase().trim().replace(/[^a-z0-9]/g, '')}@d-edge.com`,
+          pmEmail: assignedEmail,
           clientEmail: clientEmail,
           evolutionTag: evo,
+          guides: JSON.parse(JSON.stringify(globalGuides)),
+          tooltips: JSON.parse(JSON.stringify(globalTooltips)),
           sitemapDriveUrl: drive,
           sitemapDocs: [
             { id: `sd-${Date.now()}`, lang: checkedLangs[0] || 'English', label: `${checkedLangs[0] || 'English'} Version`, url: drive || 'https://drive.google.com', completed: false }
@@ -10008,6 +12061,7 @@ Thank you!`;
           steps: JSON.parse(JSON.stringify(PRD_TEMPLATES[tier]))
         };
         projects.push(newProj);
+        saveProjectsToStorage();
         currentProjectId = newProj.id;
         logActivity('Project Board Created', `Initialized new hotel roadmap for "${name}" (${evo})`, 'plus-circle', 'project', newProj.id);
       }
@@ -10143,8 +12197,11 @@ Thank you!`;
     }
 
     function closeModal(id) {
-      document.getElementById(id).classList.add('hidden');
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
     }
+    window.closeModal = closeModal;
 
     function handleAddStepSubmit(e) {
       e.preventDefault();
