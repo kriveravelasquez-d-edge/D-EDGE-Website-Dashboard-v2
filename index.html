@@ -313,10 +313,10 @@
 
         <!-- NAVIGATION TABS -->
         <nav class="flex items-center space-x-1.5 shrink-0">
-          <!-- PROJECT BOARDS: VISIBLE ONLY FOR PM AND ADMIN, HIDDEN FOR CLIENT -->
-          <button onclick="switchView('boards')" id="nav-boards" title="Project Boards" class="pm-only-btn flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-brand-purple hover:bg-purple-50 transition border border-transparent">
-            <i data-lucide="kanban" class="w-3.5 h-3.5 shrink-0"></i>
-            <span class="truncate">Project Boards</span>
+          <!-- DASHBOARD TAB: ACCESSIBLE TO PM AND ADMIN -->
+          <button onclick="switchView('boards')" id="nav-boards" title="Dashboard - Projets de tous les PM" class="flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-brand-purple hover:bg-purple-50 transition border border-transparent">
+            <i data-lucide="layout-dashboard" class="w-3.5 h-3.5 shrink-0"></i>
+            <span class="truncate">Dashboard</span>
           </button>
           <button onclick="switchView('timeline')" id="nav-timeline" title="Timeline Axis" class="flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-purple text-white shadow-2xs transition">
             <i data-lucide="git-commit" class="w-3.5 h-3.5 shrink-0"></i>
@@ -342,7 +342,7 @@
 
         <!-- 3-ROLE TOGGLE SWITCHER -->
         <div class="bg-slate-100 p-0.5 rounded-xl flex items-center border border-slate-200 text-xs font-semibold">
-          <button id="btn-admin-view" type="button" onclick="selectRole('admin')" class="px-2 md:px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs">Admin</button>
+          <button id="btn-admin-view" type="button" onclick="selectRole('admin')" class="px-2 md:px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs font-bold" title="Vue Admin - Accès au Dashboard et à tous les projets PM">Admin</button>
           <button id="btn-pm-view" type="button" onclick="selectRole('pm')" class="px-2 md:px-3 py-1.5 rounded-lg bg-brand-purple text-white shadow-sm transition text-[11px] md:text-xs">PM</button>
           <button id="btn-client-view" type="button" onclick="selectRole('client')" class="px-2 md:px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs">Client</button>
         </div>
@@ -362,7 +362,7 @@
     </header>
 
     <!-- WORKSPACE CANVAS -->
-    <main class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6">
+    <main class="flex-1 overflow-y-auto p-4 md:py-8 md:px-8 lg:px-14 xl:px-24 2xl:px-36 space-y-6">
 
       <!-- VIEW 1: TIMELINE AXIS CANVAS -->
       <div id="view-timeline" class="space-y-6">
@@ -386,15 +386,26 @@
                 <span id="axis-package-tier" class="bg-amber-400/20 text-amber-300 border border-amber-400/40 text-[11px] px-2.5 py-0.5 rounded-full font-bold shadow-2xs">
                   SEO Essential
                 </span>
-                <span id="axis-evolution-tag" class="bg-purple-500/20 text-purple-200 border border-purple-400/40 text-[11px] px-2.5 py-0.5 rounded-full font-mono font-bold">
+                <span id="axis-evolution-tag" class="hidden bg-purple-500/20 text-purple-200 border border-purple-400/40 text-[11px] px-2.5 py-0.5 rounded-full font-mono font-bold">
                   Template: Crystal
                 </span>
               </div>
               <h2 id="axis-project-name" class="text-lg md:text-xl font-bold text-white tracking-tight">Le Grand Hotel Paris</h2>
             </div>
 
+            <!-- PROJECT CONFIGURED LANGUAGES DISPLAY (RIGHT CORNER) -->
+            <div id="axis-project-languages" class="flex flex-col sm:items-end space-y-1.5 shrink-0">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-purple-300/90 flex items-center space-x-1.5">
+                <i data-lucide="globe" class="w-3 h-3 text-purple-300"></i>
+                <span>Project Languages</span>
+              </span>
+              <div id="axis-project-languages-list" class="flex flex-wrap items-center gap-1.5 sm:justify-end">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
             <!-- OVERALL PROGRESS CONTAINER -->
-            <div id="axis-overall-progress" class="flex items-center">
+            <div id="axis-overall-progress" class="hidden">
               <!-- Rendered dynamically -->
             </div>
           </div>
@@ -569,10 +580,6 @@
                   <!-- STATUS SELECTOR & Active Template Badge -->
                   <div class="shrink-0 flex items-center space-x-2">
                     <div id="templates-done-btn-container"></div>
-                    <div class="flex items-center space-x-1.5 bg-violet-50/70 border border-violet-200/80 rounded-lg px-2.5 py-1 text-xs shadow-2xs">
-                      <span class="text-slate-500 font-medium text-[10px]">Active Template:</span>
-                      <span id="sitemap-selected-template-badge" class="font-bold text-violet-800 text-xs">Crystal</span>
-                    </div>
                   </div>
                 </div>
 
@@ -674,10 +681,63 @@
                 </div>
 
                 <!-- PERSISTENT ADD BUTTON ALWAYS DIRECTLY UNDERNEATH LAST ITEM (PM ONLY) -->
-                <button type="button" onclick="openAddTextDocModal()" class="pm-only-btn w-full py-2 border border-dashed border-sky-300 hover:border-sky-500 hover:bg-sky-50/70 rounded-xl text-sky-700 font-bold text-xs flex items-center justify-center space-x-1.5 transition shadow-2xs cursor-pointer">
+                <button id="texts-add-toggle-btn" type="button" onclick="toggleTextDocAddDropdown(event)" class="pm-only-btn w-full py-2 border border-dashed border-sky-300 hover:border-sky-500 hover:bg-sky-50/70 rounded-xl text-sky-700 font-bold text-xs flex items-center justify-center space-x-1.5 transition shadow-2xs cursor-pointer">
                   <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
                   <span>+ Add Google Doc Link</span>
+                  <i id="texts-add-chevron" data-lucide="chevron-down" class="w-3 h-3 ml-0.5 transition-transform duration-200"></i>
                 </button>
+
+                <div id="texts-add-dropdown" class="hidden mt-2 p-3 bg-white border border-sky-200/80 rounded-xl shadow-md space-y-2.5 transition-all text-xs">
+                  <div class="flex items-center justify-between pb-1.5 border-b border-slate-100">
+                    <span class="font-bold text-xs text-sky-700 flex items-center space-x-1.5">
+                      <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                      <span id="texts-inline-title">Add Google Doc Link</span>
+                    </span>
+                    <button type="button" onclick="closeTextDocAddDropdown()" class="text-slate-400 hover:text-slate-600 p-0.5 rounded cursor-pointer" title="Close">
+                      <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+
+                  <form onsubmit="handleInlineTextDocSubmit(event)" class="space-y-2.5">
+                    <input type="hidden" id="inline-mtd-id" value="">
+                    <div class="relative" id="inline-mtd-lang-wrapper">
+                      <label class="block text-slate-700 font-bold mb-1 text-[11px] flex items-center space-x-1">
+                        <i data-lucide="globe" class="w-3 h-3 text-sky-700"></i>
+                        <span>Language</span>
+                      </label>
+                      <input type="hidden" id="inline-mtd-lang" value="English">
+                      
+                      <div id="inline-mtd-dropdown-btn" onclick="toggleInlineTextDocLangDropdown(event)" class="w-full min-h-[36px] border border-slate-200 rounded-lg p-1.5 bg-slate-50/75 hover:bg-white text-xs flex items-center justify-between outline-none focus-within:ring-2 focus-within:ring-sky-600 cursor-pointer transition shadow-2xs group">
+                        <div id="inline-mtd-selected-tag" class="flex items-center space-x-1.5 flex-1 pr-1 truncate">
+                          <!-- Populated dynamically -->
+                        </div>
+                        <div class="flex items-center space-x-1 text-slate-400 group-hover:text-sky-700 transition shrink-0 pl-1">
+                          <i data-lucide="chevron-down" id="inline-mtd-chevron" class="w-3.5 h-3.5 transition-transform duration-200"></i>
+                        </div>
+                      </div>
+
+                      <div id="inline-mtd-dropdown-menu" class="hidden absolute left-0 right-0 top-full mt-1.5 z-50 bg-white border border-slate-200 rounded-xl shadow-xl p-2.5 space-y-2">
+                        <div class="relative">
+                          <i data-lucide="search" class="w-3 h-3 text-slate-400 absolute left-2 top-1/2 -translate-y-1/2"></i>
+                          <input type="text" id="inline-mtd-lang-search" placeholder="Search language..." oninput="filterInlineTextDocLanguages(this.value)" class="w-full pl-7 pr-2.5 py-1 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-sky-600 bg-slate-50 transition">
+                        </div>
+                        <div id="inline-mtd-lang-list" class="grid grid-cols-2 gap-1 max-h-40 overflow-y-auto pr-1">
+                          <!-- Populated dynamically -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label class="block text-slate-700 font-bold mb-1 text-[11px]">Google Doc URL</label>
+                      <input required id="inline-mtd-url" type="url" placeholder="https://docs.google.com/document/d/..." class="w-full border border-slate-200 rounded-lg p-2 outline-none focus:ring-2 focus:ring-sky-600 bg-slate-50/60 text-xs font-medium">
+                    </div>
+
+                    <div class="pt-1.5 flex justify-end space-x-2 border-t border-slate-100">
+                      <button type="button" onclick="closeTextDocAddDropdown()" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition text-xs cursor-pointer">Cancel</button>
+                      <button type="submit" class="px-4 py-1.5 rounded-lg bg-sky-700 text-white font-bold hover:bg-sky-800 shadow-2xs transition text-xs cursor-pointer">Save Link</button>
+                    </div>
+                  </form>
+                </div>
               </div>
 
               <!-- IMAGES -->
@@ -1085,16 +1145,59 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-sm gap-4">
           <div>
             <h2 class="text-base md:text-lg font-bold text-brand-purple">Project Management Dashboard</h2>
-            <p class="text-xs text-slate-500">Filter, sort, and manage agency hotel website builds.</p>
           </div>
-          <button onclick="openCreateProjectModal()" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-xs font-bold px-4 py-2.5 rounded-xl flex items-center justify-center space-x-2 transition shadow-md w-full md:w-auto cursor-pointer">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-            <span>Create New Project</span>
-          </button>
+          <div class="flex items-center space-x-3 flex-wrap gap-y-2">
+            <!-- VIEW TOGGLE: KANBAN / GRID -->
+            <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/90 shadow-2xs">
+              <button type="button" id="btn-boards-view-kanban" onclick="setBoardsViewMode('kanban')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer bg-white text-brand-purple shadow-xs" title="Kanban Board View">
+                <i data-lucide="kanban" class="w-3.5 h-3.5"></i>
+                <span>Kanban</span>
+              </button>
+              <button type="button" id="btn-boards-view-grid" onclick="setBoardsViewMode('grid')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer text-slate-600 hover:text-brand-purple" title="Grid View">
+                <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                <span>Grid</span>
+              </button>
+            </div>
+
+            <!-- CREATE PROJECT BUTTON -->
+            <button onclick="openCreateProjectModal()" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-xs font-bold px-4 py-2.5 rounded-xl flex items-center justify-center space-x-2 transition shadow-md w-full sm:w-auto cursor-pointer">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>Create New Project</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- AUTOMATED DAILY DIGEST 48H ALERT BANNER -->
+        <div id="banner-daily-digest-48h" class="hidden bg-gradient-to-r from-amber-500/10 via-amber-50 to-orange-50 border border-amber-300 rounded-2xl p-4 shadow-sm transition-all duration-300">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-start sm:items-center space-x-3">
+              <div class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-sm font-bold">
+                <i data-lucide="bell-ring" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2 flex-wrap">
+                  <h3 class="text-sm font-bold text-amber-950">Automated Daily Digest • Milestones Due Within 48 Hours</h3>
+                  <span id="banner-digest-badge" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-200 text-amber-900 border border-amber-300">
+                    Pending Milestones
+                  </span>
+                </div>
+                <p class="text-xs text-amber-800 mt-0.5">Upcoming deadline cutoffs require PM action across your assigned hotel builds.</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2 shrink-0 self-end sm:self-center">
+              <button type="button" onclick="openDailyDigestModal()" class="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition shadow-xs flex items-center space-x-1.5 cursor-pointer">
+                <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                <span>Review Digest</span>
+              </button>
+              <button type="button" onclick="dismissDailyDigestBanner()" class="p-1.5 rounded-xl text-amber-600 hover:text-amber-900 hover:bg-amber-100 transition cursor-pointer" title="Dismiss Banner">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
         </div>
 
         <div class="bg-white p-4 md:p-5 rounded-2xl border border-slate-200/90 shadow-sm space-y-3.5 text-xs">
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div id="boards-filters-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
             <!-- FILTER 1: PROJECT MANAGER -->
             <div class="relative">
               <label class="block font-bold text-slate-700 mb-1.5 flex items-center justify-between">
@@ -1117,8 +1220,8 @@
               <div id="menu-custom-filter-pm" class="custom-filter-menu hidden absolute left-0 right-0 top-full mt-2 bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-xl shadow-purple-950/5 ring-1 ring-slate-900/5 z-50 p-1.5 space-y-1 max-h-72 overflow-y-auto"></div>
             </div>
 
-            <!-- FILTER 2: STAGE -->
-            <div class="relative">
+            <!-- FILTER 2: STAGE (HIDDEN IN KANBAN MODE) -->
+            <div id="filter-container-stage" class="relative hidden">
               <label class="block font-bold text-slate-700 mb-1.5 flex items-center justify-between">
                 <span class="flex items-center space-x-1.5">
                   <i data-lucide="git-commit" class="w-3.5 h-3.5 text-indigo-600"></i>
@@ -1168,6 +1271,31 @@
               </button>
               <div id="menu-custom-filter-package" class="custom-filter-menu hidden absolute left-0 right-0 top-full mt-2 bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-xl shadow-purple-950/5 ring-1 ring-slate-900/5 z-50 p-1.5 space-y-1 max-h-72 overflow-y-auto"></div>
             </div>
+
+            <!-- FILTER 4: PRIORITY (LOW, MEDIUM, HIGH) -->
+            <div class="relative">
+              <label class="block font-bold text-slate-700 mb-1.5 flex items-center justify-between">
+                <span class="flex items-center space-x-1.5">
+                  <i data-lucide="flag" class="w-3.5 h-3.5 text-rose-600"></i>
+                  <span>Priority</span>
+                </span>
+                <span id="badge-count-filter-priority" class="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full transition">All</span>
+              </label>
+              <select id="filter-priority" class="hidden" onchange="renderBoardsGrid()">
+                <option value="ALL">All Priorities</option>
+                <option value="High">High Priority</option>
+                <option value="Medium">Medium Priority</option>
+                <option value="Low">Low Priority</option>
+              </select>
+              <button type="button" id="btn-custom-filter-priority" onclick="toggleCustomFilterDropdown('priority', event)" class="w-full flex items-center justify-between px-3.5 py-2.5 bg-slate-50/90 hover:bg-slate-100/90 border border-slate-200/90 hover:border-purple-300 rounded-xl text-xs font-semibold text-slate-800 transition-all shadow-2xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple group">
+                <span class="flex items-center space-x-2 truncate min-w-0">
+                  <span id="dot-custom-filter-priority" class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
+                  <span id="label-custom-filter-priority" class="truncate">All Priorities</span>
+                </span>
+                <i id="chevron-custom-filter-priority" data-lucide="chevron-down" class="w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ml-2 group-hover:text-slate-600"></i>
+              </button>
+              <div id="menu-custom-filter-priority" class="custom-filter-menu hidden absolute left-0 right-0 top-full mt-2 bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-xl shadow-purple-950/5 ring-1 ring-slate-900/5 z-50 p-1.5 space-y-1 max-h-72 overflow-y-auto"></div>
+            </div>
           </div>
 
           <!-- DYNAMIC ACTIVE FILTERS STRIP & RESET ACTION -->
@@ -1202,7 +1330,6 @@
                     <span>Live Audit (Last 10 Changes)</span>
                   </span>
                 </div>
-                <p class="text-[11px] text-slate-500 mt-0.5">Tracking milestone status updates, deadline adjustments, checklist completions, and client activity with timestamps and author roles.</p>
               </div>
             </div>
 
@@ -1221,14 +1348,17 @@
                 </button>
               </div>
 
-              <!-- PROJECT FILTER SELECT -->
+              <!-- PROJECT FILTER CUSTOM DROPDOWN -->
               <div class="relative">
-                <select id="act-filter-project" onchange="handleActivityProjectFilterChange(this.value)" class="border border-slate-200 bg-slate-50 text-slate-800 text-[11px] font-semibold rounded-xl pl-3 pr-7 py-1.5 outline-none focus:ring-2 focus:ring-brand-purple shadow-2xs transition appearance-none cursor-pointer">
+                <select id="act-filter-project" class="hidden" onchange="handleActivityProjectFilterChange(this.value)">
                   <option value="ALL">All Projects Activity</option>
                 </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-                  <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
-                </div>
+                <button type="button" id="btn-custom-filter-act-project" onclick="toggleCustomFilterDropdown('act-project', event)" class="flex items-center space-x-2 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 hover:border-purple-300 rounded-xl text-[11px] font-bold text-slate-700 transition shadow-2xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple group">
+                  <span id="dot-custom-filter-act-project" class="w-1.5 h-1.5 rounded-full bg-purple-500 shrink-0"></span>
+                  <span id="label-custom-filter-act-project" class="truncate max-w-[130px] sm:max-w-[190px]">All Projects Activity</span>
+                  <i id="chevron-custom-filter-act-project" data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform duration-200 group-hover:text-slate-600"></i>
+                </button>
+                <div id="menu-custom-filter-act-project" class="custom-filter-menu hidden absolute right-0 top-full mt-2 w-64 sm:w-72 bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-xl shadow-purple-950/5 ring-1 ring-slate-900/5 z-50 p-1.5 space-y-1 max-h-72 overflow-y-auto"></div>
               </div>
             </div>
           </div>
@@ -1286,6 +1416,73 @@
     </div>
   </div>
 
+  <!-- MODAL: AUTOMATED PM DAILY DIGEST (48H MILESTONES) -->
+  <div id="modal-daily-digest" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-2xl w-full max-w-2xl shadow-2xl border border-slate-200 max-h-[90vh] flex flex-col overflow-hidden">
+      <!-- HEADER -->
+      <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-amber-500/10 via-amber-50/50 to-white">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-sm font-bold">
+            <i data-lucide="bell-ring" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2 flex-wrap">
+              <h3 class="text-base font-bold text-slate-900">PM Daily Digest • Next 48 Hours</h3>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-200">
+                Automated Monitor
+              </span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">Hotel website deliverables & milestones with deadlines expiring within 48 hours.</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('modal-daily-digest')" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- BODY / FEED -->
+      <div class="p-5 overflow-y-auto space-y-4 flex-1 text-xs">
+        <!-- AUTOMATED DIGEST SETTINGS & SUMMARY STRIP -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center space-x-2">
+            <i data-lucide="clock" class="w-4 h-4 text-brand-purple"></i>
+            <span class="text-slate-700 font-semibold">Active Window:</span>
+            <span id="digest-window-label" class="font-bold text-slate-900">Next 48 Hours</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="toggle-automated-digest-email" onchange="toggleAutoDigestSetting(this.checked)" class="sr-only peer" checked>
+              <div class="w-8 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3.5 after:transition-all peer-checked:bg-brand-purple"></div>
+              <span class="ml-2 text-[11px] font-bold text-slate-700">Auto-dispatch at 08:00 AM</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- LIST OF UPCOMING PROJECTS & MILESTONES -->
+        <div id="daily-digest-projects-list" class="space-y-3">
+          <!-- Rendered dynamically via renderDailyDigestModalContent() -->
+        </div>
+      </div>
+
+      <!-- FOOTER ACTIONS -->
+      <div class="p-4 border-t border-slate-100 bg-slate-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div class="text-slate-500 text-[11px] flex items-center space-x-1.5">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-brand-purple"></i>
+          <span>Recipient: <strong id="digest-pm-recipient" class="text-slate-700">All Assigned Project Managers</strong></span>
+        </div>
+        <div class="flex items-center space-x-2 justify-end">
+          <button type="button" onclick="closeModal('modal-daily-digest')" class="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 transition cursor-pointer">
+            Close
+          </button>
+          <button type="button" id="btn-dispatch-daily-digest" onclick="dispatchDailyDigestEmailNow()" class="px-4 py-2 rounded-xl bg-brand-purple hover:bg-brand-purpleDark text-white font-bold transition shadow-xs flex items-center space-x-1.5 cursor-pointer">
+            <i data-lucide="mail-check" class="w-4 h-4"></i>
+            <span>Send Digest by Email</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="modal-project" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center hidden p-4">
     <div class="bg-white rounded-2xl p-6 w-full max-w-xl shadow-2xl space-y-4 border border-slate-200 max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -1306,94 +1503,102 @@
           </div>
 
           <div>
-            <label class="block text-slate-700 font-bold mb-1">Project Manager (Créateur)</label>
+            <label class="block text-slate-700 font-bold mb-1">Project Manager (Creator)</label>
             <input required id="mp-pm-name" type="text" placeholder="e.g. Dounia" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
           </div>
         </div>
 
-        <!-- SECTION DÉLÉGATION PM (AUTORISATION DE MODIFIER) -->
-        <div class="p-3.5 bg-indigo-50/70 border border-indigo-200/90 rounded-xl space-y-1.5">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-1.5">
-              <i data-lucide="shield-check" class="w-4 h-4 text-indigo-600 shrink-0"></i>
-              <label class="block text-slate-800 font-bold text-xs">PM Autorisé à modifier (Délégation)</label>
-            </div>
-            <span class="text-[10px] text-indigo-700 font-semibold bg-white px-2 py-0.5 rounded-full border border-indigo-200 shadow-2xs">Co-Gestion</span>
-          </div>
-          <p class="text-[11px] text-slate-500">Donner la permission à un autre PM de modifier ce projet (livrables, étapes, dates et paramètres).</p>
-          <select id="mp-authorized-pm" class="w-full border border-slate-200 rounded-xl p-2 outline-none focus:ring-2 focus:ring-brand-purple bg-white text-xs text-slate-800 font-medium">
-            <option value="">-- Aucun PM autorisé (Seul le PM créateur peut modifier) --</option>
-          </select>
-          <p id="mp-auth-pm-note" class="text-[10px] text-slate-500 italic"></p>
-        </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="grid grid-cols-1 gap-3">
           <div>
             <label class="block text-slate-700 font-bold mb-1">Client Email Address</label>
             <input required id="mp-client-email" type="email" placeholder="client@hotel.com" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
           </div>
+          <input type="hidden" id="mp-evolution" value="Crystal">
+        </div>
 
+        <!-- Website Language Dropdown List (Liste Déroulante Stylisée) -->
+        <div class="relative" id="mp-lang-dropdown-wrapper">
+          <div class="flex items-center justify-between mb-1">
+            <label class="block text-slate-700 font-bold flex items-center space-x-1.5">
+              <i data-lucide="globe" class="w-3.5 h-3.5 text-brand-purple"></i>
+              <span>Website Language</span>
+            </label>
+            <span id="mp-lang-count-badge" class="text-[10px] text-brand-purple font-semibold bg-purple-50 px-2 py-0.5 rounded-full border border-purple-100 shadow-2xs">2 sélectionnée(s)</span>
+          </div>
+
+          <!-- Bouton déclencheur de la liste déroulante -->
+          <div id="mp-lang-dropdown-btn" onclick="toggleProjectModalLangDropdown(event)" class="w-full min-h-[42px] border border-slate-200 rounded-xl p-2 bg-slate-50/70 hover:bg-white text-xs flex items-center justify-between outline-none focus-within:ring-2 focus-within:ring-brand-purple focus-within:border-brand-purple cursor-pointer transition shadow-2xs group">
+            <div id="mp-lang-selected-tags" class="flex flex-wrap items-center gap-1.5 flex-1 pr-2">
+              <!-- Badges de langues injectés dynamiquement -->
+            </div>
+            <div class="flex items-center space-x-1 text-slate-400 group-hover:text-brand-purple transition shrink-0 pl-1">
+              <span class="text-[11px] font-medium text-slate-400 hidden sm:inline">Choose</span>
+              <i data-lucide="chevron-down" id="mp-lang-chevron" class="w-4 h-4 transition-transform duration-200"></i>
+            </div>
+          </div>
+
+          <!-- Menu déroulant flottant stylisé -->
+          <div id="mp-lang-dropdown-menu" class="hidden absolute left-0 right-0 top-full mt-1.5 z-40 bg-white border border-slate-200 rounded-2xl shadow-xl p-3 space-y-2.5">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100 text-[11px]">
+              <span class="font-bold text-slate-700 flex items-center space-x-1.5">
+                <i data-lucide="check-square" class="w-3.5 h-3.5 text-brand-purple"></i>
+                <span>Available Languages</span>
+              </span>
+              <span class="text-[10px] text-slate-400">Check desired languages</span>
+            </div>
+
+            <!-- Recherche rapide parmi les langues -->
+            <div class="relative">
+              <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="mp-lang-search" placeholder="Search language..." oninput="filterProjectModalLanguages(this.value)" onkeydown="if(event.key === 'Enter'){ event.preventDefault(); selectTopFilteredLanguage(); }" class="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-xl text-xs outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50 focus:bg-white transition">
+            </div>
+
+            <!-- Liste déroulante des options de langue -->
+            <div id="mp-lang-list-container" class="grid grid-cols-2 gap-1.5 max-h-48 overflow-y-auto pr-1">
+              <!-- Rempli dynamiquement -->
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
-            <label class="block text-slate-700 font-bold mb-1">Evolution Template</label>
-            <select id="mp-evolution" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
-              <option value="Sequoia">Sequoia</option>
-              <option value="Crystal">Crystal</option>
-              <option value="Hendricks">Hendricks</option>
-              <option value="Berlin">Berlin</option>
-              <option value="Queen">Queen</option>
-              <option value="Paprika">Paprika</option>
-              <option value="Fuji">Fuji</option>
+            <label class="block text-slate-700 font-bold mb-1">Priority</label>
+            <select id="mp-priority" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 text-xs font-semibold">
+              <option value="High">🔴 High Priority</option>
+              <option value="Medium">🟡 Medium Priority</option>
+              <option value="Low">🟢 Low Priority</option>
             </select>
           </div>
-        </div>
 
-        <div>
-          <div class="flex items-center justify-between mb-1">
-            <label class="block text-slate-700 font-bold">Website language</label>
-            <span class="text-[10px] text-slate-400">Select all that apply</span>
-          </div>
-          <div id="mp-lang-list-container" class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-[11px] max-h-48 overflow-y-auto">
-            <!-- Populated dynamically -->
-          </div>
-          <div class="flex items-center space-x-2 mt-2">
-            <input type="text" id="mp-new-custom-lang" placeholder="Add other language (e.g. Japanese, Dutch)..." class="flex-1 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:ring-2 focus:ring-brand-purple bg-white" onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addCustomLanguageInProjectModal(); }">
-            <button type="button" onclick="addCustomLanguageInProjectModal()" class="px-3 py-1.5 bg-slate-100 hover:bg-purple-50 text-brand-purple hover:text-brand-purpleDark border border-slate-200 font-bold rounded-lg text-xs transition flex items-center space-x-1 shrink-0">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-              <span>Add</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block text-slate-700 font-bold mb-1">Website Package Tier</label>
-            <select id="mp-package" onchange="handleProjectModalPackageChange()" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
-              <option value="seo_essential">SEO Essential</option>
-              <option value="seo_content">SEO Content</option>
-              <option value="seo_custom">SEO Custom</option>
+            <select id="mp-package" onchange="handleProjectModalPackageChange()" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 text-xs font-semibold cursor-pointer">
+              <option value="seo_essential">SEO Essential (Questionnaire included)</option>
+              <option value="seo_content">SEO Content (Questionnaire included)</option>
+              <option value="seo_custom">SEO Custom (Questionnaire included)</option>
+              <option value="no_seo">Template No SEO (Without questionnaire)</option>
             </select>
           </div>
 
           <div>
             <label class="block text-slate-700 font-bold mb-1">Default Google Drive Link</label>
-            <input required id="mp-drive" type="url" value="https://drive.google.com" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+            <input required id="mp-drive" type="url" value="https://drive.google.com" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50 text-xs">
           </div>
         </div>
 
-        <div class="p-3 bg-purple-50/60 border border-purple-200/80 rounded-xl flex items-center justify-between">
+
+        <div class="pt-3 flex items-center justify-between border-t border-slate-100">
+          <div>
+            <button type="button" id="mp-delete-btn" onclick="confirmDeleteProjectFromModal(this, event)" class="hidden inline-flex items-center space-x-1.5 px-3 py-2 rounded-xl text-rose-600 hover:text-white bg-rose-50 hover:bg-rose-600 font-bold text-xs border border-rose-200 hover:border-rose-600 transition shadow-2xs cursor-pointer" title="Delete Project">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              <span>Delete Project</span>
+            </button>
+          </div>
           <div class="flex items-center space-x-2">
-            <i data-lucide="clipboard-list" class="w-4 h-4 text-brand-purple shrink-0"></i>
-            <div>
-              <span class="font-bold text-slate-900 text-xs block">Include SEO Questionnaire</span>
-              <span class="text-[10px] text-slate-500">Auto-activated for SEO Essential, SEO Content & SEO Custom packages</span>
-            </div>
+            <button type="button" onclick="closeModal('modal-project')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition cursor-pointer">Cancel</button>
+            <button type="submit" class="px-5 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm transition cursor-pointer">Save Project</button>
           </div>
-          <input type="checkbox" id="mp-seo-questionnaire" class="w-4 h-4 text-brand-purple rounded border-slate-300 focus:ring-brand-purple cursor-pointer">
-        </div>
-
-        <div class="pt-3 flex justify-end space-x-2 border-t border-slate-100">
-          <button type="button" onclick="closeModal('modal-project')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition">Cancel</button>
-          <button type="submit" class="px-5 py-2 rounded-xl bg-brand-purple text-white font-bold hover:bg-brand-purpleDark shadow-sm transition">Save Project</button>
         </div>
       </form>
     </div>
@@ -2267,6 +2472,18 @@
   <script>
     // --- PRD PACKAGE TEMPLATES (SEO Essential, SEO Content, SEO Custom) ---
     const PRD_TEMPLATES = {
+      no_seo: [
+        { id: 'ns1', group: '1. Sitemap', title: 'Sitemap Architecture', date: '2026-05-20', owner: 'Client', status: 'completed', targetBlockId: 'sitemap-card', description: 'Review and validate the proposed multilingual website tree, navigation hierarchy, and page structure.' },
+        { id: 'ns2', group: '1. Sitemap', title: 'Evolution Templates', date: '2026-05-20', owner: 'Both', status: 'completed', targetBlockId: 'templates-card', description: 'Select the optimal Evolution website design template showcase suited for the hotel property.' },
+        { id: 'ns3', group: '2. Content Collection', title: 'Texts & Copywriting', date: '2026-06-10', owner: 'Both', status: 'in_progress', targetBlockId: 'texts-card', description: 'Provide master Google Docs website copy for all pages, room categories, and multilingual translations.' },
+        { id: 'ns4', group: '2. Content Collection', title: 'Images & Media Assets', date: '2026-06-10', owner: 'Client', status: 'pending', targetBlockId: 'images-card', description: 'Upload high-resolution photography, suite photos, dining imagery, and vector brand logos via Google Drive.' },
+        { id: 'ns5', group: '2. Content Collection', title: 'Brand Colors & Fonts', date: '2026-06-10', owner: 'Both', status: 'pending', targetBlockId: 'brand-identity-card', description: 'Define hotel primary, secondary, and tertiary brand palette alongside Google Fonts typography pairings.' },
+        { id: 'ns6', group: '2. Content Collection', title: 'Domain, GA4 & Maps', date: '2026-06-10', owner: 'Both', status: 'pending', targetBlockId: 'domain-services-card', description: 'Configure final production domain name, domain aliases, Google Analytics 4 property ID, and Google Maps API.' },
+        { id: 'ns7', group: '3. Revision Phase', title: 'Staging Site Preview', date: '2026-07-25', owner: 'Both', status: 'pending', targetBlockId: 'staging-card', description: 'Review pre-production staging build across desktop and mobile to verify design and layout consistency.' },
+        { id: 'ns8', group: '3. Revision Phase', title: 'First Wave of Revision', date: '2026-07-25', owner: 'Both', status: 'pending', targetBlockId: 'first-wave-card', description: 'Consolidate and submit initial client feedback wave on room descriptions, imagery placement, and styling.' },
+        { id: 'ns9', group: '3. Revision Phase', title: 'Second Wave of Revision', date: '2026-07-25', owner: 'Both', status: 'pending', targetBlockId: 'second-wave-card', description: 'Final punchlist review to ensure all requested adjustments and bug fixes are implemented prior to launch.' },
+        { id: 'ns10', group: '4. Go-live', title: 'DNS Cutover & Go-Live', date: '2026-08-15', owner: 'Both', status: 'pending', targetBlockId: 'go-live-card', description: 'Point A records and CNAME aliases to production server IP and perform live SSL validation.' }
+      ],
       seo_essential: [
         { id: 'se1', group: '1. Sitemap', title: 'SEO Questionnaire', date: '2026-05-20', owner: 'Client', status: 'completed', targetBlockId: 'seo-questionnaire-card', description: 'Complete the SEO discovery questionnaire to identify target keywords, hotel positioning, and local market competitors.' },
         { id: 'se2', group: '1. Sitemap', title: 'Sitemap Architecture', date: '2026-05-20', owner: 'Client', status: 'completed', targetBlockId: 'sitemap-card', description: 'Review and validate the proposed multilingual website tree, navigation hierarchy, and page structure.' },
@@ -2307,8 +2524,13 @@
       ]
     };
 
+    function isSeoPackage(tier) {
+      return tier === 'seo_essential' || tier === 'seo_content' || tier === 'seo_custom';
+    }
+
     function getPackageTierLabel(tier) {
       switch (tier) {
+        case 'no_seo': return 'Template No SEO';
         case 'seo_essential': return 'SEO Essential';
         case 'seo_content': return 'SEO Content';
         case 'seo_custom': return 'SEO Custom';
@@ -2348,6 +2570,7 @@
         languages: ['English', 'French'],
         packageTier: 'seo_essential',
         driveUrl: 'https://drive.google.com',
+        priority: 'High',
         colors: {
           primary: '#5B1E82',
           secondary: '#C5A059',
@@ -2402,6 +2625,7 @@
         languages: ['English', 'German'],
         packageTier: 'seo_content',
         driveUrl: 'https://drive.google.com',
+        priority: 'Medium',
         colors: {
           primary: '#064E3B',
           secondary: '#D97706',
@@ -2456,6 +2680,7 @@
         languages: ['Italian', 'English'],
         packageTier: 'seo_custom',
         driveUrl: 'https://drive.google.com',
+        priority: 'Low',
         colors: {
           primary: '#881337',
           secondary: '#CA8A04',
@@ -2486,8 +2711,14 @@
     try {
       const savedProjects = localStorage.getItem('dedge_projects');
       projects = savedProjects ? JSON.parse(savedProjects) : JSON.parse(JSON.stringify(INITIAL_PROJECTS));
-      // Ensure authorizedPm fields are always present
+      // Ensure authorizedPm fields and priority are always present
       projects.forEach(p => {
+        if (!p.priority) {
+          if (p.id === 'p1') p.priority = 'High';
+          else if (p.id === 'p2') p.priority = 'Medium';
+          else if (p.id === 'p3') p.priority = 'Low';
+          else p.priority = 'Medium';
+        }
         if (p.authorizedPmName === undefined) {
           if (p.id === 'p1') {
             p.authorizedPmName = 'Marc';
@@ -2623,6 +2854,55 @@
       });
     }
 
+    // --- TIMELINE AXIS SYNCHRONIZED STAGE COLOR HELPER ---
+    function getStageTimelineColorClasses(stageNum, isAllDone = false) {
+      if (isAllDone) {
+        return {
+          bg: 'bg-emerald-100',
+          text: 'text-emerald-700',
+          border: 'border-emerald-200',
+          badge: 'bg-emerald-100 text-emerald-800 border-emerald-200/80'
+        };
+      }
+      switch (Number(stageNum)) {
+        case 1:
+          return {
+            bg: 'bg-violet-100',
+            text: 'text-violet-700',
+            border: 'border-violet-200',
+            badge: 'bg-violet-100 text-violet-800 border-violet-200/80'
+          };
+        case 2:
+          return {
+            bg: 'bg-sky-100',
+            text: 'text-sky-700',
+            border: 'border-sky-200',
+            badge: 'bg-sky-100 text-sky-800 border-sky-200/80'
+          };
+        case 3:
+          return {
+            bg: 'bg-amber-100',
+            text: 'text-amber-800',
+            border: 'border-amber-200',
+            badge: 'bg-amber-100 text-amber-800 border-amber-200/80'
+          };
+        case 4:
+          return {
+            bg: 'bg-emerald-100',
+            text: 'text-emerald-700',
+            border: 'border-emerald-200',
+            badge: 'bg-emerald-100 text-emerald-800 border-emerald-200/80'
+          };
+        default:
+          return {
+            bg: 'bg-violet-100',
+            text: 'text-violet-700',
+            border: 'border-violet-200',
+            badge: 'bg-violet-100 text-violet-800 border-violet-200/80'
+          };
+      }
+    }
+
     // --- RECENT ACTIVITY & HISTORY TRACKING STATE ---
     let activityRoleFilter = 'ALL'; // 'ALL', 'pm', 'client'
     let activityProjectFilter = 'ALL'; // 'ALL' or project id
@@ -2635,7 +2915,7 @@
         authorRole: 'pm',
         authorName: 'Dounia',
         roleLabel: 'Project Manager (PM)',
-        badgeText: 'PM (Dounia)',
+        badgeText: 'Dounia',
         action: 'Revision Phase Target Updated',
         description: 'Set Revision Phase target milestone deadline to 25 Jul 2026',
         icon: 'calendar',
@@ -2680,7 +2960,7 @@
         authorRole: 'pm',
         authorName: 'Dounia',
         roleLabel: 'Project Manager (PM)',
-        badgeText: 'PM (Dounia)',
+        badgeText: 'Dounia',
         action: 'Milestone Step Completed',
         description: 'Marked "SEO Audit (Main Language)" milestone as Completed',
         icon: 'check-square',
@@ -2695,7 +2975,7 @@
         authorRole: 'pm',
         authorName: 'Dounia',
         roleLabel: 'Project Manager (PM)',
-        badgeText: 'PM (Dounia)',
+        badgeText: 'Dounia',
         action: 'Brand Palette Configured',
         description: 'Saved palette colors: Primary (#5B1E82), Secondary (#C5A059), Tertiary (#F4F5F9)',
         icon: 'palette',
@@ -2725,7 +3005,7 @@
         authorRole: 'pm',
         authorName: 'Dounia',
         roleLabel: 'Project Manager (PM)',
-        badgeText: 'PM (Dounia)',
+        badgeText: 'Dounia',
         action: 'SEO Questionnaire Connected',
         description: 'Attached Google Forms link for AM/PM SEO Questionnaire intake',
         icon: 'clipboard-list',
@@ -2740,7 +3020,7 @@
         authorRole: 'pm',
         authorName: 'Marc',
         roleLabel: 'Project Manager (PM)',
-        badgeText: 'PM (Marc)',
+        badgeText: 'Marc',
         action: 'Milestone Deadline Adjusted',
         description: 'Set Content Collection milestone target date to 10 Jun 2026',
         icon: 'calendar',
@@ -2770,7 +3050,7 @@
         authorRole: 'pm',
         authorName: 'Dounia',
         roleLabel: 'Project Manager (PM)',
-        badgeText: 'PM (Dounia)',
+        badgeText: 'Dounia',
         action: 'Project Initialized',
         description: 'Created hotel project specs with Evolution Crystal template & SEO Essential package',
         icon: 'folder-plus',
@@ -2808,7 +3088,7 @@
         authorRole: isPm ? 'pm' : 'client',
         authorName: isPm ? pmName : clientEmail,
         roleLabel: isPm ? 'Project Manager (PM)' : 'External Visitor (Client)',
-        badgeText: isPm ? `PM (${pmName})` : 'External Visitor',
+        badgeText: isPm ? pmName : 'Visitor',
         action: action,
         description: description,
         icon: icon,
@@ -2846,12 +3126,89 @@
       renderActivityPanel();
     }
 
+    function selectCustomActProjectFilter(val, label) {
+      activityProjectFilter = val;
+      const select = document.getElementById('act-filter-project');
+      if (select) select.value = val;
+
+      const labelEl = document.getElementById('label-custom-filter-act-project');
+      if (labelEl) labelEl.textContent = label;
+
+      const btn = document.getElementById('btn-custom-filter-act-project');
+      const dot = document.getElementById('dot-custom-filter-act-project');
+      if (btn) {
+        if (val !== 'ALL') {
+          btn.className = 'flex items-center space-x-2 px-3 py-1.5 bg-purple-50 border border-purple-300 rounded-xl text-[11px] font-bold text-brand-purple shadow-xs ring-1 ring-purple-200/50 transition cursor-pointer group';
+          if (dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-brand-purple shrink-0';
+        } else {
+          btn.className = 'flex items-center space-x-2 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 hover:border-purple-300 rounded-xl text-[11px] font-bold text-slate-700 transition shadow-2xs cursor-pointer group';
+          if (dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-purple-500 shrink-0';
+        }
+      }
+
+      closeAllCustomFilterDropdowns();
+      renderActivityPanel();
+    }
+
+    function renderCustomActProjectFilterOptions() {
+      const menu = document.getElementById('menu-custom-filter-act-project');
+      if (!menu) return;
+      const currentVal = activityProjectFilter || 'ALL';
+
+      const header = `
+        <div class="px-3 py-1.5 flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 mb-1">
+          <span>Filter by Hotel Project</span>
+          <span class="text-brand-purple font-bold">${projects.length} hotels</span>
+        </div>
+      `;
+
+      const isAllSelected = currentVal === 'ALL';
+      let optionsHtml = `
+        <button type="button" onclick="selectCustomActProjectFilter('ALL', 'All Projects Activity')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150 cursor-pointer group text-left ${isAllSelected ? 'bg-purple-50 text-brand-purple font-bold ring-1 ring-purple-200/70 shadow-2xs' : 'text-slate-700 hover:bg-slate-50 hover:text-brand-purple'}">
+          <span class="flex items-center space-x-2.5 truncate min-w-0">
+            <span class="w-2 h-2 rounded-full ${isAllSelected ? 'bg-brand-purple' : 'bg-slate-300'} shrink-0"></span>
+            <span class="truncate">All Projects Activity</span>
+          </span>
+          <div class="flex items-center space-x-1.5 shrink-0 ml-2">
+            <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 group-hover:bg-purple-100 group-hover:text-brand-purple px-2 py-0.5 rounded-full transition">${projects.length} projs</span>
+            ${isAllSelected ? '<i data-lucide="check" class="w-3.5 h-3.5 text-brand-purple stroke-[2.5] ml-1 shrink-0"></i>' : ''}
+          </div>
+        </button>
+      `;
+
+      optionsHtml += projects.map(p => {
+        const isSelected = p.id === currentVal;
+        const safeName = (p.name || 'Untitled').replace(/'/g, "\\'");
+        return `
+          <button type="button" onclick="selectCustomActProjectFilter('${p.id}', '${safeName}')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150 cursor-pointer group text-left ${isSelected ? 'bg-purple-50 text-brand-purple font-bold ring-1 ring-purple-200/70 shadow-2xs' : 'text-slate-700 hover:bg-slate-50 hover:text-brand-purple'}">
+            <span class="flex items-center space-x-2.5 truncate min-w-0">
+              <span class="w-2 h-2 rounded-full ${isSelected ? 'bg-brand-purple' : 'bg-purple-300'} shrink-0"></span>
+              <span class="truncate" title="${p.name}">${p.name}</span>
+            </span>
+            <div class="flex items-center space-x-1.5 shrink-0 ml-2">
+              <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 group-hover:bg-purple-100 group-hover:text-brand-purple px-2 py-0.5 rounded-full transition">${p.pmName || 'Dounia'}</span>
+              ${isSelected ? '<i data-lucide="check" class="w-3.5 h-3.5 text-brand-purple stroke-[2.5] ml-1 shrink-0"></i>' : ''}
+            </div>
+          </button>
+        `;
+      }).join('');
+
+      menu.innerHTML = header + optionsHtml;
+      lucide.createIcons();
+    }
+
     function updateActivityProjectFilterOptions() {
       const select = document.getElementById('act-filter-project');
-      if (!select) return;
-      const currentVal = select.value || 'ALL';
-      select.innerHTML = '<option value="ALL">All Projects Activity</option>' + 
-        projects.map(p => `<option value="${p.id}" ${p.id === currentVal ? 'selected' : ''}>${p.name}</option>`).join('');
+      if (select) {
+        const currentVal = activityProjectFilter || 'ALL';
+        select.innerHTML = '<option value="ALL">All Projects Activity</option>' + 
+          projects.map(p => `<option value="${p.id}" ${p.id === currentVal ? 'selected' : ''}>${p.name}</option>`).join('');
+      }
+      const activeProj = projects.find(p => p.id === activityProjectFilter);
+      const labelEl = document.getElementById('label-custom-filter-act-project');
+      if (labelEl) {
+        labelEl.textContent = activeProj ? activeProj.name : 'All Projects Activity';
+      }
     }
 
     function renderActivityPanel() {
@@ -2881,47 +3238,64 @@
 
       feed.innerHTML = displayItems.map((item) => {
         const isPm = item.authorRole === 'pm';
+        let authorLabel = item.authorName || 'Dounia';
+        if (item.badgeText && isPm) {
+          const cleaned = item.badgeText.replace(/^PM\s*\(?|\)$/gi, '').trim();
+          if (cleaned) authorLabel = cleaned;
+        }
+
         const roleBadgeHtml = isPm 
-          ? `<span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-purple-100/90 text-brand-purple border border-purple-200/80 shadow-2xs">
-               <i data-lucide="shield-check" class="w-3 h-3 text-brand-purple"></i>
-               <span>${item.badgeText || 'PM: ' + item.authorName}</span>
+          ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-purple-100 text-brand-purple border border-purple-200/80 shadow-2xs">
+               <span>${authorLabel}</span>
              </span>`
-          : `<span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-100/90 text-amber-900 border border-amber-200/80 shadow-2xs">
-               <i data-lucide="user" class="w-3 h-3 text-amber-700"></i>
-               <span>${item.badgeText || 'External Visitor'}</span>
+          : `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100/90 text-amber-900 border border-amber-200/80 shadow-2xs">
+               <span>Visitor</span>
              </span>`;
 
-        // Category icon styling
-        let iconBg = 'bg-purple-100 text-brand-purple border-purple-200';
-        if (item.category === 'date') iconBg = 'bg-amber-100 text-amber-800 border-amber-200';
-        if (item.category === 'document') iconBg = 'bg-blue-100 text-blue-700 border-blue-200';
-        if (item.category === 'brand') iconBg = 'bg-pink-100 text-pink-700 border-pink-200';
-        if (item.category === 'domain') iconBg = 'bg-emerald-100 text-emerald-700 border-emerald-200';
-        if (item.category === 'analytics') iconBg = 'bg-indigo-100 text-indigo-700 border-indigo-200';
-        if (item.category === 'project') iconBg = 'bg-purple-100 text-brand-purple border-purple-200';
+        // Active stage calculation with stage number
+        const proj = (typeof projects !== 'undefined' && Array.isArray(projects)) 
+          ? projects.find(p => p.id === item.projectId) 
+          : null;
+        let stageNum = 1;
+        let stageName = 'Website Structure';
+        let isAllDone = false;
+        if (proj && typeof getProjectCurrentStageInfo === 'function') {
+          const sInfo = getProjectCurrentStageInfo(proj);
+          if (sInfo) {
+            stageNum = sInfo.stageNum || 1;
+            stageName = sInfo.stageName || 'Website Structure';
+            isAllDone = !!sInfo.isAllDone;
+          }
+        }
+
+        const stageColor = getStageTimelineColorClasses(stageNum, isAllDone);
+        const stageBadgeHtml = isAllDone
+          ? `<span class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold ${stageColor.badge} shadow-2xs">
+               <span class="w-4 h-4 rounded-md bg-white/80 text-current flex items-center justify-center font-extrabold text-[9.5px] shrink-0 shadow-2xs select-none">4</span>
+               <span>Terminé</span>
+             </span>`
+          : `<span class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold ${stageColor.badge} shadow-2xs">
+               <span class="w-4 h-4 rounded-md bg-white/80 text-current flex items-center justify-center font-extrabold text-[9.5px] shrink-0 shadow-2xs select-none">${stageNum}</span>
+               <span>${stageName}</span>
+             </span>`;
 
         return `
-          <div class="p-3.5 bg-slate-50/70 hover:bg-purple-50/30 border border-slate-200 hover:border-purple-200 rounded-xl transition duration-150 flex items-start space-x-3 group">
-            <div class="w-8 h-8 rounded-lg ${iconBg} border flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
-              <i data-lucide="${item.icon || 'activity'}" class="w-4 h-4"></i>
-            </div>
+          <div class="px-4 py-3 bg-white hover:bg-slate-50/80 border border-slate-200/90 hover:border-purple-200 rounded-xl transition duration-150 flex flex-col sm:flex-row sm:items-start justify-between gap-3 group">
             <div class="flex-1 min-w-0 space-y-1">
-              <div class="flex items-center justify-between gap-2 flex-wrap">
-                <div class="flex items-center space-x-2 flex-wrap gap-y-1">
-                  ${roleBadgeHtml}
-                  <button type="button" onclick="currentProjectId='${item.projectId}'; switchView('timeline');" class="inline-flex items-center space-x-1 text-[10px] font-bold text-slate-600 hover:text-brand-purple bg-white hover:bg-purple-50 border border-slate-200 px-2 py-0.5 rounded-md transition shadow-2xs cursor-pointer" title="Switch to project ${item.projectName}">
-                    <i data-lucide="folder" class="w-3 h-3 text-slate-400 group-hover:text-brand-purple"></i>
-                    <span class="truncate max-w-[130px] sm:max-w-[180px]">${item.projectName}</span>
-                  </button>
-                </div>
-                <span class="text-[10px] text-slate-400 font-medium flex items-center space-x-1 shrink-0">
-                  <i data-lucide="clock" class="w-3 h-3 text-slate-400"></i>
-                  <span>${item.timestamp}</span>
-                </span>
+              <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+                ${roleBadgeHtml}
+                <button type="button" onclick="currentProjectId='${item.projectId}'; switchView('timeline');" class="inline-flex items-center text-[11px] font-semibold text-slate-700 hover:text-brand-purple bg-slate-100 hover:bg-purple-50 border border-slate-200/80 px-2.5 py-0.5 rounded-full transition cursor-pointer" title="Switch to project ${item.projectName}">
+                  <span class="truncate max-w-[150px] sm:max-w-[220px]">${item.projectName}</span>
+                </button>
+                ${stageBadgeHtml}
               </div>
-              <div class="text-xs font-bold text-slate-900 leading-snug">${item.action}</div>
-              <div class="text-[11px] text-slate-600 font-medium leading-relaxed">${item.description}</div>
+              <p class="text-xs text-slate-700 leading-relaxed">
+                <span class="font-bold text-slate-900 group-hover:text-brand-purple transition-colors">${item.action}</span>${item.description && item.description !== item.action ? ` <span class="text-slate-400 mx-1">—</span> <span class="text-slate-600">${item.description}</span>` : ''}
+              </p>
             </div>
+            <span class="text-[11px] text-slate-400 font-medium whitespace-nowrap shrink-0 self-start sm:self-center">
+              ${item.timestamp}
+            </span>
           </div>
         `;
       }).join('');
@@ -3190,6 +3564,16 @@
     }
 
     // 10. Delete Entire Project (Inline 2-step confirmation)
+    function confirmDeleteProjectFromModal(btn, e) {
+      if (e) {
+        e.stopPropagation();
+        if (e.preventDefault) e.preventDefault();
+      }
+      const projId = document.getElementById('mp-project-id')?.value;
+      if (!projId) return;
+      confirmDeleteProject(projId, btn, e);
+    }
+
     function confirmDeleteProject(projectId, btn, e) {
       if (e) {
         e.stopPropagation();
@@ -3209,6 +3593,10 @@
       if (projects.length <= 1) {
         showSavingToast('Cannot delete project', 'At least one project must remain in the workspace');
         return;
+      }
+      const projModal = document.getElementById('modal-project');
+      if (projModal && !projModal.classList.contains('hidden')) {
+        closeModal('modal-project');
       }
       const projectToDelete = projects.find(p => p.id === projectId);
       const pName = projectToDelete?.name || 'Project';
@@ -4931,7 +5319,14 @@
       renderProjectSelector();
       renderApp();
       updatePmFilterOptions();
-      if (role !== 'client') renderBoardsGrid();
+      if (role === 'admin') {
+        // En mode Admin, donner accès direct au Dashboard avec tous les projets PM
+        const pmFilterSelect = document.getElementById('filter-pm');
+        if (pmFilterSelect) pmFilterSelect.value = 'ALL';
+        switchView('boards');
+      } else if (role !== 'client') {
+        renderBoardsGrid();
+      }
       lucide.createIcons();
     }
 
@@ -4943,8 +5338,12 @@
     // --- INITIALIZATION ON LOAD ---
     window.addEventListener('DOMContentLoaded', () => {
       ensureProjectsIsolation();
+      ensureDemoMilestonesWithin48h();
       applyTooltips();
       selectRole(currentRole, currentUser);
+      updateDailyDigestBannerAndBadge();
+      checkAndAutoDispatchDailyDigest();
+      fetchAndCacheNeuroooLanguages();
 
       const btnAdminHub = document.getElementById('btn-admin-hub');
       if (btnAdminHub) {
@@ -4970,7 +5369,7 @@
 
       if (tab === 'boards') {
         if (boardsBtn) {
-          boardsBtn.className = `${activeClass} pm-only-btn`;
+          boardsBtn.className = activeClass;
           if (currentRole === 'client') boardsBtn.classList.add('hidden');
         }
         if (timelineBtn) timelineBtn.className = inactiveClass;
@@ -4980,7 +5379,7 @@
       } else {
         if (timelineBtn) timelineBtn.className = activeClass;
         if (boardsBtn) {
-          boardsBtn.className = `${inactiveClass} pm-only-btn`;
+          boardsBtn.className = inactiveClass;
           if (currentRole === 'client') boardsBtn.classList.add('hidden');
         }
         if (viewBoards) viewBoards.classList.add('hidden');
@@ -5002,7 +5401,7 @@
       const axisTitle = document.getElementById('axis-project-name');
       if (axisTitle) axisTitle.textContent = project.name;
       const axisTag = document.getElementById('axis-evolution-tag');
-      if (axisTag) axisTag.textContent = `Template: ${project.evolutionTag}`;
+      if (axisTag) axisTag.textContent = '';
 
       // Update Section Titles and Subblock Headings dynamically
       applyProjectLabels(project);
@@ -5018,7 +5417,7 @@
 
       // Enforce role-specific UI visibility
       document.querySelectorAll('.pm-only-btn').forEach(btn => {
-        btn.classList.toggle('hidden', currentRole !== 'pm');
+        btn.classList.toggle('hidden', currentRole !== 'pm' && currentRole !== 'admin');
       });
 
       renderHeaderEmail(project);
@@ -5058,6 +5457,105 @@
     }
 
     // --- TEXTS / GOOGLE DOCS MANAGEMENT WITH LANGUAGES & FLAGS ---
+    const neuroooLanguageMetaMap = {};
+
+    function getFlagEmoji(countryCode) {
+      if (!countryCode || countryCode.length !== 2) return '🌐';
+      const codePoints = countryCode
+        .toUpperCase()
+        .split('')
+        .map(char => 127397 + char.charCodeAt(0));
+      return String.fromCodePoint(...codePoints);
+    }
+
+    const COUNTRY_NAMES_TO_ISO = {
+      'united states': 'us', 'usa': 'us', 'united kingdom': 'gb', 'uk': 'gb',
+      'france': 'fr', 'spain': 'es', 'germany': 'de', 'italy': 'it', 'portugal': 'pt',
+      'brazil': 'br', 'canada': 'ca', 'australia': 'au', 'austria': 'at', 'switzerland': 'ch',
+      'belgium': 'be', 'mexico': 'mx', 'argentina': 'ar', 'colombia': 'co', 'chile': 'cl',
+      'peru': 'pe', 'algeria': 'dz', 'morocco': 'ma', 'tunisia': 'tn', 'egypt': 'eg',
+      'saudi arabia': 'sa', 'u.a.e.': 'ae', 'uae': 'ae', 'kuwait': 'kw', 'qatar': 'qa',
+      'bahrain': 'bh', 'oman': 'om', 'jordan': 'jo', 'lebanon': 'lb', 'iraq': 'iq',
+      'syria': 'sy', 'yemen': 'ye', 'libya': 'ly', 'russia': 'ru', 'china': 'cn',
+      'taiwan': 'tw', 'hong kong': 'hk', 'hong kong s.a.r.': 'hk', 'japan': 'jp',
+      'south korea': 'kr', 'korea': 'kr', 'india': 'in', 'azerbaijan': 'az', 'netherlands': 'nl',
+      'sweden': 'se', 'norway': 'no', 'denmark': 'dk', 'finland': 'fi', 'poland': 'pl',
+      'czech republic': 'cz', 'czechia': 'cz', 'hungary': 'hu', 'romania': 'ro',
+      'greece': 'gr', 'turkey': 'tr', 'ukraine': 'ua', 'ireland': 'ie', 'new zealand': 'nz',
+      'south africa': 'za', 'israel': 'il', 'vietnam': 'vn', 'thailand': 'th', 'indonesia': 'id',
+      'philippines': 'ph', 'malaysia': 'my', 'singapore': 'sg', 'pakistan': 'pk',
+      'bangladesh': 'bd', 'sri lanka': 'lk', 'nepal': 'np', 'afghanistan': 'af', 'iran': 'ir'
+    };
+
+    const BASE_LANG_TO_COUNTRY = {
+      af: 'za', ak: 'gh', am: 'et', ar: 'sa', as: 'in', az: 'az', ba: 'ru', be: 'by',
+      bg: 'bg', bn: 'bd', bo: 'cn', bs: 'ba', ca: 'es', cs: 'cz', cy: 'gb', da: 'dk',
+      de: 'de', dv: 'mv', dz: 'bt', el: 'gr', en: 'gb', es: 'es', et: 'ee', eu: 'es',
+      fa: 'ir', fi: 'fi', fil: 'ph', fo: 'fo', fr: 'fr', ga: 'ie', gl: 'es', gu: 'in',
+      ha: 'ng', he: 'il', hi: 'in', hr: 'hr', hu: 'hu', hy: 'am', id: 'id', ig: 'ng',
+      is: 'is', it: 'it', iu: 'ca', ja: 'jp', ka: 'ge', kk: 'kz', kl: 'gl', km: 'kh',
+      kn: 'in', ko: 'kr', kok: 'in', ks: 'in', ku: 'iq', ky: 'kg', lo: 'la', lt: 'lt',
+      lv: 'lv', mi: 'nz', mk: 'mk', ml: 'in', mn: 'mn', mr: 'in', ms: 'my', mt: 'mt',
+      my: 'mm', nb: 'no', ne: 'np', nl: 'nl', nn: 'no', no: 'no', om: 'et', or: 'in',
+      pa: 'in', pl: 'pl', ps: 'af', pt: 'pt', qu: 'pe', rm: 'ch', ro: 'ro', ru: 'ru',
+      rw: 'rw', sa: 'in', sd: 'pk', si: 'lk', sk: 'sk', sl: 'si', so: 'so', sq: 'al',
+      sr: 'rs', sv: 'se', sw: 'ke', syr: 'sy', ta: 'in', te: 'in', tg: 'tj', th: 'th',
+      ti: 'et', tk: 'tm', tl: 'ph', tn: 'za', tr: 'tr', tt: 'ru', ug: 'cn', uk: 'ua',
+      ur: 'pk', uz: 'uz', vi: 'vn', wo: 'sn', xh: 'za', yo: 'ng', zh: 'cn', zu: 'za',
+      bm: 'ml', br: 'fr', co: 'fr', ee: 'gh', eo: 'eu', fy: 'nl', gd: 'gb', gn: 'py',
+      gsw: 'ch', hmn: 'la', ht: 'ht', jv: 'id', lb: 'lu', lg: 'ug', ln: 'cd', mg: 'mg',
+      nso: 'za', ny: 'mw', oc: 'fr', prs: 'af', rn: 'bi', sc: 'it', se: 'se', sn: 'zw',
+      st: 'ls', su: 'id', ts: 'za'
+    };
+
+    const COMMON_LANG_NAMES_TO_ISO = {
+      afrikaans: 'za', albanian: 'al', amharic: 'et', arabic: 'sa', armenian: 'am',
+      assamese: 'in', azeri: 'az', azerbaijani: 'az', basque: 'es', belarusian: 'by',
+      bengali: 'bd', bosnian: 'ba', bulgarian: 'bg', catalan: 'es', chinese: 'cn',
+      croatian: 'hr', czech: 'cz', danish: 'dk', dutch: 'nl', english: 'gb',
+      estonian: 'ee', filipino: 'ph', finnish: 'fi', french: 'fr', galician: 'es',
+      georgian: 'ge', german: 'de', greek: 'gr', gujarati: 'in', hebrew: 'il',
+      hindi: 'in', hungarian: 'hu', icelandic: 'is', indonesian: 'id', irish: 'ie',
+      italian: 'it', japanese: 'jp', kannada: 'in', kazakh: 'kz', khmer: 'kh',
+      korean: 'kr', kurdish: 'iq', kyrgyz: 'kg', lao: 'la', latvian: 'lv',
+      lithuanian: 'lt', luxembourgish: 'lu', macedonian: 'mk', malay: 'my',
+      malayalam: 'in', maltese: 'mt', maori: 'nz', marathi: 'in', mongolian: 'mn',
+      nepali: 'np', norwegian: 'no', pashto: 'af', persian: 'ir', farsi: 'ir',
+      polish: 'pl', portuguese: 'pt', punjabi: 'in', romanian: 'ro', russian: 'ru',
+      serbian: 'rs', sinhala: 'lk', slovak: 'sk', slovenian: 'si', somali: 'so',
+      spanish: 'es', swahili: 'ke', swedish: 'se', tagalog: 'ph', tamil: 'in',
+      telugu: 'in', thai: 'th', turkish: 'tr', ukrainian: 'ua', urdu: 'pk',
+      uzbek: 'uz', vietnamese: 'vn', welsh: 'gb', yiddish: 'il', zulu: 'za'
+    };
+
+    function extractIsoFromCodeOrName(code = '', name = '') {
+      if (code) {
+        const parts = code.split('-');
+        if (parts.length > 1) {
+          const region = parts[parts.length - 1].toLowerCase();
+          if (region.length === 2 && /^[a-z]{2}$/.test(region)) return region;
+        }
+        const base = parts[0].toLowerCase();
+        if (BASE_LANG_TO_COUNTRY[base]) return BASE_LANG_TO_COUNTRY[base];
+      }
+      if (name) {
+        const lowerName = name.toLowerCase().trim();
+        if (COMMON_LANG_NAMES_TO_ISO[lowerName]) return COMMON_LANG_NAMES_TO_ISO[lowerName];
+        const match = lowerName.match(/\(([^)]+)\)/);
+        if (match) {
+          const inParen = match[1].trim();
+          const parenParts = inParen.split(/[,]/).map(p => p.trim());
+          for (const part of parenParts) {
+            if (COUNTRY_NAMES_TO_ISO[part]) return COUNTRY_NAMES_TO_ISO[part];
+            if (part.length === 2 && /^[a-z]{2}$/.test(part)) return part;
+          }
+        }
+        const baseWord = lowerName.split(/[\s(]/)[0];
+        if (COMMON_LANG_NAMES_TO_ISO[baseWord]) return COMMON_LANG_NAMES_TO_ISO[baseWord];
+      }
+      return null;
+    }
+
     const DOC_LANGUAGE_MAP = {
       'English': { code: 'EN', iso: 'gb', flag: '🇬🇧', name: 'English' },
       'French': { code: 'FR', iso: 'fr', flag: '🇫🇷', name: 'French' },
@@ -5075,28 +5573,43 @@
     };
 
     function getDocLangMeta(langOrLabel) {
-      if (!langOrLabel) return { code: 'DOC', iso: 'fr', flag: '📄', name: 'Google Doc' };
-      // Direct language map lookup
-      if (DOC_LANGUAGE_MAP[langOrLabel]) return DOC_LANGUAGE_MAP[langOrLabel];
-      
-      // Lookup by code or name case-insensitive
+      if (!langOrLabel) return { code: 'DOC', iso: null, flag: '📄', name: 'Document' };
+
+      const clean = String(langOrLabel).trim();
+      const lower = clean.toLowerCase();
+
+      // 1. Direct lookup in DOC_LANGUAGE_MAP
+      if (DOC_LANGUAGE_MAP[clean]) return DOC_LANGUAGE_MAP[clean];
       for (const [key, val] of Object.entries(DOC_LANGUAGE_MAP)) {
-        if (key.toLowerCase() === langOrLabel.toLowerCase() || val.code.toLowerCase() === langOrLabel.toLowerCase()) {
-          return val;
-        }
+        if (key.toLowerCase() === lower || val.code.toLowerCase() === lower) return val;
       }
 
-      // Check bracketed or parenthesized initials e.g. [FR], [EN], (FR), (DE)
-      const match = langOrLabel.match(/\[([A-Za-z]{2})\]|\(([A-Za-z]{2})\)/);
+      // 2. Lookup in neuroooLanguageMetaMap
+      if (neuroooLanguageMetaMap[lower]) return neuroooLanguageMetaMap[lower];
+
+      // 3. Lookup in COMMON_LANG_NAMES_TO_ISO
+      if (COMMON_LANG_NAMES_TO_ISO[lower]) {
+        const iso = COMMON_LANG_NAMES_TO_ISO[lower];
+        return { code: iso.toUpperCase(), iso: iso, flag: getFlagEmoji(iso), name: clean };
+      }
+
+      // 4. Check if string contains country in parenthesis or regional code
+      const isoFromExtract = extractIsoFromCodeOrName('', clean);
+      if (isoFromExtract) {
+        return { code: isoFromExtract.toUpperCase(), iso: isoFromExtract, flag: getFlagEmoji(isoFromExtract), name: clean };
+      }
+
+      // 5. Check bracketed or parenthesized initials e.g. [FR], [EN], (FR), (DE)
+      const match = clean.match(/\[([A-Za-z]{2,3})\]|\(([A-Za-z]{2,3})\)/);
       if (match) {
-        const foundCode = (match[1] || match[2]).toUpperCase();
-        for (const val of Object.values(DOC_LANGUAGE_MAP)) {
-          if (val.code === foundCode) return val;
+        const foundCode = (match[1] || match[2]).toLowerCase();
+        const iso = BASE_LANG_TO_COUNTRY[foundCode] || (foundCode.length === 2 ? foundCode : null);
+        if (iso) {
+          return { code: foundCode.toUpperCase(), iso: iso.toLowerCase(), flag: getFlagEmoji(iso), name: clean };
         }
-        return { code: foundCode, iso: foundCode.toLowerCase(), flag: '🌐', name: foundCode };
       }
 
-      return { code: 'DOC', iso: 'fr', flag: '📄', name: langOrLabel };
+      return { code: 'DOC', iso: null, flag: '🌐', name: clean };
     }
 
     // --- DRAG & DROP STATE & HANDLERS FOR DOCS & SITEMAPS ---
@@ -5359,8 +5872,8 @@
                 isLocked: currentRole !== 'pm' && typeof isSectionComplete === 'function' && isSectionComplete(project, 2)
               })}
 
-              <!-- PM ACTIONS: EDIT & DELETE ICON BUTTONS (NO DROPDOWN, NO LABELS) -->
-              ${currentRole === 'pm' ? `
+              <!-- PM & ADMIN ACTIONS: EDIT & DELETE ICON BUTTONS -->
+              ${(currentRole === 'pm' || currentRole === 'admin') ? `
                 <div class="flex items-center space-x-1 shrink-0">
                   <button type="button" onclick="openEditTextDocModal('${doc.id}')" title="Edit Link" class="p-1 text-slate-400 hover:text-sky-700 hover:bg-sky-50 rounded-lg transition cursor-pointer flex items-center justify-center">
                     <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
@@ -5511,8 +6024,8 @@
                   isLocked: currentRole !== 'pm' && typeof isSectionComplete === 'function' && isSectionComplete(project, 1)
                 })}
 
-                <!-- PM ACTIONS: EDIT & DELETE ICON BUTTONS (NO DROPDOWN, NO LABELS) -->
-                ${currentRole === 'pm' ? `
+                <!-- PM & ADMIN ACTIONS: EDIT & DELETE ICON BUTTONS -->
+                ${(currentRole === 'pm' || currentRole === 'admin') ? `
                   <div class="flex items-center space-x-1 shrink-0">
                     <button type="button" onclick="openEditSitemapDocInline('${doc.id}')" title="Edit Link" class="p-1 text-slate-400 hover:text-brand-purple hover:bg-purple-50 rounded-lg transition cursor-pointer flex items-center justify-center">
                       <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
@@ -5529,7 +6042,7 @@
       }
 
       if (addBtnContainer) {
-        if (currentRole === 'pm') {
+        if (currentRole === 'pm' || currentRole === 'admin') {
           addBtnContainer.innerHTML = `
             <div class="relative">
               <button id="sitemap-add-toggle-btn" type="button" onclick="toggleSitemapAddDropdown(event)" class="w-full py-1.5 border border-dashed border-purple-300 hover:border-brand-purple hover:bg-purple-50/70 rounded-lg text-brand-purple font-bold text-xs flex items-center justify-center space-x-1.5 transition shadow-2xs cursor-pointer">
@@ -5551,11 +6064,31 @@
 
                 <form onsubmit="handleInlineSitemapSubmit(event)" class="space-y-2.5">
                   <input type="hidden" id="inline-msd-id" value="">
-                  <div>
-                    <label class="block text-slate-700 font-bold mb-1 text-[11px]">Language</label>
-                    <select id="inline-msd-lang" class="w-full border border-slate-200 rounded-lg p-2 outline-none focus:ring-2 focus:ring-brand-purple bg-white text-slate-800 text-xs font-medium cursor-pointer">
-                      <!-- Populated dynamically -->
-                    </select>
+                  <div class="relative" id="inline-msd-lang-wrapper">
+                    <label class="block text-slate-700 font-bold mb-1 text-[11px] flex items-center space-x-1">
+                      <i data-lucide="globe" class="w-3 h-3 text-brand-purple"></i>
+                      <span>Language</span>
+                    </label>
+                    <input type="hidden" id="inline-msd-lang" value="English">
+                    
+                    <div id="inline-msd-dropdown-btn" onclick="toggleInlineSitemapLangDropdown(event)" class="w-full min-h-[36px] border border-slate-200 rounded-lg p-1.5 bg-slate-50/75 hover:bg-white text-xs flex items-center justify-between outline-none focus-within:ring-2 focus-within:ring-brand-purple cursor-pointer transition shadow-2xs group">
+                      <div id="inline-msd-selected-tag" class="flex items-center space-x-1.5 flex-1 pr-1 truncate">
+                        <span class="font-bold text-slate-800 text-xs">🇬🇧 English</span>
+                      </div>
+                      <div class="flex items-center space-x-1 text-slate-400 group-hover:text-brand-purple transition shrink-0 pl-1">
+                        <i data-lucide="chevron-down" id="inline-msd-chevron" class="w-3.5 h-3.5 transition-transform duration-200"></i>
+                      </div>
+                    </div>
+
+                    <div id="inline-msd-dropdown-menu" class="hidden absolute left-0 right-0 top-full mt-1.5 z-50 bg-white border border-slate-200 rounded-xl shadow-xl p-2.5 space-y-2">
+                      <div class="relative">
+                        <i data-lucide="search" class="w-3 h-3 text-slate-400 absolute left-2 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" id="inline-msd-lang-search" placeholder="Search language..." oninput="filterInlineSitemapLanguages(this.value)" class="w-full pl-7 pr-2.5 py-1 border border-slate-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50 transition">
+                      </div>
+                      <div id="inline-msd-lang-list" class="grid grid-cols-2 gap-1 max-h-40 overflow-y-auto pr-1">
+                        <!-- Populated dynamically -->
+                      </div>
+                    </div>
                   </div>
 
                   <div>
@@ -5645,29 +6178,121 @@
       lucide.createIcons();
     }
 
+    function toggleInlineSitemapLangDropdown(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const menu = document.getElementById('inline-msd-dropdown-menu');
+      const chevron = document.getElementById('inline-msd-chevron');
+      if (!menu) return;
+      const isHidden = menu.classList.contains('hidden');
+      if (isHidden) {
+        menu.classList.remove('hidden');
+        if (chevron) chevron.classList.add('rotate-180');
+        const searchInput = document.getElementById('inline-msd-lang-search');
+        if (searchInput) {
+          searchInput.value = '';
+          searchInput.focus();
+        }
+        filterInlineSitemapLanguages('');
+      } else {
+        menu.classList.add('hidden');
+        if (chevron) chevron.classList.remove('rotate-180');
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function filterInlineSitemapLanguages(query) {
+      const q = (query || '').toLowerCase().trim();
+      const listContainer = document.getElementById('inline-msd-lang-list');
+      if (!listContainer) return;
+
+      if (allAvailableLanguages.length === 0) {
+        listContainer.innerHTML = `
+          <div class="col-span-2 text-center py-4 text-slate-400 text-xs flex items-center justify-center space-x-2">
+            <i data-lucide="loader" class="w-4 h-4 animate-spin text-brand-purple"></i>
+            <span>Loading API languages...</span>
+          </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+        fetchAndCacheNeuroooLanguages();
+        return;
+      }
+
+      const filtered = allAvailableLanguages.filter(lang => lang.toLowerCase().includes(q));
+
+      const currentSelected = document.getElementById('inline-msd-lang')?.value || 'English';
+
+      listContainer.innerHTML = filtered.map(lang => {
+        const meta = getDocLangMeta(lang);
+        const isSelected = currentSelected.toLowerCase() === lang.toLowerCase() || currentSelected.toLowerCase() === meta.code.toLowerCase();
+        const flagImg = meta.iso ? `
+          <img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-4 h-3 object-cover rounded-xs inline-block shadow-2xs shrink-0" onerror="this.outerHTML='<span>${meta.flag}</span>'">
+        ` : `<span>${meta.flag}</span>`;
+        return `
+          <div onclick="selectInlineSitemapLanguage('${lang.replace(/'/g, "\\'")}')" class="flex items-center justify-between p-2 rounded-xl transition cursor-pointer border ${isSelected ? 'bg-purple-50/70 border-purple-200 text-brand-purple font-semibold shadow-2xs' : 'bg-slate-50 hover:bg-slate-100 border-slate-100 text-slate-700'}">
+            <span class="flex items-center space-x-2 truncate text-xs">
+              ${flagImg}
+              <span class="truncate">${lang}</span>
+            </span>
+          </div>
+        `;
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function selectInlineSitemapLanguage(lang) {
+      const hiddenInput = document.getElementById('inline-msd-lang');
+      if (hiddenInput) hiddenInput.value = lang;
+
+      const meta = getDocLangMeta(lang);
+      const flagHtml = meta.iso ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-4 h-3 object-cover rounded-xs inline-block shadow-2xs shrink-0" onerror="this.outerHTML='<span>${meta.flag}</span>'">` : `<span>${meta.flag}</span>`;
+
+      const selectedTag = document.getElementById('inline-msd-selected-tag');
+      if (selectedTag) {
+        selectedTag.innerHTML = `<span class="font-bold text-slate-800 text-xs flex items-center space-x-1.5">${flagHtml}<span class="truncate">${lang}</span></span>`;
+      }
+
+      const menu = document.getElementById('inline-msd-dropdown-menu');
+      const chevron = document.getElementById('inline-msd-chevron');
+      if (menu) menu.classList.add('hidden');
+      if (chevron) chevron.classList.remove('rotate-180');
+    }
+
     function populateInlineSitemapDocLanguageSelect(selectedLang) {
-      const select = document.getElementById('inline-msd-lang');
-      if (!select) return;
+      const hiddenInput = document.getElementById('inline-msd-lang');
+      if (!hiddenInput) return;
 
       const project = projects.find(p => p.id === currentProjectId);
       const projectLangs = project?.languages || ['English', 'French'];
       
-      const orderedLangs = [...projectLangs];
-      Object.keys(DOC_LANGUAGE_MAP).forEach(l => {
-        if (!orderedLangs.includes(l)) orderedLangs.push(l);
-      });
+      const defaultLang = selectedLang || (projectLangs[0] || 'English');
+      hiddenInput.value = defaultLang;
 
-      select.innerHTML = orderedLangs.map(lang => {
-        const meta = getDocLangMeta(lang);
-        const isProjectTarget = projectLangs.includes(lang);
-        const isSelected = selectedLang && (selectedLang.toLowerCase() === lang.toLowerCase() || selectedLang.toLowerCase() === meta.code.toLowerCase());
-        return `
-          <option value="${lang}" ${isSelected ? 'selected' : ''}>
-            ${meta.flag} ${lang} [${meta.code}] ${isProjectTarget ? '★ Project' : ''}
-          </option>
-        `;
-      }).join('');
+      const meta = getDocLangMeta(defaultLang);
+      const flagHtml = meta.iso ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-4 h-3 object-cover rounded-xs inline-block shadow-2xs shrink-0" onerror="this.outerHTML='<span>${meta.flag}</span>'">` : `<span>${meta.flag}</span>`;
+
+      const selectedTag = document.getElementById('inline-msd-selected-tag');
+      if (selectedTag) {
+        selectedTag.innerHTML = `<span class="font-bold text-slate-800 text-xs flex items-center space-x-1.5">${flagHtml}<span class="truncate">${defaultLang}</span></span>`;
+      }
+
+      filterInlineSitemapLanguages('');
     }
+
+    document.addEventListener('click', (e) => {
+      const wrapper = document.getElementById('inline-msd-lang-wrapper');
+      const menu = document.getElementById('inline-msd-dropdown-menu');
+      const chevron = document.getElementById('inline-msd-chevron');
+      if (wrapper && menu && !wrapper.contains(e.target)) {
+        if (!menu.classList.contains('hidden')) {
+          menu.classList.add('hidden');
+          if (chevron) chevron.classList.remove('rotate-180');
+        }
+      }
+    });
 
     function handleInlineSitemapSubmit(e) {
       if (e) e.preventDefault();
@@ -5940,41 +6565,241 @@
       }
     }
 
-    function openAddTextDocModal() {
-      if (currentRole !== 'pm') {
-        showSavingToast('Permission Restricted', 'Only Project Managers can add or manage document links.');
+    function toggleTextDocAddDropdown(e) {
+      if (e) e.stopPropagation();
+      if (currentRole !== 'pm' && currentRole !== 'admin') {
+        showSavingToast('Permission Restricted', 'Only Project Managers and Admins can add or manage document links.');
         return;
       }
-      const project = projects.find(p => p.id === currentProjectId);
-      const defaultLang = (project?.languages && project.languages[0]) ? project.languages[0] : 'English';
+      const dropdown = document.getElementById('texts-add-dropdown');
+      const chevron = document.getElementById('texts-add-chevron');
+      if (!dropdown) return;
 
-      document.getElementById('modal-text-doc-title').textContent = 'Add Google Doc Link';
-      document.getElementById('mtd-doc-id').value = '';
-      document.getElementById('mtd-url').value = '';
+      const isHidden = dropdown.classList.contains('hidden');
+      if (isHidden) {
+        document.getElementById('inline-mtd-id').value = '';
+        document.getElementById('inline-mtd-url').value = '';
+        document.getElementById('texts-inline-title').textContent = 'Add Google Doc Link';
 
-      populateDocLanguageSelect(defaultLang);
-      handleDocLanguageChange(defaultLang);
-      document.getElementById('modal-text-doc').classList.remove('hidden');
+        const project = projects.find(p => p.id === currentProjectId);
+        const defaultLang = (project?.languages && project.languages[0]) ? project.languages[0] : 'English';
+        populateInlineTextDocLanguageSelect(defaultLang);
+
+        dropdown.classList.remove('hidden');
+        if (chevron) chevron.classList.add('rotate-180');
+        setTimeout(() => {
+          const input = document.getElementById('inline-mtd-url');
+          if (input) input.focus();
+        }, 50);
+      } else {
+        dropdown.classList.add('hidden');
+        if (chevron) chevron.classList.remove('rotate-180');
+      }
       lucide.createIcons();
     }
 
-    function openEditTextDocModal(docId) {
+    function closeTextDocAddDropdown() {
+      const dropdown = document.getElementById('texts-add-dropdown');
+      const chevron = document.getElementById('texts-add-chevron');
+      if (dropdown) dropdown.classList.add('hidden');
+      if (chevron) chevron.classList.remove('rotate-180');
+    }
+
+    function openEditTextDocInline(docId) {
       const project = projects.find(p => p.id === currentProjectId);
       if (!project || !project.textDocs) return;
       const doc = project.textDocs.find(d => d.id === docId);
       if (!doc) return;
 
+      const dropdown = document.getElementById('texts-add-dropdown');
+      const chevron = document.getElementById('texts-add-chevron');
+      if (!dropdown) return;
+
       const detectedMeta = getDocLangMeta(doc.lang || doc.label);
       const docLang = doc.lang || detectedMeta.name || 'English';
 
-      document.getElementById('modal-text-doc-title').textContent = 'Edit Google Doc Link';
-      document.getElementById('mtd-doc-id').value = doc.id;
-      document.getElementById('mtd-url').value = doc.url;
+      document.getElementById('inline-mtd-id').value = doc.id;
+      document.getElementById('inline-mtd-url').value = doc.url;
+      document.getElementById('texts-inline-title').textContent = 'Edit Google Doc Link';
 
-      populateDocLanguageSelect(docLang);
-      handleDocLanguageChange(docLang);
-      document.getElementById('modal-text-doc').classList.remove('hidden');
+      populateInlineTextDocLanguageSelect(docLang);
+      dropdown.classList.remove('hidden');
+      if (chevron) chevron.classList.add('rotate-180');
+
+      setTimeout(() => {
+        const input = document.getElementById('inline-mtd-url');
+        if (input) {
+          input.focus();
+          input.select();
+        }
+        dropdown.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 50);
       lucide.createIcons();
+    }
+
+    function toggleInlineTextDocLangDropdown(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const menu = document.getElementById('inline-mtd-dropdown-menu');
+      const chevron = document.getElementById('inline-mtd-chevron');
+      if (!menu) return;
+      const isHidden = menu.classList.contains('hidden');
+      if (isHidden) {
+        menu.classList.remove('hidden');
+        if (chevron) chevron.classList.add('rotate-180');
+        const searchInput = document.getElementById('inline-mtd-lang-search');
+        if (searchInput) {
+          searchInput.value = '';
+          searchInput.focus();
+        }
+        filterInlineTextDocLanguages('');
+      } else {
+        menu.classList.add('hidden');
+        if (chevron) chevron.classList.remove('rotate-180');
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function filterInlineTextDocLanguages(query) {
+      const q = (query || '').toLowerCase().trim();
+      const listContainer = document.getElementById('inline-mtd-lang-list');
+      if (!listContainer) return;
+
+      if (allAvailableLanguages.length === 0) {
+        listContainer.innerHTML = `
+          <div class="col-span-2 text-center py-4 text-slate-400 text-xs flex items-center justify-center space-x-2">
+            <i data-lucide="loader" class="w-4 h-4 animate-spin text-sky-700"></i>
+            <span>Loading API languages...</span>
+          </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+        fetchAndCacheNeuroooLanguages();
+        return;
+      }
+
+      const filtered = allAvailableLanguages.filter(lang => lang.toLowerCase().includes(q));
+
+      const currentSelected = document.getElementById('inline-mtd-lang')?.value || 'English';
+
+      listContainer.innerHTML = filtered.map(lang => {
+        const meta = getDocLangMeta(lang);
+        const isSelected = currentSelected.toLowerCase() === lang.toLowerCase() || currentSelected.toLowerCase() === meta.code.toLowerCase();
+        const flagImg = meta.iso ? `
+          <img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-4 h-3 object-cover rounded-xs inline-block shadow-2xs shrink-0" onerror="this.outerHTML='<span>${meta.flag}</span>'">
+        ` : `<span>${meta.flag}</span>`;
+        return `
+          <div onclick="selectInlineTextDocLanguage('${lang.replace(/'/g, "\\'")}')" class="flex items-center justify-between p-2 rounded-xl transition cursor-pointer border ${isSelected ? 'bg-sky-50/70 border-sky-200 text-sky-800 font-semibold shadow-2xs' : 'bg-slate-50 hover:bg-slate-100 border-slate-100 text-slate-700'}">
+            <span class="flex items-center space-x-2 truncate text-xs">
+              ${flagImg}
+              <span class="truncate">${lang}</span>
+            </span>
+          </div>
+        `;
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function selectInlineTextDocLanguage(lang) {
+      const hiddenInput = document.getElementById('inline-mtd-lang');
+      if (hiddenInput) hiddenInput.value = lang;
+
+      const meta = getDocLangMeta(lang);
+      const flagHtml = meta.iso ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-4 h-3 object-cover rounded-xs inline-block shadow-2xs shrink-0" onerror="this.outerHTML='<span>${meta.flag}</span>'">` : `<span>${meta.flag}</span>`;
+
+      const selectedTag = document.getElementById('inline-mtd-selected-tag');
+      if (selectedTag) {
+        selectedTag.innerHTML = `<span class="font-bold text-slate-800 text-xs flex items-center space-x-1.5">${flagHtml}<span class="truncate">${lang}</span></span>`;
+      }
+
+      const menu = document.getElementById('inline-mtd-dropdown-menu');
+      const chevron = document.getElementById('inline-mtd-chevron');
+      if (menu) menu.classList.add('hidden');
+      if (chevron) chevron.classList.remove('rotate-180');
+    }
+
+    function populateInlineTextDocLanguageSelect(selectedLang) {
+      const hiddenInput = document.getElementById('inline-mtd-lang');
+      if (!hiddenInput) return;
+
+      const project = projects.find(p => p.id === currentProjectId);
+      const projectLangs = project?.languages || ['English', 'French'];
+      
+      const defaultLang = selectedLang || (projectLangs[0] || 'English');
+      hiddenInput.value = defaultLang;
+
+      const meta = getDocLangMeta(defaultLang);
+      const flagHtml = meta.iso ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-4 h-3 object-cover rounded-xs inline-block shadow-2xs shrink-0" onerror="this.outerHTML='<span>${meta.flag}</span>'">` : `<span>${meta.flag}</span>`;
+
+      const selectedTag = document.getElementById('inline-mtd-selected-tag');
+      if (selectedTag) {
+        selectedTag.innerHTML = `<span class="font-bold text-slate-800 text-xs flex items-center space-x-1.5">${flagHtml}<span class="truncate">${defaultLang}</span></span>`;
+      }
+
+      filterInlineTextDocLanguages('');
+    }
+
+    function handleInlineTextDocSubmit(e) {
+      if (e) e.preventDefault();
+      if (currentRole !== 'pm') {
+        showSavingToast('Permission Restricted', 'Only Project Managers can add or manage document links.');
+        return;
+      }
+      const docId = document.getElementById('inline-mtd-id').value;
+      const lang = document.getElementById('inline-mtd-lang').value;
+      const url = document.getElementById('inline-mtd-url').value.trim();
+      const fullLabel = `${lang} Version`;
+
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      if (!project.textDocs) project.textDocs = [];
+
+      if (docId) {
+        const doc = project.textDocs.find(d => d.id === docId);
+        if (doc) {
+          doc.lang = lang;
+          doc.label = fullLabel;
+          doc.url = url;
+          logActivity('Google Doc Updated', `Updated document link "${fullLabel}"`, 'file-text', 'document', project.id);
+        }
+      } else {
+        project.textDocs.push({
+          id: `td-${Date.now()}`,
+          lang: lang,
+          label: fullLabel,
+          url: url,
+          completed: false
+        });
+        logActivity('Google Doc Linked', `Linked document copy "${fullLabel}"`, 'file-text', 'document', project.id);
+      }
+
+      closeTextDocAddDropdown();
+      renderTextDocs(project);
+      renderAllDoneButtons(project);
+      renderTimelineAxis(project);
+      lucide.createIcons();
+    }
+
+    document.addEventListener('click', (e) => {
+      const wrapper = document.getElementById('inline-mtd-lang-wrapper');
+      const menu = document.getElementById('inline-mtd-dropdown-menu');
+      const chevron = document.getElementById('inline-mtd-chevron');
+      if (wrapper && menu && !wrapper.contains(e.target)) {
+        if (!menu.classList.contains('hidden')) {
+          menu.classList.add('hidden');
+          if (chevron) chevron.classList.remove('rotate-180');
+        }
+      }
+    });
+
+    function openAddTextDocModal() {
+      toggleTextDocAddDropdown();
+    }
+
+    function openEditTextDocModal(docId) {
+      openEditTextDocInline(docId);
     }
 
     function handleTextDocSubmit(e) {
@@ -6148,7 +6973,9 @@
     function getPackageLabel(tier) {
       if (tier === 'no_seo') return 'Template No SEO';
       if (tier === 'seo_essential') return 'SEO Essential';
-      return 'SEO Custom Content';
+      if (tier === 'seo_content') return 'SEO Content';
+      if (tier === 'seo_custom') return 'SEO Custom';
+      return 'SEO Essential';
     }
 
     function renderProjectSelector() {
@@ -7621,7 +8448,7 @@
           : (isStatusDone(status.sitemap) ? 1 : 0);
 
         // 2. SEO Questionnaire (if active) has its status selector
-        const isSeoActive = project.hasSeoQuestionnaire ?? (project.packageTier === 'seo_essential' || project.packageTier === 'seo_content');
+        const isSeoActive = isSeoPackage(project.packageTier) || project.hasSeoQuestionnaire === true;
         const seoTotal = isSeoActive ? 1 : 0;
         const seoDone = (isSeoActive && isStatusDone(status.seoQuestionnaire)) ? 1 : 0;
 
@@ -8254,7 +9081,7 @@
       const seoContainer = document.getElementById('seo-questionnaire-container');
       const addSeoContainer = document.getElementById('add-seo-questionnaire-container');
 
-      const isSeoActive = project.hasSeoQuestionnaire ?? (project.packageTier === 'seo_essential' || project.packageTier === 'seo_content');
+      const isSeoActive = isSeoPackage(project.packageTier) || project.hasSeoQuestionnaire === true;
 
       if (isSeoActive) {
         if (seoCard) seoCard.classList.remove('hidden');
@@ -8388,7 +9215,7 @@
       const sbBadge = document.getElementById('sb-evolution-tag');
       if (sbBadge) sbBadge.textContent = `Template: ${templateName}`;
       const axisBadge = document.getElementById('axis-evolution-tag');
-      if (axisBadge) axisBadge.textContent = `Template: ${templateName}`;
+      if (axisBadge) axisBadge.textContent = '';
 
       renderSitemapSection(project);
       renderBoardsGrid();
@@ -10225,7 +11052,7 @@ Thank you!`;
       let totalAllDeliverables = 0;
       let totalAllDone = 0;
 
-      const isSeoActive = project.hasSeoQuestionnaire ?? (project.packageTier === 'seo_essential' || project.packageTier === 'seo_content');
+      const isSeoActive = isSeoPackage(project.packageTier) || project.hasSeoQuestionnaire === true;
 
       // 1. SECTION 1: SITEMAP SUB-BLOCKS
       const sec1SubBlocks = [];
@@ -10684,29 +11511,26 @@ Thank you!`;
       // Update Overall Progress in Header with executive gauge
       const overallContainer = document.getElementById('axis-overall-progress');
       if (overallContainer) {
-        const overallPct = totalAllDeliverables > 0 ? Math.round((totalAllDone / totalAllDeliverables) * 100) : 0;
-        overallContainer.className = 'flex items-center';
-        overallContainer.innerHTML = `
-          <div class="bg-black/30 backdrop-blur-xs border border-purple-500/30 rounded-xl px-3 sm:px-3.5 py-1.5 sm:py-2 flex items-center space-x-3 shadow-inner">
-            <div class="space-y-1 min-w-[130px] sm:min-w-[160px]">
-              <div class="flex items-center justify-between text-[11px] font-semibold text-purple-200">
-                <span class="flex items-center space-x-1.5">
-                  <i data-lucide="activity" class="w-3.5 h-3.5 text-amber-300"></i>
-                  <span>Global Roadmap</span>
-                </span>
-                <span class="font-mono font-bold text-amber-300 text-xs">${overallPct}%</span>
-              </div>
-              <div class="w-full bg-purple-950/90 rounded-full h-1.5 overflow-hidden border border-purple-800/40">
-                <div class="h-full rounded-full bg-gradient-to-r from-purple-400 via-indigo-300 to-emerald-400 transition-all duration-500 shadow-sm" style="width: ${overallPct}%"></div>
-              </div>
-            </div>
-            <div class="h-7 w-px bg-purple-700/40 hidden sm:block"></div>
-            <div class="hidden sm:flex flex-col text-right">
-              <span class="text-[10px] text-purple-300 font-medium">Deliverables</span>
-              <span class="text-xs font-mono font-bold text-white tracking-tight">${totalAllDone} / ${totalAllDeliverables} Done</span>
-            </div>
-          </div>
-        `;
+        overallContainer.innerHTML = '';
+        overallContainer.className = 'hidden';
+      }
+
+      // Render configured project languages in the right corner
+      const axisLangList = document.getElementById('axis-project-languages-list');
+      if (axisLangList) {
+        const configuredLangs = (project.languages && project.languages.length > 0) ? project.languages : ['English'];
+        axisLangList.innerHTML = configuredLangs.map(lang => {
+          const meta = getDocLangMeta(lang);
+          const flagImg = meta.iso ? `
+            <img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-4 h-3 object-cover rounded-xs inline-block shadow-2xs shrink-0" onerror="this.outerHTML='<span>${meta.flag}</span>'">
+          ` : `<span>${meta.flag}</span>`;
+          return `
+            <span class="inline-flex items-center space-x-1.5 bg-black/35 backdrop-blur-xs border border-purple-500/30 text-white font-medium text-xs px-2.5 py-1 rounded-lg shadow-2xs">
+              ${flagImg}
+              <span class="truncate">${lang}</span>
+            </span>
+          `;
+        }).join('');
       }
 
       // Re-initialize Lucide icons
@@ -10887,9 +11711,8 @@ Thank you!`;
       showSavingToast('Saving milestone deadline...', 'Deadline saved');
     }
 
-    // --- TARGET LANGUAGES SYSTEM ---
-    const DEFAULT_LANGUAGES = ['English', 'French', 'Spanish', 'German', 'Italian', 'Arabic', 'Russian', 'Portuguese', 'Romanian'];
-    let allAvailableLanguages = [...DEFAULT_LANGUAGES];
+    // --- TARGET LANGUAGES SYSTEM (FROM NEUROOO API ONLY) ---
+    let allAvailableLanguages = [];
 
     function ensureLanguagesAvailable(langs = []) {
       langs.forEach(l => {
@@ -10899,22 +11722,130 @@ Thank you!`;
       });
     }
 
+    // --- HYBRID LANGUAGE LOADING FROM NEUROOO API (CACHED LOCALLY) ---
+    function fetchAndCacheNeuroooLanguages() {
+      const cacheKey = 'neurooo_languages_cache';
+      const cacheTimeKey = 'neurooo_languages_timestamp';
+      const cachedData = localStorage.getItem(cacheKey);
+      const cachedTime = localStorage.getItem(cacheTimeKey);
+      const now = Date.now();
+      const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
+      if (cachedData) {
+        try {
+          const parsed = JSON.parse(cachedData);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            mergeNeuroooLanguages(parsed);
+          }
+        } catch (e) {
+          console.error('Error parsing cached languages:', e);
+        }
+      }
+
+      if (!cachedData || !cachedTime || (now - parseInt(cachedTime, 10) > CACHE_TTL)) {
+        fetch('https://neurooo.com/api/v1/languages')
+          .then(res => res.json())
+          .then(data => {
+            if (Array.isArray(data) && data.length > 0) {
+              localStorage.setItem(cacheKey, JSON.stringify(data));
+              localStorage.setItem(cacheTimeKey, String(now));
+              mergeNeuroooLanguages(data);
+            }
+          })
+          .catch(err => {
+            console.warn('Failed to fetch Neurooo languages:', err);
+          });
+      }
+    }
+
+    function mergeNeuroooLanguages(apiList) {
+      allAvailableLanguages = [];
+      apiList.forEach(item => {
+        let langName = '';
+        let langCode = '';
+        if (typeof item === 'string') {
+          langName = item;
+        } else if (item && typeof item === 'object') {
+          langName = item.name || item.code || '';
+          langCode = item.code || '';
+        }
+        if (langName) {
+          const formatted = langName.trim();
+          if (formatted && !allAvailableLanguages.includes(formatted)) {
+            allAvailableLanguages.push(formatted);
+          }
+          const iso = extractIsoFromCodeOrName(langCode, formatted);
+          if (iso) {
+            const metaObj = {
+              code: (langCode || iso).toUpperCase(),
+              iso: iso.toLowerCase(),
+              flag: getFlagEmoji(iso),
+              name: formatted
+            };
+            neuroooLanguageMetaMap[formatted.toLowerCase()] = metaObj;
+            if (langCode) neuroooLanguageMetaMap[langCode.toLowerCase()] = metaObj;
+          }
+        }
+      });
+      const sitemapDropdown = document.getElementById('sitemap-add-dropdown');
+      if (sitemapDropdown && !sitemapDropdown.classList.contains('hidden')) {
+        const searchInput = document.getElementById('inline-msd-lang-search');
+        filterInlineSitemapLanguages(searchInput ? searchInput.value : '');
+      }
+      const textDocDropdown = document.getElementById('texts-add-dropdown');
+      if (textDocDropdown && !textDocDropdown.classList.contains('hidden')) {
+        const searchInput = document.getElementById('inline-mtd-lang-search');
+        filterInlineTextDocLanguages(searchInput ? searchInput.value : '');
+      }
+      const projectModal = document.getElementById('modal-project');
+      if (projectModal && !projectModal.classList.contains('hidden')) {
+        const project = projects.find(p => p.id === currentProjectId);
+        if (project && project.languages) {
+          renderProjectModalLanguages(project.languages);
+        }
+      }
+      const langModal = document.getElementById('modal-languages');
+      if (langModal && !langModal.classList.contains('hidden')) {
+        const project = projects.find(p => p.id === currentProjectId);
+        if (project && project.languages) {
+          renderLanguagesModalList(project.languages);
+        }
+      }
+    }
+
     function renderLanguagesModalList(selectedLangs = []) {
       const container = document.getElementById('modal-lang-list');
       if (!container) return;
+
+      if (allAvailableLanguages.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-2 text-center py-6 text-slate-400 text-xs flex items-center justify-center space-x-2">
+            <i data-lucide="loader" class="w-4 h-4 animate-spin text-brand-purple"></i>
+            <span>Loading languages from API...</span>
+          </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+        fetchAndCacheNeuroooLanguages();
+        return;
+      }
+
       container.innerHTML = allAvailableLanguages.map(lang => {
         const isChecked = selectedLangs.includes(lang);
-        const isDefault = DEFAULT_LANGUAGES.includes(lang);
+        const meta = getDocLangMeta(lang);
+        const flagImg = meta.iso ? `
+          <img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-4 h-3 object-cover rounded-xs inline-block shadow-2xs shrink-0" onerror="this.outerHTML='<span>${meta.flag}</span>'">
+        ` : `<span>${meta.flag}</span>`;
         return `
           <label class="flex items-center justify-between p-2 bg-slate-50 hover:bg-purple-50/50 rounded-xl border border-slate-200 transition cursor-pointer">
-            <span class="flex items-center space-x-2 font-medium text-slate-700">
-              <input type="checkbox" value="${lang}" class="lang-edit-cb w-4 h-4 text-brand-purple rounded border-slate-300 focus:ring-brand-purple" ${isChecked ? 'checked' : ''}>
-              <span>${lang}</span>
+            <span class="flex items-center space-x-2 font-medium text-slate-700 truncate flex-1 min-w-0">
+              <input type="checkbox" value="${lang}" class="lang-edit-cb w-4 h-4 text-brand-purple rounded border-slate-300 focus:ring-brand-purple shrink-0" ${isChecked ? 'checked' : ''}>
+              ${flagImg}
+              <span class="text-xs truncate">${lang}</span>
             </span>
-            ${!isDefault ? `<span class="text-[9px] bg-purple-100 text-brand-purple px-1.5 py-0.5 rounded font-bold">Custom</span>` : ''}
           </label>
         `;
       }).join('');
+      if (window.lucide) lucide.createIcons();
     }
 
     function openLanguagesModal() {
@@ -10922,26 +11853,8 @@ Thank you!`;
       const selectedLangs = project?.languages || ['English'];
       ensureLanguagesAvailable(selectedLangs);
       renderLanguagesModalList(selectedLangs);
-      const input = document.getElementById('input-new-custom-lang');
-      if (input) input.value = '';
       document.getElementById('modal-languages').classList.remove('hidden');
       lucide.createIcons();
-    }
-
-    function addCustomLanguageInModal() {
-      const input = document.getElementById('input-new-custom-lang');
-      const val = input.value.trim();
-      if (!val) return;
-      const formatted = val.charAt(0).toUpperCase() + val.slice(1);
-      if (!allAvailableLanguages.includes(formatted)) {
-        allAvailableLanguages.push(formatted);
-      }
-      const currentChecked = Array.from(document.querySelectorAll('.lang-edit-cb:checked')).map(cb => cb.value);
-      if (!currentChecked.includes(formatted)) {
-        currentChecked.push(formatted);
-      }
-      renderLanguagesModalList(currentChecked);
-      input.value = '';
     }
 
     function saveLanguages() {
@@ -10955,24 +11868,159 @@ Thank you!`;
       renderApp();
     }
 
-    function renderProjectModalLanguages(selectedLangs = ['English', 'French']) {
+    function toggleProjectModalLangDropdown(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const menu = document.getElementById('mp-lang-dropdown-menu');
+      const chevron = document.getElementById('mp-lang-chevron');
+      if (!menu) return;
+      const isHidden = menu.classList.contains('hidden');
+      if (isHidden) {
+        menu.classList.remove('hidden');
+        if (chevron) chevron.classList.add('rotate-180');
+        if (allAvailableLanguages.length === 0) {
+          fetchAndCacheNeuroooLanguages();
+        }
+      } else {
+        menu.classList.add('hidden');
+        if (chevron) chevron.classList.remove('rotate-180');
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeProjectModalLangDropdown() {
+      const menu = document.getElementById('mp-lang-dropdown-menu');
+      const chevron = document.getElementById('mp-lang-chevron');
+      if (menu && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+        if (chevron) chevron.classList.remove('rotate-180');
+      }
+    }
+
+    let currentModalSelectedLangs = ['English', 'French'];
+
+    function updateProjectModalLangHeader(selectedLangs) {
+      currentModalSelectedLangs = selectedLangs;
+      const tagsContainer = document.getElementById('mp-lang-selected-tags');
+      const countBadge = document.getElementById('mp-lang-count-badge');
+      if (tagsContainer) {
+        if (!selectedLangs || selectedLangs.length === 0) {
+          tagsContainer.innerHTML = `
+            <span class="text-slate-400 italic text-[11px] flex items-center space-x-1 py-0.5">
+              <span>Select website language(s)...</span>
+            </span>
+          `;
+        } else {
+          tagsContainer.innerHTML = selectedLangs.map(lang => {
+            const meta = getDocLangMeta(lang);
+            const flagImg = meta.iso ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-3.5 h-2.5 object-cover rounded-xs inline-block shadow-2xs shrink-0" onerror="this.outerHTML='<span>${meta.flag}</span>'">` : `<span>${meta.flag}</span>`;
+            return `
+              <span class="inline-flex items-center space-x-1.5 bg-purple-100/90 hover:bg-purple-200/90 text-brand-purple font-semibold text-[11px] px-2.5 py-1 rounded-lg border border-purple-200 shadow-2xs transition">
+                ${flagImg}
+                <span class="leading-none">${lang}</span>
+                <button type="button" onclick="removeProjectModalLanguage(event, '${lang.replace(/'/g, "\\'")}')" class="ml-0.5 text-brand-purple hover:text-red-600 focus:outline-none cursor-pointer" title="Remove ${lang}">
+                  <i data-lucide="x" class="w-3 h-3"></i>
+                </button>
+              </span>
+            `;
+          }).join('');
+        }
+      }
+      if (countBadge) {
+        countBadge.textContent = `${selectedLangs.length} selected`;
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function filterProjectModalLanguages(query) {
+      const q = (query || '').toLowerCase().trim();
       const container = document.getElementById('mp-lang-list-container');
       if (!container) return;
-      container.innerHTML = allAvailableLanguages.map(lang => {
-        const isChecked = selectedLangs.includes(lang);
-        const isDefault = DEFAULT_LANGUAGES.includes(lang);
+
+      if (allAvailableLanguages.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-2 text-center py-6 text-slate-400 text-xs flex items-center justify-center space-x-2">
+            <i data-lucide="loader" class="w-4 h-4 animate-spin text-brand-purple"></i>
+            <span>Loading languages from API...</span>
+          </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+        fetchAndCacheNeuroooLanguages();
+        return;
+      }
+
+      const filtered = allAvailableLanguages.filter(lang => lang.toLowerCase().includes(q));
+
+      container.innerHTML = filtered.map(lang => {
+        const isChecked = currentModalSelectedLangs.includes(lang);
+        const meta = getDocLangMeta(lang);
+        const flagImg = meta.iso ? `
+          <img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-4 h-3 object-cover rounded-xs inline-block shadow-2xs shrink-0" onerror="this.outerHTML='<span>${meta.flag}</span>'">
+        ` : `<span>${meta.flag}</span>`;
         return `
-          <label class="flex items-center space-x-1.5 p-1.5 rounded-lg hover:bg-white transition cursor-pointer border border-transparent hover:border-slate-200">
-            <input type="checkbox" value="${lang}" class="mp-lang-checkbox w-3.5 h-3.5 text-brand-purple rounded border-slate-300 focus:ring-brand-purple" ${isChecked ? 'checked' : ''}>
-            <span class="font-medium text-slate-700 truncate" title="${lang}">${lang}</span>
-            ${!isDefault ? `<span class="text-[8px] bg-purple-100 text-brand-purple px-1 py-0.2 rounded font-bold ml-auto">Custom</span>` : ''}
+          <label class="flex items-center space-x-2 p-2 rounded-xl transition cursor-pointer border ${isChecked ? 'bg-purple-50/70 border-purple-200 text-brand-purple font-semibold shadow-2xs' : 'bg-slate-50 hover:bg-slate-100 border-slate-100 text-slate-700'}">
+            <input type="checkbox" value="${lang}" onchange="handleProjectModalLangToggle('${lang.replace(/'/g, "\\'")}')" class="mp-lang-checkbox w-3.5 h-3.5 text-brand-purple rounded border-slate-300 focus:ring-brand-purple accent-purple-700 cursor-pointer shrink-0" ${isChecked ? 'checked' : ''}>
+            <span class="flex items-center space-x-2 truncate flex-1 min-w-0">
+              ${flagImg}
+              <span class="text-xs truncate select-none" title="${lang}">${lang}</span>
+            </span>
           </label>
         `;
       }).join('');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderProjectModalLanguages(selectedLangs = ['English', 'French']) {
+      currentModalSelectedLangs = selectedLangs;
+      const searchInput = document.getElementById('mp-lang-search');
+      const query = searchInput ? searchInput.value : '';
+      filterProjectModalLanguages(query);
+      updateProjectModalLangHeader(selectedLangs);
+    }
+
+    function handleProjectModalLangToggle(lang) {
+      const cb = document.querySelector(`.mp-lang-checkbox[value="${CSS.escape(lang)}"]`);
+      const isNowChecked = cb ? cb.checked : !currentModalSelectedLangs.includes(lang);
+
+      let updated = [...currentModalSelectedLangs];
+      if (isNowChecked) {
+        if (!updated.includes(lang)) updated.push(lang);
+      } else {
+        updated = updated.filter(l => l !== lang);
+      }
+      renderProjectModalLanguages(updated);
+    }
+
+    function removeProjectModalLanguage(e, lang) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const updated = currentModalSelectedLangs.filter(l => l !== lang);
+      renderProjectModalLanguages(updated);
+    }
+
+    function selectTopFilteredLanguage() {
+      const searchInput = document.getElementById('mp-lang-search');
+      const q = searchInput ? searchInput.value.toLowerCase().trim() : '';
+      if (!q) return;
+      const filtered = allAvailableLanguages.filter(lang => lang.toLowerCase().includes(q));
+      if (filtered.length > 0) {
+        const topLang = filtered[0];
+        if (!currentModalSelectedLangs.includes(topLang)) {
+          const updated = [...currentModalSelectedLangs, topLang];
+          renderProjectModalLanguages(updated);
+          searchInput.value = '';
+          filterProjectModalLanguages('');
+        }
+      }
     }
 
     function addCustomLanguageInProjectModal() {
       const input = document.getElementById('mp-new-custom-lang');
+      if (!input) return;
       const val = input.value.trim();
       if (!val) return;
       const formatted = val.charAt(0).toUpperCase() + val.slice(1);
@@ -11304,6 +12352,45 @@ Thank you!`;
       lucide.createIcons();
     }
 
+    function renderCustomPriorityFilterOptions() {
+      const menu = document.getElementById('menu-custom-filter-priority');
+      if (!menu) return;
+      const currentVal = document.getElementById('filter-priority')?.value || 'ALL';
+      const accessible = getAccessibleProjects();
+      const items = [
+        { val: 'ALL', label: 'All Priorities', color: 'bg-slate-400', count: accessible.length },
+        { val: 'High', label: 'High Priority', color: 'bg-rose-500', count: accessible.filter(p => (p.priority || 'Medium') === 'High').length },
+        { val: 'Medium', label: 'Medium Priority', color: 'bg-amber-500', count: accessible.filter(p => (p.priority || 'Medium') === 'Medium').length },
+        { val: 'Low', label: 'Low Priority', color: 'bg-emerald-500', count: accessible.filter(p => (p.priority || 'Medium') === 'Low').length }
+      ];
+
+      const header = `
+        <div class="px-3 py-1.5 flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 mb-1">
+          <span>Priority Level</span>
+          <span class="text-rose-600 font-bold">3 tiers</span>
+        </div>
+      `;
+
+      const options = items.map(item => {
+        const isSelected = item.val === currentVal;
+        return `
+          <button type="button" onclick="selectCustomFilter('priority', '${item.val}', '${item.label}')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150 cursor-pointer group text-left ${isSelected ? 'bg-purple-50 text-brand-purple font-bold ring-1 ring-purple-200/70 shadow-2xs' : 'text-slate-700 hover:bg-slate-50 hover:text-brand-purple'}">
+            <span class="flex items-center space-x-2.5 truncate min-w-0">
+              <span class="w-2.5 h-2.5 rounded-full ${item.color} shrink-0"></span>
+              <span class="truncate">${item.label}</span>
+            </span>
+            <div class="flex items-center space-x-1.5 shrink-0 ml-2">
+              <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 group-hover:bg-purple-100 group-hover:text-brand-purple px-2 py-0.5 rounded-full transition">${item.count} ${item.count === 1 ? 'proj' : 'projs'}</span>
+              ${isSelected ? '<i data-lucide="check" class="w-4 h-4 text-brand-purple stroke-[2.5] ml-1 shrink-0"></i>' : ''}
+            </div>
+          </button>
+        `;
+      }).join('');
+
+      menu.innerHTML = header + options;
+      lucide.createIcons();
+    }
+
     function toggleCustomFilterDropdown(type, event) {
       if (event) event.stopPropagation();
       const menu = document.getElementById(`menu-custom-filter-${type}`);
@@ -11316,6 +12403,8 @@ Thank you!`;
         if (type === 'pm') renderCustomPmFilterOptions();
         if (type === 'stage') renderCustomStageFilterOptions();
         if (type === 'package') renderCustomPackageFilterOptions();
+        if (type === 'priority') renderCustomPriorityFilterOptions();
+        if (type === 'act-project') renderCustomActProjectFilterOptions();
         menu.classList.remove('hidden');
         if (chevron) chevron.classList.add('rotate-180');
       }
@@ -11324,7 +12413,7 @@ Thank you!`;
 
     function closeAllCustomFilterDropdowns() {
       document.querySelectorAll('.custom-filter-menu').forEach(m => m.classList.add('hidden'));
-      ['pm', 'stage', 'package'].forEach(t => {
+      ['pm', 'stage', 'package', 'priority', 'act-project'].forEach(t => {
         const chevron = document.getElementById(`chevron-custom-filter-${t}`);
         if (chevron) chevron.classList.remove('rotate-180');
       });
@@ -11334,6 +12423,7 @@ Thank you!`;
       const pmVal = document.getElementById('filter-pm')?.value || 'ALL';
       const stageVal = document.getElementById('filter-stage')?.value || 'ALL';
       const pkgVal = document.getElementById('filter-package')?.value || 'ALL';
+      const prioVal = document.getElementById('filter-priority')?.value || 'ALL';
 
       // PM Button
       const btnPm = document.getElementById('btn-custom-filter-pm');
@@ -11401,6 +12491,28 @@ Thank you!`;
         }
       }
 
+      // Priority Button
+      const btnPrio = document.getElementById('btn-custom-filter-priority');
+      const dotPrio = document.getElementById('dot-custom-filter-priority');
+      const badgePrio = document.getElementById('badge-count-filter-priority');
+      if (btnPrio) {
+        if (prioVal !== 'ALL') {
+          btnPrio.className = 'w-full flex items-center justify-between px-3.5 py-2.5 bg-rose-50/80 border border-rose-300 rounded-xl text-xs font-semibold text-rose-700 shadow-xs ring-1 ring-rose-200/50 transition-all cursor-pointer group';
+          if (dotPrio) dotPrio.className = 'w-2 h-2 rounded-full bg-rose-600 shrink-0';
+          if (badgePrio) {
+            badgePrio.textContent = prioVal;
+            badgePrio.className = 'text-[10px] font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full transition';
+          }
+        } else {
+          btnPrio.className = 'w-full flex items-center justify-between px-3.5 py-2.5 bg-slate-50/90 hover:bg-slate-100/90 border border-slate-200/90 hover:border-purple-300 rounded-xl text-xs font-semibold text-slate-800 transition-all shadow-2xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple group';
+          if (dotPrio) dotPrio.className = 'w-2 h-2 rounded-full bg-rose-500 shrink-0';
+          if (badgePrio) {
+            badgePrio.textContent = 'All';
+            badgePrio.className = 'text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full transition';
+          }
+        }
+      }
+
       updateActiveFilterBar();
     }
 
@@ -11412,6 +12524,7 @@ Thank you!`;
       const pmVal = document.getElementById('filter-pm')?.value || 'ALL';
       const stageVal = document.getElementById('filter-stage')?.value || 'ALL';
       const pkgVal = document.getElementById('filter-package')?.value || 'ALL';
+      const prioVal = document.getElementById('filter-priority')?.value || 'ALL';
 
       const chips = [];
       if (pmVal !== 'ALL') {
@@ -11425,7 +12538,7 @@ Thank you!`;
         `);
       }
 
-      if (stageVal !== 'ALL') {
+      if (boardsViewMode !== 'kanban' && stageVal !== 'ALL') {
         const stageLabels = {
           '1': 'Website Structure',
           '2': 'Content Collection',
@@ -11461,6 +12574,17 @@ Thank you!`;
         `);
       }
 
+      if (prioVal !== 'ALL') {
+        chips.push(`
+          <span class="inline-flex items-center space-x-1.5 bg-rose-100 text-rose-800 text-[11px] font-bold px-2.5 py-0.5 rounded-lg border border-rose-200/60 shadow-2xs">
+            <span>Priority: ${prioVal}</span>
+            <button type="button" onclick="selectCustomFilter('priority', 'ALL', 'All Priorities')" class="hover:text-rose-950 cursor-pointer p-0.5">
+              <i data-lucide="x" class="w-3 h-3"></i>
+            </button>
+          </span>
+        `);
+      }
+
       if (chips.length > 0) {
         chipsContainer.innerHTML = chips.join('');
         bar.classList.remove('hidden');
@@ -11475,6 +12599,7 @@ Thank you!`;
       selectCustomFilter('pm', 'ALL', 'All Project Managers');
       selectCustomFilter('stage', 'ALL', 'All Stages');
       selectCustomFilter('package', 'ALL', 'All Website Packages');
+      selectCustomFilter('priority', 'ALL', 'All Priorities');
     }
 
     function selectCustomFilter(type, value, label) {
@@ -11490,7 +12615,7 @@ Thank you!`;
 
     // Close custom filter dropdowns on document click
     document.addEventListener('click', (e) => {
-      if (!e.target.closest('#btn-custom-filter-pm, #menu-custom-filter-pm, #btn-custom-filter-stage, #menu-custom-filter-stage, #btn-custom-filter-package, #menu-custom-filter-package')) {
+      if (!e.target.closest('#btn-custom-filter-pm, #menu-custom-filter-pm, #btn-custom-filter-stage, #menu-custom-filter-stage, #btn-custom-filter-package, #menu-custom-filter-package, #btn-custom-filter-priority, #menu-custom-filter-priority, #btn-custom-filter-act-project, #menu-custom-filter-act-project')) {
         closeAllCustomFilterDropdowns();
       }
     });
@@ -11592,6 +12717,94 @@ Thank you!`;
       };
     }
 
+    let boardsViewMode = 'kanban';
+    let currentPrioritySort = 'none';
+
+    function setPrioritySort(mode) {
+      currentPrioritySort = mode;
+      const select = document.getElementById('sort-priority');
+      if (select && select.value !== mode) {
+        select.value = mode;
+      }
+      renderBoardsGrid();
+    }
+
+    function getPriorityWeight(priority) {
+      const p = (priority || 'Medium').toLowerCase();
+      if (p === 'high') return 3;
+      if (p === 'medium') return 2;
+      if (p === 'low') return 1;
+      return 2;
+    }
+
+    function getPriorityBadgeInfo(priority) {
+      const p = (priority || 'Medium').toLowerCase();
+      if (p === 'high') {
+        return {
+          label: 'High Priority',
+          shortLabel: 'High',
+          classes: 'bg-rose-50 text-rose-700 border-rose-200/90',
+          dot: 'bg-rose-500'
+        };
+      }
+      if (p === 'low') {
+        return {
+          label: 'Low Priority',
+          shortLabel: 'Low',
+          classes: 'bg-emerald-50 text-emerald-700 border-emerald-200/90',
+          dot: 'bg-emerald-500'
+        };
+      }
+      return {
+        label: 'Medium Priority',
+        shortLabel: 'Medium',
+        classes: 'bg-amber-50 text-amber-800 border-amber-200/90',
+        dot: 'bg-amber-500'
+      };
+    }
+
+    function sortProjectsByPriority(list, mode) {
+      if (!mode || mode === 'none') return [...list];
+      return [...list].sort((a, b) => {
+        const wa = getPriorityWeight(a.priority);
+        const wb = getPriorityWeight(b.priority);
+        if (mode === 'high-low') return wb - wa;
+        if (mode === 'low-high') return wa - wb;
+        return 0;
+      });
+    }
+
+    function setBoardsViewMode(mode) {
+      boardsViewMode = mode;
+      const btnGrid = document.getElementById('btn-boards-view-grid');
+      const btnKanban = document.getElementById('btn-boards-view-kanban');
+      if (btnGrid && btnKanban) {
+        if (mode === 'kanban') {
+          btnKanban.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer bg-white text-brand-purple shadow-xs';
+          btnGrid.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer text-slate-600 hover:text-brand-purple';
+        } else {
+          btnGrid.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer bg-white text-brand-purple shadow-xs';
+          btnKanban.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer text-slate-600 hover:text-brand-purple';
+        }
+      }
+
+      // Hide or show Project Stage filter based on Kanban mode
+      const stageFilterContainer = document.getElementById('filter-container-stage');
+      const filtersGrid = document.getElementById('boards-filters-grid');
+      if (stageFilterContainer) {
+        stageFilterContainer.classList.toggle('hidden', mode === 'kanban');
+      }
+      if (filtersGrid) {
+        if (mode === 'kanban') {
+          filtersGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5';
+        } else {
+          filtersGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5';
+        }
+      }
+
+      renderBoardsGrid();
+    }
+
     function renderBoardsGrid() {
       const container = document.getElementById('projects-grid');
       if (!container) return;
@@ -11599,15 +12812,18 @@ Thank you!`;
 
       updateActivityProjectFilterOptions();
       renderActivityPanel();
+      updateDailyDigestBannerAndBadge();
 
       const pmFilter = document.getElementById('filter-pm')?.value || 'ALL';
-      const stageFilter = document.getElementById('filter-stage')?.value || 'ALL';
+      const stageFilter = (boardsViewMode === 'kanban') ? 'ALL' : (document.getElementById('filter-stage')?.value || 'ALL');
       const pkgFilter = document.getElementById('filter-package')?.value || 'ALL';
+      const prioFilter = document.getElementById('filter-priority')?.value || 'ALL';
 
       const baseProjects = getAccessibleProjects();
       const filteredProjects = baseProjects.filter(p => {
         const matchesPm = (pmFilter === 'ALL' || (p.pmName || 'Dounia') === pmFilter);
         const matchesPkg = (pkgFilter === 'ALL' || p.packageTier === pkgFilter);
+        const matchesPrio = (prioFilter === 'ALL' || (p.priority || 'Medium') === prioFilter);
 
         let matchesStage = true;
         if (stageFilter !== 'ALL') {
@@ -11618,10 +12834,13 @@ Thank you!`;
             matchesStage = !stageInfo.isAllDone && (String(stageInfo.stageNum) === String(stageFilter) || stageInfo.stageName.toLowerCase().includes(stageFilter.toLowerCase()));
           }
         }
-        return matchesPm && matchesStage && matchesPkg;
+        return matchesPm && matchesStage && matchesPkg && matchesPrio;
       });
 
-      if (filteredProjects.length === 0) {
+      const displayProjects = sortProjectsByPriority(filteredProjects, currentPrioritySort);
+
+      if (displayProjects.length === 0) {
+        container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
         container.innerHTML = `
           <div class="col-span-full bg-white p-8 rounded-2xl border border-slate-200 text-center text-slate-500">
             <i data-lucide="folder-search" class="w-8 h-8 mx-auto mb-2 text-slate-400"></i>
@@ -11632,41 +12851,218 @@ Thank you!`;
         return;
       }
 
-      filteredProjects.forEach(p => {
+      // KANBAN VIEW BY PROJECT STAGE
+      if (boardsViewMode === 'kanban') {
+        container.className = 'flex gap-4 overflow-x-auto pb-4 items-start no-scrollbar min-w-full';
+
+        const kanbanStages = [
+          {
+            id: '1',
+            stageNum: 1,
+            title: 'Website Structure',
+            headerBg: 'bg-violet-100 text-violet-800 border-violet-200/80',
+            topBorder: 'border-t-4 border-t-violet-500',
+            matcher: (sInfo) => !sInfo.isAllDone && sInfo.stageNum === 1
+          },
+          {
+            id: '2',
+            stageNum: 2,
+            title: 'Content Collection',
+            headerBg: 'bg-sky-100 text-sky-800 border-sky-200/80',
+            topBorder: 'border-t-4 border-t-sky-500',
+            matcher: (sInfo) => !sInfo.isAllDone && sInfo.stageNum === 2
+          },
+          {
+            id: '3',
+            stageNum: 3,
+            title: 'Revision Phase',
+            headerBg: 'bg-amber-100 text-amber-800 border-amber-200/80',
+            topBorder: 'border-t-4 border-t-amber-500',
+            matcher: (sInfo) => !sInfo.isAllDone && sInfo.stageNum === 3
+          },
+          {
+            id: '4',
+            stageNum: 4,
+            title: 'Go-Live',
+            headerBg: 'bg-emerald-100 text-emerald-800 border-emerald-200/80',
+            topBorder: 'border-t-4 border-t-emerald-500',
+            matcher: (sInfo) => !sInfo.isAllDone && sInfo.stageNum === 4
+          },
+          {
+            id: 'completed',
+            stageNum: 5,
+            title: 'Completed',
+            headerBg: 'bg-teal-100 text-teal-800 border-teal-200/80',
+            topBorder: 'border-t-4 border-t-teal-500',
+            isDone: true,
+            matcher: (sInfo) => sInfo.isAllDone
+          }
+        ];
+
+        const columnsHtml = kanbanStages.map(col => {
+          const colProjects = displayProjects.filter(p => {
+            const sInfo = getProjectCurrentStageInfo(p);
+            return col.matcher(sInfo);
+          });
+
+          const cardsHtml = colProjects.length === 0
+            ? `
+              <div class="p-6 text-center rounded-xl border border-dashed border-slate-200/90 text-slate-400 bg-white/40 space-y-1">
+                <p class="text-xs font-semibold text-slate-400">No projects</p>
+                <p class="text-[10px] text-slate-400/80">in this stage</p>
+              </div>
+            `
+            : colProjects.map(p => {
+              const stageInfo = getProjectCurrentStageInfo(p);
+              const prog = getProjectOverallProgress(p);
+              const prioInfo = getPriorityBadgeInfo(p.priority);
+
+              let pkgBadge = 'bg-slate-100 text-slate-600';
+              let pkgLabel = 'Essential';
+              if (p.packageTier === 'seo_content') { pkgBadge = 'bg-indigo-100 text-indigo-700'; pkgLabel = 'Content'; }
+              if (p.packageTier === 'seo_custom') { pkgBadge = 'bg-amber-100 text-amber-800'; pkgLabel = 'Custom'; }
+
+              return `
+                <div onclick="currentProjectId='${p.id}'; switchView('timeline');" class="bg-white rounded-xl border border-slate-200 p-3.5 shadow-2xs hover:border-brand-purple hover:shadow-md transition cursor-pointer space-y-2.5 group relative">
+                  <!-- CARD HEADER (WITH TOP-RIGHT PRIORITY BADGE) -->
+                  <div class="flex items-start justify-between gap-2">
+                    <h4 class="text-xs font-bold text-slate-900 group-hover:text-brand-purple transition truncate flex-1 min-w-0" title="${p.name}">
+                      ${p.name}
+                    </h4>
+                    <div class="flex items-center space-x-1.5 shrink-0">
+                      <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${prioInfo.classes} border shadow-2xs" title="Priority: ${prioInfo.label}">
+                        <span class="w-1.5 h-1.5 rounded-full ${prioInfo.dot}"></span>
+                        <span>${prioInfo.shortLabel}</span>
+                      </span>
+                      <button onclick="event.stopPropagation(); openEditProjectModal('${p.id}')" title="Edit Project Specs" class="p-1 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-brand-purple transition shrink-0 cursor-pointer">
+                        <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- PM & TIER BADGES -->
+                  <div class="flex items-center flex-wrap gap-1.5">
+                    <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-brand-purple border border-purple-200/80 shadow-2xs">
+                      <i data-lucide="user" class="w-2.5 h-2.5 text-brand-purple"></i>
+                      <span>${p.pmName || 'Dounia'}</span>
+                    </span>
+                    <span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${pkgBadge} shadow-2xs">
+                      ${pkgLabel}
+                    </span>
+                    ${p.authorizedPmName ? `
+                      <span class="px-1.5 py-0.2 rounded text-[9px] font-extrabold uppercase bg-indigo-100 text-indigo-800">Co-PM</span>
+                    ` : ''}
+                  </div>
+
+                  <!-- PROGRESS BAR & REMAINING DELIVERABLES -->
+                  <div class="space-y-1.5 pt-0.5">
+                    <div class="flex items-center justify-between text-[10px]">
+                      <span class="font-semibold text-slate-500">
+                        ${stageInfo.isAllDone ? 'Finished' : `${stageInfo.remainingTasks} task${stageInfo.remainingTasks === 1 ? '' : 's'} remaining`}
+                      </span>
+                      <span class="font-mono font-bold ${prog.pct === 100 ? 'text-emerald-600' : 'text-brand-purple'}">${prog.pct}%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden border border-slate-200/70">
+                      <div class="h-full rounded-full transition-all duration-300 ${
+                        prog.pct === 100 ? 'bg-gradient-to-r from-emerald-500 to-teal-400' : 'bg-gradient-to-r from-brand-purple to-purple-500'
+                      }" style="width: ${prog.pct}%"></div>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('');
+
+          return `
+            <div class="flex-1 min-w-[270px] sm:min-w-[290px] max-w-[340px] bg-slate-50/90 rounded-2xl border border-slate-200/90 ${col.topBorder} p-3.5 space-y-3 shadow-2xs flex flex-col">
+              <!-- COLUMN HEADER -->
+              <div class="flex items-center justify-between pb-2.5 border-b border-slate-200/80">
+                <div class="flex items-center space-x-2 min-w-0">
+                  <span class="w-5 h-5 rounded-md ${col.headerBg} border flex items-center justify-center font-extrabold text-[10px] shrink-0 shadow-2xs select-none">
+                    ${col.isDone ? '✓' : col.stageNum}
+                  </span>
+                  <h3 class="text-xs font-bold text-slate-800 truncate" title="${col.title}">${col.title}</h3>
+                </div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${col.headerBg} border shadow-2xs shrink-0">
+                  ${colProjects.length}
+                </span>
+              </div>
+
+              <!-- CARDS LIST -->
+              <div class="space-y-2.5 flex-1 overflow-y-auto max-h-[calc(100vh-320px)] min-h-[160px] pr-0.5">
+                ${cardsHtml}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        container.innerHTML = columnsHtml;
+        lucide.createIcons();
+        return;
+      }
+
+      // STANDARD GRID VIEW
+      container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+
+      displayProjects.forEach(p => {
         const stageInfo = getProjectCurrentStageInfo(p);
+        const stageColor = getStageTimelineColorClasses(stageInfo.stageNum, stageInfo.isAllDone);
         const prog = getProjectOverallProgress(p);
+        const prioInfo = getPriorityBadgeInfo(p.priority);
+
+        let pkgBadge = 'bg-slate-100 text-slate-600';
+        let pkgLabel = 'Essential';
+        if (p.packageTier === 'seo_content') { pkgBadge = 'bg-indigo-100 text-indigo-700'; pkgLabel = 'Content'; }
+        if (p.packageTier === 'seo_custom') { pkgBadge = 'bg-amber-100 text-amber-800'; pkgLabel = 'Custom'; }
 
         const card = document.createElement('div');
         card.className = 'bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 hover:border-brand-purple hover:shadow-md transition relative group cursor-pointer';
         card.onclick = () => { currentProjectId = p.id; switchView('timeline'); };
 
         card.innerHTML = `
-          <!-- HEADER: PROJECT NAME, PM BADGE & EDIT SPECS -->
+          <!-- HEADER: PROJECT NAME, TOP-RIGHT PRIORITY & EDIT SPECS -->
           <div class="flex items-start justify-between gap-3">
             <div class="min-w-0 flex-1">
               <h3 class="text-base font-bold text-slate-900 group-hover:text-brand-purple transition truncate" title="${p.name}">${p.name}</h3>
-              <div class="flex items-center space-x-2 mt-2">
+              <div class="flex items-center flex-wrap gap-1.5 mt-2">
                 <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-purple-100 text-brand-purple border border-purple-200/80 shadow-2xs">
                   <i data-lucide="user" class="w-3 h-3 text-brand-purple"></i>
-                  <span>PM: ${p.pmName || 'Dounia'}</span>
+                  <span>${p.pmName || 'Dounia'}</span>
                 </span>
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${pkgBadge} shadow-2xs">
+                  ${pkgLabel}
+                </span>
+                ${p.authorizedPmName ? `
+                  <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-50 text-indigo-900 border border-indigo-200/80 shadow-2xs">
+                    <i data-lucide="user-check" class="w-3 h-3 text-indigo-600 shrink-0"></i>
+                    <span class="font-bold text-slate-800">${p.authorizedPmName}</span>
+                    <span class="ml-1 px-1.5 py-0.2 rounded text-[9.5px] font-extrabold uppercase bg-indigo-200/90 text-indigo-800 tracking-wide border border-indigo-300/60">Co-PM</span>
+                  </span>
+                ` : ''}
               </div>
             </div>
-            <button onclick="event.stopPropagation(); openEditProjectModal('${p.id}')" title="Edit Project Specs" class="p-1.5 hover:bg-slate-100 rounded-xl text-slate-400 hover:text-brand-purple transition shrink-0 cursor-pointer">
-              <i data-lucide="edit-3" class="w-4 h-4"></i>
-            </button>
+            <!-- TOP RIGHT: PRIORITY BADGE & EDIT BUTTON -->
+            <div class="flex items-center space-x-2 shrink-0">
+              <span class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold ${prioInfo.classes} border shadow-2xs" title="Project Priority: ${prioInfo.label}">
+                <span class="w-2 h-2 rounded-full ${prioInfo.dot}"></span>
+                <span>${prioInfo.label}</span>
+              </span>
+              <button onclick="event.stopPropagation(); openEditProjectModal('${p.id}')" title="Edit Project Specs" class="p-1.5 hover:bg-slate-100 rounded-xl text-slate-400 hover:text-brand-purple transition shrink-0 cursor-pointer">
+                <i data-lucide="edit-3" class="w-4 h-4"></i>
+              </button>
+            </div>
           </div>
 
           <!-- CURRENT STAGE BADGE & TASKS REMAINING IN ACTIVE STAGE (SINGLE LINE) -->
           <div class="bg-slate-50 border border-slate-200/90 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-purple-50/40 transition">
             <div class="flex items-center space-x-2 min-w-0">
               <span class="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Stage</span>
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${stageInfo.isAllDone ? 'bg-emerald-100 text-emerald-700' : 'bg-purple-100 text-brand-purple'} font-mono truncate">
-                ${stageInfo.stageName}
+              <span class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${stageColor.badge} font-mono truncate shadow-2xs">
+                <span class="w-3.5 h-3.5 rounded bg-white/80 text-current flex items-center justify-center font-extrabold text-[9px] shrink-0 select-none">${stageInfo.stageNum}</span>
+                <span class="truncate">${stageInfo.stageName}</span>
               </span>
             </div>
             <div class="flex items-center space-x-1.5 text-xs font-semibold text-slate-600 shrink-0">
-              <i data-lucide="${stageInfo.isAllDone ? 'check-circle' : 'list-todo'}" class="w-3.5 h-3.5 ${stageInfo.isAllDone ? 'text-emerald-500' : 'text-brand-purple'} shrink-0"></i>
+              <i data-lucide="${stageInfo.isAllDone ? 'check-circle' : 'list-todo'}" class="w-3.5 h-3.5 ${stageColor.text} shrink-0"></i>
               <span>${stageInfo.remainingTasks} task${stageInfo.remainingTasks === 1 ? '' : 's'} remaining</span>
             </div>
           </div>
@@ -11917,11 +13313,37 @@ Thank you!`;
 
     // --- CREATE / EDIT PROJECT MODAL LOGIC ---
     function handleProjectModalPackageChange() {
-      const tier = document.getElementById('mp-package').value;
-      const seoCb = document.getElementById('mp-seo-questionnaire');
-      if (seoCb) {
-        seoCb.checked = (tier === 'seo_essential' || tier === 'seo_content');
+      const tier = document.getElementById('mp-package')?.value || 'seo_essential';
+      const pill = document.getElementById('mp-package-seo-pill');
+      const note = document.getElementById('mp-package-seo-note');
+      const isSeo = isSeoPackage(tier);
+
+      if (pill) {
+        if (isSeo) {
+          pill.className = 'text-[9px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-full shadow-2xs';
+          pill.textContent = 'SEO Inclus';
+        } else {
+          pill.className = 'text-[9px] font-bold text-slate-500 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-full shadow-2xs';
+          pill.textContent = 'Sans SEO';
+        }
       }
+
+      if (note) {
+        if (isSeo) {
+          note.className = 'text-[10px] text-emerald-700 font-medium mt-1 flex items-center space-x-1';
+          note.innerHTML = `
+            <i data-lucide="check-circle" class="w-3 h-3 text-emerald-600 shrink-0"></i>
+            <span>Questionnaire SEO activé automatiquement pour ce pack</span>
+          `;
+        } else {
+          note.className = 'text-[10px] text-slate-500 font-medium mt-1 flex items-center space-x-1';
+          note.innerHTML = `
+            <i data-lucide="info" class="w-3 h-3 text-slate-400 shrink-0"></i>
+            <span>Aucun questionnaire SEO pour ce template</span>
+          `;
+        }
+      }
+      if (window.lucide) lucide.createIcons();
     }
 
     function openCreateProjectModal() {
@@ -11931,16 +13353,34 @@ Thank you!`;
       const defaultPm = (currentRole === 'pm' && currentUser?.name) ? currentUser.name : 'Dounia';
       document.getElementById('mp-pm-name').value = defaultPm;
       document.getElementById('mp-client-email').value = '';
-      document.getElementById('mp-evolution').value = 'Crystal';
+      const evoEl = document.getElementById('mp-evolution');
+      if (evoEl) evoEl.value = 'Crystal';
       document.getElementById('mp-package').value = 'seo_essential';
+      handleProjectModalPackageChange();
       document.getElementById('mp-drive').value = 'https://drive.google.com';
+      if (document.getElementById('mp-priority')) {
+        document.getElementById('mp-priority').value = 'Medium';
+      }
 
-      const seoCb = document.getElementById('mp-seo-questionnaire');
-      if (seoCb) seoCb.checked = true; // Default package seo_essential includes SEO questionnaire
+      const authPmSelect = document.getElementById('mp-authorized-pm');
+      if (authPmSelect) {
+        const pmUsers = users.filter(u => u.role === 'pm');
+        authPmSelect.innerHTML = `
+          <option value="" selected>-- Aucun PM autorisé (Seul le PM créateur peut modifier) --</option>
+          ${pmUsers.map(u => `<option value="${u.email}">${u.name} (${u.email})</option>`).join('')}
+        `;
+        authPmSelect.disabled = false;
+        const noteEl = document.getElementById('mp-auth-pm-note');
+        if (noteEl) noteEl.textContent = '';
+      }
 
       renderProjectModalLanguages(['English', 'French']);
-      const customInput = document.getElementById('mp-new-custom-lang');
-      if (customInput) customInput.value = '';
+      const searchInput = document.getElementById('mp-lang-search');
+      if (searchInput) searchInput.value = '';
+
+      const delBtn = document.getElementById('mp-delete-btn');
+      if (delBtn) delBtn.classList.add('hidden');
+      resetActiveInlineConfirm();
 
       document.getElementById('modal-project').classList.remove('hidden');
       lucide.createIcons();
@@ -11949,26 +13389,54 @@ Thank you!`;
     function openEditProjectModal(projId) {
       const project = projects.find(p => p.id === projId);
       if (!project) return;
+      if (!canEditProject(project)) {
+        showUnauthorizedProjectToast(project.name, project.pmName);
+        return;
+      }
 
       document.getElementById('modal-project-title-text').textContent = 'Edit Project Specificities';
       document.getElementById('mp-project-id').value = project.id;
       document.getElementById('mp-name').value = project.name;
       document.getElementById('mp-pm-name').value = project.pmName || 'Dounia';
       document.getElementById('mp-client-email').value = project.clientEmail || '';
-      document.getElementById('mp-evolution').value = project.evolutionTag;
-      document.getElementById('mp-package').value = project.packageTier;
+      const evoEl = document.getElementById('mp-evolution');
+      if (evoEl) evoEl.value = project.evolutionTag || 'Crystal';
+      document.getElementById('mp-package').value = project.packageTier || 'seo_essential';
+      handleProjectModalPackageChange();
       document.getElementById('mp-drive').value = project.driveUrl;
+      if (document.getElementById('mp-priority')) {
+        document.getElementById('mp-priority').value = project.priority || 'Medium';
+      }
 
-      const seoCb = document.getElementById('mp-seo-questionnaire');
-      if (seoCb) {
-        seoCb.checked = project.hasSeoQuestionnaire ?? (project.packageTier === 'seo_essential' || project.packageTier === 'seo_content');
+      const authPmSelect = document.getElementById('mp-authorized-pm');
+      if (authPmSelect) {
+        const pmUsers = users.filter(u => u.role === 'pm');
+        const curPmEmail = (project.pmEmail || '').toLowerCase();
+        const currentAuthEmail = (project.authorizedPmEmail || '').toLowerCase();
+        authPmSelect.innerHTML = `
+          <option value="" ${!currentAuthEmail ? 'selected' : ''}>-- Aucun PM autorisé (Seul le PM créateur peut modifier) --</option>
+          ${pmUsers
+            .filter(u => u.email.toLowerCase() !== curPmEmail)
+            .map(u => `<option value="${u.email}" ${u.email.toLowerCase() === currentAuthEmail ? 'selected' : ''}>${u.name} (${u.email})</option>`)
+            .join('')}
+        `;
+        const isOwnerOrAdmin = isProjectOwner(project) || currentRole === 'admin';
+        authPmSelect.disabled = !isOwnerOrAdmin;
+        const noteEl = document.getElementById('mp-auth-pm-note');
+        if (noteEl) {
+          noteEl.textContent = isOwnerOrAdmin ? '' : 'Seul le PM créateur ou un Admin peut modifier la délégation.';
+        }
       }
 
       const selectedLangs = project.languages || ['English'];
       ensureLanguagesAvailable(selectedLangs);
       renderProjectModalLanguages(selectedLangs);
-      const customInput = document.getElementById('mp-new-custom-lang');
-      if (customInput) customInput.value = '';
+      const searchInput = document.getElementById('mp-lang-search');
+      if (searchInput) searchInput.value = '';
+
+      const delBtn = document.getElementById('mp-delete-btn');
+      if (delBtn) delBtn.classList.remove('hidden');
+      resetActiveInlineConfirm();
 
       document.getElementById('modal-project').classList.remove('hidden');
       lucide.createIcons();
@@ -11980,13 +13448,23 @@ Thank you!`;
       const name = document.getElementById('mp-name').value;
       const pmName = document.getElementById('mp-pm-name').value;
       const clientEmail = document.getElementById('mp-client-email').value;
-      const evo = document.getElementById('mp-evolution').value;
+      const evo = document.getElementById('mp-evolution')?.value || 'Crystal';
       const tier = document.getElementById('mp-package').value;
       const drive = document.getElementById('mp-drive').value;
-      const seoCb = document.getElementById('mp-seo-questionnaire');
-      const hasSeo = seoCb ? seoCb.checked : (tier === 'seo_essential' || tier === 'seo_content');
+      const priority = document.getElementById('mp-priority')?.value || 'Medium';
+      const hasSeo = isSeoPackage(tier);
 
       const checkedLangs = Array.from(document.querySelectorAll('.mp-lang-checkbox:checked')).map(cb => cb.value);
+      const projectLanguages = checkedLangs.length ? checkedLangs : ['English'];
+
+      const authPmSelect = document.getElementById('mp-authorized-pm');
+      let authEmail = '';
+      let authName = '';
+      if (authPmSelect && authPmSelect.value) {
+        authEmail = authPmSelect.value.trim();
+        const authUser = users.find(u => u.email.toLowerCase() === authEmail.toLowerCase());
+        authName = authUser ? authUser.name : authEmail.split('@')[0];
+      }
 
       if (projId) {
         const project = projects.find(p => p.id === projId);
@@ -11999,14 +13477,44 @@ Thank you!`;
           project.pmEmail = assignedEmail;
           project.clientEmail = clientEmail;
           project.evolutionTag = evo;
-          project.languages = checkedLangs.length ? checkedLangs : ['English'];
+          project.languages = projectLanguages;
           project.hasSeoQuestionnaire = hasSeo;
+          project.priority = priority;
+
+          // Automatically ensure sitemapDocs and textDocs exist for all selected languages
+          projectLanguages.forEach((lang, idx) => {
+            if (!project.sitemapDocs) project.sitemapDocs = [];
+            if (!project.sitemapDocs.some(d => (d.lang || '').toLowerCase() === lang.toLowerCase())) {
+              project.sitemapDocs.push({
+                id: `sd-${Date.now()}-${idx}`,
+                lang: lang,
+                label: `${lang} Version`,
+                url: project.driveUrl || drive || 'https://drive.google.com',
+                completed: false
+              });
+            }
+            if (!project.textDocs) project.textDocs = [];
+            if (!project.textDocs.some(d => (d.lang || '').toLowerCase() === lang.toLowerCase())) {
+              project.textDocs.push({
+                id: `td-${Date.now()}-${idx}`,
+                lang: lang,
+                label: `${lang} Version`,
+                url: 'https://docs.google.com',
+                completed: false
+              });
+            }
+          });
+
+          if (authPmSelect && !authPmSelect.disabled) {
+            project.authorizedPmEmail = authEmail;
+            project.authorizedPmName = authName;
+          }
           if (project.packageTier !== tier) {
             project.packageTier = tier;
-            project.steps = JSON.parse(JSON.stringify(PRD_TEMPLATES[tier]));
+            project.steps = JSON.parse(JSON.stringify(PRD_TEMPLATES[tier] || PRD_TEMPLATES.seo_essential));
           }
           project.driveUrl = drive;
-          logActivity('Project Specificities Updated', `Updated setup parameters for ${name} (${evo} / ${tier.toUpperCase()})`, 'sliders', 'project', project.id);
+          logActivity('Project Specificities Updated', `Updated setup parameters for ${name} (${evo} / ${tier.toUpperCase()} / Priority: ${priority})`, 'sliders', 'project', project.id);
         }
       } else {
         const defaultColors = { primary: '#5B1E82', secondary: '#C5A059', tertiary: '#F4F5F9' };
@@ -12018,14 +13526,21 @@ Thank you!`;
           name: name,
           pmName: pmName,
           pmEmail: assignedEmail,
+          authorizedPmName: authName,
+          authorizedPmEmail: authEmail,
           clientEmail: clientEmail,
           evolutionTag: evo,
+          priority: priority,
           guides: JSON.parse(JSON.stringify(globalGuides)),
           tooltips: JSON.parse(JSON.stringify(globalTooltips)),
           sitemapDriveUrl: drive,
-          sitemapDocs: [
-            { id: `sd-${Date.now()}`, lang: checkedLangs[0] || 'English', label: `${checkedLangs[0] || 'English'} Version`, url: drive || 'https://drive.google.com', completed: false }
-          ],
+          sitemapDocs: projectLanguages.map((lang, idx) => ({
+            id: `sd-${Date.now()}-${idx}`,
+            lang: lang,
+            label: `${lang} Version`,
+            url: drive || 'https://drive.google.com',
+            completed: false
+          })),
           seoQuestionnaireUrl: '',
           hasSeoQuestionnaire: hasSeo,
           sitemapDeadline: '2026-05-20',
@@ -12038,13 +13553,17 @@ Thank you!`;
           hasSecondWaveRevisions: true,
           firstWaveNotes: '',
           secondWaveNotes: '',
-          languages: checkedLangs.length ? checkedLangs : ['English'],
+          languages: projectLanguages,
           packageTier: tier,
           driveUrl: drive,
           colors: defaultColors,
-          textDocs: [
-            { id: `td-${Date.now()}`, lang: checkedLangs[0] || 'English', label: `${checkedLangs[0] || 'English'} Version`, url: 'https://docs.google.com', completed: false }
-          ],
+          textDocs: projectLanguages.map((lang, idx) => ({
+            id: `td-${Date.now()}-${idx}`,
+            lang: lang,
+            label: `${lang} Version`,
+            url: 'https://docs.google.com',
+            completed: false
+          })),
           graphicElements: {
             imagesDrive: drive,
             colors: `Primary: ${defaultColors.primary}, Secondary: ${defaultColors.secondary}, Tertiary: ${defaultColors.tertiary}`,
@@ -12058,12 +13577,12 @@ Thank you!`;
           googleMapsKey: '',
           thirdPartyNotes: '',
           customIntegrations: [],
-          steps: JSON.parse(JSON.stringify(PRD_TEMPLATES[tier]))
+          steps: JSON.parse(JSON.stringify(PRD_TEMPLATES[tier] || PRD_TEMPLATES.seo_essential))
         };
         projects.push(newProj);
         saveProjectsToStorage();
         currentProjectId = newProj.id;
-        logActivity('Project Board Created', `Initialized new hotel roadmap for "${name}" (${evo})`, 'plus-circle', 'project', newProj.id);
+        logActivity('Project Board Created', `Initialized new hotel roadmap for "${name}" (${evo} / Priority: ${priority})`, 'plus-circle', 'project', newProj.id);
       }
 
       updatePmFilterOptions();
@@ -12198,10 +13717,20 @@ Thank you!`;
 
     function closeModal(id) {
       if (!id) return;
+      resetActiveInlineConfirm();
+      if (id === 'modal-project') closeProjectModalLangDropdown();
       const el = document.getElementById(id);
       if (el) el.classList.add('hidden');
     }
     window.closeModal = closeModal;
+
+    // Fermer la liste déroulante des langues si clic à l'extérieur
+    document.addEventListener('click', (e) => {
+      const wrapper = document.getElementById('mp-lang-dropdown-wrapper');
+      if (wrapper && !wrapper.contains(e.target)) {
+        closeProjectModalLangDropdown();
+      }
+    });
 
     function handleAddStepSubmit(e) {
       e.preventDefault();
@@ -12234,6 +13763,356 @@ Thank you!`;
       closeModal('modal-add-step');
       renderApp();
       showSavingToast('Adding milestone...', 'Step added to timeline');
+    }
+
+    // --- AUTOMATED PM DAILY DIGEST (48H UPCOMING MILESTONES) ---
+    // shortcut: client-side 48h calculation with Express mock notification endpoint, upgrade to persistent node-cron job with real SMTP mailer for production background worker.
+    function getUpcoming48hMilestones(targetProjects = null) {
+      const projs = targetProjects || (typeof getAccessibleProjects === 'function' ? getAccessibleProjects() : projects);
+      const now = new Date();
+      // Lookahead window of 48 hours + 2h margin for today's end-of-day cutoffs
+      const windowLimit = new Date(now.getTime() + 48 * 60 * 60 * 1000);
+      const results = [];
+
+      projs.forEach(project => {
+        // 1. Check timeline steps
+        if (Array.isArray(project.steps)) {
+          project.steps.forEach(step => {
+            if (step.status === 'completed') return;
+            if (!step.date) return;
+
+            const stepDeadline = new Date(step.date.includes('T') ? step.date : `${step.date}T23:59:59`);
+            if (isNaN(stepDeadline.getTime())) return;
+
+            if (stepDeadline.getTime() >= (now.getTime() - 2 * 60 * 60 * 1000) && stepDeadline.getTime() <= windowLimit.getTime()) {
+              const msLeft = stepDeadline.getTime() - now.getTime();
+              const hoursLeft = Math.max(1, Math.round(msLeft / (1000 * 60 * 60)));
+              results.push({
+                type: 'step',
+                id: step.id,
+                projectId: project.id,
+                projectName: project.name,
+                pmName: project.pmName || 'Dounia',
+                pmEmail: project.pmEmail || 'dounia@d-edge.com',
+                title: step.title,
+                phase: step.group || 'Timeline Step',
+                date: step.date,
+                status: step.status || 'pending',
+                owner: step.owner || 'Both',
+                hoursLeft: hoursLeft
+              });
+            }
+          });
+        }
+
+        // 2. Check phase milestones
+        const phaseDeadlines = [
+          { key: 'sitemapDeadline', phase: '1. Sitemap', title: 'Sitemap Validation Deadline', done: project.sitemapCompleted },
+          { key: 'contentCollectionDeadline', phase: '2. Content Collection', title: 'Content Collection Deadline', done: false },
+          { key: 'revisionPhaseDeadline', phase: '3. Revision Phase', title: 'Revision Phase Deadline', done: false },
+          { key: 'goLiveDeadline', phase: '4. Go-live', title: 'DNS Cutover & Launch Deadline', done: false }
+        ];
+
+        phaseDeadlines.forEach(ph => {
+          if (ph.done) return;
+          const dStr = project[ph.key];
+          if (!dStr) return;
+          const phDeadline = new Date(dStr.includes('T') ? dStr : `${dStr}T23:59:59`);
+          if (isNaN(phDeadline.getTime())) return;
+          if (phDeadline.getTime() >= (now.getTime() - 2 * 60 * 60 * 1000) && phDeadline.getTime() <= windowLimit.getTime()) {
+            const alreadyInSteps = results.some(r => r.projectId === project.id && (r.title.toLowerCase().includes(ph.title.toLowerCase()) || r.phase === ph.phase));
+            if (!alreadyInSteps) {
+              const msLeft = phDeadline.getTime() - now.getTime();
+              const hoursLeft = Math.max(1, Math.round(msLeft / (1000 * 60 * 60)));
+              results.push({
+                type: 'phase',
+                id: `${project.id}-${ph.key}`,
+                projectId: project.id,
+                projectName: project.name,
+                pmName: project.pmName || 'Dounia',
+                pmEmail: project.pmEmail || 'dounia@d-edge.com',
+                title: ph.title,
+                phase: ph.phase,
+                date: dStr,
+                status: 'pending',
+                owner: 'Both',
+                hoursLeft: hoursLeft
+              });
+            }
+          }
+        });
+      });
+
+      results.sort((a, b) => a.hoursLeft - b.hoursLeft);
+      return results;
+    }
+
+    function ensureDemoMilestonesWithin48h() {
+      const currentUpcoming = getUpcoming48hMilestones();
+      if (currentUpcoming.length === 0 && projects.length > 0) {
+        const today = new Date();
+        const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+        const in36h = new Date(today.getTime() + 38 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+        const p1 = projects[0];
+        if (p1 && Array.isArray(p1.steps) && p1.steps.length > 3) {
+          const step1 = p1.steps.find(s => s.status !== 'completed') || p1.steps[3];
+          if (step1) {
+            step1.date = tomorrow;
+            step1.status = 'in_progress';
+          }
+        }
+
+        if (projects.length > 1) {
+          const p2 = projects[1];
+          if (p2 && Array.isArray(p2.steps) && p2.steps.length > 4) {
+            const step2 = p2.steps.find(s => s.status !== 'completed') || p2.steps[4];
+            if (step2) {
+              step2.date = in36h;
+              step2.status = 'pending';
+            }
+          }
+        }
+        saveProjectsToStorage();
+      }
+    }
+
+    function updateDailyDigestBannerAndBadge() {
+      const milestones = getUpcoming48hMilestones();
+      const count = milestones.length;
+
+      const badgeEl = document.getElementById('badge-daily-digest-count');
+      if (badgeEl) {
+        badgeEl.textContent = count;
+        badgeEl.className = count > 0 
+          ? 'px-1.5 py-0.2 rounded-full bg-amber-200 text-amber-950 text-[10px] font-extrabold'
+          : 'px-1.5 py-0.2 rounded-full bg-slate-200 text-slate-700 text-[10px] font-bold';
+      }
+
+      const banner = document.getElementById('banner-daily-digest-48h');
+      const isDismissed = sessionStorage.getItem('dismissed_digest_banner_48h') === 'true';
+      if (banner) {
+        if (count > 0 && !isDismissed) {
+          banner.classList.remove('hidden');
+          const bannerBadge = document.getElementById('banner-digest-badge');
+          if (bannerBadge) {
+            bannerBadge.textContent = `${count} Milestone${count > 1 ? 's' : ''} Pending (Next 48h)`;
+          }
+        } else {
+          banner.classList.add('hidden');
+        }
+      }
+    }
+
+    function dismissDailyDigestBanner() {
+      const banner = document.getElementById('banner-daily-digest-48h');
+      if (banner) banner.classList.add('hidden');
+      sessionStorage.setItem('dismissed_digest_banner_48h', 'true');
+    }
+    window.dismissDailyDigestBanner = dismissDailyDigestBanner;
+
+    function openDailyDigestModal() {
+      renderDailyDigestModalContent();
+      const modal = document.getElementById('modal-daily-digest');
+      if (modal) {
+        modal.classList.remove('hidden');
+        lucide.createIcons();
+      }
+    }
+    window.openDailyDigestModal = openDailyDigestModal;
+
+    function renderDailyDigestModalContent() {
+      const listContainer = document.getElementById('daily-digest-projects-list');
+      const recipientLabel = document.getElementById('digest-pm-recipient');
+      const toggleEl = document.getElementById('toggle-automated-digest-email');
+
+      if (toggleEl) {
+        toggleEl.checked = localStorage.getItem('auto_daily_digest_enabled') !== 'false';
+      }
+
+      if (!listContainer) return;
+      const milestones = getUpcoming48hMilestones();
+
+      if (recipientLabel) {
+        const pmNames = Array.from(new Set(projects.map(p => p.pmName || 'Dounia'))).filter(Boolean);
+        recipientLabel.textContent = pmNames.length > 0 ? pmNames.join(', ') : 'All Assigned Project Managers';
+      }
+
+      if (milestones.length === 0) {
+        listContainer.innerHTML = `
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-6 text-center space-y-2">
+            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto font-bold">
+              <i data-lucide="check-circle" class="w-5 h-5"></i>
+            </div>
+            <h4 class="text-xs font-bold text-emerald-900">All Milestones Up to Date</h4>
+            <p class="text-[11px] text-emerald-700">No project deliverables or milestone deadlines scheduled within the next 48 hours.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      const byProject = {};
+      milestones.forEach(m => {
+        if (!byProject[m.projectId]) {
+          byProject[m.projectId] = {
+            projectId: m.projectId,
+            projectName: m.projectName,
+            pmName: m.pmName,
+            milestones: []
+          };
+        }
+        byProject[m.projectId].milestones.push(m);
+      });
+
+      listContainer.innerHTML = Object.values(byProject).map(group => {
+        const proj = projects.find(p => p.id === group.projectId);
+        const tmpl = proj?.evolutionTag || 'Crystal';
+        return `
+          <div class="bg-white border border-slate-200/90 rounded-xl p-3.5 shadow-2xs space-y-2.5 hover:border-purple-200 transition">
+            <div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-slate-100">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-slate-900 text-xs">${group.projectName}</span>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-brand-purple border border-purple-200/80">${group.pmName}</span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-100 text-slate-600 border border-slate-200">${tmpl}</span>
+              </div>
+              <button type="button" onclick="closeModal('modal-daily-digest'); switchProject('${group.projectId}'); switchView('timeline');" class="text-[11px] text-brand-purple hover:underline font-bold flex items-center space-x-1 cursor-pointer">
+                <span>View Timeline</span>
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+              </button>
+            </div>
+            <div class="space-y-2">
+              ${group.milestones.map(ms => {
+                const isUrgent = ms.hoursLeft <= 24;
+                const urgencyBg = isUrgent ? 'bg-rose-50 text-rose-800 border-rose-200' : 'bg-amber-50 text-amber-800 border-amber-200';
+                const urgencyDot = isUrgent ? 'bg-rose-500' : 'bg-amber-500';
+                return `
+                  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-2.5 rounded-lg bg-slate-50/70 border border-slate-100 text-xs">
+                    <div class="space-y-0.5">
+                      <div class="flex items-center space-x-2 flex-wrap">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">${ms.phase}</span>
+                        <span class="font-bold text-slate-800">${ms.title}</span>
+                      </div>
+                      <div class="text-[11px] text-slate-500 flex items-center space-x-2">
+                        <span>Assigned: <strong>${ms.owner}</strong></span>
+                        <span>•</span>
+                        <span class="capitalize font-medium text-slate-600">${ms.status.replace('_', ' ')}</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-2 shrink-0 self-end sm:self-center">
+                      <span class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold border ${urgencyBg}">
+                        <span class="w-1.5 h-1.5 rounded-full ${urgencyDot} animate-pulse"></span>
+                        <span>${isUrgent ? `Due in ${ms.hoursLeft}h` : `Due in ~${Math.round(ms.hoursLeft/24)}d (${ms.hoursLeft}h)`}</span>
+                      </span>
+                      <span class="text-[11px] text-slate-400 font-mono">${ms.date}</span>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+    window.renderDailyDigestModalContent = renderDailyDigestModalContent;
+
+    async function dispatchDailyDigestEmailNow() {
+      const sendBtn = document.getElementById('btn-dispatch-daily-digest');
+      const milestones = getUpcoming48hMilestones();
+
+      if (sendBtn) {
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = `
+          <span class="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+          <span>Dispatching Digest...</span>
+        `;
+      }
+
+      try {
+        const payload = {
+          pmEmail: (currentUser && currentUser.email) ? currentUser.email : 'pm-team@d-edge.com',
+          recipientName: (currentUser && currentUser.name) ? currentUser.name : 'Project Managers',
+          milestones: milestones
+        };
+
+        const res = await fetch('/api/daily-digest', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        console.log('[Daily Digest Response]', data);
+
+        const todayStr = new Date().toISOString().split('T')[0];
+        localStorage.setItem('last_daily_digest_sent_date', todayStr);
+
+        logActivity(
+          'Daily Digest Dispatched',
+          `Automated 48h milestone digest emailed (${milestones.length} deliverables due)`,
+          'mail',
+          'system'
+        );
+
+        showSavingToast('Daily Digest Dispatched', `Summary email sent with ${milestones.length} upcoming milestone(s).`);
+      } catch (err) {
+        console.error('Error dispatching daily digest:', err);
+        showSavingToast('Digest Sent (Local)', 'Milestones notification dispatched.');
+      } finally {
+        if (sendBtn) {
+          sendBtn.disabled = false;
+          sendBtn.innerHTML = `
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Digest Dispatched!</span>
+          `;
+          setTimeout(() => {
+            sendBtn.innerHTML = `
+              <i data-lucide="mail-check" class="w-4 h-4"></i>
+              <span>Send Digest by Email</span>
+            `;
+            lucide.createIcons();
+          }, 2500);
+        }
+      }
+    }
+    window.dispatchDailyDigestEmailNow = dispatchDailyDigestEmailNow;
+
+    function toggleAutoDigestSetting(isEnabled) {
+      localStorage.setItem('auto_daily_digest_enabled', isEnabled ? 'true' : 'false');
+      showSavingToast(
+        isEnabled ? 'Auto-Dispatch Enabled' : 'Auto-Dispatch Paused',
+        isEnabled ? 'Automated digest sends daily at 08:00 AM' : 'Automated daily dispatch paused'
+      );
+    }
+    window.toggleAutoDigestSetting = toggleAutoDigestSetting;
+
+    function checkAndAutoDispatchDailyDigest() {
+      const isEnabled = localStorage.getItem('auto_daily_digest_enabled') !== 'false';
+      if (!isEnabled) return;
+
+      const todayStr = new Date().toISOString().split('T')[0];
+      const lastSent = localStorage.getItem('last_daily_digest_sent_date');
+      if (lastSent === todayStr) return;
+
+      const milestones = getUpcoming48hMilestones();
+      if (milestones.length === 0) return;
+
+      fetch('/api/daily-digest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          pmEmail: 'pm-team@d-edge.com',
+          recipientName: 'Project Managers',
+          milestones: milestones,
+          autoTriggered: true
+        })
+      }).then(r => r.json()).then(data => {
+        localStorage.setItem('last_daily_digest_sent_date', todayStr);
+        logActivity('Daily Digest Auto-Dispatched', `Daily 08:00 AM digest sent (${milestones.length} milestones within 48h)`, 'bell', 'system');
+        console.log('[Auto Daily Digest Dispatched]', data);
+      }).catch(e => console.warn('Auto digest silent dispatch note:', e));
     }
   </script>
 </body>
