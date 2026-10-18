@@ -42,6 +42,11 @@ app.get('/dashboard-client.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Explicit routes for project, timeline, and client URLs
+app.get(['/timeline/:id', '/project/:id', '/client/:id'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // Fallback route for all other requests
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
