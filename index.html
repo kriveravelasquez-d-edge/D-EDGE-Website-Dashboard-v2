@@ -322,6 +322,15 @@
             <i data-lucide="git-commit" class="w-3.5 h-3.5 shrink-0"></i>
             <span class="truncate">Timeline Axis</span>
           </button>
+          <button onclick="switchView('login')" id="nav-login" title="PM Login Page - Google Mail" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-brand-purple hover:bg-purple-50 transition border border-transparent">
+            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span class="truncate">PM Login</span>
+          </button>
         </nav>
       </div>
 
@@ -346,6 +355,18 @@
           <button id="btn-pm-view" type="button" onclick="selectRole('pm')" class="px-2 md:px-3 py-1.5 rounded-lg bg-brand-purple text-white shadow-sm transition text-[11px] md:text-xs">PM</button>
           <button id="btn-client-view" type="button" onclick="selectRole('client')" class="px-2 md:px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs">Client</button>
         </div>
+
+        <!-- GOOGLE MAIL PM CONNECT BUTTON -->
+        <button id="btn-google-mail-connect" type="button" onclick="openGoogleAuthModal()" class="flex items-center space-x-1.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold px-2.5 py-1.5 rounded-xl shadow-2xs transition cursor-pointer select-none active:scale-95" title="Sign in or register PM account via Google Mail (@d-edge.com)">
+          <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <span class="hidden md:inline">Google Mail</span>
+          <span id="google-auth-status-dot" class="w-1.5 h-1.5 rounded-full bg-slate-300" title="Google connection status"></span>
+        </button>
 
         <!-- USER IDENTITY & ACCOUNT CENTER TRIGGER -->
         <button id="btn-account-center" type="button" onclick="openAccountCenterModal()" class="flex items-center space-x-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1 text-xs font-medium text-slate-700 shadow-2xs transition cursor-pointer" title="Account Center: Switch user, sign in, or create PM account">
@@ -1373,6 +1394,151 @@
         </section>
       </div>
 
+      <!-- VIEW 3: DEDICATED PM LOGIN PAGE (GMAIL / GOOGLE AUTH) -->
+      <div id="view-login" class="space-y-6 hidden min-h-[calc(100vh-10rem)] flex items-center justify-center py-4 sm:py-8">
+        <div class="w-full max-w-xl mx-auto">
+          <!-- LOGIN CONTAINER CARD -->
+          <div class="bg-white rounded-3xl shadow-xl border border-slate-200/90 overflow-hidden relative">
+            
+            <!-- TOP ACCENT BANNER -->
+            <div class="bg-gradient-to-r from-brand-purpleDark via-brand-purple to-purple-800 p-6 sm:p-8 text-white relative overflow-hidden">
+              <div class="absolute -right-12 -top-12 w-48 h-48 bg-purple-500/20 rounded-full blur-2xl pointer-events-none"></div>
+              <div class="absolute -left-12 -bottom-12 w-48 h-48 bg-indigo-500/20 rounded-full blur-2xl pointer-events-none"></div>
+              
+              <div class="relative z-10 space-y-2">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[11px] font-semibold text-purple-100">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span>D-EDGE Hotel Website Platform</span>
+                </div>
+                <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white">Project Manager Portal</h1>
+                <p class="text-xs sm:text-sm text-purple-100/90 leading-relaxed">
+                  Sign in or create your Project Manager account using your corporate Google Mail (<strong class="text-white font-mono">@d-edge.com</strong>).
+                </p>
+              </div>
+            </div>
+
+            <!-- DOMAIN POLICY CALLOUT -->
+            <div class="p-4 sm:px-8 bg-blue-50/70 border-b border-blue-100 flex items-start space-x-3">
+              <div class="w-6 h-6 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center shrink-0 mt-0.5">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+              </div>
+              <div class="text-xs text-blue-900 leading-relaxed">
+                <span class="font-bold">Google Domain Policy:</span>
+                PM access is restricted exclusively to authorized D-EDGE team members. Only accounts with the <strong class="font-mono bg-white px-1.5 py-0.5 rounded border border-blue-200 text-blue-800">@d-edge.com</strong> domain are allowed.
+              </div>
+            </div>
+
+            <!-- BODY CONTENT -->
+            <div class="p-6 sm:p-8 space-y-6">
+              
+              <!-- SECTION A: PRIMARY ONE-CLICK GOOGLE SIGN IN BUTTON -->
+              <div class="space-y-3">
+                <button 
+                  type="button" 
+                  onclick="handleGoogleMailSignIn('kriveravelasquez@d-edge.com', 'Krivera Velasquez')" 
+                  class="w-full py-3.5 px-4 bg-white hover:bg-slate-50 border border-slate-300 hover:border-slate-400 text-slate-800 rounded-2xl font-bold text-sm shadow-sm hover:shadow-md flex items-center justify-center space-x-3 transition active:scale-[0.99] cursor-pointer"
+                >
+                  <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                  </svg>
+                  <span>Continue with Google (@d-edge.com)</span>
+                </button>
+
+                <!-- DETECTED WORKSPACE ACCOUNT CHIP -->
+                <div class="bg-purple-50/70 border border-purple-200/80 rounded-xl p-3 flex items-center justify-between">
+                  <div class="flex items-center space-x-3 min-w-0">
+                    <div class="w-9 h-9 rounded-full bg-brand-purple text-white font-bold flex items-center justify-center text-xs shrink-0 shadow-2xs">
+                      K
+                    </div>
+                    <div class="min-w-0">
+                      <div class="text-xs font-bold text-slate-900 truncate">Krivera Velasquez</div>
+                      <div class="text-[11px] text-slate-500 font-mono truncate">kriveravelasquez@d-edge.com</div>
+                    </div>
+                  </div>
+                  <button 
+                    type="button" 
+                    onclick="handleGoogleMailSignIn('kriveravelasquez@d-edge.com', 'Krivera Velasquez')" 
+                    class="px-3 py-1.5 rounded-lg bg-brand-purple hover:bg-brand-purpleDark text-white text-xs font-bold shadow-2xs transition shrink-0 cursor-pointer"
+                  >
+                    1-Click Connect
+                  </button>
+                </div>
+              </div>
+
+              <!-- OR SEPARATOR -->
+              <div class="relative flex items-center justify-center">
+                <div class="border-t border-slate-200 w-full"></div>
+                <span class="bg-white px-3 text-[10.5px] font-bold text-slate-400 uppercase tracking-wider shrink-0">
+                  Or enter your @d-edge.com Google Mail
+                </span>
+              </div>
+
+              <!-- SECTION B: CUSTOM @D-EDGE.COM GOOGLE MAIL FORM -->
+              <form onsubmit="handleLoginPageGoogleSubmit(event)" class="space-y-3.5">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Your Name</label>
+                  <input 
+                    id="login-page-name" 
+                    type="text" 
+                    placeholder="e.g. Sarah Laurent" 
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 focus:border-brand-purple outline-none transition"
+                  >
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">
+                    Google Mail Address * <span class="text-slate-400 font-normal">(@d-edge.com required)</span>
+                  </label>
+                  <div class="relative">
+                    <input 
+                      id="login-page-email" 
+                      type="email" 
+                      required 
+                      placeholder="firstname.lastname@d-edge.com" 
+                      oninput="handleLoginPageEmailInput(this.value)"
+                      class="w-full px-3.5 py-2.5 pr-10 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 focus:border-brand-purple outline-none font-mono transition"
+                    >
+                    <div id="login-page-email-icon" class="absolute right-3 top-2.5 hidden">
+                      <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                    </div>
+                  </div>
+                  <p id="login-page-error-msg" class="text-xs text-rose-600 font-semibold mt-1 hidden"></p>
+                </div>
+
+                <button 
+                  type="submit" 
+                  class="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold shadow-sm flex items-center justify-center space-x-2 transition cursor-pointer select-none active:scale-[0.99]"
+                >
+                  <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                  </svg>
+                  <span>Connect / Sign in with Google</span>
+                </button>
+              </form>
+
+              <!-- REGISTER / DEMO PERSONAS FOOTER -->
+              <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div class="text-slate-500">
+                  Looking for Client Roadmap view?
+                  <button type="button" onclick="selectRole('client'); switchView('timeline');" class="font-bold text-brand-purple hover:underline ml-1 cursor-pointer">
+                    View as Hotel Client
+                  </button>
+                </div>
+                <button type="button" onclick="openAccountCenterModal(); switchAccountCenterTab('register');" class="text-brand-purple hover:text-brand-purpleDark font-semibold cursor-pointer">
+                  + Create PM Account
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 
@@ -2207,6 +2373,146 @@
     </div>
   </div>
 
+  <!-- MODAL: PM GOOGLE MAIL AUTHENTICATION (@d-edge.com) -->
+  <div id="modal-google-auth" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-3 sm:p-4 transition-all" onclick="if(event.target===this)closeGoogleAuthModal()">
+    <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl border border-slate-200 overflow-hidden space-y-0" onclick="event.stopPropagation()">
+      <!-- MODAL HEADER -->
+      <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-slate-50 via-white to-purple-50/40">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-2xs flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-slate-900 leading-snug">Connect with Google Mail</h3>
+            <p class="text-[11px] text-slate-500">Project Manager portal sign-in &amp; registration</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeGoogleAuthModal()" class="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- DOMAIN RESTRICTION BANNER -->
+      <div class="px-4 sm:px-5 pt-4">
+        <div class="bg-indigo-50/80 border border-indigo-200/80 rounded-xl p-3 flex items-start space-x-2.5">
+          <div class="w-5 h-5 rounded-md bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          </div>
+          <div class="text-[11.5px] leading-relaxed text-indigo-950">
+            <strong class="font-bold text-indigo-900">Domain Restriction Policy:</strong>
+            Only Google Mail accounts ending with <span class="font-mono font-bold bg-white px-1.5 py-0.5 rounded border border-indigo-200 text-indigo-800">@d-edge.com</span> are permitted to connect or create a PM account.
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL BODY -->
+      <div class="p-4 sm:p-5 space-y-4 max-h-[75vh] overflow-y-auto">
+        <!-- DETECTED CURRENT GOOGLE USER (1-CLICK) -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10.5px] font-bold text-slate-500 uppercase tracking-wider">Detected Workspace Session</span>
+            <span class="text-[10px] text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Active Session</span>
+          </div>
+          <button 
+            type="button" 
+            onclick="handleGoogleMailSignIn('kriveravelasquez@d-edge.com', 'Krivera Velasquez')"
+            class="w-full text-left p-3 rounded-xl border border-purple-200 bg-purple-50/60 hover:bg-purple-100/80 hover:border-brand-purple transition flex items-center justify-between group cursor-pointer"
+          >
+            <div class="flex items-center space-x-3 min-w-0">
+              <div id="ga-detected-avatar" class="w-9 h-9 rounded-full bg-brand-purple text-white font-bold flex items-center justify-center text-xs shrink-0 shadow-2xs">
+                K
+              </div>
+              <div class="min-w-0">
+                <div id="ga-detected-name" class="font-bold text-slate-900 text-xs truncate">Krivera Velasquez</div>
+                <div id="ga-detected-email" class="text-[11px] text-slate-600 font-mono truncate">kriveravelasquez@d-edge.com</div>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-brand-purple flex items-center space-x-1 group-hover:translate-x-0.5 transition shrink-0 ml-2">
+              <span>Connect</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </span>
+          </button>
+        </div>
+
+        <!-- QUICK EXISTING PM SESSIONS -->
+        <div class="space-y-1.5">
+          <div class="text-[10.5px] font-bold text-slate-500 uppercase tracking-wider">Other D-EDGE PMs</div>
+          <div class="grid grid-cols-2 gap-2">
+            <button 
+              type="button" 
+              onclick="handleGoogleMailSignIn('dounia@d-edge.com', 'Dounia')"
+              class="p-2.5 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-left transition flex items-center space-x-2.5 cursor-pointer"
+            >
+              <div class="w-7 h-7 rounded-full bg-purple-100 text-brand-purple font-bold flex items-center justify-center text-[11px] shrink-0">D</div>
+              <div class="min-w-0 truncate">
+                <div class="font-bold text-slate-800 text-xs truncate">Dounia</div>
+                <div class="text-[10px] text-slate-500 truncate font-mono">dounia@d-edge.com</div>
+              </div>
+            </button>
+            <button 
+              type="button" 
+              onclick="handleGoogleMailSignIn('marc@d-edge.com', 'Marc')"
+              class="p-2.5 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-left transition flex items-center space-x-2.5 cursor-pointer"
+            >
+              <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-[11px] shrink-0">M</div>
+              <div class="min-w-0 truncate">
+                <div class="font-bold text-slate-800 text-xs truncate">Marc</div>
+                <div class="text-[10px] text-slate-500 truncate font-mono">marc@d-edge.com</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- ENTER ANY @D-EDGE.COM GOOGLE MAIL -->
+        <div class="border-t border-slate-100 pt-3.5 space-y-2.5">
+          <div class="text-[10.5px] font-bold text-slate-700 uppercase tracking-wider">Use Another @d-edge.com Google Account</div>
+          <form onsubmit="handleGoogleCustomInputAuth(event)" class="space-y-2.5">
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-600 mb-1">Full Name (Optional)</label>
+              <input id="ga-custom-name" type="text" placeholder="e.g. Sarah Laurent" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 outline-none">
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-600 mb-1">Google Mail Address * (@d-edge.com)</label>
+              <div class="relative">
+                <input 
+                  id="ga-custom-email" 
+                  type="email" 
+                  required 
+                  placeholder="name@d-edge.com" 
+                  oninput="handleGoogleInputValidation(this.value)"
+                  class="w-full px-3 py-1.5 pr-8 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 outline-none font-mono"
+                >
+                <div id="ga-email-validation-icon" class="absolute right-2.5 top-2 hidden">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                </div>
+              </div>
+              <p id="ga-error-msg" class="text-[10.5px] text-rose-600 font-semibold mt-1 hidden"></p>
+            </div>
+            <div class="pt-1 flex items-center justify-end space-x-2">
+              <button type="button" onclick="closeGoogleAuthModal()" class="px-3 py-1.5 rounded-xl text-slate-600 font-semibold text-xs hover:bg-slate-100 transition">
+                Cancel
+              </button>
+              <button type="submit" class="px-4 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-2xs flex items-center space-x-1.5 transition cursor-pointer">
+                <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+                <span>Continue with Google</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: ACCOUNT CENTER & PM REGISTRATION -->
   <div id="modal-account-center" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-3 sm:p-4 transition-all" onclick="if(event.target===this)closeModal('modal-account-center')">
     <div class="bg-white rounded-2xl w-full max-w-xl shadow-2xl border border-slate-200 overflow-hidden space-y-0" onclick="event.stopPropagation()">
@@ -2258,6 +2564,40 @@
           </span>
         </div>
 
+        <!-- GOOGLE MAIL PM AUTHENTICATION CARD -->
+        <div class="bg-gradient-to-r from-blue-50/70 via-indigo-50/50 to-purple-50/60 border border-blue-200/80 rounded-xl p-3.5 space-y-2.5 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+              <span class="text-xs font-bold text-slate-800">PM Google Mail Authentication</span>
+            </div>
+            <span class="text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 border border-blue-200">
+              @d-edge.com
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed">
+            Project Managers can connect instantly or auto-create their account using their official D-EDGE Google Mail address.
+          </p>
+          <button 
+            type="button" 
+            onclick="openGoogleAuthModal()" 
+            class="w-full py-2 px-3 bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 rounded-xl text-xs font-bold shadow-2xs flex items-center justify-center space-x-2 transition cursor-pointer select-none active:scale-[0.99]"
+          >
+            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span>Connect / Sign in with Google Mail (@d-edge.com)</span>
+          </button>
+        </div>
+
         <!-- QUICK DEMO PERSONAS -->
         <div class="space-y-2">
           <div class="flex items-center justify-between">
@@ -2299,6 +2639,35 @@
           PM accounts can create new projects, edit timelines &amp; milestones, and customize guides for their assigned hotels. PMs are strictly restricted to accessing their own projects.
         </div>
 
+        <!-- GOOGLE MAIL QUICK CREATE OPTION -->
+        <div class="bg-gradient-to-r from-blue-50/80 to-indigo-50/80 border border-blue-200/80 rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+          <div class="space-y-0.5">
+            <div class="flex items-center space-x-2">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+              <span class="text-xs font-bold text-slate-900">Instant Setup via Google Mail</span>
+            </div>
+            <p class="text-[11px] text-slate-600">Got a @d-edge.com Google account? Skip manual password registration.</p>
+          </div>
+          <button 
+            type="button" 
+            onclick="openGoogleAuthModal()" 
+            class="shrink-0 px-3 py-1.5 bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs rounded-xl shadow-2xs flex items-center space-x-1.5 transition cursor-pointer select-none active:scale-95"
+          >
+            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span>Create with Google</span>
+          </button>
+        </div>
+
         <form onsubmit="handleCreatePmAccount(event)" class="space-y-3 text-xs">
           <div>
             <label class="block font-bold text-slate-700 mb-1">Full Name *</label>
@@ -2306,8 +2675,9 @@
           </div>
 
           <div>
-            <label class="block font-bold text-slate-700 mb-1">D-EDGE Work Email *</label>
+            <label class="block font-bold text-slate-700 mb-1">D-EDGE Work Email * (@d-edge.com)</label>
             <input id="new-pm-email" type="email" required placeholder="e.g. sarah.laurent@d-edge.com" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none">
+            <p class="text-[10.5px] text-slate-400 mt-1">PM accounts must be registered with an official @d-edge.com address.</p>
           </div>
 
           <div>
@@ -5238,6 +5608,11 @@
         return;
       }
 
+      if (!email.toLowerCase().endsWith('@d-edge.com')) {
+        showSavingToast('Domain Error', 'PM accounts must use an @d-edge.com email address');
+        return;
+      }
+
       if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
         showSavingToast('Email Taken', 'An account with this email already exists');
         return;
@@ -5312,6 +5687,201 @@
       closeModal('modal-account-center');
       showSavingToast('Account Created', `Welcome, ${name}! Your PM account is active.`);
     }
+
+    // --- GOOGLE MAIL PM AUTHENTICATION & @d-edge.com DOMAIN ENFORCEMENT ---
+    function validateDedgeGoogleEmail(email) {
+      if (!email || typeof email !== 'string') return false;
+      const clean = email.trim().toLowerCase();
+      return clean.endsWith('@d-edge.com') && clean.length > '@d-edge.com'.length;
+    }
+
+    function openGoogleAuthModal() {
+      const modal = document.getElementById('modal-google-auth');
+      if (modal) {
+        modal.classList.remove('hidden');
+        renderGoogleAuthModalState();
+      }
+      lucide.createIcons();
+    }
+
+    function closeGoogleAuthModal() {
+      const modal = document.getElementById('modal-google-auth');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function renderGoogleAuthModalState() {
+      const detectedEmailEl = document.getElementById('ga-detected-email');
+      const detectedNameEl = document.getElementById('ga-detected-name');
+      const detectedAvatarEl = document.getElementById('ga-detected-avatar');
+      
+      const detectedEmail = 'kriveravelasquez@d-edge.com';
+      const detectedName = 'Krivera Velasquez';
+      if (detectedEmailEl) detectedEmailEl.textContent = detectedEmail;
+      if (detectedNameEl) detectedNameEl.textContent = detectedName;
+      if (detectedAvatarEl) detectedAvatarEl.textContent = 'K';
+
+      const errEl = document.getElementById('ga-error-msg');
+      if (errEl) {
+        errEl.classList.add('hidden');
+        errEl.textContent = '';
+      }
+      const iconEl = document.getElementById('ga-email-validation-icon');
+      if (iconEl) iconEl.classList.add('hidden');
+    }
+
+    function handleGoogleInputValidation(val) {
+      const clean = (val || '').trim().toLowerCase();
+      const errEl = document.getElementById('ga-error-msg');
+      const iconEl = document.getElementById('ga-email-validation-icon');
+      if (!clean) {
+        if (errEl) errEl.classList.add('hidden');
+        if (iconEl) iconEl.classList.add('hidden');
+        return;
+      }
+      if (clean.includes('@') && !clean.endsWith('@d-edge.com')) {
+        if (errEl) {
+          errEl.textContent = 'Only @d-edge.com Google accounts are permitted for PMs.';
+          errEl.classList.remove('hidden');
+        }
+        if (iconEl) iconEl.classList.add('hidden');
+      } else if (clean.endsWith('@d-edge.com')) {
+        if (errEl) errEl.classList.add('hidden');
+        if (iconEl) iconEl.classList.remove('hidden');
+      } else {
+        if (errEl) errEl.classList.add('hidden');
+        if (iconEl) iconEl.classList.add('hidden');
+      }
+      lucide.createIcons();
+    }
+
+    function handleGoogleMailSignIn(targetEmail, targetName = '') {
+      const email = (targetEmail || '').trim().toLowerCase();
+      if (!validateDedgeGoogleEmail(email)) {
+        showSavingToast('Domain Restricted', 'Only @d-edge.com Google Mail accounts can access PM privileges.');
+        const errEl = document.getElementById('ga-error-msg');
+        if (errEl) {
+          errEl.textContent = 'Access restricted: email must end with @d-edge.com';
+          errEl.classList.remove('hidden');
+        }
+        return false;
+      }
+
+      const errEl = document.getElementById('ga-error-msg');
+      if (errEl) errEl.classList.add('hidden');
+
+      // Check if user already exists
+      let user = users.find(u => u.email.toLowerCase() === email);
+      let isNew = false;
+
+      if (!user) {
+        // Automatically create PM account
+        const derivedName = targetName.trim() || email.split('@')[0].split('.').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+        user = {
+          id: `u_pm_${Date.now()}`,
+          name: derivedName,
+          email: email,
+          role: 'pm',
+          authProvider: 'google',
+          avatar: derivedName.charAt(0).toUpperCase()
+        };
+        users.push(user);
+        saveUsersToStorage();
+        isNew = true;
+      } else {
+        user.authProvider = 'google';
+        if (user.role !== 'admin' && user.role !== 'pm') {
+          user.role = 'pm';
+        }
+        saveUsersToStorage();
+      }
+
+      // Sync with server API
+      try {
+        fetch('/api/auth/google-connect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: user.email, name: user.name })
+        }).catch(() => {});
+      } catch (e) {}
+
+      // Select PM role with this authenticated user
+      selectRole('pm', user);
+      closeGoogleAuthModal();
+      closeModal('modal-account-center');
+      switchView('boards');
+
+      if (isNew) {
+        showSavingToast('Account Created via Google', `Welcome, ${user.name}! PM account created with ${user.email}`);
+      } else {
+        showSavingToast('Connected via Google', `Welcome back, ${user.name}! Connected with ${user.email}`);
+      }
+      return true;
+    }
+
+    function handleGoogleCustomInputAuth(e) {
+      e.preventDefault();
+      const emailInput = document.getElementById('ga-custom-email');
+      const nameInput = document.getElementById('ga-custom-name');
+      const email = emailInput ? emailInput.value.trim() : '';
+      const name = nameInput ? nameInput.value.trim() : '';
+      handleGoogleMailSignIn(email, name);
+    }
+
+    // --- LOGIN PAGE SPECIFIC HANDLERS ---
+    function renderLoginPageState() {
+      const errEl = document.getElementById('login-page-error-msg');
+      if (errEl) {
+        errEl.classList.add('hidden');
+        errEl.textContent = '';
+      }
+      const iconEl = document.getElementById('login-page-email-icon');
+      if (iconEl) iconEl.classList.add('hidden');
+    }
+
+    function handleLoginPageGoogleSubmit(e) {
+      e.preventDefault();
+      const emailInput = document.getElementById('login-page-email');
+      const nameInput = document.getElementById('login-page-name');
+      const email = emailInput ? emailInput.value.trim() : '';
+      const name = nameInput ? nameInput.value.trim() : '';
+      handleGoogleMailSignIn(email, name);
+    }
+
+    function handleLoginPageEmailInput(val) {
+      const clean = (val || '').trim().toLowerCase();
+      const errEl = document.getElementById('login-page-error-msg');
+      const iconEl = document.getElementById('login-page-email-icon');
+      if (!clean) {
+        if (errEl) errEl.classList.add('hidden');
+        if (iconEl) iconEl.classList.add('hidden');
+        return;
+      }
+      if (clean.includes('@') && !clean.endsWith('@d-edge.com')) {
+        if (errEl) {
+          errEl.textContent = 'Only @d-edge.com Google accounts are permitted for PMs.';
+          errEl.classList.remove('hidden');
+        }
+        if (iconEl) iconEl.classList.add('hidden');
+      } else if (clean.endsWith('@d-edge.com')) {
+        if (errEl) errEl.classList.add('hidden');
+        if (iconEl) iconEl.classList.remove('hidden');
+      } else {
+        if (errEl) errEl.classList.add('hidden');
+        if (iconEl) iconEl.classList.add('hidden');
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    window.openGoogleAuthModal = openGoogleAuthModal;
+    window.closeGoogleAuthModal = closeGoogleAuthModal;
+    window.handleGoogleMailSignIn = handleGoogleMailSignIn;
+    window.handleGoogleCustomInputAuth = handleGoogleCustomInputAuth;
+    window.handleGoogleInputValidation = handleGoogleInputValidation;
+    window.handleLoginPageGoogleSubmit = handleLoginPageGoogleSubmit;
+    window.handleLoginPageEmailInput = handleLoginPageEmailInput;
+    window.renderLoginPageState = renderLoginPageState;
+
+
 
     // --- PROJECT OWNERSHIP & PERMISSION DELEGATION CONTROLLER ---
     function isProjectOwner(project, user = currentUser, role = currentRole) {
@@ -5568,6 +6138,15 @@
       if (nameEl) nameEl.textContent = currentUser.name || 'User';
       if (roleEl) roleEl.textContent = role === 'admin' ? 'Admin' : role === 'pm' ? 'PM' : 'Client';
 
+      // Update Google Mail status indicator in top header
+      const googleDot = document.getElementById('google-auth-status-dot');
+      if (googleDot) {
+        const isGoogleAuth = currentUser && (currentUser.authProvider === 'google' || (currentUser.email && currentUser.email.toLowerCase().endsWith('@d-edge.com') && currentUser.role === 'pm'));
+        googleDot.className = isGoogleAuth ? 'w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-emerald-200' : 'w-1.5 h-1.5 rounded-full bg-slate-300';
+        googleDot.title = isGoogleAuth ? `Connected via Google Mail: ${currentUser.email}` : 'Connect with Google Mail (@d-edge.com)';
+      }
+
+
       // Update UI elements visibility
       const btnAdminHub = document.getElementById('btn-admin-hub');
       const navBoardsBtn = document.getElementById('nav-boards');
@@ -5654,39 +6233,58 @@
       selectRole(currentRole, currentUser);
     });
 
+    let currentViewTab = 'timeline';
+
     function switchView(tab) {
+      currentViewTab = tab;
       if (currentRole === 'client' && tab === 'boards') {
         tab = 'timeline';
+        currentViewTab = 'timeline';
       }
 
       const boardsBtn = document.getElementById('nav-boards');
       const timelineBtn = document.getElementById('nav-timeline');
+      const loginBtn = document.getElementById('nav-login');
       const viewTimeline = document.getElementById('view-timeline');
       const viewBoards = document.getElementById('view-boards');
+      const viewLogin = document.getElementById('view-login');
 
       const activeClass = 'flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-purple text-white shadow-2xs transition';
       const inactiveClass = 'flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-brand-purple hover:bg-purple-50 transition border border-transparent';
 
-      if (tab === 'boards') {
+      if (tab === 'login') {
+        if (loginBtn) loginBtn.className = activeClass;
+        if (boardsBtn) boardsBtn.className = inactiveClass;
+        if (timelineBtn) timelineBtn.className = inactiveClass;
+        if (viewTimeline) viewTimeline.classList.add('hidden');
+        if (viewBoards) viewBoards.classList.add('hidden');
+        if (viewLogin) viewLogin.classList.remove('hidden');
+        renderLoginPageState();
+      } else if (tab === 'boards') {
+        if (loginBtn) loginBtn.className = inactiveClass;
         if (boardsBtn) {
           boardsBtn.className = activeClass;
           if (currentRole === 'client') boardsBtn.classList.add('hidden');
         }
         if (timelineBtn) timelineBtn.className = inactiveClass;
         if (viewTimeline) viewTimeline.classList.add('hidden');
+        if (viewLogin) viewLogin.classList.add('hidden');
         if (viewBoards) viewBoards.classList.remove('hidden');
         renderBoardsGrid();
       } else {
+        if (loginBtn) loginBtn.className = inactiveClass;
         if (timelineBtn) timelineBtn.className = activeClass;
         if (boardsBtn) {
           boardsBtn.className = inactiveClass;
           if (currentRole === 'client') boardsBtn.classList.add('hidden');
         }
         if (viewBoards) viewBoards.classList.add('hidden');
+        if (viewLogin) viewLogin.classList.add('hidden');
         if (viewTimeline) viewTimeline.classList.remove('hidden');
         renderApp();
       }
       syncUrlWithState();
+      if (window.lucide) lucide.createIcons();
     }
 
     // --- RENDER APP ---
@@ -7571,6 +8169,15 @@
         } else if (targetRole && (targetRole.toLowerCase() === 'pm' || targetRole.toLowerCase() === 'admin')) {
           currentRole = targetRole.toLowerCase();
         }
+
+        // Dedicated PM login page URL handling (/login or ?view=login or #login)
+        const isLoginUrl = window.location.pathname.toLowerCase() === '/login' || 
+                           params.get('view') === 'login' || 
+                           params.get('tab') === 'login' || 
+                           window.location.hash.toLowerCase() === '#login';
+        if (isLoginUrl) {
+          setTimeout(() => switchView('login'), 30);
+        }
       } catch (err) {
         console.warn('URL parsing notice:', err);
       }
@@ -7579,6 +8186,11 @@
     function syncUrlWithState() {
       try {
         const url = new URL(window.location.href);
+        if (currentViewTab === 'login') {
+          url.searchParams.set('view', 'login');
+          window.history.replaceState({}, '', url.toString());
+          return;
+        }
         if (currentRole === 'client') {
           url.searchParams.set('project', currentProjectId);
           url.searchParams.set('view', 'client');

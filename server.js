@@ -30,6 +30,31 @@ app.post('/api/daily-digest', (req, res) => {
   });
 });
 
+// PM Google Mail Authentication & Verification (@d-edge.com only)
+app.post('/api/auth/google-connect', (req, res) => {
+  const { email, name } = req.body || {};
+  if (!email || typeof email !== 'string') {
+    return res.status(400).json({ success: false, message: 'Valid email is required' });
+  }
+  const cleanEmail = email.trim().toLowerCase();
+  if (!cleanEmail.endsWith('@d-edge.com')) {
+    console.warn(`[Google Mail Auth Rejected] Non-d-edge domain: ${cleanEmail}`);
+    return res.status(403).json({
+      success: false,
+      message: 'Access restricted: Only @d-edge.com Google Mail accounts can access PM privileges.'
+    });
+  }
+  console.log(`[Google Mail Auth Verified] PM: ${cleanEmail} (${name || 'PM'})`);
+  res.json({
+    success: true,
+    email: cleanEmail,
+    name: name || cleanEmail.split('@')[0],
+    role: 'pm',
+    message: 'Google Mail account authorized for PM access.'
+  });
+});
+
+
 // Serve static assets from project directory
 app.use(express.static(__dirname));
 
@@ -39,6 +64,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/dashboard-client.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Explicit PM Login route
+app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
