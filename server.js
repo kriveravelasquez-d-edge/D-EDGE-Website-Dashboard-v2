@@ -20,11 +20,11 @@ app.post('/.netlify/functions/send-email', (req, res) => {
 // Automated Daily Digest API for PMs (upcoming milestones within next 48h)
 app.post('/api/daily-digest', (req, res) => {
   const { pmEmail, milestones } = req.body || {};
-  console.log(`[Daily Digest 48h] Dispatched to: ${pmEmail || 'dounia@d-edge.com'} | Upcoming milestones: ${milestones?.length || 0}`);
+  console.log(`[Daily Digest 48h] Dispatched to: ${pmEmail || 'kriveravelasquez@d-edge.com'} | Upcoming milestones: ${milestones?.length || 0}`);
   res.json({
     success: true,
     dispatchedAt: new Date().toISOString(),
-    recipient: pmEmail || 'dounia@d-edge.com',
+    recipient: pmEmail || 'kriveravelasquez@d-edge.com',
     milestonesCount: milestones?.length || 0,
     message: 'Automated 48h PM daily digest dispatched successfully.'
   });

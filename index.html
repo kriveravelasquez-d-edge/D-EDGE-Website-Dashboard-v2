@@ -322,15 +322,6 @@
             <i data-lucide="git-commit" class="w-3.5 h-3.5 shrink-0"></i>
             <span class="truncate">Timeline Axis</span>
           </button>
-          <button onclick="switchView('login')" id="nav-login" title="PM Login Page - Google Mail" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-brand-purple hover:bg-purple-50 transition border border-transparent">
-            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-            </svg>
-            <span class="truncate">PM Login</span>
-          </button>
         </nav>
       </div>
 
@@ -350,26 +341,14 @@
         </button>
 
         <!-- 3-ROLE TOGGLE SWITCHER -->
-        <div class="bg-slate-100 p-0.5 rounded-xl flex items-center border border-slate-200 text-xs font-semibold">
+        <div id="role-switcher-container" class="bg-slate-100 p-0.5 rounded-xl flex items-center border border-slate-200 text-xs font-semibold">
           <button id="btn-admin-view" type="button" onclick="selectRole('admin')" class="px-2 md:px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs font-bold" title="Vue Admin - Accès au Dashboard et à tous les projets PM">Admin</button>
           <button id="btn-pm-view" type="button" onclick="selectRole('pm')" class="px-2 md:px-3 py-1.5 rounded-lg bg-brand-purple text-white shadow-sm transition text-[11px] md:text-xs">PM</button>
-          <button id="btn-client-view" type="button" onclick="selectRole('client')" class="px-2 md:px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs">Client</button>
+          <button id="btn-client-view" type="button" onclick="selectRole('client')" class="px-2 md:px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition text-[11px] md:text-xs" title="Guest View - Read-only project link preview for client (no account required)">Guest</button>
         </div>
 
-        <!-- GOOGLE MAIL PM CONNECT BUTTON -->
-        <button id="btn-google-mail-connect" type="button" onclick="openGoogleAuthModal()" class="flex items-center space-x-1.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold px-2.5 py-1.5 rounded-xl shadow-2xs transition cursor-pointer select-none active:scale-95" title="Sign in or register PM account via Google Mail (@d-edge.com)">
-          <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
-            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-          </svg>
-          <span class="hidden md:inline">Google Mail</span>
-          <span id="google-auth-status-dot" class="w-1.5 h-1.5 rounded-full bg-slate-300" title="Google connection status"></span>
-        </button>
-
-        <!-- USER IDENTITY & ACCOUNT CENTER TRIGGER -->
-        <button id="btn-account-center" type="button" onclick="openAccountCenterModal()" class="flex items-center space-x-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1 text-xs font-medium text-slate-700 shadow-2xs transition cursor-pointer" title="Account Center: Switch user, sign in, or create PM account">
+        <!-- USER IDENTITY & ACCOUNT CENTER TRIGGER (PROFILE BUTTON) -->
+        <button id="btn-account-center" type="button" onclick="openAccountCenterModal()" class="flex items-center space-x-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1 text-xs font-medium text-slate-700 shadow-2xs transition cursor-pointer" title="Profile &amp; Account Center: View profile &amp; switch session">
           <div id="user-avatar-badge" class="w-6 h-6 rounded-full bg-brand-purple text-white font-bold flex items-center justify-center text-[10px] shrink-0">
             A
           </div>
@@ -379,6 +358,13 @@
           </div>
           <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400 shrink-0"></i>
         </button>
+
+
+        <!-- UNAUTHENTICATED BADGE (WHEN DISCONNECTED) -->
+        <div id="header-unauth-badge" class="flex items-center space-x-2 text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+          <span>Please Log In</span>
+        </div>
       </div>
     </header>
 
@@ -1394,147 +1380,48 @@
         </section>
       </div>
 
-      <!-- VIEW 3: DEDICATED PM LOGIN PAGE (GMAIL / GOOGLE AUTH) -->
-      <div id="view-login" class="space-y-6 hidden min-h-[calc(100vh-10rem)] flex items-center justify-center py-4 sm:py-8">
-        <div class="w-full max-w-xl mx-auto">
+      <!-- VIEW 3: DEDICATED LOGIN PAGE -->
+      <div id="view-login" class="space-y-6 min-h-[calc(100vh-8rem)] flex items-center justify-center py-6 sm:py-10">
+        <div class="w-full max-w-md mx-auto px-4">
           <!-- LOGIN CONTAINER CARD -->
           <div class="bg-white rounded-3xl shadow-xl border border-slate-200/90 overflow-hidden relative">
             
             <!-- TOP ACCENT BANNER -->
-            <div class="bg-gradient-to-r from-brand-purpleDark via-brand-purple to-purple-800 p-6 sm:p-8 text-white relative overflow-hidden">
+            <div class="bg-gradient-to-r from-brand-purpleDark via-brand-purple to-purple-800 p-6 sm:p-8 text-white relative overflow-hidden text-center">
               <div class="absolute -right-12 -top-12 w-48 h-48 bg-purple-500/20 rounded-full blur-2xl pointer-events-none"></div>
               <div class="absolute -left-12 -bottom-12 w-48 h-48 bg-indigo-500/20 rounded-full blur-2xl pointer-events-none"></div>
               
               <div class="relative z-10 space-y-2">
                 <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[11px] font-semibold text-purple-100">
                   <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span>D-EDGE Hotel Website Platform</span>
+                  <span>Streamline · D-EDGE</span>
                 </div>
-                <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white">Project Manager Portal</h1>
-                <p class="text-xs sm:text-sm text-purple-100/90 leading-relaxed">
-                  Sign in or create your Project Manager account using your corporate Google Mail (<strong class="text-white font-mono">@d-edge.com</strong>).
-                </p>
-              </div>
-            </div>
-
-            <!-- DOMAIN POLICY CALLOUT -->
-            <div class="p-4 sm:px-8 bg-blue-50/70 border-b border-blue-100 flex items-start space-x-3">
-              <div class="w-6 h-6 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center shrink-0 mt-0.5">
-                <i data-lucide="shield-check" class="w-4 h-4"></i>
-              </div>
-              <div class="text-xs text-blue-900 leading-relaxed">
-                <span class="font-bold">Google Domain Policy:</span>
-                PM access is restricted exclusively to authorized D-EDGE team members. Only accounts with the <strong class="font-mono bg-white px-1.5 py-0.5 rounded border border-blue-200 text-blue-800">@d-edge.com</strong> domain are allowed.
+                <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white">Streamline Portal</h1>
               </div>
             </div>
 
             <!-- BODY CONTENT -->
-            <div class="p-6 sm:p-8 space-y-6">
-              
-              <!-- SECTION A: PRIMARY ONE-CLICK GOOGLE SIGN IN BUTTON -->
-              <div class="space-y-3">
-                <button 
-                  type="button" 
-                  onclick="handleGoogleMailSignIn('kriveravelasquez@d-edge.com', 'Krivera Velasquez')" 
-                  class="w-full py-3.5 px-4 bg-white hover:bg-slate-50 border border-slate-300 hover:border-slate-400 text-slate-800 rounded-2xl font-bold text-sm shadow-sm hover:shadow-md flex items-center justify-center space-x-3 transition active:scale-[0.99] cursor-pointer"
-                >
-                  <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                  </svg>
-                  <span>Continue with Google (@d-edge.com)</span>
-                </button>
+            <div class="p-6 sm:p-8 space-y-4">
+              <!-- PRIMARY BUTTON: CONNECT WITH GOOGLE WORKSPACE -->
+              <button 
+                type="button" 
+                onclick="handleGoogleMailSignIn('kriveravelasquez@d-edge.com', 'Karlo RIVERA VELASQUEZ')" 
+                class="w-full py-3.5 px-4 bg-white hover:bg-slate-50 border border-slate-300 hover:border-slate-400 text-slate-800 rounded-2xl font-bold text-sm shadow-sm hover:shadow-md flex items-center justify-center space-x-3 transition active:scale-[0.99] cursor-pointer"
+              >
+                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+                <span>Connect with Google Workspace</span>
+              </button>
 
-                <!-- DETECTED WORKSPACE ACCOUNT CHIP -->
-                <div class="bg-purple-50/70 border border-purple-200/80 rounded-xl p-3 flex items-center justify-between">
-                  <div class="flex items-center space-x-3 min-w-0">
-                    <div class="w-9 h-9 rounded-full bg-brand-purple text-white font-bold flex items-center justify-center text-xs shrink-0 shadow-2xs">
-                      K
-                    </div>
-                    <div class="min-w-0">
-                      <div class="text-xs font-bold text-slate-900 truncate">Krivera Velasquez</div>
-                      <div class="text-[11px] text-slate-500 font-mono truncate">kriveravelasquez@d-edge.com</div>
-                    </div>
-                  </div>
-                  <button 
-                    type="button" 
-                    onclick="handleGoogleMailSignIn('kriveravelasquez@d-edge.com', 'Krivera Velasquez')" 
-                    class="px-3 py-1.5 rounded-lg bg-brand-purple hover:bg-brand-purpleDark text-white text-xs font-bold shadow-2xs transition shrink-0 cursor-pointer"
-                  >
-                    1-Click Connect
-                  </button>
-                </div>
+              <p id="login-page-error-msg" class="text-xs text-rose-600 font-semibold text-center hidden"></p>
+
+              <div class="text-center text-[11px] text-slate-400 pt-2">
+                Restricted to authorized <span class="font-mono font-semibold text-slate-600">@d-edge.com</span> accounts
               </div>
-
-              <!-- OR SEPARATOR -->
-              <div class="relative flex items-center justify-center">
-                <div class="border-t border-slate-200 w-full"></div>
-                <span class="bg-white px-3 text-[10.5px] font-bold text-slate-400 uppercase tracking-wider shrink-0">
-                  Or enter your @d-edge.com Google Mail
-                </span>
-              </div>
-
-              <!-- SECTION B: CUSTOM @D-EDGE.COM GOOGLE MAIL FORM -->
-              <form onsubmit="handleLoginPageGoogleSubmit(event)" class="space-y-3.5">
-                <div>
-                  <label class="block text-xs font-bold text-slate-700 mb-1">Your Name</label>
-                  <input 
-                    id="login-page-name" 
-                    type="text" 
-                    placeholder="e.g. Sarah Laurent" 
-                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 focus:border-brand-purple outline-none transition"
-                  >
-                </div>
-
-                <div>
-                  <label class="block text-xs font-bold text-slate-700 mb-1">
-                    Google Mail Address * <span class="text-slate-400 font-normal">(@d-edge.com required)</span>
-                  </label>
-                  <div class="relative">
-                    <input 
-                      id="login-page-email" 
-                      type="email" 
-                      required 
-                      placeholder="firstname.lastname@d-edge.com" 
-                      oninput="handleLoginPageEmailInput(this.value)"
-                      class="w-full px-3.5 py-2.5 pr-10 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 focus:border-brand-purple outline-none font-mono transition"
-                    >
-                    <div id="login-page-email-icon" class="absolute right-3 top-2.5 hidden">
-                      <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
-                    </div>
-                  </div>
-                  <p id="login-page-error-msg" class="text-xs text-rose-600 font-semibold mt-1 hidden"></p>
-                </div>
-
-                <button 
-                  type="submit" 
-                  class="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold shadow-sm flex items-center justify-center space-x-2 transition cursor-pointer select-none active:scale-[0.99]"
-                >
-                  <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                  </svg>
-                  <span>Connect / Sign in with Google</span>
-                </button>
-              </form>
-
-              <!-- REGISTER / DEMO PERSONAS FOOTER -->
-              <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-                <div class="text-slate-500">
-                  Looking for Client Roadmap view?
-                  <button type="button" onclick="selectRole('client'); switchView('timeline');" class="font-bold text-brand-purple hover:underline ml-1 cursor-pointer">
-                    View as Hotel Client
-                  </button>
-                </div>
-                <button type="button" onclick="openAccountCenterModal(); switchAccountCenterTab('register');" class="text-brand-purple hover:text-brand-purpleDark font-semibold cursor-pointer">
-                  + Create PM Account
-                </button>
-              </div>
-
             </div>
           </div>
         </div>
@@ -1673,15 +1560,18 @@
 
           <div>
             <label class="block text-slate-700 font-bold mb-1">Project Manager (Creator)</label>
-            <input required id="mp-pm-name" type="text" placeholder="e.g. Dounia" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+            <input required id="mp-pm-name" type="text" placeholder="e.g. Karlo RIVERA VELASQUEZ" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
           </div>
         </div>
 
 
         <div class="grid grid-cols-1 gap-3">
           <div>
-            <label class="block text-slate-700 font-bold mb-1">Client Email Address</label>
-            <input required id="mp-client-email" type="email" placeholder="client@hotel.com" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+            <div class="flex items-center justify-between mb-1">
+              <label class="block text-slate-700 font-bold">Client Email (Metadata)</label>
+              <span class="text-[10.5px] text-slate-400 font-medium">Notification contact only · No account required</span>
+            </div>
+            <input id="mp-client-email" type="email" placeholder="client@hotel.com (contact metadata)" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
           </div>
           <input type="hidden" id="mp-evolution" value="Crystal">
         </div>
@@ -2389,7 +2279,7 @@
           </div>
           <div>
             <h3 class="text-sm sm:text-base font-bold text-slate-900 leading-snug">Connect with Google Mail</h3>
-            <p class="text-[11px] text-slate-500">Project Manager portal sign-in &amp; registration</p>
+            <p class="text-[11px] text-slate-500">Authorized corporate sign-in (@d-edge.com)</p>
           </div>
         </div>
         <button type="button" onclick="closeGoogleAuthModal()" class="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition">
@@ -2404,8 +2294,8 @@
             <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
           </div>
           <div class="text-[11.5px] leading-relaxed text-indigo-950">
-            <strong class="font-bold text-indigo-900">Domain Restriction Policy:</strong>
-            Only Google Mail accounts ending with <span class="font-mono font-bold bg-white px-1.5 py-0.5 rounded border border-indigo-200 text-indigo-800">@d-edge.com</span> are permitted to connect or create a PM account.
+            <strong class="font-bold text-indigo-900">Administrator Provisioning Policy:</strong>
+            Only authorized Google accounts ending with <span class="font-mono font-bold bg-white px-1.5 py-0.5 rounded border border-indigo-200 text-indigo-800">@d-edge.com</span> created by the administrator can connect.
           </div>
         </div>
       </div>
@@ -2439,34 +2329,6 @@
           </button>
         </div>
 
-        <!-- QUICK EXISTING PM SESSIONS -->
-        <div class="space-y-1.5">
-          <div class="text-[10.5px] font-bold text-slate-500 uppercase tracking-wider">Other D-EDGE PMs</div>
-          <div class="grid grid-cols-2 gap-2">
-            <button 
-              type="button" 
-              onclick="handleGoogleMailSignIn('dounia@d-edge.com', 'Dounia')"
-              class="p-2.5 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-left transition flex items-center space-x-2.5 cursor-pointer"
-            >
-              <div class="w-7 h-7 rounded-full bg-purple-100 text-brand-purple font-bold flex items-center justify-center text-[11px] shrink-0">D</div>
-              <div class="min-w-0 truncate">
-                <div class="font-bold text-slate-800 text-xs truncate">Dounia</div>
-                <div class="text-[10px] text-slate-500 truncate font-mono">dounia@d-edge.com</div>
-              </div>
-            </button>
-            <button 
-              type="button" 
-              onclick="handleGoogleMailSignIn('marc@d-edge.com', 'Marc')"
-              class="p-2.5 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-left transition flex items-center space-x-2.5 cursor-pointer"
-            >
-              <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-[11px] shrink-0">M</div>
-              <div class="min-w-0 truncate">
-                <div class="font-bold text-slate-800 text-xs truncate">Marc</div>
-                <div class="text-[10px] text-slate-500 truncate font-mono">marc@d-edge.com</div>
-              </div>
-            </button>
-          </div>
-        </div>
 
         <!-- ENTER ANY @D-EDGE.COM GOOGLE MAIL -->
         <div class="border-t border-slate-100 pt-3.5 space-y-2.5">
@@ -2523,8 +2385,8 @@
             <i data-lucide="user-check" class="w-4 h-4"></i>
           </div>
           <div>
-            <h3 class="text-sm sm:text-base font-bold text-slate-900">Account Center &amp; Access Control</h3>
-            <p class="text-[11px] text-slate-500">Manage authenticated profiles, create PM accounts, and switch roles.</p>
+            <h3 class="text-sm sm:text-base font-bold text-slate-900">Account Center &amp; Session</h3>
+            <p class="text-[11px] text-slate-500">Manage authenticated profiles and switch active session.</p>
           </div>
         </div>
         <button type="button" onclick="closeModal('modal-account-center')" class="p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-200/50 transition">
@@ -2532,30 +2394,20 @@
         </button>
       </div>
 
-      <!-- TABS -->
-      <div class="flex border-b border-slate-200 bg-white px-4 sm:px-5 pt-2">
-        <button id="tab-ac-profiles" type="button" onclick="switchAccountCenterTab('profiles')" class="pb-2.5 px-3 text-xs font-bold border-b-2 border-brand-purple text-brand-purple transition">
-          Active Session &amp; Switch
-        </button>
-        <button id="tab-ac-register" type="button" onclick="switchAccountCenterTab('register')" class="pb-2.5 px-3 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition">
-          + Create PM Account
-        </button>
-      </div>
-
-      <!-- TAB 1 CONTENT: ACTIVE SESSION & PROFILES -->
+      <!-- CONTENT: ACTIVE SESSION & PROFILES -->
       <div id="ac-tab-profiles-content" class="p-4 sm:p-5 space-y-4 max-h-[75vh] overflow-y-auto">
         <!-- CURRENT SESSION STATUS CARD -->
         <div class="bg-purple-50/60 border border-purple-200/80 rounded-xl p-3.5 flex items-center justify-between">
           <div class="flex items-center space-x-3">
             <div id="ac-current-avatar" class="w-10 h-10 rounded-xl bg-brand-purple text-white font-bold flex items-center justify-center text-sm shadow-2xs">
-              A
+              K
             </div>
             <div>
               <div class="flex items-center space-x-2">
-                <span id="ac-current-name" class="font-bold text-slate-900 text-xs sm:text-sm">Master Admin</span>
-                <span id="ac-current-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-200/80 text-purple-900">Administrator</span>
+                <span id="ac-current-name" class="font-bold text-slate-900 text-xs sm:text-sm">Karlo RIVERA VELASQUEZ</span>
+                <span id="ac-current-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-200/80 text-purple-900">Master Admin</span>
               </div>
-              <p id="ac-current-email" class="text-[11px] text-slate-500 mt-0.5">admin@d-edge.com</p>
+              <p id="ac-current-email" class="text-[11px] text-slate-500 mt-0.5">kriveravelasquez@d-edge.com</p>
             </div>
           </div>
           <span class="text-[10.5px] font-semibold text-emerald-700 bg-emerald-100/80 border border-emerald-200 px-2 py-1 rounded-lg flex items-center space-x-1">
@@ -2564,142 +2416,37 @@
           </span>
         </div>
 
-        <!-- GOOGLE MAIL PM AUTHENTICATION CARD -->
-        <div class="bg-gradient-to-r from-blue-50/70 via-indigo-50/50 to-purple-50/60 border border-blue-200/80 rounded-xl p-3.5 space-y-2.5 shadow-2xs">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-              </svg>
-              <span class="text-xs font-bold text-slate-800">PM Google Mail Authentication</span>
-            </div>
-            <span class="text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 border border-blue-200">
-              @d-edge.com
-            </span>
-          </div>
-          <p class="text-[11px] text-slate-600 leading-relaxed">
-            Project Managers can connect instantly or auto-create their account using their official D-EDGE Google Mail address.
-          </p>
-          <button 
-            type="button" 
-            onclick="openGoogleAuthModal()" 
-            class="w-full py-2 px-3 bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 rounded-xl text-xs font-bold shadow-2xs flex items-center justify-center space-x-2 transition cursor-pointer select-none active:scale-[0.99]"
-          >
-            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-            </svg>
-            <span>Connect / Sign in with Google Mail (@d-edge.com)</span>
-          </button>
-        </div>
-
         <!-- QUICK DEMO PERSONAS -->
         <div class="space-y-2">
           <div class="flex items-center justify-between">
-            <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Fast Persona Switcher</h4>
-            <span class="text-[10px] text-slate-400">Click to switch instant session</span>
+            <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Authorized System Accounts</h4>
+            <span class="text-[10px] text-slate-400">Click to switch session</span>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="ac-quick-personas-list">
             <!-- Populated dynamically via renderAccountPersonas() -->
           </div>
         </div>
 
-        <!-- CUSTOM LOGIN FORM -->
-        <div class="border-t border-slate-100 pt-3 space-y-3">
-          <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Log In With Email</h4>
-          <form onsubmit="handleAccountLoginForm(event)" class="space-y-2.5">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <div>
-                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Email</label>
-                <input id="ac-login-email" type="email" required placeholder="name@d-edge.com" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 outline-none">
-              </div>
-              <div>
-                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Password / PIN</label>
-                <input id="ac-login-password" type="password" required placeholder="••••••••" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 outline-none">
-              </div>
-            </div>
-            <div class="flex justify-end pt-1">
-              <button type="submit" class="px-4 py-1.5 bg-brand-purple hover:bg-brand-purpleDark text-white font-bold text-xs rounded-xl shadow-2xs transition">
-                Sign In
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <!-- TAB 2 CONTENT: CREATE PM ACCOUNT -->
-      <div id="ac-tab-register-content" class="p-4 sm:p-5 space-y-4 max-h-[75vh] overflow-y-auto hidden">
-        <div class="bg-blue-50/60 border border-blue-200/80 rounded-xl p-3 text-xs text-blue-900 leading-relaxed">
-          <strong class="font-bold">Project Manager Privileges:</strong>
-          PM accounts can create new projects, edit timelines &amp; milestones, and customize guides for their assigned hotels. PMs are strictly restricted to accessing their own projects.
-        </div>
-
-        <!-- GOOGLE MAIL QUICK CREATE OPTION -->
-        <div class="bg-gradient-to-r from-blue-50/80 to-indigo-50/80 border border-blue-200/80 rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
-          <div class="space-y-0.5">
-            <div class="flex items-center space-x-2">
-              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-              </svg>
-              <span class="text-xs font-bold text-slate-900">Instant Setup via Google Mail</span>
-            </div>
-            <p class="text-[11px] text-slate-600">Got a @d-edge.com Google account? Skip manual password registration.</p>
-          </div>
+        <!-- SESSION ACTIONS: DISCONNECT & ADMIN HUB LINK -->
+        <div class="border-t border-slate-100 pt-3 space-y-2">
           <button 
             type="button" 
-            onclick="openGoogleAuthModal()" 
-            class="shrink-0 px-3 py-1.5 bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs rounded-xl shadow-2xs flex items-center space-x-1.5 transition cursor-pointer select-none active:scale-95"
+            onclick="handleDisconnect()" 
+            class="w-full py-2.5 px-3 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl text-xs font-bold shadow-2xs flex items-center justify-center space-x-2 transition cursor-pointer select-none active:scale-[0.99]"
           >
-            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-            </svg>
-            <span>Create with Google</span>
+            <i data-lucide="log-out" class="w-4 h-4 text-rose-600"></i>
+            <span>Disconnect / Log Out Current Session</span>
+          </button>
+          <button 
+            id="ac-admin-hub-link"
+            type="button" 
+            onclick="closeModal('modal-account-center'); openAdminHub('users');" 
+            class="hidden w-full py-2 px-3 bg-purple-50 hover:bg-purple-100 text-brand-purple border border-purple-200 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 transition cursor-pointer"
+          >
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+            <span>Admin Hub: Create &amp; Manage User Accounts</span>
           </button>
         </div>
-
-        <form onsubmit="handleCreatePmAccount(event)" class="space-y-3 text-xs">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Full Name *</label>
-            <input id="new-pm-name" type="text" required placeholder="e.g. Sarah Laurent" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none">
-          </div>
-
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">D-EDGE Work Email * (@d-edge.com)</label>
-            <input id="new-pm-email" type="email" required placeholder="e.g. sarah.laurent@d-edge.com" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none">
-            <p class="text-[10.5px] text-slate-400 mt-1">PM accounts must be registered with an official @d-edge.com address.</p>
-          </div>
-
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Password or Access PIN *</label>
-            <input id="new-pm-password" type="password" required placeholder="Choose a password or PIN" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none">
-          </div>
-
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Initial Hotel Project (Optional)</label>
-            <input id="new-pm-hotel" type="text" placeholder="e.g. Grand Hotel Riviera (Leave empty to start clean)" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none">
-            <p class="text-[10.5px] text-slate-400 mt-1">If provided, an initial hotel roadmap will be initialized under your ownership.</p>
-          </div>
-
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-end space-x-2">
-            <button type="button" onclick="switchAccountCenterTab('profiles')" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition">
-              Cancel
-            </button>
-            <button type="submit" class="px-5 py-2 rounded-xl bg-brand-purple hover:bg-brand-purpleDark text-white font-bold shadow-sm transition">
-              Create Account &amp; Sign In
-            </button>
-          </div>
-        </form>
       </div>
     </div>
   </div>
@@ -2736,6 +2483,10 @@
         </button>
         <button id="admin-hub-tab-projects" type="button" onclick="switchAdminHubTab('projects')" class="pb-2.5 px-3 sm:px-4 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition">
           All Projects &amp; PM Assignment
+        </button>
+        <button id="admin-hub-tab-users" type="button" onclick="switchAdminHubTab('users')" class="pb-2.5 px-3 sm:px-4 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition flex items-center space-x-1.5">
+          <i data-lucide="users" class="w-3.5 h-3.5 text-purple-600"></i>
+          <span>User Accounts (Admin Only)</span>
         </button>
       </div>
 
@@ -2805,6 +2556,80 @@
             </thead>
             <tbody id="admin-projects-table-body" class="divide-y divide-slate-100">
               <!-- Populated dynamically via renderAdminProjectsTable() -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 4: USER ACCOUNTS DIRECTORY & PROVISIONING (ADMIN ONLY) -->
+      <div id="admin-hub-content-users" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5 text-xs hidden">
+        <div class="bg-gradient-to-r from-purple-50/80 to-indigo-50/80 border border-purple-200/80 rounded-xl p-3.5 flex items-center justify-between">
+          <div>
+            <h4 class="font-bold text-slate-900 text-sm flex items-center space-x-1.5">
+              <i data-lucide="shield-alert" class="w-4 h-4 text-brand-purple"></i>
+              <span>Authorized User Management</span>
+            </h4>
+            <p class="text-[11px] text-slate-600 mt-0.5">
+              Only the administrator can create and manage user accounts. Public self-registration is disabled across the platform.
+            </p>
+          </div>
+          <span class="px-2.5 py-1 rounded-full bg-purple-100 text-purple-800 font-bold text-[10px] border border-purple-200">
+            Admin Controlled
+          </span>
+        </div>
+
+        <!-- CREATE NEW USER FORM (ADMIN ONLY) -->
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-2xs space-y-3">
+          <h5 class="font-bold text-slate-800 text-xs flex items-center space-x-1.5">
+            <i data-lucide="user-plus" class="w-3.5 h-3.5 text-brand-purple"></i>
+            <span>Create New User Account</span>
+          </h5>
+          <form onsubmit="handleAdminCreateUser(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">Full Name *</label>
+              <input id="admin-new-user-name" type="text" required placeholder="e.g. Sarah Laurent" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none text-xs">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">Corporate Email * (@d-edge.com)</label>
+              <input id="admin-new-user-email" type="email" required placeholder="e.g. sarah.laurent@d-edge.com" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none text-xs font-mono">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">Role *</label>
+              <select id="admin-new-user-role" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none text-xs bg-white">
+                <option value="pm">Project Manager (PM)</option>
+                <option value="admin">Administrator (Admin)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">Password or Access PIN *</label>
+              <input id="admin-new-user-password" type="password" required placeholder="Assign temporary or permanent PIN" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none text-xs">
+            </div>
+            <div class="sm:col-span-2 flex items-center justify-between pt-2 border-t border-slate-100">
+              <span class="text-[10.5px] text-slate-500">The user will be immediately authorized to sign in with this email and PIN or Google SSO.</span>
+              <button type="submit" class="px-4 py-2 bg-brand-purple hover:bg-brand-purpleDark text-white font-bold text-xs rounded-xl shadow-2xs transition cursor-pointer">
+                + Create User Account
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- USERS TABLE -->
+        <div class="border border-slate-200 rounded-xl overflow-hidden bg-white">
+          <div class="p-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+            <span class="font-bold text-slate-700 text-xs uppercase tracking-wider">Active System Users (<span id="admin-users-count">1</span>)</span>
+            <span class="text-[10px] text-slate-400">Total authorized accounts</span>
+          </div>
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
+              <tr>
+                <th class="p-3">User</th>
+                <th class="p-3">Role</th>
+                <th class="p-3">Email</th>
+                <th class="p-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-users-table-body" class="divide-y divide-slate-100">
+              <!-- Dynamically populated via renderAdminUsersList() -->
             </tbody>
           </table>
         </div>
@@ -3121,11 +2946,11 @@
       {
         id: 'p1',
         name: 'Le Grand Hotel Paris',
-        pmName: 'Dounia',
-        pmEmail: 'dounia@d-edge.com',
-        authorizedPmName: 'Marc',
-        authorizedPmEmail: 'marc@d-edge.com',
-        clientEmail: 'client@grandhotelparis.com',
+        pmName: 'Karlo RIVERA VELASQUEZ',
+        pmEmail: 'kriveravelasquez@d-edge.com',
+        authorizedPmName: 'Karlo RIVERA VELASQUEZ',
+        authorizedPmEmail: 'kriveravelasquez@d-edge.com',
+        clientEmail: '',
         evolutionTag: 'Crystal',
         sitemapDriveUrl: 'https://drive.google.com',
         sitemapDocs: [
@@ -3176,8 +3001,8 @@
       {
         id: 'p2',
         name: 'Resort Alpine & Spa',
-        pmName: 'Marc',
-        pmEmail: 'marc@d-edge.com',
+        pmName: 'Karlo RIVERA VELASQUEZ',
+        pmEmail: 'kriveravelasquez@d-edge.com',
         authorizedPmName: '',
         authorizedPmEmail: '',
         clientEmail: 'contact@alpineresort.com',
@@ -3230,11 +3055,11 @@
       {
         id: 'p3',
         name: 'Palazzo Venezia Boutique Hotel',
-        pmName: 'Dounia',
-        pmEmail: 'dounia@d-edge.com',
+        pmName: 'Karlo RIVERA VELASQUEZ',
+        pmEmail: 'kriveravelasquez@d-edge.com',
         authorizedPmName: '',
         authorizedPmEmail: '',
-        clientEmail: 'info@palazzoveneziahotel.it',
+        clientEmail: '',
         evolutionTag: 'Serene',
         sitemapDriveUrl: 'https://drive.google.com',
         sitemapDocs: [
@@ -3299,12 +3124,23 @@
         }
         if (p.authorizedPmName === undefined) {
           if (p.id === 'p1') {
-            p.authorizedPmName = 'Marc';
-            p.authorizedPmEmail = 'marc@d-edge.com';
+            p.authorizedPmName = 'Karlo RIVERA VELASQUEZ';
+            p.authorizedPmEmail = 'kriveravelasquez@d-edge.com';
           } else {
             p.authorizedPmName = '';
             p.authorizedPmEmail = '';
           }
+        }
+        if (p.authorizedPmEmail && (p.authorizedPmEmail.toLowerCase() === 'marc@d-edge.com' || p.authorizedPmEmail.toLowerCase() === 'dounia@d-edge.com')) {
+          p.authorizedPmName = 'Karlo RIVERA VELASQUEZ';
+          p.authorizedPmEmail = 'kriveravelasquez@d-edge.com';
+        }
+        if (p.pmEmail && (p.pmEmail.toLowerCase() === 'marc@d-edge.com' || p.pmEmail.toLowerCase() === 'dounia@d-edge.com')) {
+          p.pmName = 'Karlo RIVERA VELASQUEZ';
+          p.pmEmail = 'kriveravelasquez@d-edge.com';
+        }
+        if (p.clientEmail && p.clientEmail.toLowerCase() === 'client@grandhotelparis.com') {
+          p.clientEmail = '';
         }
         if (!p.revisionRounds || !Array.isArray(p.revisionRounds)) {
           p.revisionRounds = getProjectRevisionRounds(p);
@@ -3395,16 +3231,33 @@
 
     // --- SYSTEM USERS & AUTHENTICATION STATE ---
     const DEFAULT_USERS = [
-      { id: 'u_admin', name: 'Master Admin', email: 'admin@d-edge.com', role: 'admin', password: 'admin', avatar: 'A' },
-      { id: 'u_pm1', name: 'Dounia', email: 'dounia@d-edge.com', role: 'pm', password: 'pm', avatar: 'D' },
-      { id: 'u_pm2', name: 'Marc', email: 'marc@d-edge.com', role: 'pm', password: 'pm', avatar: 'M' },
-      { id: 'u_client', name: 'Le Grand Hotel Client', email: 'client@grandhotelparis.com', role: 'client', projectId: 'p1', avatar: 'G' }
+      { id: 'u_admin', name: 'Karlo RIVERA VELASQUEZ', email: 'kriveravelasquez@d-edge.com', role: 'admin', password: 'admin', avatar: 'K' }
     ];
 
     let users = [];
     try {
       const savedUsers = localStorage.getItem('dedge_users');
-      users = savedUsers ? JSON.parse(savedUsers) : JSON.parse(JSON.stringify(DEFAULT_USERS));
+      let parsed = savedUsers ? JSON.parse(savedUsers) : JSON.parse(JSON.stringify(DEFAULT_USERS));
+      // Delete Marc, Dounia, and Grand Hotel Client from cached localStorage
+      parsed = parsed.filter(u => {
+        const em = (u.email || '').toLowerCase();
+        const nm = (u.name || '').toLowerCase();
+        if (em === 'marc@d-edge.com' || nm === 'marc') return false;
+        if (em === 'dounia@d-edge.com' || nm === 'dounia') return false;
+        if (em === 'client@grandhotelparis.com' || nm.includes('grand hotel')) return false;
+        return true;
+      });
+      // Ensure master admin has Karlo RIVERA VELASQUEZ
+      const adminUser = parsed.find(u => u.role === 'admin' || u.id === 'u_admin');
+      if (adminUser) {
+        adminUser.name = 'Karlo RIVERA VELASQUEZ';
+        adminUser.email = 'kriveravelasquez@d-edge.com';
+        adminUser.avatar = 'K';
+      } else {
+        parsed.unshift({ id: 'u_admin', name: 'Karlo RIVERA VELASQUEZ', email: 'kriveravelasquez@d-edge.com', role: 'admin', password: 'admin', avatar: 'K' });
+      }
+      users = parsed;
+      localStorage.setItem('dedge_users', JSON.stringify(users));
     } catch (e) {
       users = JSON.parse(JSON.stringify(DEFAULT_USERS));
     }
@@ -3418,14 +3271,26 @@
     let currentUser = null;
     try {
       const savedCurrent = localStorage.getItem('dedge_current_user');
-      currentUser = savedCurrent ? JSON.parse(savedCurrent) : users.find(u => u.role === 'admin') || users[0];
+      let parsedCurrent = savedCurrent ? JSON.parse(savedCurrent) : null;
+      if (parsedCurrent) {
+        const em = (parsedCurrent.email || '').toLowerCase();
+        const nm = (parsedCurrent.name || '').toLowerCase();
+        if (em === 'marc@d-edge.com' || nm === 'marc' || em === 'dounia@d-edge.com' || nm === 'dounia' || em === 'client@grandhotelparis.com' || nm.includes('grand hotel')) {
+          parsedCurrent = null;
+        }
+        if (parsedCurrent) {
+          const match = users.find(u => u.email.toLowerCase() === (parsedCurrent.email || '').toLowerCase());
+          if (match) {
+            currentUser = match;
+          }
+        }
+      }
     } catch (e) {
-      currentUser = users[0];
+      currentUser = null;
     }
-    if (!currentUser) currentUser = users[0];
 
     let currentProjectId = 'p1';
-    let currentRole = currentUser.role || 'admin';
+    let currentRole = currentUser ? (currentUser.role || 'admin') : 'guest';
     let currentCarouselStep = 1;
 
     function scrollCarouselToStep(stepNum) {
@@ -3565,9 +3430,9 @@
         projectId: 'p1',
         projectName: 'Le Grand Hotel Paris',
         authorRole: 'pm',
-        authorName: 'Dounia',
+        authorName: 'Karlo RIVERA VELASQUEZ',
         roleLabel: 'Project Manager (PM)',
-        badgeText: 'Dounia',
+        badgeText: 'Karlo',
         action: 'Revision Phase Target Updated',
         description: 'Set Revision Phase target milestone deadline to 25 Jul 2026',
         icon: 'calendar',
@@ -3580,7 +3445,7 @@
         projectId: 'p1',
         projectName: 'Le Grand Hotel Paris',
         authorRole: 'client',
-        authorName: 'client@grandhotelparis.com',
+        authorName: 'Client',
         roleLabel: 'External Visitor (Client)',
         badgeText: 'External Visitor',
         action: 'Sitemap Validation Verified',
@@ -3595,7 +3460,7 @@
         projectId: 'p1',
         projectName: 'Le Grand Hotel Paris',
         authorRole: 'client',
-        authorName: 'client@grandhotelparis.com',
+        authorName: 'Client',
         roleLabel: 'External Visitor (Client)',
         badgeText: 'External Visitor',
         action: 'Google Doc Copy Linked',
@@ -3610,9 +3475,9 @@
         projectId: 'p1',
         projectName: 'Le Grand Hotel Paris',
         authorRole: 'pm',
-        authorName: 'Dounia',
+        authorName: 'Karlo RIVERA VELASQUEZ',
         roleLabel: 'Project Manager (PM)',
-        badgeText: 'Dounia',
+        badgeText: 'Karlo',
         action: 'Milestone Step Completed',
         description: 'Marked "SEO Audit (Main Language)" milestone as Completed',
         icon: 'check-square',
@@ -3625,9 +3490,9 @@
         projectId: 'p1',
         projectName: 'Le Grand Hotel Paris',
         authorRole: 'pm',
-        authorName: 'Dounia',
+        authorName: 'Karlo RIVERA VELASQUEZ',
         roleLabel: 'Project Manager (PM)',
-        badgeText: 'Dounia',
+        badgeText: 'Karlo',
         action: 'Brand Palette Configured',
         description: 'Saved palette colors: Primary (#5B1E82), Secondary (#C5A059), Tertiary (#F4F5F9)',
         icon: 'palette',
@@ -3655,9 +3520,9 @@
         projectId: 'p1',
         projectName: 'Le Grand Hotel Paris',
         authorRole: 'pm',
-        authorName: 'Dounia',
+        authorName: 'Karlo RIVERA VELASQUEZ',
         roleLabel: 'Project Manager (PM)',
-        badgeText: 'Dounia',
+        badgeText: 'Karlo',
         action: 'SEO Questionnaire Connected',
         description: 'Attached Google Forms link for AM/PM SEO Questionnaire intake',
         icon: 'clipboard-list',
@@ -3670,9 +3535,9 @@
         projectId: 'p2',
         projectName: 'Resort Alpine & Spa',
         authorRole: 'pm',
-        authorName: 'Marc',
+        authorName: 'Karlo RIVERA VELASQUEZ',
         roleLabel: 'Project Manager (PM)',
-        badgeText: 'Marc',
+        badgeText: 'Karlo',
         action: 'Milestone Deadline Adjusted',
         description: 'Set Content Collection milestone target date to 10 Jun 2026',
         icon: 'calendar',
@@ -3685,7 +3550,7 @@
         projectId: 'p1',
         projectName: 'Le Grand Hotel Paris',
         authorRole: 'client',
-        authorName: 'client@grandhotelparis.com',
+        authorName: 'Client',
         roleLabel: 'External Visitor (Client)',
         badgeText: 'External Visitor',
         action: 'Checklist Section Completed',
@@ -3700,9 +3565,9 @@
         projectId: 'p1',
         projectName: 'Le Grand Hotel Paris',
         authorRole: 'pm',
-        authorName: 'Dounia',
+        authorName: 'Karlo RIVERA VELASQUEZ',
         roleLabel: 'Project Manager (PM)',
-        badgeText: 'Dounia',
+        badgeText: 'Karlo',
         action: 'Project Initialized',
         description: 'Created hotel project specs with Evolution Crystal template & SEO Essential package',
         icon: 'folder-plus',
@@ -3730,7 +3595,7 @@
       const projId = targetProjectId || currentProjectId;
       const project = projects.find(p => p.id === projId);
       const isPm = currentRole === 'pm';
-      const pmName = project?.pmName || 'Dounia';
+      const pmName = project?.pmName || (currentUser?.name || 'Karlo RIVERA VELASQUEZ');
       const clientEmail = project?.clientEmail || 'Visitor';
 
       const newActivity = {
@@ -3838,7 +3703,7 @@
               <span class="truncate" title="${p.name}">${p.name}</span>
             </span>
             <div class="flex items-center space-x-1.5 shrink-0 ml-2">
-              <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 group-hover:bg-purple-100 group-hover:text-brand-purple px-2 py-0.5 rounded-full transition">${p.pmName || 'Dounia'}</span>
+              <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 group-hover:bg-purple-100 group-hover:text-brand-purple px-2 py-0.5 rounded-full transition">${p.pmName || 'PM'}</span>
               ${isSelected ? '<i data-lucide="check" class="w-3.5 h-3.5 text-brand-purple stroke-[2.5] ml-1 shrink-0"></i>' : ''}
             </div>
           </button>
@@ -3890,7 +3755,7 @@
 
       feed.innerHTML = displayItems.map((item) => {
         const isPm = item.authorRole === 'pm';
-        let authorLabel = item.authorName || 'Dounia';
+        let authorLabel = item.authorName || 'Team';
         if (item.badgeText && isPm) {
           const cleaned = item.badgeText.replace(/^PM\s*\(?|\)$/gi, '').trim();
           if (cleaned) authorLabel = cleaned;
@@ -5309,28 +5174,34 @@
       const tabTooltips = document.getElementById('admin-hub-tab-tooltips');
       const tabGuides = document.getElementById('admin-hub-tab-guides');
       const tabProjects = document.getElementById('admin-hub-tab-projects');
+      const tabUsers = document.getElementById('admin-hub-tab-users');
 
       const contentTooltips = document.getElementById('admin-hub-content-tooltips');
       const contentGuides = document.getElementById('admin-hub-content-guides');
       const contentProjects = document.getElementById('admin-hub-content-projects');
+      const contentUsers = document.getElementById('admin-hub-content-users');
 
-      const activeClass = 'pb-2.5 px-3 sm:px-4 text-xs font-bold border-b-2 border-brand-purple text-brand-purple transition';
-      const inactiveClass = 'pb-2.5 px-3 sm:px-4 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition';
+      const activeClass = 'pb-2.5 px-3 sm:px-4 text-xs font-bold border-b-2 border-brand-purple text-brand-purple transition flex items-center space-x-1.5';
+      const inactiveClass = 'pb-2.5 px-3 sm:px-4 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition flex items-center space-x-1.5';
 
       if (tabTooltips) tabTooltips.className = tab === 'tooltips' ? activeClass : inactiveClass;
       if (tabGuides) tabGuides.className = tab === 'guides' ? activeClass : inactiveClass;
       if (tabProjects) tabProjects.className = tab === 'projects' ? activeClass : inactiveClass;
+      if (tabUsers) tabUsers.className = tab === 'users' ? activeClass : inactiveClass;
 
       if (contentTooltips) contentTooltips.classList.toggle('hidden', tab !== 'tooltips');
       if (contentGuides) contentGuides.classList.toggle('hidden', tab !== 'guides');
       if (contentProjects) contentProjects.classList.toggle('hidden', tab !== 'projects');
+      if (contentUsers) contentUsers.classList.toggle('hidden', tab !== 'users');
 
       if (tab === 'tooltips') {
         renderAdminTooltipsList();
       } else if (tab === 'guides') {
         renderAdminDefaultGuidesList();
-      } else {
+      } else if (tab === 'projects') {
         renderAdminProjectsTable();
+      } else if (tab === 'users') {
+        renderAdminUsersList();
       }
       if (window.lucide) lucide.createIcons();
     }
@@ -5494,34 +5365,23 @@
     }
 
     // --- ACCOUNT CENTER & MULTI-USER PROFILES ---
+    // --- ACCOUNT CENTER & MULTI-USER PROFILES ---
     function openAccountCenterModal() {
-      document.getElementById('modal-account-center').classList.remove('hidden');
-      switchAccountCenterTab('profiles');
-      lucide.createIcons();
+      const modal = document.getElementById('modal-account-center');
+      if (modal) modal.classList.remove('hidden');
+      const acAdminHubLink = document.getElementById('ac-admin-hub-link');
+      if (acAdminHubLink) {
+        acAdminHubLink.classList.toggle('hidden', !currentUser || currentUser.role !== 'admin');
+      }
+      renderAccountPersonas();
+      if (window.lucide) lucide.createIcons();
     }
 
     function switchAccountCenterTab(tab) {
-      const tabProfiles = document.getElementById('tab-ac-profiles');
-      const tabRegister = document.getElementById('tab-ac-register');
       const contentProfiles = document.getElementById('ac-tab-profiles-content');
-      const contentRegister = document.getElementById('ac-tab-register-content');
-
-      const activeClass = 'pb-2.5 px-3 text-xs font-bold border-b-2 border-brand-purple text-brand-purple transition';
-      const inactiveClass = 'pb-2.5 px-3 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition';
-
-      if (tab === 'profiles') {
-        tabProfiles.className = activeClass;
-        tabRegister.className = inactiveClass;
-        contentProfiles.classList.remove('hidden');
-        contentRegister.classList.add('hidden');
-        renderAccountPersonas();
-      } else {
-        tabRegister.className = activeClass;
-        tabProfiles.className = inactiveClass;
-        contentRegister.classList.remove('hidden');
-        contentProfiles.classList.add('hidden');
-      }
-      lucide.createIcons();
+      if (contentProfiles) contentProfiles.classList.remove('hidden');
+      renderAccountPersonas();
+      if (window.lucide) lucide.createIcons();
     }
 
     function renderAccountPersonas() {
@@ -5576,117 +5436,132 @@
       showSavingToast('Session Switched', `Logged in as ${user.name} (${user.role.toUpperCase()})`);
     }
 
-    function handleAccountLoginForm(e) {
-      e.preventDefault();
-      const email = document.getElementById('ac-login-email').value.trim();
-      const password = document.getElementById('ac-login-password').value.trim();
-
-      const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
-      if (user) {
-        if (user.password && user.password !== password) {
-          showSavingToast('Login Failed', 'Incorrect password / PIN');
-          return;
-        }
-        selectRole(user.role, user);
-        closeModal('modal-account-center');
-        showSavingToast('Logged In', `Welcome back, ${user.name}!`);
-      } else {
-        // If email not found, prompt to create account
-        showSavingToast('User Not Found', 'No account with this email. Use "+ Create PM Account" tab.');
-      }
+    // --- DISCONNECT / LOG OUT FUNCTIONALITY ---
+    function handleDisconnect() {
+      currentUser = null;
+      try {
+        localStorage.removeItem('dedge_current_user');
+      } catch (e) {}
+      currentRole = 'guest';
+      updateHeaderAuthState();
+      closeModal('modal-account-center');
+      closeModal('modal-admin-hub');
+      closeGoogleAuthModal();
+      switchView('login');
+      showSavingToast('Disconnected', 'You have been disconnected from the session.');
     }
+    window.handleDisconnect = handleDisconnect;
 
-    function handleCreatePmAccount(e) {
+    // --- ADMIN USER MANAGEMENT (CREATION & DELETION) ---
+    function renderAdminUsersList() {
+      const tbody = document.getElementById('admin-users-table-body');
+      const countEl = document.getElementById('admin-users-count');
+      if (!tbody) return;
+      if (countEl) countEl.textContent = users.length;
+
+      tbody.innerHTML = users.map(u => {
+        const isMasterAdmin = (u.email || '').toLowerCase() === 'kriveravelasquez@d-edge.com';
+        const roleBadge = u.role === 'admin' 
+          ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 border border-purple-200">Admin</span>' 
+          : '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-100 text-sky-800 border border-sky-200">PM</span>';
+
+        return `
+          <tr class="hover:bg-slate-50/80 transition">
+            <td class="p-3">
+              <div class="flex items-center space-x-2.5">
+                <div class="w-7 h-7 rounded-lg bg-brand-purple text-white font-bold flex items-center justify-center text-xs shadow-2xs">
+                  ${(u.name || 'U').charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <div class="font-bold text-slate-900">${u.name}</div>
+                  <div class="text-[10px] text-slate-400">ID: ${u.id}</div>
+                </div>
+              </div>
+            </td>
+            <td class="p-3">${roleBadge}</td>
+            <td class="p-3 font-mono text-[11px] text-slate-600">${u.email}</td>
+            <td class="p-3 text-right">
+              ${isMasterAdmin ? '<span class="text-[10px] text-slate-400 font-semibold italic">Master Admin</span>' : `
+                <button type="button" onclick="handleAdminDeleteUser('${u.id}')" class="px-2 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 text-[11px] font-semibold transition cursor-pointer">
+                  Delete
+                </button>
+              `}
+            </td>
+          </tr>
+        `;
+      }).join('');
+      if (window.lucide) lucide.createIcons();
+    }
+    window.renderAdminUsersList = renderAdminUsersList;
+
+    function handleAdminCreateUser(e) {
       e.preventDefault();
-      const name = document.getElementById('new-pm-name').value.trim();
-      const email = document.getElementById('new-pm-email').value.trim();
-      const password = document.getElementById('new-pm-password').value.trim();
-      const hotel = document.getElementById('new-pm-hotel').value.trim();
+      if (!currentUser || currentUser.role !== 'admin') {
+        showSavingToast('Permission Denied', 'Only administrators can create user accounts.');
+        return;
+      }
+
+      const nameInput = document.getElementById('admin-new-user-name');
+      const emailInput = document.getElementById('admin-new-user-email');
+      const roleInput = document.getElementById('admin-new-user-role');
+      const passInput = document.getElementById('admin-new-user-password');
+
+      const name = nameInput ? nameInput.value.trim() : '';
+      const email = emailInput ? emailInput.value.trim().toLowerCase() : '';
+      const role = roleInput ? roleInput.value : 'pm';
+      const password = passInput ? passInput.value.trim() : '';
 
       if (!name || !email || !password) {
-        showSavingToast('Validation Error', 'Please complete all required fields');
+        showSavingToast('Validation Error', 'Please complete all required fields.');
         return;
       }
 
-      if (!email.toLowerCase().endsWith('@d-edge.com')) {
-        showSavingToast('Domain Error', 'PM accounts must use an @d-edge.com email address');
+      if (!email.endsWith('@d-edge.com')) {
+        showSavingToast('Domain Error', 'Accounts must use an @d-edge.com corporate email.');
         return;
       }
 
-      if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
-        showSavingToast('Email Taken', 'An account with this email already exists');
+      if (users.some(u => (u.email || '').toLowerCase() === email)) {
+        showSavingToast('Duplicate Email', 'An account with this email already exists.');
         return;
       }
 
       const newUser = {
         id: `u_${Date.now()}`,
-        name: name,
-        email: email,
-        role: 'pm',
-        password: password,
+        name,
+        email,
+        role,
+        password,
         avatar: name.charAt(0).toUpperCase()
       };
 
       users.push(newUser);
       saveUsersToStorage();
+      renderAdminUsersList();
+      renderAccountPersonas();
 
-      // If PM specified an initial hotel project, initialize it under their ownership
-      if (hotel) {
-        const newProj = {
-          id: `proj-${Date.now()}`,
-          name: hotel,
-          pmName: name,
-          pmEmail: email,
-          clientEmail: `contact@${hotel.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`,
-          evolutionTag: 'Crystal',
-          sitemapDriveUrl: 'https://drive.google.com',
-          sitemapDocs: [
-            { id: `sd-${Date.now()}`, lang: 'English', label: 'English Version', url: 'https://drive.google.com', completed: false }
-          ],
-          sitemapCompleted: false,
-          hasSeoQuestionnaire: true,
-          sitemapDeadline: '2026-06-01',
-          contentCollectionDeadline: '2026-06-20',
-          revisionPhaseDeadline: '2026-07-15',
-          stagingSiteUrl: '',
-          hasFirstWaveRevisions: true,
-          hasSecondWaveRevisions: true,
-          firstWaveNotes: '',
-          secondWaveNotes: '',
-          goLiveDeadline: '2026-08-01',
-          serverSelection: 'EMEAWEBFB3',
-          wpeVerificationTxt: '',
-          languages: ['English'],
-          packageTier: 'seo_essential',
-          driveUrl: 'https://drive.google.com',
-          colors: { primary: '#5B1E82', secondary: '#C5A059', tertiary: '#F4F5F9' },
-          currentDomain: '',
-          finalDomain: '',
-          domainAliases: [],
-          ga4: '',
-          googleMapsKey: '',
-          thirdPartyNotes: '',
-          customIntegrations: [],
-          textDocs: [
-            { id: `td-${Date.now()}`, lang: 'English', label: 'English Master Copy', url: 'https://docs.google.com', completed: false }
-          ],
-          graphicElements: {
-            imagesDrive: 'https://drive.google.com',
-            brandIdentityDrive: 'https://drive.google.com',
-            colors: 'Primary: #5B1E82, Secondary: #C5A059',
-            fonts: 'Title: Playfair Display, Text: Inter'
-          },
-          steps: JSON.parse(JSON.stringify(PRD_TEMPLATES.seo_essential))
-        };
-        projects.unshift(newProj);
-        currentProjectId = newProj.id;
-        saveProjectsToStorage();
-      }
+      if (nameInput) nameInput.value = '';
+      if (emailInput) emailInput.value = '';
+      if (passInput) passInput.value = '';
 
-      selectRole('pm', newUser);
-      closeModal('modal-account-center');
-      showSavingToast('Account Created', `Welcome, ${name}! Your PM account is active.`);
+      showSavingToast('Account Created', `Account for ${name} (${role.toUpperCase()}) created successfully.`);
     }
+    window.handleAdminCreateUser = handleAdminCreateUser;
+
+    function handleAdminDeleteUser(userId) {
+      if (!currentUser || currentUser.role !== 'admin') return;
+      const user = users.find(u => u.id === userId);
+      if (!user || user.email === 'kriveravelasquez@d-edge.com') {
+        showSavingToast('Action Denied', 'The master administrator account cannot be deleted.');
+        return;
+      }
+      users = users.filter(u => u.id !== userId);
+      saveUsersToStorage();
+      renderAdminUsersList();
+      renderAccountPersonas();
+      showSavingToast('User Deleted', `Account for ${user.name} removed.`);
+    }
+    window.handleAdminDeleteUser = handleAdminDeleteUser;
 
     // --- GOOGLE MAIL PM AUTHENTICATION & @d-edge.com DOMAIN ENFORCEMENT ---
     function validateDedgeGoogleEmail(email) {
@@ -5701,7 +5576,7 @@
         modal.classList.remove('hidden');
         renderGoogleAuthModalState();
       }
-      lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
     }
 
     function closeGoogleAuthModal() {
@@ -5715,7 +5590,7 @@
       const detectedAvatarEl = document.getElementById('ga-detected-avatar');
       
       const detectedEmail = 'kriveravelasquez@d-edge.com';
-      const detectedName = 'Krivera Velasquez';
+      const detectedName = 'Karlo RIVERA VELASQUEZ';
       if (detectedEmailEl) detectedEmailEl.textContent = detectedEmail;
       if (detectedNameEl) detectedNameEl.textContent = detectedName;
       if (detectedAvatarEl) detectedAvatarEl.textContent = 'K';
@@ -5751,49 +5626,42 @@
         if (errEl) errEl.classList.add('hidden');
         if (iconEl) iconEl.classList.add('hidden');
       }
-      lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
     }
 
     function handleGoogleMailSignIn(targetEmail, targetName = '') {
       const email = (targetEmail || '').trim().toLowerCase();
+      const errEl = document.getElementById('login-page-error-msg') || document.getElementById('ga-error-msg');
+      if (errEl) {
+        errEl.classList.add('hidden');
+        errEl.textContent = '';
+      }
+
       if (!validateDedgeGoogleEmail(email)) {
-        showSavingToast('Domain Restricted', 'Only @d-edge.com Google Mail accounts can access PM privileges.');
-        const errEl = document.getElementById('ga-error-msg');
+        const msg = 'Only @d-edge.com Google Mail accounts can access PM privileges.';
+        showSavingToast('Domain Restricted', msg);
         if (errEl) {
-          errEl.textContent = 'Access restricted: email must end with @d-edge.com';
+          errEl.textContent = msg;
           errEl.classList.remove('hidden');
         }
         return false;
       }
 
-      const errEl = document.getElementById('ga-error-msg');
-      if (errEl) errEl.classList.add('hidden');
-
-      // Check if user already exists
+      // Check if user already exists (ONLY administrator can create accounts)
       let user = users.find(u => u.email.toLowerCase() === email);
-      let isNew = false;
 
       if (!user) {
-        // Automatically create PM account
-        const derivedName = targetName.trim() || email.split('@')[0].split('.').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-        user = {
-          id: `u_pm_${Date.now()}`,
-          name: derivedName,
-          email: email,
-          role: 'pm',
-          authProvider: 'google',
-          avatar: derivedName.charAt(0).toUpperCase()
-        };
-        users.push(user);
-        saveUsersToStorage();
-        isNew = true;
-      } else {
-        user.authProvider = 'google';
-        if (user.role !== 'admin' && user.role !== 'pm') {
-          user.role = 'pm';
+        const msg = `Account not found for ${email}. Accounts can only be created by an administrator. Please contact your administrator.`;
+        showSavingToast('Access Denied', msg);
+        if (errEl) {
+          errEl.textContent = msg;
+          errEl.classList.remove('hidden');
         }
-        saveUsersToStorage();
+        return false;
       }
+
+      user.authProvider = 'google';
+      saveUsersToStorage();
 
       // Sync with server API
       try {
@@ -5804,17 +5672,14 @@
         }).catch(() => {});
       } catch (e) {}
 
-      // Select PM role with this authenticated user
-      selectRole('pm', user);
+      // Select role with this authenticated user
+      selectRole(user.role, user);
       closeGoogleAuthModal();
       closeModal('modal-account-center');
+      updateHeaderAuthState();
       switchView('boards');
 
-      if (isNew) {
-        showSavingToast('Account Created via Google', `Welcome, ${user.name}! PM account created with ${user.email}`);
-      } else {
-        showSavingToast('Connected via Google', `Welcome back, ${user.name}! Connected with ${user.email}`);
-      }
+      showSavingToast('Connected via Google', `Welcome back, ${user.name}! Connected with ${user.email}`);
       return true;
     }
 
@@ -5838,14 +5703,47 @@
       if (iconEl) iconEl.classList.add('hidden');
     }
 
-    function handleLoginPageGoogleSubmit(e) {
+    function handleLoginPageSubmit(e) {
       e.preventDefault();
       const emailInput = document.getElementById('login-page-email');
-      const nameInput = document.getElementById('login-page-name');
-      const email = emailInput ? emailInput.value.trim() : '';
-      const name = nameInput ? nameInput.value.trim() : '';
-      handleGoogleMailSignIn(email, name);
+      const passInput = document.getElementById('login-page-password');
+      const errEl = document.getElementById('login-page-error-msg');
+      const email = (emailInput ? emailInput.value : '').trim().toLowerCase();
+      const pass = (passInput ? passInput.value : '').trim();
+
+      if (errEl) {
+        errEl.classList.add('hidden');
+        errEl.textContent = '';
+      }
+
+      const user = users.find(u => (u.email || '').toLowerCase() === email);
+      if (!user) {
+        const msg = 'Account not found. Only an administrator can create user accounts. Please contact your administrator.';
+        if (errEl) {
+          errEl.textContent = msg;
+          errEl.classList.remove('hidden');
+        }
+        showSavingToast('Access Denied', msg);
+        return;
+      }
+
+      if (user.password && user.password !== pass) {
+        const msg = 'Incorrect password or access PIN. Please try again.';
+        if (errEl) {
+          errEl.textContent = msg;
+          errEl.classList.remove('hidden');
+        }
+        showSavingToast('Login Failed', msg);
+        return;
+      }
+
+      // Successful login
+      selectRole(user.role, user);
+      updateHeaderAuthState();
+      switchView('boards');
+      showSavingToast('Logged In', `Welcome back, ${user.name}!`);
     }
+    window.handleLoginPageSubmit = handleLoginPageSubmit;
 
     function handleLoginPageEmailInput(val) {
       const clean = (val || '').trim().toLowerCase();
@@ -5858,7 +5756,7 @@
       }
       if (clean.includes('@') && !clean.endsWith('@d-edge.com')) {
         if (errEl) {
-          errEl.textContent = 'Only @d-edge.com Google accounts are permitted for PMs.';
+          errEl.textContent = 'Only @d-edge.com corporate accounts are permitted.';
           errEl.classList.remove('hidden');
         }
         if (iconEl) iconEl.classList.add('hidden');
@@ -5877,7 +5775,6 @@
     window.handleGoogleMailSignIn = handleGoogleMailSignIn;
     window.handleGoogleCustomInputAuth = handleGoogleCustomInputAuth;
     window.handleGoogleInputValidation = handleGoogleInputValidation;
-    window.handleLoginPageGoogleSubmit = handleLoginPageGoogleSubmit;
     window.handleLoginPageEmailInput = handleLoginPageEmailInput;
     window.renderLoginPageState = renderLoginPageState;
 
@@ -6086,8 +5983,73 @@
       return projects;
     }
 
+    // --- AUTHENTICATION HEADER CONTROLLER ---
+    function updateHeaderAuthState() {
+      const isAuth = !!(currentUser && !currentUser.isGuest);
+      const navBoards = document.getElementById('nav-boards');
+      const navTimeline = document.getElementById('nav-timeline');
+      const btnAdminHub = document.getElementById('btn-admin-hub');
+      const btnPushNotify = document.getElementById('btn-push-notify');
+      const roleSwitcher = document.getElementById('role-switcher-container');
+      const btnAccountCenter = document.getElementById('btn-account-center');
+      const unauthBadge = document.getElementById('header-unauth-badge');
+      const projectSelector = document.getElementById('project-selector');
+      const headerEmailContainer = document.getElementById('header-email-container');
+      const btnLanguages = document.getElementById('btn-edit-languages');
+      const acAdminHubLink = document.getElementById('ac-admin-hub-link');
+
+      if (!isAuth) {
+        if (navBoards) navBoards.classList.add('hidden');
+        if (navTimeline) navTimeline.classList.add('hidden');
+        if (btnAdminHub) btnAdminHub.classList.add('hidden');
+        if (btnPushNotify) btnPushNotify.classList.add('hidden');
+        if (roleSwitcher) roleSwitcher.classList.add('hidden');
+        if (btnAccountCenter) btnAccountCenter.classList.add('hidden');
+        if (unauthBadge) unauthBadge.classList.remove('hidden');
+        if (projectSelector) projectSelector.classList.add('hidden');
+        if (headerEmailContainer) headerEmailContainer.classList.add('hidden');
+        if (btnLanguages) btnLanguages.classList.add('hidden');
+        if (acAdminHubLink) acAdminHubLink.classList.add('hidden');
+      } else {
+        if (unauthBadge) unauthBadge.classList.add('hidden');
+        if (btnAccountCenter) btnAccountCenter.classList.remove('hidden');
+        if (roleSwitcher) roleSwitcher.classList.remove('hidden');
+        if (headerEmailContainer) headerEmailContainer.classList.remove('hidden');
+
+        if (currentRole === 'admin' || currentRole === 'pm') {
+          if (navBoards) navBoards.classList.remove('hidden');
+          if (navTimeline) navTimeline.classList.remove('hidden');
+          if (projectSelector) projectSelector.classList.remove('hidden');
+          if (btnPushNotify) btnPushNotify.classList.remove('hidden');
+          if (btnLanguages) btnLanguages.classList.remove('hidden');
+        } else {
+          if (navBoards) navBoards.classList.add('hidden');
+          if (navTimeline) navTimeline.classList.add('hidden');
+          if (projectSelector) projectSelector.classList.add('hidden');
+          if (btnPushNotify) btnPushNotify.classList.add('hidden');
+          if (btnLanguages) btnLanguages.classList.add('hidden');
+        }
+
+        if (btnAdminHub) {
+          btnAdminHub.classList.toggle('hidden', currentRole !== 'admin');
+        }
+        if (acAdminHubLink) {
+          acAdminHubLink.classList.toggle('hidden', currentRole !== 'admin');
+        }
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+    window.updateHeaderAuthState = updateHeaderAuthState;
+
     // --- UNIFIED ROLE-BASED ACCESS CONTROL (RBAC) CONTROLLER ---
     function selectRole(role, specificUser = null) {
+      if ((role === 'admin' || role === 'pm') && (!currentUser || currentUser.isGuest) && !specificUser) {
+        updateHeaderAuthState();
+        switchView('login');
+        showSavingToast('Login Required', `Please log in to access ${role.toUpperCase()} privileges.`);
+        return;
+      }
+
       currentRole = role;
 
       if (specificUser) {
@@ -6095,26 +6057,32 @@
       } else {
         // Sync currentUser with role
         if (role === 'admin') {
-          currentUser = users.find(u => u.role === 'admin') || { id: 'u_admin', name: 'Master Admin', email: 'admin@d-edge.com', role: 'admin' };
+          if (!currentUser || currentUser.role !== 'admin') {
+            currentUser = users.find(u => u.role === 'admin') || { id: 'u_admin', name: 'Karlo RIVERA VELASQUEZ', email: 'kriveravelasquez@d-edge.com', role: 'admin' };
+          }
         } else if (role === 'pm') {
           if (!currentUser || currentUser.role !== 'pm') {
-            currentUser = users.find(u => u.role === 'pm') || users[1] || users[0];
+            currentUser = users.find(u => u.role === 'pm') || users[0];
           }
-        } else if (role === 'client') {
+        } else if (role === 'client' || role === 'guest') {
           const currentProj = projects.find(p => p.id === currentProjectId) || projects[0];
           currentUser = {
-            id: 'u_client_' + (currentProj ? currentProj.id : 'p1'),
-            name: currentProj ? `${currentProj.name} Client` : 'Hotel Client',
-            email: currentProj ? (currentProj.clientEmail || 'client@hotel.com') : 'client@hotel.com',
+            id: 'guest',
+            name: 'Guest (No Account)',
+            email: currentProj ? (currentProj.clientEmail || '') : '',
             role: 'client',
-            projectId: currentProj ? currentProj.id : currentProjectId,
-            avatar: currentProj && currentProj.name ? currentProj.name.charAt(0).toUpperCase() : 'C'
+            isGuest: true,
+            avatar: 'G'
           };
         }
       }
 
       try {
-        localStorage.setItem('dedge_current_user', JSON.stringify(currentUser));
+        if (currentUser && !currentUser.isGuest) {
+          localStorage.setItem('dedge_current_user', JSON.stringify(currentUser));
+        } else if (currentUser && currentUser.isGuest) {
+          localStorage.removeItem('dedge_current_user');
+        }
       } catch (e) {}
 
       // Update Top Nav 3-Role Switcher buttons
@@ -6134,9 +6102,9 @@
       const nameEl = document.getElementById('user-display-name');
       const roleEl = document.getElementById('user-display-role');
 
-      if (avatarEl) avatarEl.textContent = (currentUser.name || 'U').charAt(0).toUpperCase();
-      if (nameEl) nameEl.textContent = currentUser.name || 'User';
-      if (roleEl) roleEl.textContent = role === 'admin' ? 'Admin' : role === 'pm' ? 'PM' : 'Client';
+      if (avatarEl) avatarEl.textContent = (currentUser?.name || 'U').charAt(0).toUpperCase();
+      if (nameEl) nameEl.textContent = currentUser?.name || 'User';
+      if (roleEl) roleEl.textContent = role === 'admin' ? 'Admin' : role === 'pm' ? 'PM' : 'Guest';
 
       // Update Google Mail status indicator in top header
       const googleDot = document.getElementById('google-auth-status-dot');
@@ -6146,32 +6114,7 @@
         googleDot.title = isGoogleAuth ? `Connected via Google Mail: ${currentUser.email}` : 'Connect with Google Mail (@d-edge.com)';
       }
 
-
-      // Update UI elements visibility
-      const btnAdminHub = document.getElementById('btn-admin-hub');
-      const navBoardsBtn = document.getElementById('nav-boards');
-      const projectSelector = document.getElementById('project-selector');
-      const headerEmailContainer = document.getElementById('header-email-container');
-      const btnPushNotify = document.getElementById('btn-push-notify');
-      const btnLanguages = document.getElementById('btn-edit-languages');
-
-      if (role === 'admin' || role === 'pm') {
-        if (btnAdminHub) btnAdminHub.classList.remove('hidden');
-        if (navBoardsBtn) navBoardsBtn.classList.remove('hidden');
-        if (projectSelector) projectSelector.classList.remove('hidden');
-        if (headerEmailContainer) headerEmailContainer.classList.remove('hidden');
-        if (btnPushNotify) btnPushNotify.classList.remove('hidden');
-        if (btnLanguages) btnLanguages.classList.remove('hidden');
-      } else {
-        // Client view
-        if (btnAdminHub) btnAdminHub.classList.add('hidden');
-        if (navBoardsBtn) navBoardsBtn.classList.add('hidden');
-        if (projectSelector) projectSelector.classList.add('hidden');
-        if (headerEmailContainer) headerEmailContainer.classList.remove('hidden');
-        if (btnPushNotify) btnPushNotify.classList.add('hidden');
-        if (btnLanguages) btnLanguages.classList.add('hidden');
-        switchView('timeline');
-      }
+      updateHeaderAuthState();
 
       // PM edit buttons (e.g. add google doc, edit deadlines, checklist toggles)
       document.querySelectorAll('.pm-only-btn').forEach(btn => {
@@ -6189,7 +6132,6 @@
       renderApp();
       updatePmFilterOptions();
       if (role === 'admin') {
-        // En mode Admin, donner accès direct au Dashboard avec tous les projets PM
         const pmFilterSelect = document.getElementById('filter-pm');
         if (pmFilterSelect) pmFilterSelect.value = 'ALL';
         switchView('boards');
@@ -6197,7 +6139,7 @@
         renderBoardsGrid();
       }
       syncUrlWithState();
-      lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
     }
 
     // Alias for backward compatibility
@@ -6211,7 +6153,15 @@
       ensureDemoMilestonesWithin48h();
       initProjectAndRoleFromUrl();
       applyTooltips();
-      selectRole(currentRole, currentUser);
+
+      if (!currentUser || currentUser.isGuest) {
+        updateHeaderAuthState();
+        switchView('login');
+      } else {
+        selectRole(currentRole, currentUser);
+        updateHeaderAuthState();
+      }
+
       syncUrlWithState();
       updateDailyDigestBannerAndBadge();
       checkAndAutoDispatchDailyDigest();
@@ -6230,21 +6180,30 @@
 
     window.addEventListener('popstate', () => {
       initProjectAndRoleFromUrl();
-      selectRole(currentRole, currentUser);
+      if (currentUser && !currentUser.isGuest) {
+        selectRole(currentRole, currentUser);
+      } else {
+        updateHeaderAuthState();
+        switchView('login');
+      }
     });
 
-    let currentViewTab = 'timeline';
+    let currentViewTab = 'login';
 
     function switchView(tab) {
-      currentViewTab = tab;
-      if (currentRole === 'client' && tab === 'boards') {
+      if ((!currentUser || currentUser.isGuest) && tab !== 'login') {
+        if (currentRole === 'client') {
+          tab = 'timeline';
+        } else {
+          tab = 'login';
+        }
+      } else if (currentRole === 'client' && (tab === 'boards' || tab === 'login')) {
         tab = 'timeline';
-        currentViewTab = 'timeline';
       }
+      currentViewTab = tab;
 
       const boardsBtn = document.getElementById('nav-boards');
       const timelineBtn = document.getElementById('nav-timeline');
-      const loginBtn = document.getElementById('nav-login');
       const viewTimeline = document.getElementById('view-timeline');
       const viewBoards = document.getElementById('view-boards');
       const viewLogin = document.getElementById('view-login');
@@ -6253,7 +6212,6 @@
       const inactiveClass = 'flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-brand-purple hover:bg-purple-50 transition border border-transparent';
 
       if (tab === 'login') {
-        if (loginBtn) loginBtn.className = activeClass;
         if (boardsBtn) boardsBtn.className = inactiveClass;
         if (timelineBtn) timelineBtn.className = inactiveClass;
         if (viewTimeline) viewTimeline.classList.add('hidden');
@@ -6261,7 +6219,6 @@
         if (viewLogin) viewLogin.classList.remove('hidden');
         renderLoginPageState();
       } else if (tab === 'boards') {
-        if (loginBtn) loginBtn.className = inactiveClass;
         if (boardsBtn) {
           boardsBtn.className = activeClass;
           if (currentRole === 'client') boardsBtn.classList.add('hidden');
@@ -6272,8 +6229,10 @@
         if (viewBoards) viewBoards.classList.remove('hidden');
         renderBoardsGrid();
       } else {
-        if (loginBtn) loginBtn.className = inactiveClass;
-        if (timelineBtn) timelineBtn.className = activeClass;
+        if (timelineBtn) {
+          timelineBtn.className = activeClass;
+          if (currentRole === 'client') timelineBtn.classList.add('hidden');
+        }
         if (boardsBtn) {
           boardsBtn.className = inactiveClass;
           if (currentRole === 'client') boardsBtn.classList.add('hidden');
@@ -8155,16 +8114,16 @@
           }
         }
 
-        if (targetRole && (targetRole.toLowerCase() === 'client' || targetRole.toLowerCase() === 'client_view')) {
+        if (targetRole && (targetRole.toLowerCase() === 'client' || targetRole.toLowerCase() === 'guest' || targetRole.toLowerCase() === 'client_view')) {
           currentRole = 'client';
           const currentProj = projects.find(p => p.id === currentProjectId) || projects[0];
           currentUser = {
-            id: 'u_client_' + (currentProj ? currentProj.id : 'p1'),
-            name: currentProj ? `${currentProj.name} Client` : 'Hotel Client',
-            email: currentProj ? (currentProj.clientEmail || 'client@hotel.com') : 'client@hotel.com',
+            id: 'guest',
+            name: 'Guest (No Account)',
+            email: currentProj ? (currentProj.clientEmail || '') : '',
             role: 'client',
-            projectId: currentProj ? currentProj.id : currentProjectId,
-            avatar: currentProj && currentProj.name ? currentProj.name.charAt(0).toUpperCase() : 'C'
+            isGuest: true,
+            avatar: 'G'
           };
         } else if (targetRole && (targetRole.toLowerCase() === 'pm' || targetRole.toLowerCase() === 'admin')) {
           currentRole = targetRole.toLowerCase();
@@ -8212,13 +8171,9 @@
 
     function selectProject(id) {
       currentProjectId = id;
-      if (currentUser && currentUser.role === 'client') {
-        currentUser.projectId = id;
+      if (currentUser && (currentUser.isGuest || currentUser.role === 'client')) {
         const currentProj = projects.find(p => p.id === id);
-        if (currentProj) {
-          currentUser.name = `${currentProj.name} Client`;
-          currentUser.email = currentProj.clientEmail || 'client@hotel.com';
-        }
+        currentUser.email = currentProj ? (currentProj.clientEmail || '') : '';
       }
       syncUrlWithState();
       renderApp();
@@ -8226,9 +8181,9 @@
 
     function getProjectPmEmail(project) {
       if (project.pmEmail) return project.pmEmail;
-      const pmName = project.pmName || 'Dounia';
+      const pmName = project.pmName || (currentUser?.name || 'Karlo RIVERA VELASQUEZ');
       const cleanPm = pmName.toLowerCase().trim().replace(/[^a-z0-9]/g, '');
-      return `${cleanPm || 'pm'}@d-edge.com`;
+      return `${cleanPm || 'kriveravelasquez'}@d-edge.com`;
     }
 
     function renderHeaderEmail(project) {
@@ -8239,8 +8194,8 @@
         container.innerHTML = `
           <div class="flex items-center space-x-1.5">
             <i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
-            <span class="text-slate-500 font-semibold text-[11px]">Client:</span>
-            <input id="header-client-email" type="email" value="${project.clientEmail || ''}" onchange="saveHeaderClientEmail(false)" onkeydown="if(event.key==='Enter')saveHeaderClientEmail(true)" placeholder="client@hotel.com" class="bg-transparent text-slate-800 text-xs font-medium outline-none w-32 sm:w-36 xl:w-44 truncate">
+            <span class="text-slate-500 font-semibold text-[11px]" title="Client email metadata (no account needed)">Client:</span>
+            <input id="header-client-email" type="email" value="${project.clientEmail || ''}" onchange="saveHeaderClientEmail(false)" onkeydown="if(event.key==='Enter')saveHeaderClientEmail(true)" placeholder="client@hotel.com (metadata)" title="Notification metadata only — clients view timeline via guest link without account" class="bg-transparent text-slate-800 text-xs font-medium outline-none w-32 sm:w-36 xl:w-44 truncate">
             <button id="btn-save-header-email" onclick="saveHeaderClientEmail(true)" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-2xs transition">
               Save
             </button>
@@ -12646,7 +12601,7 @@ Thank you!`;
       document.getElementById('na-step').value = pendingStep.title;
       document.getElementById('na-date').value = deadlineEnglish;
 
-      const defaultMsg = `Dear ${project.name} Team,\n\nThis is an urgent reminder regarding your website creation timeline. We are currently waiting on your action for the step "${pendingStep.title}" due by ${deadlineEnglish}.\n\nPlease validate or send the required assets as soon as possible. If this step is delayed, the website creation process will stagnate and push back your target launch date.\n\nBest regards,\n${project.pmName || 'Dounia'} (D-EDGE Project Manager)`;
+      const defaultMsg = `Dear ${project.name} Team,\n\nThis is an urgent reminder regarding your website creation timeline. We are currently waiting on your action for the step "${pendingStep.title}" due by ${deadlineEnglish}.\n\nPlease validate or send the required assets as soon as possible. If this step is delayed, the website creation process will stagnate and push back your target launch date.\n\nBest regards,\n${project.pmName || currentUser?.name || 'Karlo RIVERA VELASQUEZ'} (D-EDGE Project Manager)`;
 
       document.getElementById('na-message').value = defaultMsg;
       document.getElementById('modal-notify').classList.remove('hidden');
@@ -14181,7 +14136,7 @@ Thank you!`;
       const accessible = getAccessibleProjects();
       if (select) {
         select.innerHTML = '<option value="ALL">All Project Managers</option>';
-        const pmNames = [...new Set(accessible.map(p => p.pmName || 'Dounia'))];
+        const pmNames = [...new Set(accessible.map(p => p.pmName).filter(Boolean))];
         pmNames.forEach(name => {
           const opt = document.createElement('option');
           opt.value = name;
@@ -14198,7 +14153,7 @@ Thank you!`;
       if (!menu) return;
       const currentVal = document.getElementById('filter-pm')?.value || 'ALL';
       const accessible = getAccessibleProjects();
-      const pmNames = [...new Set(accessible.map(p => p.pmName || 'Dounia'))];
+      const pmNames = [...new Set(accessible.map(p => p.pmName).filter(Boolean))];
       const items = [{ val: 'ALL', label: currentRole === 'pm' ? 'My Assigned Projects' : 'All Project Managers' }, ...pmNames.map(n => ({ val: n, label: n }))];
 
       const header = `
@@ -14212,7 +14167,7 @@ Thank you!`;
         const isSelected = item.val === currentVal;
         const count = item.val === 'ALL'
           ? accessible.length
-          : accessible.filter(p => (p.pmName || 'Dounia') === item.val).length;
+          : accessible.filter(p => (p.pmName || '') === item.val).length;
 
         const avatar = item.val === 'ALL'
           ? `<span class="w-6 h-6 rounded-lg bg-purple-50 text-brand-purple flex items-center justify-center shrink-0 shadow-2xs"><i data-lucide="users" class="w-3.5 h-3.5"></i></span>`
@@ -15073,7 +15028,7 @@ Thank you!`;
 
       const baseProjects = getAccessibleProjects();
       const filteredProjects = baseProjects.filter(p => {
-        const matchesPm = (pmFilter === 'ALL' || (p.pmName || 'Dounia') === pmFilter);
+        const matchesPm = (pmFilter === 'ALL' || (p.pmName || '') === pmFilter);
         const matchesPkg = (pkgFilter === 'ALL' || p.packageTier === pkgFilter);
         const matchesPrio = (prioFilter === 'ALL' || (p.priority || 'Medium') === prioFilter);
 
@@ -15189,90 +15144,69 @@ Thank you!`;
               const prog = getProjectOverallProgress(p);
               const prioInfo = getPriorityBadgeInfo(p.priority);
 
-              let pkgBadge = 'bg-slate-100 text-slate-600';
               let pkgLabel = 'SEO Essential';
-              if (p.packageTier === 'seo_content') { pkgBadge = 'bg-indigo-100 text-indigo-700'; pkgLabel = 'SEO Content'; }
-              if (p.packageTier === 'seo_custom') { pkgBadge = 'bg-amber-100 text-amber-800'; pkgLabel = 'SEO Custom'; }
+              if (p.packageTier === 'seo_content') { pkgLabel = 'SEO Content'; }
+              if (p.packageTier === 'seo_custom') { pkgLabel = 'SEO Custom'; }
 
               const langBadges = (p.languages && p.languages.length > 0 ? p.languages : ['English']).map(lang => {
                 const meta = getDocLangMeta(lang);
                 const flagImg = meta.iso
-                  ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-3.5 h-2.5 object-cover rounded-xs inline-block shadow-2xs shrink-0" onerror="this.outerHTML='<span>${meta.flag}</span>'">`
-                  : `<span class="text-[10px] leading-none">${meta.flag}</span>`;
-                return `<span class="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200/80 shadow-2xs" title="${meta.name || lang}">${flagImg}<span class="font-mono text-[9px] uppercase font-bold">${meta.code}</span></span>`;
+                  ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-3.5 h-2.5 object-cover rounded-[2px] inline-block shrink-0" onerror="this.outerHTML='<span>${meta.flag}</span>'">`
+                  : `<span class="text-[9px] leading-none">${meta.flag}</span>`;
+                return `<span class="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-50 text-slate-600 border border-slate-200" title="${meta.name || lang}">${flagImg}<span class="font-mono text-[9px] font-semibold">${meta.code}</span></span>`;
               }).join('');
 
+              const prioBorder = p.priority === 'High' ? 'border-l-rose-500' : (p.priority === 'Low' ? 'border-l-emerald-500' : 'border-l-amber-500');
+
               return `
-                <div onclick="currentProjectId='${p.id}'; switchView('timeline');" class="bg-white rounded-xl border border-slate-200 p-3.5 shadow-2xs hover:border-brand-purple hover:shadow-md transition cursor-pointer space-y-2.5 group relative">
-                  <!-- CARD HEADER: PROJECT NAME & DISTINCTIVE LINK BUTTON -->
-                  <div class="flex items-start justify-between gap-2.5 w-full">
-                    <h4 class="text-xs font-bold text-slate-900 group-hover:text-brand-purple transition flex-1 min-w-0 line-clamp-2 leading-snug" title="${p.name}">
-                      ${p.name}
-                    </h4>
-                    <button type="button" onclick="event.stopPropagation(); copyProjectClientUrl(this, '${p.id}')" title="Copy Client View Link" class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-lg bg-purple-100 hover:bg-brand-purple text-brand-purple hover:text-white border border-purple-300/80 shadow-2xs hover:shadow-xs transition-all shrink-0 cursor-pointer font-bold text-[10px] select-none">
-                      <i data-lucide="link" class="w-3.5 h-3.5 shrink-0"></i>
-                      <span>Link</span>
-                    </button>
-                  </div>
-
-                  <!-- PM & EDIT ACTION ROW -->
-                  <div class="flex items-center justify-between gap-1.5">
-                    <div class="flex items-center flex-wrap gap-1.5 min-w-0">
-                      <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-brand-purple border border-purple-200/80 shadow-2xs">
-                        <i data-lucide="user" class="w-2.5 h-2.5 text-brand-purple"></i>
-                        <span>${p.pmName || 'Dounia'}</span>
-                      </span>
-                      ${p.authorizedPmName ? `
-                        <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-200/80 shadow-2xs" title="Co-PM: ${p.authorizedPmName}">
-                          <i data-lucide="user-check" class="w-2.5 h-2.5 text-indigo-700"></i>
-                          <span>${p.authorizedPmName}</span>
-                        </span>
-                      ` : ''}
+                <div onclick="currentProjectId='${p.id}'; switchView('timeline');" class="bg-white rounded-xl border border-slate-200 border-l-[3.5px] ${prioBorder} p-3.5 shadow-xs hover:shadow-md hover:border-slate-300 transition-all cursor-pointer space-y-3 group">
+                  <!-- HEADER: TITLE + ACTION ICONS -->
+                  <div class="flex items-start justify-between gap-2">
+                    <div class="min-w-0 flex-1">
+                      <h4 class="text-xs font-bold text-slate-900 group-hover:text-brand-purple transition leading-snug line-clamp-1" title="${p.name}">
+                        ${p.name}
+                      </h4>
+                      <p class="text-[10px] text-slate-400 font-medium truncate mt-0.5">${p.pmName || 'PM'}${p.authorizedPmName ? ` · Co-PM: ${p.authorizedPmName}` : ''}</p>
                     </div>
-                    <button type="button" onclick="event.stopPropagation(); openEditProjectModal('${p.id}')" title="Edit Project Specs" class="p-1 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-brand-purple transition shrink-0 cursor-pointer">
-                      <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
-                    </button>
+                    <div class="flex items-center space-x-1 shrink-0 -mt-0.5" onclick="event.stopPropagation()">
+                      <button type="button" onclick="copyProjectClientUrl(this, '${p.id}')" title="Copy Client Link" class="p-1 text-slate-400 hover:text-brand-purple hover:bg-slate-100 rounded-md transition cursor-pointer">
+                        <i data-lucide="link" class="w-3.5 h-3.5"></i>
+                      </button>
+                      <button type="button" onclick="openEditProjectModal('${p.id}')" title="Edit Project" class="p-1 text-slate-400 hover:text-brand-purple hover:bg-slate-100 rounded-md transition cursor-pointer">
+                        <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                      </button>
+                    </div>
                   </div>
 
-                  <!-- PRIORITY BADGE ROW -->
-                  <div class="w-full flex items-center">
-                    <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${prioInfo.classes} border shadow-2xs" title="Priority: ${prioInfo.label}">
+                  <!-- METADATA CHIPS (MINIMALIST) -->
+                  <div class="flex items-center flex-wrap gap-1.5 text-[10px]">
+                    <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-600">
+                      ${pkgLabel}
+                    </span>
+                    <span class="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[10px] font-medium text-slate-500 bg-slate-50 border border-slate-200">
                       <span class="w-1.5 h-1.5 rounded-full ${prioInfo.dot}"></span>
                       <span>${prioInfo.shortLabel}</span>
                     </span>
-                  </div>
-
-                  <!-- SEO PACKAGE TIER -->
-                  <div class="w-full flex items-center">
-                    <span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${pkgBadge} shadow-2xs">
-                      ${pkgLabel}
-                    </span>
-                  </div>
-
-                  <!-- LANGUAGE BADGES -->
-                  <div class="w-full flex items-center flex-wrap gap-1">
                     ${langBadges}
                   </div>
 
-                  <!-- PROGRESS BAR & REMAINING DELIVERABLES -->
-                  <div class="space-y-1.5 pt-0.5">
+                  <!-- FOOTER: REMAINING TASKS & PROGRESS BAR -->
+                  <div class="pt-1 border-t border-slate-100 space-y-1.5">
                     <div class="flex items-center justify-between text-[10px]" onclick="event.stopPropagation()">
                       <button
                         type="button"
                         id="btn-stage-dropdown-kb-${p.id}"
                         onclick="toggleCardStageDropdown(event, '${p.id}', true)"
-                        class="inline-flex items-center space-x-1 font-semibold text-slate-600 hover:text-brand-purple hover:bg-purple-50 px-1.5 py-0.5 rounded-md transition cursor-pointer select-none group/kb"
-                        title="Click to quickly change project stage status"
+                        class="inline-flex items-center space-x-1 text-slate-500 hover:text-slate-800 transition cursor-pointer select-none font-medium"
+                        title="Change stage"
                       >
-                        <span class="truncate max-w-[200px]">${stageInfo.isAllDone ? 'Finished' : `${stageInfo.remainingTasks} task${stageInfo.remainingTasks === 1 ? '' : 's'} remaining`}</span>
-                        <i data-lucide="chevron-down" id="chevron-stage-kb-${p.id}" class="w-2.5 h-2.5 opacity-60 group-hover/kb:opacity-100 transition-transform duration-200 shrink-0"></i>
+                        <span class="truncate max-w-[170px]">${stageInfo.isAllDone ? 'Finished' : `${stageInfo.remainingTasks} task${stageInfo.remainingTasks === 1 ? '' : 's'} remaining`}</span>
+                        <i data-lucide="chevron-down" id="chevron-stage-kb-${p.id}" class="w-2.5 h-2.5 text-slate-400 transition-transform duration-200 shrink-0"></i>
                       </button>
-                      <span class="font-mono font-bold ${prog.pct === 100 ? 'text-emerald-600' : 'text-brand-purple'}">${prog.pct}%</span>
+                      <span class="font-mono font-bold text-slate-700">${prog.pct}%</span>
                     </div>
-                    <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden border border-slate-200/70">
-                      <div class="h-full rounded-full transition-all duration-300 ${
-                        prog.pct === 100 ? 'bg-gradient-to-r from-emerald-500 to-teal-400' : 'bg-gradient-to-r from-brand-purple to-purple-500'
-                      }" style="width: ${prog.pct}%"></div>
+                    <div class="w-full bg-slate-100 rounded-full h-1 overflow-hidden">
+                      <div class="h-full rounded-full transition-all duration-300 ${prog.pct === 100 ? 'bg-emerald-500' : 'bg-brand-purple'}" style="width: ${prog.pct}%"></div>
                     </div>
                   </div>
                 </div>
@@ -15307,8 +15241,8 @@ Thank you!`;
         return;
       }
 
-      // STANDARD GRID VIEW
-      container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+      // STANDARD GRID VIEW (MINIMALIST CLEAN CARDS)
+      container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5';
 
       displayProjects.forEach(p => {
         const stageInfo = getProjectCurrentStageInfo(p);
@@ -15316,112 +15250,89 @@ Thank you!`;
         const prog = getProjectOverallProgress(p);
         const prioInfo = getPriorityBadgeInfo(p.priority);
 
-        let pkgBadge = 'bg-slate-100 text-slate-600';
         let pkgLabel = 'SEO Essential';
-        if (p.packageTier === 'seo_content') { pkgBadge = 'bg-indigo-100 text-indigo-700'; pkgLabel = 'SEO Content'; }
-        if (p.packageTier === 'seo_custom') { pkgBadge = 'bg-amber-100 text-amber-800'; pkgLabel = 'SEO Custom'; }
+        if (p.packageTier === 'seo_content') { pkgLabel = 'SEO Content'; }
+        if (p.packageTier === 'seo_custom') { pkgLabel = 'SEO Custom'; }
 
         const langBadges = (p.languages && p.languages.length > 0 ? p.languages : ['English']).map(lang => {
           const meta = getDocLangMeta(lang);
           const flagImg = meta.iso
-            ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-3.5 h-2.5 object-cover rounded-xs inline-block shadow-2xs shrink-0" onerror="this.outerHTML='<span>${meta.flag}</span>'">`
-            : `<span class="text-[10px] leading-none">${meta.flag}</span>`;
-          return `<span class="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200/80 shadow-2xs" title="${meta.name || lang}">${flagImg}<span class="font-mono text-[9.5px] uppercase font-bold">${meta.code}</span></span>`;
+            ? `<img src="https://flagcdn.com/w40/${meta.iso}.png" alt="${meta.code}" class="w-3.5 h-2.5 object-cover rounded-[2px] inline-block shrink-0" onerror="this.outerHTML='<span>${meta.flag}</span>'">`
+            : `<span class="text-[9px] leading-none">${meta.flag}</span>`;
+          return `<span class="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-50 text-slate-600 border border-slate-200" title="${meta.name || lang}">${flagImg}<span class="font-mono text-[9px] font-semibold">${meta.code}</span></span>`;
         }).join('');
 
+        const prioBorder = p.priority === 'High' ? 'border-l-rose-500' : (p.priority === 'Low' ? 'border-l-emerald-500' : 'border-l-amber-500');
+
         const card = document.createElement('div');
-        card.className = 'bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 hover:border-brand-purple hover:shadow-md transition relative group cursor-pointer';
+        card.className = `bg-white rounded-2xl border border-slate-200 border-l-4 ${prioBorder} p-5 shadow-xs hover:border-slate-300 hover:shadow-md transition-all relative group cursor-pointer space-y-3.5`;
         card.onclick = () => { currentProjectId = p.id; switchView('timeline'); };
 
         card.innerHTML = `
-          <!-- CARD HEADER: PROJECT NAME & DISTINCTIVE LINK BUTTON -->
-          <div class="flex items-start justify-between gap-3 w-full">
-            <h3 class="text-base font-bold text-slate-900 group-hover:text-brand-purple transition flex-1 min-w-0 line-clamp-2 leading-snug" title="${p.name}">${p.name}</h3>
-            <button type="button" onclick="event.stopPropagation(); copyProjectClientUrl(this, '${p.id}')" title="Copy Client View Link" class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-lg bg-purple-100 hover:bg-brand-purple text-brand-purple hover:text-white border border-purple-300/80 shadow-2xs hover:shadow-xs transition-all shrink-0 cursor-pointer font-bold text-xs select-none">
-              <i data-lucide="link" class="w-3.5 h-3.5 shrink-0"></i>
-              <span>Link</span>
-            </button>
-          </div>
-
-          <!-- PM & EDIT ACTION ROW -->
-          <div class="flex items-center justify-between gap-2">
-            <div class="flex items-center flex-wrap gap-1.5 min-w-0">
-              <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-purple-100 text-brand-purple border border-purple-200/80 shadow-2xs">
-                <i data-lucide="user" class="w-3 h-3 text-brand-purple"></i>
-                <span>${p.pmName || 'Dounia'}</span>
-              </span>
-              ${p.authorizedPmName ? `
-                <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-50 text-indigo-900 border border-indigo-200/80 shadow-2xs" title="Co-PM: ${p.authorizedPmName}">
-                  <i data-lucide="user-check" class="w-3 h-3 text-indigo-600 shrink-0"></i>
-                  <span class="font-bold text-slate-800">${p.authorizedPmName}</span>
-                </span>
-              ` : ''}
+          <!-- CARD HEADER: PROJECT NAME, PM & TOP ACTIONS -->
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0 flex-1">
+              <h3 class="text-sm font-bold text-slate-900 group-hover:text-brand-purple transition truncate leading-snug" title="${p.name}">
+                ${p.name}
+              </h3>
+              <p class="text-xs text-slate-400 font-medium truncate mt-0.5 flex items-center space-x-1.5">
+                <i data-lucide="user" class="w-3 h-3 text-slate-400 shrink-0"></i>
+                <span>${p.pmName || 'PM'}</span>
+                ${p.authorizedPmName ? `<span class="text-slate-300">·</span><span class="text-slate-500">Co-PM: ${p.authorizedPmName}</span>` : ''}
+              </p>
             </div>
-            <!-- ACTION BUTTON: EDIT -->
-            <button type="button" onclick="event.stopPropagation(); openEditProjectModal('${p.id}')" title="Edit Project Specs" class="p-1.5 hover:bg-slate-100 rounded-xl text-slate-400 hover:text-brand-purple transition shrink-0 cursor-pointer">
-              <i data-lucide="edit-3" class="w-4 h-4"></i>
-            </button>
+            <!-- ACTION BUTTONS: LINK & EDIT (DISCREET) -->
+            <div class="flex items-center space-x-1 shrink-0 -mt-1" onclick="event.stopPropagation()">
+              <button type="button" onclick="copyProjectClientUrl(this, '${p.id}')" title="Copy Client Link" class="p-1.5 text-slate-400 hover:text-brand-purple hover:bg-slate-100 rounded-lg transition cursor-pointer">
+                <i data-lucide="link" class="w-4 h-4"></i>
+              </button>
+              <button type="button" onclick="openEditProjectModal('${p.id}')" title="Edit Project Specs" class="p-1.5 text-slate-400 hover:text-brand-purple hover:bg-slate-100 rounded-lg transition cursor-pointer">
+                <i data-lucide="edit-3" class="w-4 h-4"></i>
+              </button>
+            </div>
           </div>
 
-          <!-- PRIORITY BADGE ROW -->
-          <div class="w-full flex items-center">
-            <span class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold ${prioInfo.classes} border shadow-2xs" title="Project Priority: ${prioInfo.label}">
-              <span class="w-2 h-2 rounded-full ${prioInfo.dot}"></span>
-              <span>${prioInfo.label}</span>
-            </span>
-          </div>
-
-          <!-- SEO PACKAGE TIER -->
-          <div class="w-full flex items-center">
-            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${pkgBadge} shadow-2xs">
+          <!-- COMPACT METADATA ROW (PACKAGE, PRIORITY, LANGUAGES) -->
+          <div class="flex items-center flex-wrap gap-1.5 pt-0.5">
+            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">
               ${pkgLabel}
             </span>
-          </div>
-
-          <!-- LANGUAGE BADGES -->
-          <div class="w-full flex items-center flex-wrap gap-1">
+            <span class="inline-flex items-center space-x-1.5 px-2 py-0.5 rounded text-[11px] font-medium text-slate-600 bg-slate-50 border border-slate-200">
+              <span class="w-1.5 h-1.5 rounded-full ${prioInfo.dot}"></span>
+              <span>${prioInfo.label}</span>
+            </span>
             ${langBadges}
           </div>
 
-          <!-- CURRENT STAGE BADGE & TASKS REMAINING IN ACTIVE STAGE (SINGLE LINE) -->
-          <div class="bg-slate-50 border border-slate-200/90 rounded-xl p-3 flex items-center justify-between gap-2 hover:bg-purple-50/40 transition">
-            <div class="flex items-center space-x-2 min-w-0" onclick="event.stopPropagation()">
-              <span class="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Stage</span>
+          <!-- CURRENT STAGE & TASKS REMAINING (CLEAN SINGLE ROW) -->
+          <div class="pt-1 border-t border-slate-100 flex items-center justify-between gap-2 text-xs" onclick="event.stopPropagation()">
+            <div class="flex items-center space-x-1.5 min-w-0">
+              <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Stage:</span>
               <button
                 type="button"
                 id="btn-stage-dropdown-${p.id}"
                 onclick="toggleCardStageDropdown(event, '${p.id}')"
-                class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold ${stageColor.badge} font-mono truncate shadow-2xs hover:shadow-xs hover:ring-2 hover:ring-purple-400/50 active:scale-95 transition-all cursor-pointer group/st select-none border border-transparent"
-                title="Click to quickly change project stage status"
+                class="inline-flex items-center space-x-1 text-xs font-semibold text-slate-700 hover:text-brand-purple transition cursor-pointer select-none group/st truncate"
+                title="Change stage"
               >
-                <span class="w-3.5 h-3.5 rounded bg-white/80 text-current flex items-center justify-center font-extrabold text-[9px] shrink-0 select-none">${stageInfo.isAllDone ? '✓' : stageInfo.stageNum}</span>
-                <span class="truncate max-w-[120px] sm:max-w-[150px]">${stageInfo.stageName}</span>
-                <i data-lucide="chevron-down" id="chevron-stage-${p.id}" class="w-3 h-3 text-current opacity-70 group-hover/st:opacity-100 transition-transform duration-200 shrink-0"></i>
+                <span class="truncate max-w-[140px]">${stageInfo.stageName}</span>
+                <i data-lucide="chevron-down" id="chevron-stage-${p.id}" class="w-3 h-3 text-slate-400 group-hover/st:text-brand-purple transition-transform duration-200 shrink-0"></i>
               </button>
             </div>
-            <div class="flex items-center space-x-1.5 text-xs font-semibold text-slate-600 shrink-0">
-              <i data-lucide="${stageInfo.isAllDone ? 'check-circle' : 'list-todo'}" class="w-3.5 h-3.5 ${stageColor.text} shrink-0"></i>
-              <span>${stageInfo.isAllDone ? 'Finished' : `${stageInfo.remainingTasks} task${stageInfo.remainingTasks === 1 ? '' : 's'} remaining`}</span>
+            <div class="text-[11px] font-medium text-slate-500 shrink-0">
+              ${stageInfo.isAllDone ? 'Finished' : `${stageInfo.remainingTasks} task${stageInfo.remainingTasks === 1 ? '' : 's'} remaining`}
             </div>
           </div>
 
-          <!-- DISCREET ROADMAP PROGRESS BAR -->
-          <div class="pt-0.5 space-y-1.5" title="${prog.done} of ${prog.total} deliverables completed (${prog.pct}%)">
-            <div class="flex items-center justify-between text-xs">
-              <span class="text-[11px] font-semibold text-slate-500 flex items-center space-x-1.5">
-                <i data-lucide="${prog.pct === 100 ? 'check-circle-2' : 'activity'}" class="w-3.5 h-3.5 ${prog.pct === 100 ? 'text-emerald-500' : 'text-brand-purple'} shrink-0"></i>
-                <span>Roadmap Progress</span>
-              </span>
-              <div class="flex items-center space-x-1.5 font-mono text-[11px]">
-                <span class="text-slate-400 font-medium">${prog.done}/${prog.total}</span>
-                <span class="font-bold ${prog.pct === 100 ? 'text-emerald-600' : 'text-brand-purple'}">${prog.pct}%</span>
-              </div>
+          <!-- MINIMAL ROADMAP PROGRESS BAR -->
+          <div class="space-y-1" title="${prog.done} of ${prog.total} deliverables completed (${prog.pct}%)">
+            <div class="flex items-center justify-between text-[11px] font-medium text-slate-400">
+              <span>Progress</span>
+              <span class="font-mono font-semibold text-slate-700">${prog.pct}%</span>
             </div>
-            <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden p-[0.5px] border border-slate-200/70">
-              <div class="h-full rounded-full transition-all duration-500 ${
-                prog.pct === 100 
-                  ? 'bg-gradient-to-r from-emerald-500 to-teal-400' 
-                  : 'bg-gradient-to-r from-brand-purple to-purple-500'
+            <div class="w-full bg-slate-100 rounded-full h-1 overflow-hidden">
+              <div class="h-full rounded-full transition-all duration-300 ${
+                prog.pct === 100 ? 'bg-emerald-500' : 'bg-brand-purple'
               }" style="width: ${prog.pct}%"></div>
             </div>
           </div>
@@ -15690,7 +15601,7 @@ Thank you!`;
       document.getElementById('modal-project-title-text').textContent = 'Create New Hotel Project';
       document.getElementById('mp-project-id').value = '';
       document.getElementById('mp-name').value = '';
-      const defaultPm = (currentRole === 'pm' && currentUser?.name) ? currentUser.name : 'Dounia';
+      const defaultPm = (currentUser?.name) ? currentUser.name : 'Karlo RIVERA VELASQUEZ';
       document.getElementById('mp-pm-name').value = defaultPm;
       document.getElementById('mp-client-email').value = '';
       const evoEl = document.getElementById('mp-evolution');
@@ -15741,7 +15652,7 @@ Thank you!`;
       document.getElementById('modal-project-title-text').textContent = 'Edit Project Specificities';
       document.getElementById('mp-project-id').value = project.id;
       document.getElementById('mp-name').value = project.name;
-      document.getElementById('mp-pm-name').value = project.pmName || 'Dounia';
+      document.getElementById('mp-pm-name').value = project.pmName || (currentUser?.name || 'Karlo RIVERA VELASQUEZ');
       document.getElementById('mp-client-email').value = project.clientEmail || '';
       const evoEl = document.getElementById('mp-evolution');
       if (evoEl) evoEl.value = project.evolutionTag || 'Crystal';
@@ -16173,8 +16084,8 @@ Thank you!`;
                 id: step.id,
                 projectId: project.id,
                 projectName: project.name,
-                pmName: project.pmName || 'Dounia',
-                pmEmail: project.pmEmail || 'dounia@d-edge.com',
+                pmName: project.pmName || (currentUser?.name || 'Karlo RIVERA VELASQUEZ'),
+                pmEmail: project.pmEmail || (currentUser?.email || 'kriveravelasquez@d-edge.com'),
                 title: step.title,
                 phase: step.group || 'Timeline Step',
                 date: step.date,
@@ -16210,8 +16121,8 @@ Thank you!`;
                 id: `${project.id}-${ph.key}`,
                 projectId: project.id,
                 projectName: project.name,
-                pmName: project.pmName || 'Dounia',
-                pmEmail: project.pmEmail || 'dounia@d-edge.com',
+                pmName: project.pmName || (currentUser?.name || 'Karlo RIVERA VELASQUEZ'),
+                pmEmail: project.pmEmail || (currentUser?.email || 'kriveravelasquez@d-edge.com'),
                 title: ph.title,
                 phase: ph.phase,
                 date: dStr,
@@ -16315,7 +16226,7 @@ Thank you!`;
       const milestones = getUpcoming48hMilestones();
 
       if (recipientLabel) {
-        const pmNames = Array.from(new Set(projects.map(p => p.pmName || 'Dounia'))).filter(Boolean);
+        const pmNames = Array.from(new Set(projects.map(p => p.pmName).filter(Boolean)));
         recipientLabel.textContent = pmNames.length > 0 ? pmNames.join(', ') : 'All Assigned Project Managers';
       }
 
