@@ -30,27 +30,70 @@ app.post('/api/daily-digest', (req, res) => {
   });
 });
 
-// PM Google Mail Authentication & Verification (@d-edge.com only)
-app.post('/api/auth/google-connect', (req, res) => {
-  const { email, name } = req.body || {};
-  if (!email || typeof email !== 'string') {
-    return res.status(400).json({ success: false, message: 'Valid email is required' });
+// PM Google Workspace Authentication & Verification (@d-edge.com only)
+app.post('/api/auth/google-connect', async (req, res) => {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : '';
+  if (!token) {
+    return res.status(401).json({ success: false, message: 'Google Workspace access token is required.' });
   }
-  const cleanEmail = email.trim().toLowerCase();
-  if (!cleanEmail.endsWith('@d-edge.com')) {
-    console.warn(`[Google Mail Auth Rejected] Non-d-edge domain: ${cleanEmail}`);
+
+  let verifiedEmail = '';
+  let verifiedName = '';
+
+  try {
+    const peopleRes = await fetch('https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (peopleRes.ok) {
+      const people = await peopleRes.json();
+      const primaryEmail = (people.emailAddresses || []).find(e => e.metadata?.primary) || (people.emailAddresses || [])[0];
+      const primaryName = (people.names || []).find(n => n.metadata?.primary) || (people.names || [])[0];
+      verifiedEmail = primaryEmail?.value || '';
+      verifiedName = primaryName?.displayName || '';
+    }
+  } catch (err) {
+    console.warn('[Google People API fallback]', err?.message || err);
+  }
+
+  if (!verifiedEmail) {
+    try {
+      const userinfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (userinfoRes.ok) {
+        const info = await userinfoRes.json();
+        if (info.email && info.email_verified !== false) {
+          verifiedEmail = info.email;
+          verifiedName = verifiedName || info.name || '';
+        }
+      }
+    } catch (err) {
+      console.warn('[Google UserInfo API error]', err?.message || err);
+    }
+  }
+
+  if (!verifiedEmail) {
+    return res.status(401).json({ success: false, message: 'Unable to verify Google Workspace account token.' });
+  }
+
+  const cleanEmail = verifiedEmail.trim().toLowerCase();
+  if (!/^[a-z0-9._%+-]+@d-edge\.com$/.test(cleanEmail)) {
+    console.warn(`[Google Workspace Auth Rejected] Non-d-edge domain: ${cleanEmail}`);
     return res.status(403).json({
       success: false,
-      message: 'Access restricted: Only @d-edge.com Google Mail accounts can access PM privileges.'
+      message: 'Access restricted: Only @d-edge.com Google Workspace accounts can access PM privileges.'
     });
   }
-  console.log(`[Google Mail Auth Verified] PM: ${cleanEmail} (${name || 'PM'})`);
+
+  const displayName = (verifiedName || '').trim() || cleanEmail.split('@')[0];
+  console.log(`[Google Workspace Auth Verified] ${cleanEmail} (${displayName})`);
   res.json({
     success: true,
     email: cleanEmail,
-    name: name || cleanEmail.split('@')[0],
+    name: displayName,
     role: 'pm',
-    message: 'Google Mail account authorized for PM access.'
+    message: 'Google Workspace account authorized for PM access.'
   });
 });
 

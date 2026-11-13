@@ -328,12 +328,6 @@
       <!-- TOP RIGHT: ACTIONS, ROLES & ACCOUNT CENTER -->
       <div class="flex items-center space-x-1.5 md:space-x-2.5 shrink-0">
 
-        <!-- ADMIN / GOVERNANCE HUB BUTTON (ADMIN & PM VIEW) -->
-        <button id="btn-admin-hub" type="button" onclick="openAdminHub()" class="bg-brand-purple hover:bg-brand-purpleDark text-white text-xs font-bold px-2.5 md:px-3 py-1.5 rounded-lg flex items-center space-x-1.5 shadow-sm hover:shadow transition cursor-pointer select-none active:scale-95" title="Governance &amp; Admin Hub: Tooltips, Default Guides &amp; Projects">
-          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-300"></i>
-          <span class="hidden md:inline">Admin Hub</span>
-        </button>
-
         <!-- SEND ALERT (PM & ADMIN VIEW) -->
         <button id="btn-push-notify" onclick="openNotifyModal()" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-2.5 md:px-3 py-1.5 rounded-lg flex items-center space-x-1.5 shadow-sm transition cursor-pointer">
           <i data-lucide="bell" class="w-3.5 h-3.5"></i>
@@ -407,10 +401,13 @@
               </div>
             </div>
 
-            <!-- TIMELINE HEADER ACTIONS: SHARE CLIENT LINK -->
-            <div class="flex items-center gap-3 sm:justify-end shrink-0">
+            <!-- TIMELINE HEADER ACTIONS: SHARE CLIENT LINK & VIEW WEBSITE -->
+            <div class="flex flex-wrap items-center gap-2.5 sm:justify-end shrink-0">
               <div id="axis-share-btn-container" class="flex items-center">
                 <!-- Share Client Link button rendered dynamically -->
+              </div>
+              <div id="axis-view-website-container" class="flex items-center">
+                <!-- View website link rendered dynamically when staging link is online -->
               </div>
             </div>
 
@@ -465,6 +462,11 @@
 
               <!-- SITEMAP DEADLINE CONTAINER: PM DATE SELECTOR / CLIENT READ-ONLY DATE -->
               <div id="sitemap-deadline-container" class="flex items-center">
+                <!-- Rendered dynamically -->
+              </div>
+
+              <!-- MARK ALL STEPS DONE IN THIS PHASE -->
+              <div id="sitemap-mark-all-done-container" class="flex items-center">
                 <!-- Rendered dynamically -->
               </div>
             </div>
@@ -640,6 +642,11 @@
 
               <!-- DEADLINE CONTAINER: PM DATE SELECTOR / CLIENT READ-ONLY DATE -->
               <div id="content-collection-deadline-container" class="flex items-center">
+                <!-- Rendered dynamically -->
+              </div>
+
+              <!-- BULK MARK ALL DONE CONTAINER -->
+              <div id="content-collection-mark-all-done-container" class="flex items-center">
                 <!-- Rendered dynamically -->
               </div>
             </div>
@@ -1073,6 +1080,11 @@
               <div id="revision-phase-deadline-container" class="flex items-center">
                 <!-- Rendered dynamically -->
               </div>
+
+              <!-- BULK MARK ALL DONE CONTAINER -->
+              <div id="revision-phase-mark-all-done-container" class="flex items-center">
+                <!-- Rendered dynamically -->
+              </div>
             </div>
 
             <div class="flex flex-wrap items-center gap-2 sm:gap-3">
@@ -1127,6 +1139,11 @@
 
               <!-- GO-LIVE DEADLINE CONTAINER -->
               <div id="go-live-deadline-container" class="flex items-center">
+                <!-- Rendered dynamically -->
+              </div>
+
+              <!-- BULK MARK ALL DONE CONTAINER -->
+              <div id="go-live-mark-all-done-container" class="flex items-center">
                 <!-- Rendered dynamically -->
               </div>
             </div>
@@ -1207,7 +1224,7 @@
         </div>
 
         <div class="bg-white p-4 md:p-5 rounded-2xl border border-slate-200/90 shadow-sm space-y-3.5 text-xs">
-          <div id="boards-filters-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+          <div id="boards-filters-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <!-- FILTER 1: PROJECT MANAGER -->
             <div class="relative">
               <label class="block font-bold text-slate-700 mb-1.5 flex items-center justify-between">
@@ -1222,7 +1239,6 @@
               </select>
               <button type="button" id="btn-custom-filter-pm" onclick="toggleCustomFilterDropdown('pm', event)" class="w-full flex items-center justify-between px-3.5 py-2.5 bg-slate-50/90 hover:bg-slate-100/90 border border-slate-200/90 hover:border-purple-300 rounded-xl text-xs font-semibold text-slate-800 transition-all shadow-2xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple group">
                 <span class="flex items-center space-x-2 truncate min-w-0">
-                  <span id="dot-custom-filter-pm" class="w-2 h-2 rounded-full bg-purple-500 shrink-0"></span>
                   <span id="label-custom-filter-pm" class="truncate">All Project Managers</span>
                 </span>
                 <i id="chevron-custom-filter-pm" data-lucide="chevron-down" class="w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ml-2 group-hover:text-slate-600"></i>
@@ -1271,10 +1287,10 @@
                 <option value="seo_essential">SEO Essential</option>
                 <option value="seo_content">SEO Content</option>
                 <option value="seo_custom">SEO Custom</option>
+                <option value="no_seo">No SEO</option>
               </select>
               <button type="button" id="btn-custom-filter-package" onclick="toggleCustomFilterDropdown('package', event)" class="w-full flex items-center justify-between px-3.5 py-2.5 bg-slate-50/90 hover:bg-slate-100/90 border border-slate-200/90 hover:border-purple-300 rounded-xl text-xs font-semibold text-slate-800 transition-all shadow-2xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple group">
                 <span class="flex items-center space-x-2 truncate min-w-0">
-                  <span id="dot-custom-filter-package" class="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
                   <span id="label-custom-filter-package" class="truncate">All Website Packages</span>
                 </span>
                 <i id="chevron-custom-filter-package" data-lucide="chevron-down" class="w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ml-2 group-hover:text-slate-600"></i>
@@ -1282,30 +1298,6 @@
               <div id="menu-custom-filter-package" class="custom-filter-menu hidden absolute left-0 right-0 top-full mt-2 bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-xl shadow-purple-950/5 ring-1 ring-slate-900/5 z-50 p-1.5 space-y-1 max-h-72 overflow-y-auto"></div>
             </div>
 
-            <!-- FILTER 4: PRIORITY (LOW, MEDIUM, HIGH) -->
-            <div class="relative">
-              <label class="block font-bold text-slate-700 mb-1.5 flex items-center justify-between">
-                <span class="flex items-center space-x-1.5">
-                  <i data-lucide="flag" class="w-3.5 h-3.5 text-rose-600"></i>
-                  <span>Priority</span>
-                </span>
-                <span id="badge-count-filter-priority" class="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full transition">All</span>
-              </label>
-              <select id="filter-priority" class="hidden" onchange="renderBoardsGrid()">
-                <option value="ALL">All Priorities</option>
-                <option value="High">High Priority</option>
-                <option value="Medium">Medium Priority</option>
-                <option value="Low">Low Priority</option>
-              </select>
-              <button type="button" id="btn-custom-filter-priority" onclick="toggleCustomFilterDropdown('priority', event)" class="w-full flex items-center justify-between px-3.5 py-2.5 bg-slate-50/90 hover:bg-slate-100/90 border border-slate-200/90 hover:border-purple-300 rounded-xl text-xs font-semibold text-slate-800 transition-all shadow-2xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple group">
-                <span class="flex items-center space-x-2 truncate min-w-0">
-                  <span id="dot-custom-filter-priority" class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
-                  <span id="label-custom-filter-priority" class="truncate">All Priorities</span>
-                </span>
-                <i id="chevron-custom-filter-priority" data-lucide="chevron-down" class="w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ml-2 group-hover:text-slate-600"></i>
-              </button>
-              <div id="menu-custom-filter-priority" class="custom-filter-menu hidden absolute left-0 right-0 top-full mt-2 bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-xl shadow-purple-950/5 ring-1 ring-slate-900/5 z-50 p-1.5 space-y-1 max-h-72 overflow-y-auto"></div>
-            </div>
           </div>
 
           <!-- DYNAMIC ACTIVE FILTERS STRIP & RESET ACTION -->
@@ -1402,19 +1394,23 @@
 
             <!-- BODY CONTENT -->
             <div class="p-6 sm:p-8 space-y-4">
-              <!-- PRIMARY BUTTON: CONNECT WITH GOOGLE WORKSPACE -->
+              <!-- PRIMARY BUTTON: SIGN IN WITH GOOGLE (OFFICIAL STYLE) -->
               <button 
+                id="btn-google-workspace-signin"
                 type="button" 
-                onclick="handleGoogleMailSignIn('kriveravelasquez@d-edge.com', 'Karlo RIVERA VELASQUEZ')" 
-                class="w-full py-3.5 px-4 bg-white hover:bg-slate-50 border border-slate-300 hover:border-slate-400 text-slate-800 rounded-2xl font-bold text-sm shadow-sm hover:shadow-md flex items-center justify-center space-x-3 transition active:scale-[0.99] cursor-pointer"
+                onclick="connectWithGoogleWorkspace()" 
+                class="gsi-material-button w-full py-3 px-4 bg-white hover:bg-[#f8fafd] border border-[#747775]/40 hover:border-[#747775] text-[#1f1f1f] rounded-full font-medium text-sm shadow-xs hover:shadow-md flex items-center justify-center space-x-3 transition active:scale-[0.99] cursor-pointer disabled:opacity-60 disabled:cursor-wait"
               >
-                <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                </svg>
-                <span>Connect with Google Workspace</span>
+                <div class="gsi-material-button-icon w-5 h-5 shrink-0">
+                  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" style="display: block;">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+                    <path fill="none" d="M0 0h48v48H0z"></path>
+                  </svg>
+                </div>
+                <span id="btn-google-workspace-label" class="gsi-material-button-contents font-semibold">Sign in with Google</span>
               </button>
 
               <p id="login-page-error-msg" class="text-xs text-rose-600 font-semibold text-center hidden"></p>
@@ -1558,9 +1554,19 @@
             <input required id="mp-name" type="text" placeholder="e.g. Le Grand Hotel Paris" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
           </div>
 
-          <div>
-            <label class="block text-slate-700 font-bold mb-1">Project Manager (Creator)</label>
-            <input required id="mp-pm-name" type="text" placeholder="e.g. Karlo RIVERA VELASQUEZ" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-slate-50/50">
+          <div class="relative" id="mp-pm-wrapper">
+            <label class="block text-slate-700 font-bold mb-1">Project Manager</label>
+            <input required id="mp-pm-name" type="hidden">
+            <button type="button" id="mp-pm-btn" onclick="toggleCustomPmDropdown(event)" aria-haspopup="listbox" aria-expanded="false" class="w-full min-h-[40px] border border-slate-200 rounded-xl px-3 py-2 bg-slate-50/70 hover:bg-white text-xs font-semibold flex items-center justify-between outline-none focus:ring-2 focus:ring-brand-purple focus:border-brand-purple transition shadow-2xs group cursor-pointer text-slate-700">
+              <span id="mp-pm-display" class="flex items-center space-x-2 truncate min-w-0">
+                <span class="w-5 h-5 rounded-md bg-linear-to-br from-purple-500 to-indigo-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0">K</span>
+                <span class="truncate">Karlo RIVERA VELASQUEZ</span>
+              </span>
+              <i data-lucide="chevron-down" id="mp-pm-chevron" class="w-4 h-4 text-slate-400 group-hover:text-brand-purple transition-transform duration-200 shrink-0 ml-1"></i>
+            </button>
+            <div id="mp-pm-menu" role="listbox" class="hidden absolute left-0 right-0 top-full mt-1.5 z-50 bg-white border border-slate-200 rounded-2xl shadow-xl p-1.5 space-y-1 max-h-60 overflow-y-auto">
+              <!-- Populated dynamically via renderProjectModalPmOptions() -->
+            </div>
           </div>
         </div>
 
@@ -1620,61 +1626,7 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div class="relative" id="mp-priority-wrapper">
-            <label class="block text-slate-700 font-bold mb-1">Priority</label>
-            <select id="mp-priority" class="sr-only" tabindex="-1" aria-hidden="true">
-              <option value="High">🔴 High Priority</option>
-              <option value="Medium">🟡 Medium Priority</option>
-              <option value="Low">🟢 Low Priority</option>
-            </select>
-            <!-- Custom Trigger -->
-            <button type="button" id="mp-priority-btn" onclick="toggleCustomPriorityDropdown(event)" aria-haspopup="listbox" aria-expanded="false" class="w-full min-h-[40px] border border-slate-200 rounded-xl px-3 py-2 bg-slate-50/70 hover:bg-white text-xs font-semibold flex items-center justify-between outline-none focus:ring-2 focus:ring-brand-purple focus:border-brand-purple transition shadow-2xs group cursor-pointer text-slate-700">
-              <span id="mp-priority-display" class="flex items-center space-x-2 truncate">
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-500 ring-2 ring-amber-100 shrink-0"></span>
-                <span class="truncate">Medium Priority</span>
-              </span>
-              <i data-lucide="chevron-down" id="mp-priority-chevron" class="w-4 h-4 text-slate-400 group-hover:text-brand-purple transition-transform duration-200 shrink-0 ml-1"></i>
-            </button>
-            <!-- Custom Styled Floating Dropdown List -->
-            <div id="mp-priority-menu" role="listbox" class="hidden absolute left-0 right-0 top-full mt-1.5 z-50 bg-white border border-slate-200 rounded-2xl shadow-xl p-1.5 space-y-1">
-              <div class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
-                <span>Select Priority</span>
-                <i data-lucide="flag" class="w-3 h-3 text-brand-purple"></i>
-              </div>
-              <button type="button" onclick="selectCustomPriority('High')" data-val="High" role="option" class="mp-priority-opt w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs text-left transition hover:bg-rose-50/80 group cursor-pointer">
-                <div class="flex items-center space-x-2.5 min-w-0 pr-2">
-                  <span class="w-2.5 h-2.5 rounded-full bg-rose-500 ring-2 ring-rose-200 shrink-0"></span>
-                  <div class="truncate">
-                    <div class="font-bold text-slate-800 group-hover:text-rose-700">High Priority</div>
-                    <div class="text-[10px] text-slate-400 group-hover:text-rose-600/80 truncate">Urgent & tight deadline</div>
-                  </div>
-                </div>
-                <i data-lucide="check" class="mp-priority-check w-4 h-4 text-rose-600 hidden shrink-0"></i>
-              </button>
-              <button type="button" onclick="selectCustomPriority('Medium')" data-val="Medium" role="option" class="mp-priority-opt w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs text-left transition hover:bg-amber-50/80 group cursor-pointer">
-                <div class="flex items-center space-x-2.5 min-w-0 pr-2">
-                  <span class="w-2.5 h-2.5 rounded-full bg-amber-500 ring-2 ring-amber-200 shrink-0"></span>
-                  <div class="truncate">
-                    <div class="font-bold text-slate-800 group-hover:text-amber-700">Medium Priority</div>
-                    <div class="text-[10px] text-slate-400 group-hover:text-amber-600/80 truncate">Standard project timeline</div>
-                  </div>
-                </div>
-                <i data-lucide="check" class="mp-priority-check w-4 h-4 text-amber-600 hidden shrink-0"></i>
-              </button>
-              <button type="button" onclick="selectCustomPriority('Low')" data-val="Low" role="option" class="mp-priority-opt w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs text-left transition hover:bg-emerald-50/80 group cursor-pointer">
-                <div class="flex items-center space-x-2.5 min-w-0 pr-2">
-                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-emerald-200 shrink-0"></span>
-                  <div class="truncate">
-                    <div class="font-bold text-slate-800 group-hover:text-emerald-700">Low Priority</div>
-                    <div class="text-[10px] text-slate-400 group-hover:text-emerald-600/80 truncate">Flexible schedule / backlog</div>
-                  </div>
-                </div>
-                <i data-lucide="check" class="mp-priority-check w-4 h-4 text-emerald-600 hidden shrink-0"></i>
-              </button>
-            </div>
-          </div>
-
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div class="relative" id="mp-package-wrapper">
             <label class="block text-slate-700 font-bold mb-1">Website Package Tier</label>
             <select id="mp-package" onchange="handleProjectModalPackageChange()" class="sr-only" tabindex="-1" aria-hidden="true">
@@ -1687,7 +1639,6 @@
             <button type="button" id="mp-package-btn" onclick="toggleCustomPackageDropdown(event)" aria-haspopup="listbox" aria-expanded="false" class="w-full min-h-[40px] border border-slate-200 rounded-xl px-3 py-2 bg-slate-50/70 hover:bg-white text-xs font-semibold flex items-center justify-between outline-none focus:ring-2 focus:ring-brand-purple focus:border-brand-purple transition shadow-2xs group cursor-pointer text-slate-700">
               <span id="mp-package-display" class="flex items-center space-x-1.5 truncate">
                 <span class="truncate">SEO Essential</span>
-                <span class="text-[9px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-full shrink-0">SEO Included</span>
               </span>
               <i data-lucide="chevron-down" id="mp-package-chevron" class="w-4 h-4 text-slate-400 group-hover:text-brand-purple transition-transform duration-200 shrink-0 ml-1"></i>
             </button>
@@ -1865,61 +1816,6 @@
           </button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- MODAL: DÉLÉGATION DE PERMISSION PM -->
-  <div id="modal-pm-permission" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-3 sm:p-4" onclick="if(event.target===this)closeModal('modal-pm-permission')">
-    <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl border border-slate-200 overflow-hidden" onclick="event.stopPropagation()">
-      <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
-        <div class="flex items-center space-x-2.5">
-          <div class="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0">
-            <i data-lucide="shield-check" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <h3 class="text-sm sm:text-base font-bold text-slate-900">Délégation de permission PM</h3>
-            <p class="text-[11px] text-slate-500">Autoriser un autre PM à modifier ce projet</p>
-          </div>
-        </div>
-        <button type="button" onclick="closeModal('modal-pm-permission')" class="p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-200/50 transition">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <form onsubmit="handleGrantPmPermissionSubmit(event)" class="p-5 space-y-4 text-xs">
-        <input type="hidden" id="perm-project-id">
-        
-        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-slate-400 font-bold text-[10px] uppercase tracking-wider">Hôtel / Projet</span>
-            <span id="perm-project-name" class="font-bold text-slate-900 text-right truncate max-w-[200px]"></span>
-          </div>
-          <div class="flex items-center justify-between border-t border-slate-200/60 pt-1.5">
-            <span class="text-slate-400 font-bold text-[10px] uppercase tracking-wider">PM Créateur</span>
-            <span id="perm-creator-name" class="font-bold text-brand-purple text-right truncate max-w-[200px]"></span>
-          </div>
-        </div>
-
-        <div class="space-y-1.5">
-          <label class="block font-bold text-slate-800">Sélectionnez le PM autorisé :</label>
-          <p class="text-[11px] text-slate-500 leading-relaxed">
-            Le PM choisi aura l'autorisation complète de modifier les étapes, livrables, dates limites et spécificités de ce projet.
-          </p>
-          <select id="perm-pm-select" class="w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-brand-purple bg-white text-xs font-semibold text-slate-800">
-            <!-- Populated dynamically -->
-          </select>
-        </div>
-
-        <div class="pt-2 flex items-center justify-end space-x-2 border-t border-slate-100">
-          <button type="button" onclick="closeModal('modal-pm-permission')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold transition cursor-pointer">
-            Annuler
-          </button>
-          <button type="submit" class="px-4 py-2 rounded-xl bg-brand-purple hover:bg-purple-800 text-white font-bold flex items-center space-x-1.5 shadow-sm transition cursor-pointer">
-            <i data-lucide="check" class="w-4 h-4"></i>
-            <span>Enregistrer la permission</span>
-          </button>
-        </div>
-      </form>
     </div>
   </div>
 
@@ -2263,117 +2159,6 @@
     </div>
   </div>
 
-  <!-- MODAL: PM GOOGLE MAIL AUTHENTICATION (@d-edge.com) -->
-  <div id="modal-google-auth" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-3 sm:p-4 transition-all" onclick="if(event.target===this)closeGoogleAuthModal()">
-    <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl border border-slate-200 overflow-hidden space-y-0" onclick="event.stopPropagation()">
-      <!-- MODAL HEADER -->
-      <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-slate-50 via-white to-purple-50/40">
-        <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-2xs flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-            </svg>
-          </div>
-          <div>
-            <h3 class="text-sm sm:text-base font-bold text-slate-900 leading-snug">Connect with Google Mail</h3>
-            <p class="text-[11px] text-slate-500">Authorized corporate sign-in (@d-edge.com)</p>
-          </div>
-        </div>
-        <button type="button" onclick="closeGoogleAuthModal()" class="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <!-- DOMAIN RESTRICTION BANNER -->
-      <div class="px-4 sm:px-5 pt-4">
-        <div class="bg-indigo-50/80 border border-indigo-200/80 rounded-xl p-3 flex items-start space-x-2.5">
-          <div class="w-5 h-5 rounded-md bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0 mt-0.5">
-            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-          </div>
-          <div class="text-[11.5px] leading-relaxed text-indigo-950">
-            <strong class="font-bold text-indigo-900">Administrator Provisioning Policy:</strong>
-            Only authorized Google accounts ending with <span class="font-mono font-bold bg-white px-1.5 py-0.5 rounded border border-indigo-200 text-indigo-800">@d-edge.com</span> created by the administrator can connect.
-          </div>
-        </div>
-      </div>
-
-      <!-- MODAL BODY -->
-      <div class="p-4 sm:p-5 space-y-4 max-h-[75vh] overflow-y-auto">
-        <!-- DETECTED CURRENT GOOGLE USER (1-CLICK) -->
-        <div class="space-y-1.5">
-          <div class="flex items-center justify-between">
-            <span class="text-[10.5px] font-bold text-slate-500 uppercase tracking-wider">Detected Workspace Session</span>
-            <span class="text-[10px] text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Active Session</span>
-          </div>
-          <button 
-            type="button" 
-            onclick="handleGoogleMailSignIn('kriveravelasquez@d-edge.com', 'Krivera Velasquez')"
-            class="w-full text-left p-3 rounded-xl border border-purple-200 bg-purple-50/60 hover:bg-purple-100/80 hover:border-brand-purple transition flex items-center justify-between group cursor-pointer"
-          >
-            <div class="flex items-center space-x-3 min-w-0">
-              <div id="ga-detected-avatar" class="w-9 h-9 rounded-full bg-brand-purple text-white font-bold flex items-center justify-center text-xs shrink-0 shadow-2xs">
-                K
-              </div>
-              <div class="min-w-0">
-                <div id="ga-detected-name" class="font-bold text-slate-900 text-xs truncate">Krivera Velasquez</div>
-                <div id="ga-detected-email" class="text-[11px] text-slate-600 font-mono truncate">kriveravelasquez@d-edge.com</div>
-              </div>
-            </div>
-            <span class="text-xs font-bold text-brand-purple flex items-center space-x-1 group-hover:translate-x-0.5 transition shrink-0 ml-2">
-              <span>Connect</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </span>
-          </button>
-        </div>
-
-
-        <!-- ENTER ANY @D-EDGE.COM GOOGLE MAIL -->
-        <div class="border-t border-slate-100 pt-3.5 space-y-2.5">
-          <div class="text-[10.5px] font-bold text-slate-700 uppercase tracking-wider">Use Another @d-edge.com Google Account</div>
-          <form onsubmit="handleGoogleCustomInputAuth(event)" class="space-y-2.5">
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">Full Name (Optional)</label>
-              <input id="ga-custom-name" type="text" placeholder="e.g. Sarah Laurent" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 outline-none">
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">Google Mail Address * (@d-edge.com)</label>
-              <div class="relative">
-                <input 
-                  id="ga-custom-email" 
-                  type="email" 
-                  required 
-                  placeholder="name@d-edge.com" 
-                  oninput="handleGoogleInputValidation(this.value)"
-                  class="w-full px-3 py-1.5 pr-8 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 outline-none font-mono"
-                >
-                <div id="ga-email-validation-icon" class="absolute right-2.5 top-2 hidden">
-                  <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
-                </div>
-              </div>
-              <p id="ga-error-msg" class="text-[10.5px] text-rose-600 font-semibold mt-1 hidden"></p>
-            </div>
-            <div class="pt-1 flex items-center justify-end space-x-2">
-              <button type="button" onclick="closeGoogleAuthModal()" class="px-3 py-1.5 rounded-xl text-slate-600 font-semibold text-xs hover:bg-slate-100 transition">
-                Cancel
-              </button>
-              <button type="submit" class="px-4 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-2xs flex items-center space-x-1.5 transition cursor-pointer">
-                <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                </svg>
-                <span>Continue with Google</span>
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- MODAL: ACCOUNT CENTER & PM REGISTRATION -->
   <div id="modal-account-center" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-3 sm:p-4 transition-all" onclick="if(event.target===this)closeModal('modal-account-center')">
@@ -2397,23 +2182,39 @@
       <!-- CONTENT: ACTIVE SESSION & PROFILES -->
       <div id="ac-tab-profiles-content" class="p-4 sm:p-5 space-y-4 max-h-[75vh] overflow-y-auto">
         <!-- CURRENT SESSION STATUS CARD -->
-        <div class="bg-purple-50/60 border border-purple-200/80 rounded-xl p-3.5 flex items-center justify-between">
-          <div class="flex items-center space-x-3">
-            <div id="ac-current-avatar" class="w-10 h-10 rounded-xl bg-brand-purple text-white font-bold flex items-center justify-center text-sm shadow-2xs">
+        <div class="bg-purple-50/60 border border-purple-200/80 rounded-xl p-3.5 flex items-center justify-between gap-2">
+          <div class="flex items-center space-x-3 min-w-0">
+            <div id="ac-current-avatar" class="w-10 h-10 rounded-xl bg-brand-purple text-white font-bold flex items-center justify-center text-sm shadow-2xs shrink-0">
               K
             </div>
-            <div>
+            <div class="min-w-0">
               <div class="flex items-center space-x-2">
-                <span id="ac-current-name" class="font-bold text-slate-900 text-xs sm:text-sm">Karlo RIVERA VELASQUEZ</span>
-                <span id="ac-current-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-200/80 text-purple-900">Master Admin</span>
+                <span id="ac-current-name" class="font-bold text-slate-900 text-xs sm:text-sm truncate">Karlo RIVERA VELASQUEZ</span>
+                <span id="ac-current-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-200/80 text-purple-900 shrink-0">Master Admin</span>
               </div>
-              <p id="ac-current-email" class="text-[11px] text-slate-500 mt-0.5">kriveravelasquez@d-edge.com</p>
+              <p id="ac-current-email" class="text-[11px] text-slate-500 mt-0.5 truncate">kriveravelasquez@d-edge.com</p>
             </div>
           </div>
-          <span class="text-[10.5px] font-semibold text-emerald-700 bg-emerald-100/80 border border-emerald-200 px-2 py-1 rounded-lg flex items-center space-x-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
-            <span>Active</span>
-          </span>
+          <div class="flex items-center space-x-1.5 shrink-0">
+            <button
+              type="button"
+              onclick="connectWithGoogleWorkspace()"
+              class="text-[10.5px] font-bold text-brand-purple bg-white hover:bg-purple-50 border border-purple-200 px-2.5 py-1 rounded-lg flex items-center space-x-1 transition cursor-pointer select-none active:scale-95"
+              title="Sign in with another Google Workspace account"
+            >
+              <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+              <span>Switch Google</span>
+            </button>
+            <button
+              type="button"
+              onclick="handleDisconnect()"
+              class="text-[10.5px] font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-2.5 py-1 rounded-lg flex items-center space-x-1 transition cursor-pointer select-none active:scale-95"
+              title="Log out current session"
+            >
+              <i data-lucide="log-out" class="w-3 h-3 text-rose-600"></i>
+              <span>Log out</span>
+            </button>
+          </div>
         </div>
 
         <!-- QUICK DEMO PERSONAS -->
@@ -2425,213 +2226,6 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="ac-quick-personas-list">
             <!-- Populated dynamically via renderAccountPersonas() -->
           </div>
-        </div>
-
-        <!-- SESSION ACTIONS: DISCONNECT & ADMIN HUB LINK -->
-        <div class="border-t border-slate-100 pt-3 space-y-2">
-          <button 
-            type="button" 
-            onclick="handleDisconnect()" 
-            class="w-full py-2.5 px-3 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl text-xs font-bold shadow-2xs flex items-center justify-center space-x-2 transition cursor-pointer select-none active:scale-[0.99]"
-          >
-            <i data-lucide="log-out" class="w-4 h-4 text-rose-600"></i>
-            <span>Disconnect / Log Out Current Session</span>
-          </button>
-          <button 
-            id="ac-admin-hub-link"
-            type="button" 
-            onclick="closeModal('modal-account-center'); openAdminHub('users');" 
-            class="hidden w-full py-2 px-3 bg-purple-50 hover:bg-purple-100 text-brand-purple border border-purple-200 rounded-xl text-xs font-bold flex items-center justify-center space-x-1.5 transition cursor-pointer"
-          >
-            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-            <span>Admin Hub: Create &amp; Manage User Accounts</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: ADMIN GOVERNANCE HUB -->
-  <div id="modal-admin-hub" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center hidden p-3 sm:p-4 transition-all" onclick="if(event.target===this)closeModal('modal-admin-hub')">
-    <div class="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] shadow-2xl border border-slate-200 flex flex-col overflow-hidden" onclick="event.stopPropagation()">
-      <!-- HEADER -->
-      <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/80 shrink-0">
-        <div class="flex items-center space-x-3">
-          <div class="w-9 h-9 rounded-xl bg-brand-purple text-white flex items-center justify-center shrink-0 shadow-2xs">
-            <i data-lucide="shield-check" class="w-5 h-5 text-amber-300"></i>
-          </div>
-          <div>
-            <div class="flex items-center space-x-2">
-              <h3 class="text-base font-bold text-slate-900">Governance &amp; Admin Hub</h3>
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-brand-purple border border-purple-200">Admin &amp; PM Privileges</span>
-            </div>
-            <p class="text-[11px] text-slate-500">Configure global default guides, customize tooltip copy, and oversee all projects.</p>
-          </div>
-        </div>
-        <button type="button" onclick="closeModal('modal-admin-hub')" class="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-200/50 transition cursor-pointer">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <!-- ADMIN TABS -->
-      <div class="flex border-b border-slate-200 bg-white px-4 sm:px-6 pt-2 shrink-0">
-        <button id="admin-hub-tab-tooltips" type="button" onclick="switchAdminHubTab('tooltips')" class="pb-2.5 px-3 sm:px-4 text-xs font-bold border-b-2 border-brand-purple text-brand-purple transition">
-          Default Text (For New Projects)
-        </button>
-        <button id="admin-hub-tab-guides" type="button" onclick="switchAdminHubTab('guides')" class="pb-2.5 px-3 sm:px-4 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition">
-          Default Guides: Link/PDF (For New Projects)
-        </button>
-        <button id="admin-hub-tab-projects" type="button" onclick="switchAdminHubTab('projects')" class="pb-2.5 px-3 sm:px-4 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition">
-          All Projects &amp; PM Assignment
-        </button>
-        <button id="admin-hub-tab-users" type="button" onclick="switchAdminHubTab('users')" class="pb-2.5 px-3 sm:px-4 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition flex items-center space-x-1.5">
-          <i data-lucide="users" class="w-3.5 h-3.5 text-purple-600"></i>
-          <span>User Accounts (Admin Only)</span>
-        </button>
-      </div>
-
-      <!-- TAB 1: TOOLTIPS TEXTS CUSTOMIZER -->
-      <div id="admin-hub-content-tooltips" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-purple-50/70 border border-purple-200/80 rounded-xl p-3">
-          <div>
-            <h4 class="font-bold text-purple-950">Default Guidance Text (Applied to All New Projects)</h4>
-            <p class="text-[11px] text-purple-800/80">Changing text here sets the default copy applied to all new projects created after this modification. Projects already created remain completely unchanged.</p>
-          </div>
-          <button type="button" onclick="resetAllTooltipsToDefault()" class="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-xl text-xs font-semibold shadow-2xs transition self-start sm:self-auto cursor-pointer">
-            Reset All to Defaults
-          </button>
-        </div>
-
-        <!-- SEARCH BAR -->
-        <div>
-          <input id="admin-tooltips-search" type="text" oninput="filterAdminTooltips(this.value)" placeholder="Search default text by name or section..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 outline-none">
-        </div>
-
-        <!-- TOOLTIPS LIST -->
-        <div id="admin-tooltips-list" class="space-y-3">
-          <!-- Populated dynamically via renderAdminTooltipsList() -->
-        </div>
-      </div>
-
-      <!-- TAB 2: DEFAULT GUIDES CUSTOMIZER -->
-      <div id="admin-hub-content-guides" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs hidden">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-indigo-50/70 border border-indigo-200/80 rounded-xl p-3">
-          <div>
-            <h4 class="font-bold text-indigo-950">Default Guides: Link / PDF (Applied to All New Projects)</h4>
-            <p class="text-[11px] text-indigo-800/80">Configure default URLs, PDFs, and labels. Changing resources here sets the default applied to all new projects created after this modification. Projects already created remain completely unchanged.</p>
-          </div>
-          <button type="button" onclick="resetAllDefaultGuides()" class="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-xl text-xs font-semibold shadow-2xs transition self-start sm:self-auto cursor-pointer">
-            Reset All Guides
-          </button>
-        </div>
-
-        <!-- DEFAULT GUIDES LIST -->
-        <div id="admin-default-guides-list" class="space-y-3">
-          <!-- Populated dynamically via renderAdminDefaultGuidesList() -->
-        </div>
-      </div>
-
-      <!-- TAB 3: ALL PROJECTS DIRECTORY -->
-      <div id="admin-hub-content-projects" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs hidden">
-        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between">
-          <div>
-            <h4 class="font-bold text-slate-900">Hotel Roadmaps Portfolio</h4>
-            <p class="text-[11px] text-slate-500">Admins have unrestricted access to all projects and can reassign PM ownership on demand.</p>
-          </div>
-          <button type="button" onclick="closeModal('modal-admin-hub'); openCreateProjectModal();" class="px-3.5 py-1.5 bg-brand-purple hover:bg-brand-purpleDark text-white font-bold text-xs rounded-xl shadow-2xs transition cursor-pointer">
-            + New Project
-          </button>
-        </div>
-
-        <!-- PROJECTS TABLE -->
-        <div class="border border-slate-200 rounded-xl overflow-hidden bg-white">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
-              <tr>
-                <th class="p-3">Hotel Project</th>
-                <th class="p-3">Package &amp; Template</th>
-                <th class="p-3">Assigned PM</th>
-                <th class="p-3 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="admin-projects-table-body" class="divide-y divide-slate-100">
-              <!-- Populated dynamically via renderAdminProjectsTable() -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- TAB 4: USER ACCOUNTS DIRECTORY & PROVISIONING (ADMIN ONLY) -->
-      <div id="admin-hub-content-users" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5 text-xs hidden">
-        <div class="bg-gradient-to-r from-purple-50/80 to-indigo-50/80 border border-purple-200/80 rounded-xl p-3.5 flex items-center justify-between">
-          <div>
-            <h4 class="font-bold text-slate-900 text-sm flex items-center space-x-1.5">
-              <i data-lucide="shield-alert" class="w-4 h-4 text-brand-purple"></i>
-              <span>Authorized User Management</span>
-            </h4>
-            <p class="text-[11px] text-slate-600 mt-0.5">
-              Only the administrator can create and manage user accounts. Public self-registration is disabled across the platform.
-            </p>
-          </div>
-          <span class="px-2.5 py-1 rounded-full bg-purple-100 text-purple-800 font-bold text-[10px] border border-purple-200">
-            Admin Controlled
-          </span>
-        </div>
-
-        <!-- CREATE NEW USER FORM (ADMIN ONLY) -->
-        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-2xs space-y-3">
-          <h5 class="font-bold text-slate-800 text-xs flex items-center space-x-1.5">
-            <i data-lucide="user-plus" class="w-3.5 h-3.5 text-brand-purple"></i>
-            <span>Create New User Account</span>
-          </h5>
-          <form onsubmit="handleAdminCreateUser(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label class="block text-[11px] font-bold text-slate-700 mb-1">Full Name *</label>
-              <input id="admin-new-user-name" type="text" required placeholder="e.g. Sarah Laurent" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none text-xs">
-            </div>
-            <div>
-              <label class="block text-[11px] font-bold text-slate-700 mb-1">Corporate Email * (@d-edge.com)</label>
-              <input id="admin-new-user-email" type="email" required placeholder="e.g. sarah.laurent@d-edge.com" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none text-xs font-mono">
-            </div>
-            <div>
-              <label class="block text-[11px] font-bold text-slate-700 mb-1">Role *</label>
-              <select id="admin-new-user-role" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none text-xs bg-white">
-                <option value="pm">Project Manager (PM)</option>
-                <option value="admin">Administrator (Admin)</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-[11px] font-bold text-slate-700 mb-1">Password or Access PIN *</label>
-              <input id="admin-new-user-password" type="password" required placeholder="Assign temporary or permanent PIN" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-purple-200 outline-none text-xs">
-            </div>
-            <div class="sm:col-span-2 flex items-center justify-between pt-2 border-t border-slate-100">
-              <span class="text-[10.5px] text-slate-500">The user will be immediately authorized to sign in with this email and PIN or Google SSO.</span>
-              <button type="submit" class="px-4 py-2 bg-brand-purple hover:bg-brand-purpleDark text-white font-bold text-xs rounded-xl shadow-2xs transition cursor-pointer">
-                + Create User Account
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <!-- USERS TABLE -->
-        <div class="border border-slate-200 rounded-xl overflow-hidden bg-white">
-          <div class="p-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-            <span class="font-bold text-slate-700 text-xs uppercase tracking-wider">Active System Users (<span id="admin-users-count">1</span>)</span>
-            <span class="text-[10px] text-slate-400">Total authorized accounts</span>
-          </div>
-          <table class="w-full text-left text-xs">
-            <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px]">
-              <tr>
-                <th class="p-3">User</th>
-                <th class="p-3">Role</th>
-                <th class="p-3">Email</th>
-                <th class="p-3 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="admin-users-table-body" class="divide-y divide-slate-100">
-              <!-- Dynamically populated via renderAdminUsersList() -->
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
@@ -2948,8 +2542,6 @@
         name: 'Le Grand Hotel Paris',
         pmName: 'Karlo RIVERA VELASQUEZ',
         pmEmail: 'kriveravelasquez@d-edge.com',
-        authorizedPmName: 'Karlo RIVERA VELASQUEZ',
-        authorizedPmEmail: 'kriveravelasquez@d-edge.com',
         clientEmail: '',
         evolutionTag: 'Crystal',
         sitemapDriveUrl: 'https://drive.google.com',
@@ -2973,7 +2565,6 @@
         languages: ['English', 'French'],
         packageTier: 'seo_essential',
         driveUrl: 'https://drive.google.com',
-        priority: 'High',
         colors: {
           primary: '#5B1E82',
           secondary: '#C5A059',
@@ -3003,8 +2594,6 @@
         name: 'Resort Alpine & Spa',
         pmName: 'Karlo RIVERA VELASQUEZ',
         pmEmail: 'kriveravelasquez@d-edge.com',
-        authorizedPmName: '',
-        authorizedPmEmail: '',
         clientEmail: 'contact@alpineresort.com',
         evolutionTag: 'Sequoia',
         sitemapDriveUrl: 'https://drive.google.com',
@@ -3028,7 +2617,6 @@
         languages: ['English', 'German'],
         packageTier: 'seo_content',
         driveUrl: 'https://drive.google.com',
-        priority: 'Medium',
         colors: {
           primary: '#064E3B',
           secondary: '#D97706',
@@ -3057,8 +2645,6 @@
         name: 'Palazzo Venezia Boutique Hotel',
         pmName: 'Karlo RIVERA VELASQUEZ',
         pmEmail: 'kriveravelasquez@d-edge.com',
-        authorizedPmName: '',
-        authorizedPmEmail: '',
         clientEmail: '',
         evolutionTag: 'Serene',
         sitemapDriveUrl: 'https://drive.google.com',
@@ -3083,7 +2669,6 @@
         languages: ['Italian', 'English'],
         packageTier: 'seo_custom',
         driveUrl: 'https://drive.google.com',
-        priority: 'Low',
         colors: {
           primary: '#881337',
           secondary: '#CA8A04',
@@ -3114,27 +2699,8 @@
     try {
       const savedProjects = localStorage.getItem('dedge_projects');
       projects = savedProjects ? JSON.parse(savedProjects) : JSON.parse(JSON.stringify(INITIAL_PROJECTS));
-      // Ensure authorizedPm fields and priority are always present
+      // Ensure PM fields are always present
       projects.forEach(p => {
-        if (!p.priority) {
-          if (p.id === 'p1') p.priority = 'High';
-          else if (p.id === 'p2') p.priority = 'Medium';
-          else if (p.id === 'p3') p.priority = 'Low';
-          else p.priority = 'Medium';
-        }
-        if (p.authorizedPmName === undefined) {
-          if (p.id === 'p1') {
-            p.authorizedPmName = 'Karlo RIVERA VELASQUEZ';
-            p.authorizedPmEmail = 'kriveravelasquez@d-edge.com';
-          } else {
-            p.authorizedPmName = '';
-            p.authorizedPmEmail = '';
-          }
-        }
-        if (p.authorizedPmEmail && (p.authorizedPmEmail.toLowerCase() === 'marc@d-edge.com' || p.authorizedPmEmail.toLowerCase() === 'dounia@d-edge.com')) {
-          p.authorizedPmName = 'Karlo RIVERA VELASQUEZ';
-          p.authorizedPmEmail = 'kriveravelasquez@d-edge.com';
-        }
         if (p.pmEmail && (p.pmEmail.toLowerCase() === 'marc@d-edge.com' || p.pmEmail.toLowerCase() === 'dounia@d-edge.com')) {
           p.pmName = 'Karlo RIVERA VELASQUEZ';
           p.pmEmail = 'kriveravelasquez@d-edge.com';
@@ -3224,8 +2790,10 @@
     function saveProjectsToStorage() {
       try {
         localStorage.setItem('dedge_projects', JSON.stringify(projects));
+        return true;
       } catch (e) {
         console.error('Failed to save projects to storage', e);
+        return false;
       }
     }
 
@@ -3280,7 +2848,7 @@
         }
         if (parsedCurrent) {
           const match = users.find(u => u.email.toLowerCase() === (parsedCurrent.email || '').toLowerCase());
-          if (match) {
+          if (match && !match.revoked) {
             currentUser = match;
           }
         }
@@ -3860,7 +3428,7 @@
       const target = e.target;
       if (target && target.matches('input, textarea, select')) {
         // Exclude modal forms that require manual submission button or global filter selects
-        if (!target.closest('#modal-project') && !target.closest('#modal-text-doc') && !target.closest('#modal-sitemap-doc') && !target.closest('#modal-add-step') && !target.closest('#modal-notify') && !target.matches('#filter-pm, #filter-evolution, #filter-stage, #filter-package, #project-selector, #msd-lang, #mtd-lang')) {
+        if (!target.closest('#modal-project') && !target.closest('#modal-text-doc') && !target.closest('#modal-sitemap-doc') && !target.closest('#modal-add-step') && !target.closest('#modal-notify') && !target.closest('#first-wave-import-area') && !target.matches('#filter-pm, #filter-evolution, #filter-stage, #filter-package, #project-selector, #msd-lang, #mtd-lang')) {
           showSavingToast();
         }
       }
@@ -4694,18 +4262,6 @@
     }
     window.resetInlineTooltipToDefault = resetInlineTooltipToDefault;
 
-    function resetAllTooltipsToDefault() {
-      if (currentRole !== 'admin') return;
-      Object.keys(DEFAULT_TOOLTIPS_CONFIG).forEach(k => {
-        globalTooltips[k] = DEFAULT_TOOLTIPS_CONFIG[k].text;
-      });
-      saveTooltipsToStorage();
-      // NOTE: Existing projects remain untouched!
-      renderAdminTooltipsList();
-      showSavingToast('All Default Tooltips Reset', 'Restored default copy for all future new projects (Existing projects unchanged)');
-    }
-    window.resetAllTooltipsToDefault = resetAllTooltipsToDefault;
-
     // --- RENDER GUIDE BUTTONS WITH PM CUSTOMIZE & ADMIN EDIT CONTROLS ---
     function renderGuideButtons(project) {
       if (!project) return;
@@ -5019,9 +4575,6 @@
 
         // NOTE: Other existing projects in `projects` remain preserved!
         closeModal('modal-pm-guide-editor');
-        if (typeof renderAdminDefaultGuidesList === 'function') {
-          renderAdminDefaultGuidesList();
-        }
         showSavingToast('Default Guide Saved', 'Saved as global default for all new projects (Existing projects preserved)');
       };
 
@@ -5131,7 +4684,6 @@
         saveGlobalGuidesToStorage();
         // NOTE: Existing projects already created retain their own project.guides and DO NOT change!
         closeModal('modal-admin-guide-editor');
-        renderAdminDefaultGuidesList();
         showSavingToast('Default Guide Saved', 'Applies to all new projects created from now on (Existing projects unchanged)');
       };
 
@@ -5150,229 +4702,10 @@
     }
     window.saveAdminDefaultGuide = saveAdminDefaultGuide;
 
-    function resetAllDefaultGuides() {
-      if (currentRole !== 'admin') return;
-      globalGuides = JSON.parse(JSON.stringify(DEFAULT_GUIDES_CONFIG));
-      saveGlobalGuidesToStorage();
-      // NOTE: Existing projects remain untouched!
-      renderAdminDefaultGuidesList();
-      showSavingToast('Defaults Restored', 'Reset default guide templates for all future new projects (Existing projects unchanged)');
-    }
-    window.resetAllDefaultGuides = resetAllDefaultGuides;
-
-    // --- ADMIN & PM GOVERNANCE HUB MODAL LOGIC ---
-    function openAdminHub(tab = 'tooltips') {
-      if (currentRole === 'client') return;
-      const modal = document.getElementById('modal-admin-hub');
-      if (modal) modal.classList.remove('hidden');
-      switchAdminHubTab(tab);
-      if (window.lucide) lucide.createIcons();
-    }
-    window.openAdminHub = openAdminHub;
-
-    function switchAdminHubTab(tab = 'tooltips') {
-      const tabTooltips = document.getElementById('admin-hub-tab-tooltips');
-      const tabGuides = document.getElementById('admin-hub-tab-guides');
-      const tabProjects = document.getElementById('admin-hub-tab-projects');
-      const tabUsers = document.getElementById('admin-hub-tab-users');
-
-      const contentTooltips = document.getElementById('admin-hub-content-tooltips');
-      const contentGuides = document.getElementById('admin-hub-content-guides');
-      const contentProjects = document.getElementById('admin-hub-content-projects');
-      const contentUsers = document.getElementById('admin-hub-content-users');
-
-      const activeClass = 'pb-2.5 px-3 sm:px-4 text-xs font-bold border-b-2 border-brand-purple text-brand-purple transition flex items-center space-x-1.5';
-      const inactiveClass = 'pb-2.5 px-3 sm:px-4 text-xs font-semibold text-slate-500 hover:text-slate-800 border-b-2 border-transparent transition flex items-center space-x-1.5';
-
-      if (tabTooltips) tabTooltips.className = tab === 'tooltips' ? activeClass : inactiveClass;
-      if (tabGuides) tabGuides.className = tab === 'guides' ? activeClass : inactiveClass;
-      if (tabProjects) tabProjects.className = tab === 'projects' ? activeClass : inactiveClass;
-      if (tabUsers) tabUsers.className = tab === 'users' ? activeClass : inactiveClass;
-
-      if (contentTooltips) contentTooltips.classList.toggle('hidden', tab !== 'tooltips');
-      if (contentGuides) contentGuides.classList.toggle('hidden', tab !== 'guides');
-      if (contentProjects) contentProjects.classList.toggle('hidden', tab !== 'projects');
-      if (contentUsers) contentUsers.classList.toggle('hidden', tab !== 'users');
-
-      if (tab === 'tooltips') {
-        renderAdminTooltipsList();
-      } else if (tab === 'guides') {
-        renderAdminDefaultGuidesList();
-      } else if (tab === 'projects') {
-        renderAdminProjectsTable();
-      } else if (tab === 'users') {
-        renderAdminUsersList();
-      }
-      if (window.lucide) lucide.createIcons();
-    }
-    window.switchAdminHubTab = switchAdminHubTab;
-
-    function renderAdminTooltipsList(filterQuery = '') {
-      const container = document.getElementById('admin-tooltips-list');
-      if (!container) return;
-
-      const q = filterQuery.toLowerCase().trim();
-      const keys = Object.keys(DEFAULT_TOOLTIPS_CONFIG).filter(k => {
-        const item = DEFAULT_TOOLTIPS_CONFIG[k];
-        return !q || item.label.toLowerCase().includes(q) || item.section.toLowerCase().includes(q) || (globalTooltips[k] || '').toLowerCase().includes(q);
-      });
-
-      if (keys.length === 0) {
-        container.innerHTML = '<div class="text-center p-6 text-slate-400">No tooltips match your query.</div>';
-        return;
-      }
-
-      container.innerHTML = keys.map(k => {
-        const item = DEFAULT_TOOLTIPS_CONFIG[k];
-        const val = globalTooltips[k] || item.text;
-        const isModified = (val !== item.text);
-
-        return `
-          <div class="bg-white border border-slate-200 rounded-xl p-3.5 space-y-2 shadow-2xs">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center space-x-2">
-                <span class="font-bold text-slate-900 text-xs sm:text-sm">${item.label}</span>
-                <span class="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-mono">${item.section}</span>
-                ${isModified ? '<span class="text-[9.5px] px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 font-bold">Custom</span>' : ''}
-              </div>
-              <div class="flex items-center space-x-1.5">
-                <button type="button" onclick="resetAdminTooltipToDefault('${k}')" class="text-[10.5px] text-slate-500 hover:text-slate-800 px-2 py-1 rounded bg-slate-50 hover:bg-slate-100 border border-slate-200 transition cursor-pointer">
-                  Reset
-                </button>
-                <button type="button" onclick="saveAdminTooltip('${k}')" class="text-[10.5px] text-white font-bold px-2.5 py-1 rounded bg-brand-purple hover:bg-brand-purpleDark transition cursor-pointer shadow-2xs">
-                  Save
-                </button>
-              </div>
-            </div>
-            <textarea id="admin-tooltip-input-${k}" rows="2" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs focus:ring-2 focus:ring-purple-200 outline-none leading-relaxed text-slate-800">${val}</textarea>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function filterAdminTooltips(val) {
-      renderAdminTooltipsList(val);
-    }
-
-    function saveAdminTooltip(key) {
-      if (currentRole !== 'admin') return;
-      const textarea = document.getElementById(`admin-tooltip-input-${key}`);
-      if (!textarea) return;
-      const val = textarea.value.trim();
-      if (!val) return;
-
-      globalTooltips[key] = val;
-      saveTooltipsToStorage();
-      // NOTE: Existing projects remain untouched!
-      renderAdminTooltipsList(document.getElementById('admin-tooltips-search')?.value || '');
-      showSavingToast('Default Text Saved', 'Applies to all new projects created from now on (Existing projects unchanged)');
-    }
-
-    function resetAdminTooltipToDefault(key) {
-      if (currentRole !== 'admin') return;
-      if (!DEFAULT_TOOLTIPS_CONFIG[key]) return;
-      globalTooltips[key] = DEFAULT_TOOLTIPS_CONFIG[key].text;
-      saveTooltipsToStorage();
-      // NOTE: Existing projects remain untouched!
-      renderAdminTooltipsList(document.getElementById('admin-tooltips-search')?.value || '');
-      showSavingToast('Reset to Default', 'Restored default copy for all future new projects (Existing projects unchanged)');
-    }
-
-    function renderAdminDefaultGuidesList() {
-      const container = document.getElementById('admin-default-guides-list');
-      if (!container) return;
-
-      container.innerHTML = Object.keys(globalGuides).map(k => {
-        const g = globalGuides[k];
-        const isPdf = g.type === 'pdf';
-
-        return `
-          <div class="bg-white border border-slate-200 rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
-            <div class="space-y-1">
-              <div class="flex items-center space-x-2">
-                <span class="font-bold text-slate-900 text-xs sm:text-sm">${g.name}</span>
-                <span class="text-[10px] px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-semibold">${g.section}</span>
-                <span class="text-[10px] px-2 py-0.5 rounded-md ${isPdf ? 'bg-amber-100 text-amber-800 font-bold' : 'bg-blue-50 text-blue-700'}">${isPdf ? 'PDF' : 'Link'}</span>
-                ${!g.enabled ? '<span class="text-[9.5px] px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 font-bold">Disabled</span>' : ''}
-              </div>
-              <p class="text-[11px] text-slate-500 font-mono truncate max-w-lg">
-                ${isPdf ? (g.pdfName || 'Uploaded PDF Attachment') : (g.url || 'No URL configured')}
-              </p>
-            </div>
-            <div class="flex items-center space-x-2 shrink-0">
-              <button type="button" onclick="openAdminDefaultGuideModal('${k}')" class="px-3 py-1.5 text-xs font-bold bg-brand-purple hover:bg-brand-purpleDark text-white rounded-xl shadow-2xs transition flex items-center space-x-1 cursor-pointer">
-                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
-                <span>Configure Default</span>
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
-      lucide.createIcons();
-    }
-
-    function renderAdminProjectsTable() {
-      const tbody = document.getElementById('admin-projects-table-body');
-      if (!tbody) return;
-
-      const pmUsers = users.filter(u => u.role === 'pm');
-
-      tbody.innerHTML = projects.map(p => {
-        const currentPmEmail = (p.pmEmail || '').toLowerCase();
-
-        const optionsHtml = pmUsers.map(pm => {
-          const selected = pm.email.toLowerCase() === currentPmEmail ? 'selected' : '';
-          return `<option value="${pm.email}" ${selected}>${pm.name} (${pm.email})</option>`;
-        }).join('');
-
-        return `
-          <tr class="hover:bg-slate-50 transition">
-            <td class="p-3">
-              <div class="font-bold text-slate-900">${p.name}</div>
-              <div class="text-[11px] text-slate-400 font-mono">ID: ${p.id}</div>
-            </td>
-            <td class="p-3">
-              <span class="px-2 py-0.5 rounded-md bg-purple-50 text-purple-800 font-semibold text-[11px]">${getPackageLabel(p.packageTier)}</span>
-              <span class="text-[11px] text-slate-500 ml-1">(${p.evolutionTag})</span>
-            </td>
-            <td class="p-3">
-              <select onchange="reassignProjectPm('${p.id}', this.value)" class="bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-purple-200 outline-none">
-                ${optionsHtml}
-              </select>
-            </td>
-            <td class="p-3 text-right">
-              <button type="button" onclick="selectProject('${p.id}'); closeModal('modal-admin-hub');" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] transition cursor-pointer">
-                View Roadmap
-              </button>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function reassignProjectPm(projId, newPmEmail) {
-      if (currentRole !== 'admin') return;
-      const project = projects.find(p => p.id === projId);
-      const targetUser = users.find(u => u.email.toLowerCase() === newPmEmail.toLowerCase());
-      if (!project || !targetUser) return;
-
-      project.pmName = targetUser.name;
-      project.pmEmail = targetUser.email;
-      saveProjectsToStorage();
-      renderProjectSelector();
-      renderBoardsGrid();
-      showSavingToast('Project Reassigned', `${project.name} assigned to PM ${targetUser.name}`);
-    }
-
-    // --- ACCOUNT CENTER & MULTI-USER PROFILES ---
     // --- ACCOUNT CENTER & MULTI-USER PROFILES ---
     function openAccountCenterModal() {
       const modal = document.getElementById('modal-account-center');
       if (modal) modal.classList.remove('hidden');
-      const acAdminHubLink = document.getElementById('ac-admin-hub-link');
-      if (acAdminHubLink) {
-        acAdminHubLink.classList.toggle('hidden', !currentUser || currentUser.role !== 'admin');
-      }
       renderAccountPersonas();
       if (window.lucide) lucide.createIcons();
     }
@@ -5400,7 +4733,7 @@
       const container = document.getElementById('ac-quick-personas-list');
       if (!container) return;
 
-      container.innerHTML = users.map(u => {
+      container.innerHTML = users.filter(u => !u.revoked).map(u => {
         const isCurrent = (currentUser && currentUser.email === u.email);
         const roleLabel = u.role === 'admin' ? 'Admin · All Projects' : u.role === 'pm' ? 'PM · Scoped Access' : 'Client · View-Only';
         const roleColor = u.role === 'admin' ? 'bg-purple-100 text-brand-purple border-purple-200' : u.role === 'pm' ? 'bg-sky-100 text-sky-800 border-sky-200' : 'bg-emerald-100 text-emerald-800 border-emerald-200';
@@ -5430,215 +4763,114 @@
 
     function switchPersonaTo(userId) {
       const user = users.find(u => u.id === userId);
-      if (!user) return;
+      if (!user || user.revoked) return;
       selectRole(user.role, user);
       closeModal('modal-account-center');
       showSavingToast('Session Switched', `Logged in as ${user.name} (${user.role.toUpperCase()})`);
     }
 
     // --- DISCONNECT / LOG OUT FUNCTIONALITY ---
-    function handleDisconnect() {
+    async function handleDisconnect() {
       currentUser = null;
       try {
         localStorage.removeItem('dedge_current_user');
       } catch (e) {}
+      if (window.__googleWorkspaceAuth && typeof window.__googleWorkspaceAuth.logout === 'function') {
+        try {
+          await window.__googleWorkspaceAuth.logout();
+        } catch (e) {}
+      }
       currentRole = 'guest';
       updateHeaderAuthState();
       closeModal('modal-account-center');
-      closeModal('modal-admin-hub');
-      closeGoogleAuthModal();
       switchView('login');
       showSavingToast('Disconnected', 'You have been disconnected from the session.');
     }
     window.handleDisconnect = handleDisconnect;
 
-    // --- ADMIN USER MANAGEMENT (CREATION & DELETION) ---
-    function renderAdminUsersList() {
-      const tbody = document.getElementById('admin-users-table-body');
-      const countEl = document.getElementById('admin-users-count');
-      if (!tbody) return;
-      if (countEl) countEl.textContent = users.length;
-
-      tbody.innerHTML = users.map(u => {
-        const isMasterAdmin = (u.email || '').toLowerCase() === 'kriveravelasquez@d-edge.com';
-        const roleBadge = u.role === 'admin' 
-          ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 border border-purple-200">Admin</span>' 
-          : '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-100 text-sky-800 border border-sky-200">PM</span>';
-
-        return `
-          <tr class="hover:bg-slate-50/80 transition">
-            <td class="p-3">
-              <div class="flex items-center space-x-2.5">
-                <div class="w-7 h-7 rounded-lg bg-brand-purple text-white font-bold flex items-center justify-center text-xs shadow-2xs">
-                  ${(u.name || 'U').charAt(0).toUpperCase()}
-                </div>
-                <div>
-                  <div class="font-bold text-slate-900">${u.name}</div>
-                  <div class="text-[10px] text-slate-400">ID: ${u.id}</div>
-                </div>
-              </div>
-            </td>
-            <td class="p-3">${roleBadge}</td>
-            <td class="p-3 font-mono text-[11px] text-slate-600">${u.email}</td>
-            <td class="p-3 text-right">
-              ${isMasterAdmin ? '<span class="text-[10px] text-slate-400 font-semibold italic">Master Admin</span>' : `
-                <button type="button" onclick="handleAdminDeleteUser('${u.id}')" class="px-2 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 text-[11px] font-semibold transition cursor-pointer">
-                  Delete
-                </button>
-              `}
-            </td>
-          </tr>
-        `;
-      }).join('');
-      if (window.lucide) lucide.createIcons();
-    }
-    window.renderAdminUsersList = renderAdminUsersList;
-
-    function handleAdminCreateUser(e) {
-      e.preventDefault();
-      if (!currentUser || currentUser.role !== 'admin') {
-        showSavingToast('Permission Denied', 'Only administrators can create user accounts.');
-        return;
-      }
-
-      const nameInput = document.getElementById('admin-new-user-name');
-      const emailInput = document.getElementById('admin-new-user-email');
-      const roleInput = document.getElementById('admin-new-user-role');
-      const passInput = document.getElementById('admin-new-user-password');
-
-      const name = nameInput ? nameInput.value.trim() : '';
-      const email = emailInput ? emailInput.value.trim().toLowerCase() : '';
-      const role = roleInput ? roleInput.value : 'pm';
-      const password = passInput ? passInput.value.trim() : '';
-
-      if (!name || !email || !password) {
-        showSavingToast('Validation Error', 'Please complete all required fields.');
-        return;
-      }
-
-      if (!email.endsWith('@d-edge.com')) {
-        showSavingToast('Domain Error', 'Accounts must use an @d-edge.com corporate email.');
-        return;
-      }
-
-      if (users.some(u => (u.email || '').toLowerCase() === email)) {
-        showSavingToast('Duplicate Email', 'An account with this email already exists.');
-        return;
-      }
-
-      const newUser = {
-        id: `u_${Date.now()}`,
-        name,
-        email,
-        role,
-        password,
-        avatar: name.charAt(0).toUpperCase()
-      };
-
-      users.push(newUser);
-      saveUsersToStorage();
-      renderAdminUsersList();
-      renderAccountPersonas();
-
-      if (nameInput) nameInput.value = '';
-      if (emailInput) emailInput.value = '';
-      if (passInput) passInput.value = '';
-
-      showSavingToast('Account Created', `Account for ${name} (${role.toUpperCase()}) created successfully.`);
-    }
-    window.handleAdminCreateUser = handleAdminCreateUser;
-
-    function handleAdminDeleteUser(userId) {
-      if (!currentUser || currentUser.role !== 'admin') return;
-      const user = users.find(u => u.id === userId);
-      if (!user || user.email === 'kriveravelasquez@d-edge.com') {
-        showSavingToast('Action Denied', 'The master administrator account cannot be deleted.');
-        return;
-      }
-      users = users.filter(u => u.id !== userId);
-      saveUsersToStorage();
-      renderAdminUsersList();
-      renderAccountPersonas();
-      showSavingToast('User Deleted', `Account for ${user.name} removed.`);
-    }
-    window.handleAdminDeleteUser = handleAdminDeleteUser;
-
-    // --- GOOGLE MAIL PM AUTHENTICATION & @d-edge.com DOMAIN ENFORCEMENT ---
+    // --- GOOGLE WORKSPACE AUTHENTICATION & @d-edge.com DOMAIN ENFORCEMENT ---
     function validateDedgeGoogleEmail(email) {
       if (!email || typeof email !== 'string') return false;
       const clean = email.trim().toLowerCase();
-      return clean.endsWith('@d-edge.com') && clean.length > '@d-edge.com'.length;
+      return /^[a-z0-9._%+-]+@d-edge\.com$/.test(clean);
     }
+
+    function closeGoogleAuthModal() {}
 
     function openGoogleAuthModal() {
-      const modal = document.getElementById('modal-google-auth');
-      if (modal) {
-        modal.classList.remove('hidden');
-        renderGoogleAuthModalState();
-      }
-      if (window.lucide) lucide.createIcons();
+      return connectWithGoogleWorkspace();
     }
 
-    function closeGoogleAuthModal() {
-      const modal = document.getElementById('modal-google-auth');
-      if (modal) modal.classList.add('hidden');
-    }
-
-    function renderGoogleAuthModalState() {
-      const detectedEmailEl = document.getElementById('ga-detected-email');
-      const detectedNameEl = document.getElementById('ga-detected-name');
-      const detectedAvatarEl = document.getElementById('ga-detected-avatar');
-      
-      const detectedEmail = 'kriveravelasquez@d-edge.com';
-      const detectedName = 'Karlo RIVERA VELASQUEZ';
-      if (detectedEmailEl) detectedEmailEl.textContent = detectedEmail;
-      if (detectedNameEl) detectedNameEl.textContent = detectedName;
-      if (detectedAvatarEl) detectedAvatarEl.textContent = 'K';
-
-      const errEl = document.getElementById('ga-error-msg');
+    async function connectWithGoogleWorkspace() {
+      const btn = document.getElementById('btn-google-workspace-signin');
+      const btnLabel = document.getElementById('btn-google-workspace-label');
+      const errEl = document.getElementById('login-page-error-msg');
       if (errEl) {
         errEl.classList.add('hidden');
         errEl.textContent = '';
       }
-      const iconEl = document.getElementById('ga-email-validation-icon');
-      if (iconEl) iconEl.classList.add('hidden');
-    }
+      if (btn) btn.disabled = true;
+      if (btnLabel) btnLabel.textContent = 'Connecting...';
 
-    function handleGoogleInputValidation(val) {
-      const clean = (val || '').trim().toLowerCase();
-      const errEl = document.getElementById('ga-error-msg');
-      const iconEl = document.getElementById('ga-email-validation-icon');
-      if (!clean) {
-        if (errEl) errEl.classList.add('hidden');
-        if (iconEl) iconEl.classList.add('hidden');
-        return;
-      }
-      if (clean.includes('@') && !clean.endsWith('@d-edge.com')) {
+      try {
+        if (!window.__googleWorkspaceAuth || typeof window.__googleWorkspaceAuth.googleSignIn !== 'function') {
+          throw new Error('Google Sign-In is still initializing. Please try again.');
+        }
+
+        const authResult = await window.__googleWorkspaceAuth.googleSignIn();
+        if (!authResult || !authResult.accessToken) {
+          throw new Error('Failed to obtain Google Workspace access token.');
+        }
+
+        const verifyRes = await fetch('/api/auth/google-connect', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authResult.accessToken}`
+          }
+        });
+        const verifyData = await verifyRes.json().catch(() => ({}));
+
+        if (!verifyRes.ok || !verifyData.success || !verifyData.email) {
+          await window.__googleWorkspaceAuth.logout().catch(() => {});
+          const msg = verifyData.message || 'Only @d-edge.com Google Workspace accounts can access PM privileges.';
+          if (errEl) {
+            errEl.textContent = msg;
+            errEl.classList.remove('hidden');
+          }
+          showSavingToast('Access Restricted', msg);
+          return false;
+        }
+
+        return handleGoogleMailSignIn(verifyData.email, verifyData.name || authResult.displayName || '');
+      } catch (err) {
+        if (err?.code === 'auth/popup-closed-by-user' || err?.code === 'auth/cancelled-popup-request') {
+          return false;
+        }
+        const msg = err?.message || 'Google Workspace sign-in failed.';
         if (errEl) {
-          errEl.textContent = 'Only @d-edge.com Google accounts are permitted for PMs.';
+          errEl.textContent = msg;
           errEl.classList.remove('hidden');
         }
-        if (iconEl) iconEl.classList.add('hidden');
-      } else if (clean.endsWith('@d-edge.com')) {
-        if (errEl) errEl.classList.add('hidden');
-        if (iconEl) iconEl.classList.remove('hidden');
-      } else {
-        if (errEl) errEl.classList.add('hidden');
-        if (iconEl) iconEl.classList.add('hidden');
+        showSavingToast('Google Sign-In Error', msg);
+        return false;
+      } finally {
+        if (btn) btn.disabled = false;
+        if (btnLabel) btnLabel.textContent = 'Sign in with Google';
       }
-      if (window.lucide) lucide.createIcons();
     }
+    window.connectWithGoogleWorkspace = connectWithGoogleWorkspace;
 
     function handleGoogleMailSignIn(targetEmail, targetName = '') {
       const email = (targetEmail || '').trim().toLowerCase();
-      const errEl = document.getElementById('login-page-error-msg') || document.getElementById('ga-error-msg');
+      const errEl = document.getElementById('login-page-error-msg');
       if (errEl) {
         errEl.classList.add('hidden');
         errEl.textContent = '';
       }
 
       if (!validateDedgeGoogleEmail(email)) {
-        const msg = 'Only @d-edge.com Google Mail accounts can access PM privileges.';
+        const msg = 'Only @d-edge.com Google Workspace accounts can access PM privileges.';
         showSavingToast('Domain Restricted', msg);
         if (errEl) {
           errEl.textContent = msg;
@@ -5647,12 +4879,12 @@
         return false;
       }
 
-      // Check if user already exists (ONLY administrator can create accounts)
+      // Check if existing user was revoked; otherwise auto-connect any @d-edge.com PM via Google Workspace
       let user = users.find(u => u.email.toLowerCase() === email);
 
-      if (!user) {
-        const msg = `Account not found for ${email}. Accounts can only be created by an administrator. Please contact your administrator.`;
-        showSavingToast('Access Denied', msg);
+      if (user && user.revoked) {
+        const msg = `Access revoked for ${email}. Please contact your administrator.`;
+        showSavingToast('Access Revoked', msg);
         if (errEl) {
           errEl.textContent = msg;
           errEl.classList.remove('hidden');
@@ -5660,36 +4892,39 @@
         return false;
       }
 
-      user.authProvider = 'google';
-      saveUsersToStorage();
+      const derivedName = (targetName && targetName.trim())
+        ? targetName.trim()
+        : email.split('@')[0].split(/[._-]+/).filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
-      // Sync with server API
-      try {
-        fetch('/api/auth/google-connect', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: user.email, name: user.name })
-        }).catch(() => {});
-      } catch (e) {}
+      if (!user) {
+        user = {
+          id: `u_${Date.now()}`,
+          name: derivedName || 'PM',
+          email,
+          role: 'pm',
+          authProvider: 'google',
+          revoked: false,
+          avatar: (derivedName || 'P').charAt(0).toUpperCase()
+        };
+        users.push(user);
+      } else {
+        if (user.role !== 'admin') user.role = 'pm';
+        if (targetName && targetName.trim()) {
+          user.name = targetName.trim();
+          user.avatar = user.name.charAt(0).toUpperCase();
+        }
+        user.authProvider = 'google';
+      }
+      saveUsersToStorage();
 
       // Select role with this authenticated user
       selectRole(user.role, user);
-      closeGoogleAuthModal();
       closeModal('modal-account-center');
       updateHeaderAuthState();
       switchView('boards');
 
-      showSavingToast('Connected via Google', `Welcome back, ${user.name}! Connected with ${user.email}`);
+      showSavingToast('Connected via Google', `Welcome, ${user.name}! Connected with ${user.email}`);
       return true;
-    }
-
-    function handleGoogleCustomInputAuth(e) {
-      e.preventDefault();
-      const emailInput = document.getElementById('ga-custom-email');
-      const nameInput = document.getElementById('ga-custom-name');
-      const email = emailInput ? emailInput.value.trim() : '';
-      const name = nameInput ? nameInput.value.trim() : '';
-      handleGoogleMailSignIn(email, name);
     }
 
     // --- LOGIN PAGE SPECIFIC HANDLERS ---
@@ -5773,8 +5008,6 @@
     window.openGoogleAuthModal = openGoogleAuthModal;
     window.closeGoogleAuthModal = closeGoogleAuthModal;
     window.handleGoogleMailSignIn = handleGoogleMailSignIn;
-    window.handleGoogleCustomInputAuth = handleGoogleCustomInputAuth;
-    window.handleGoogleInputValidation = handleGoogleInputValidation;
     window.handleLoginPageEmailInput = handleLoginPageEmailInput;
     window.renderLoginPageState = renderLoginPageState;
 
@@ -5792,98 +5025,18 @@
       return (userEmail && pmEmail && userEmail === pmEmail) || (userName && pmName && userName === pmName);
     }
 
-    function isAuthorizedPm(project, user = currentUser, role = currentRole) {
-      if (!project) return false;
-      if (role === 'admin') return true;
-      if (role !== 'pm') return false;
-      const userEmail = (user && user.email) ? user.email.toLowerCase().trim() : '';
-      const userName = (user && user.name) ? user.name.toLowerCase().trim() : '';
-      const authEmail = (project.authorizedPmEmail || '').toLowerCase().trim();
-      const authName = (project.authorizedPmName || '').toLowerCase().trim();
-      if (!authEmail && !authName) return false;
-      return (userEmail && authEmail && userEmail === authEmail) || (userName && authName && userName === authName);
-    }
-
     function canEditProject(project, user = currentUser, role = currentRole) {
       if (!project) return false;
       if (role === 'admin') return true;
       if (role === 'client') return false;
       if (role === 'pm') {
-        return isProjectOwner(project, user, role) || isAuthorizedPm(project, user, role);
+        return isProjectOwner(project, user, role);
       }
       return false;
     }
 
     function showUnauthorizedProjectToast(projectName, pmName) {
-      showSavingToast('Modification restreinte', `Seul le PM créateur (${pmName || 'PM'}) ou le PM autorisé peut modifier "${projectName}".`, 'shield-alert');
-    }
-
-    function openGrantPmPermissionModal(projId) {
-      const project = projects.find(p => p.id === projId);
-      if (!project) return;
-      if (!isProjectOwner(project) && currentRole !== 'admin') {
-        showSavingToast('Action restreinte', `Seul le PM créateur (${project.pmName || 'PM'}) ou un administrateur peut gérer les délégations.`, 'shield-alert');
-        return;
-      }
-      const idInput = document.getElementById('perm-project-id');
-      const nameEl = document.getElementById('perm-project-name');
-      const creatorEl = document.getElementById('perm-creator-name');
-      const select = document.getElementById('perm-pm-select');
-
-      if (idInput) idInput.value = project.id;
-      if (nameEl) nameEl.textContent = project.name;
-      if (creatorEl) creatorEl.textContent = `${project.pmName || 'PM'} (${project.pmEmail || ''})`;
-
-      if (select) {
-        const pmUsers = users.filter(u => u.role === 'pm');
-        const curPmEmail = (project.pmEmail || '').toLowerCase();
-        const currentAuthEmail = (project.authorizedPmEmail || '').toLowerCase();
-
-        select.innerHTML = `
-          <option value="" ${!currentAuthEmail ? 'selected' : ''}>-- Aucun (Désactiver la délégation) --</option>
-          ${pmUsers
-            .filter(u => u.email.toLowerCase() !== curPmEmail)
-            .map(u => `<option value="${u.email}" ${u.email.toLowerCase() === currentAuthEmail ? 'selected' : ''}>${u.name} (${u.email})</option>`)
-            .join('')}
-        `;
-      }
-
-      document.getElementById('modal-pm-permission').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    function handleGrantPmPermissionSubmit(e) {
-      e.preventDefault();
-      const projId = document.getElementById('perm-project-id').value;
-      const project = projects.find(p => p.id === projId);
-      if (!project) return;
-
-      if (!isProjectOwner(project) && currentRole !== 'admin') {
-        showSavingToast('Action restreinte', 'Seul le PM créateur ou un administrateur peut gérer les délégations.', 'shield-alert');
-        return;
-      }
-
-      const select = document.getElementById('perm-pm-select');
-      const authEmail = select ? select.value.trim() : '';
-
-      if (authEmail) {
-        const authUser = users.find(u => u.email.toLowerCase() === authEmail.toLowerCase());
-        project.authorizedPmEmail = authEmail;
-        project.authorizedPmName = authUser ? authUser.name : authEmail.split('@')[0];
-        logActivity('Permission PM Accordée', `${currentUser?.name || 'PM'} a accordé la permission de modifier à ${project.authorizedPmName}`, 'user-check', 'project', project.id);
-        showSavingToast('Permission accordée', `${project.authorizedPmName} est désormais autorisé à modifier "${project.name}".`);
-      } else {
-        project.authorizedPmEmail = '';
-        project.authorizedPmName = '';
-        logActivity('Permission PM Révoquée', `${currentUser?.name || 'PM'} a révoqué la délégation de permission`, 'shield-alert', 'project', project.id);
-        showSavingToast('Permission révoquée', `Seul le PM créateur (${project.pmName}) peut désormais modifier ce projet.`);
-      }
-
-      saveProjectsToStorage();
-      closeModal('modal-pm-permission');
-      renderBoardsGrid();
-      renderProjectSelector();
-      renderApp();
+      showSavingToast('Modification restricted', `Only the assigned PM (${pmName || 'PM'}) can edit "${projectName}".`, 'shield-alert');
     }
 
     function updateTimelinePermissionBanner() {
@@ -5897,9 +5050,8 @@
       }
 
       const isOwner = isProjectOwner(project);
-      const isAuth = isAuthorizedPm(project);
 
-      if (!isOwner && !isAuth) {
+      if (!isOwner) {
         banner.className = 'bg-amber-50/95 border border-amber-200/90 rounded-2xl p-4 flex items-center justify-between gap-3 text-amber-900 shadow-xs mb-4';
         banner.innerHTML = `
           <div class="flex items-center space-x-3">
@@ -5907,46 +5059,12 @@
               <i data-lucide="lock" class="w-4 h-4"></i>
             </div>
             <div>
-              <p class="font-bold text-xs text-amber-950">Mode Consultation Seule</p>
+              <p class="font-bold text-xs text-amber-950">Read-Only Mode</p>
               <p class="text-[11px] text-amber-800">
-                Ce projet appartient au PM créateur <strong>${project.pmName || 'PM'}</strong>. Seul ce PM ou le PM autorisé (${project.authorizedPmName || 'aucun'}) a la permission de modifier ce projet.
+                This project belongs to <strong>${project.pmName || 'PM'}</strong>. Only the assigned PM can edit this project.
               </p>
             </div>
           </div>
-        `;
-        banner.classList.remove('hidden');
-      } else if (isAuth && !isOwner) {
-        banner.className = 'bg-indigo-50/90 border border-indigo-200/80 rounded-2xl p-3 flex items-center justify-between gap-3 text-indigo-950 shadow-2xs mb-4';
-        banner.innerHTML = `
-          <div class="flex items-center space-x-2.5">
-            <div class="w-7 h-7 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0">
-              <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
-            </div>
-            <div>
-              <span class="font-bold text-xs">Permission accordée par ${project.pmName || 'le PM créateur'}</span>
-              <span class="text-[11px] text-indigo-700 block">Vous êtes le PM autorisé à modifier ce projet en co-gestion.</span>
-            </div>
-          </div>
-          <span class="px-2.5 py-1 rounded-lg bg-indigo-100 text-indigo-800 text-[10.5px] font-bold border border-indigo-200/60 shrink-0">
-            Co-PM Autorisé
-          </span>
-        `;
-        banner.classList.remove('hidden');
-      } else if (isOwner && project.authorizedPmName) {
-        banner.className = 'bg-purple-50/70 border border-purple-200/70 rounded-2xl p-3 flex items-center justify-between gap-3 text-purple-950 shadow-2xs mb-4';
-        banner.innerHTML = `
-          <div class="flex items-center space-x-2.5">
-            <div class="w-7 h-7 rounded-xl bg-purple-100 text-brand-purple flex items-center justify-center shrink-0">
-              <i data-lucide="users" class="w-3.5 h-3.5"></i>
-            </div>
-            <div>
-              <span class="font-bold text-xs">Projet co-géré</span>
-              <span class="text-[11px] text-slate-600 block">Vous avez autorisé <strong>${project.authorizedPmName}</strong> à modifier ce projet.</span>
-            </div>
-          </div>
-          <button type="button" onclick="openGrantPmPermissionModal('${project.id}')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-purple-100 text-brand-purple text-[10.5px] font-bold border border-purple-200 shadow-2xs transition cursor-pointer">
-            Gérer la permission
-          </button>
         `;
         banner.classList.remove('hidden');
       } else {
@@ -5967,11 +5085,7 @@
         const accessible = projects.filter(p => {
           const pmEmail = (p.pmEmail || '').toLowerCase().trim();
           const pmName = (p.pmName || '').toLowerCase().trim();
-          const authEmail = (p.authorizedPmEmail || '').toLowerCase().trim();
-          const authName = (p.authorizedPmName || '').toLowerCase().trim();
-          const isOwner = (userEmail && pmEmail === userEmail) || (userName && pmName === userName);
-          const isAuthorized = (userEmail && authEmail === userEmail) || (userName && authName === userName);
-          return isOwner || isAuthorized;
+          return (userEmail && pmEmail === userEmail) || (userName && pmName === userName);
         });
         return accessible.length > 0 ? accessible : [];
       }
@@ -5988,7 +5102,6 @@
       const isAuth = !!(currentUser && !currentUser.isGuest);
       const navBoards = document.getElementById('nav-boards');
       const navTimeline = document.getElementById('nav-timeline');
-      const btnAdminHub = document.getElementById('btn-admin-hub');
       const btnPushNotify = document.getElementById('btn-push-notify');
       const roleSwitcher = document.getElementById('role-switcher-container');
       const btnAccountCenter = document.getElementById('btn-account-center');
@@ -5996,12 +5109,10 @@
       const projectSelector = document.getElementById('project-selector');
       const headerEmailContainer = document.getElementById('header-email-container');
       const btnLanguages = document.getElementById('btn-edit-languages');
-      const acAdminHubLink = document.getElementById('ac-admin-hub-link');
 
       if (!isAuth) {
         if (navBoards) navBoards.classList.add('hidden');
         if (navTimeline) navTimeline.classList.add('hidden');
-        if (btnAdminHub) btnAdminHub.classList.add('hidden');
         if (btnPushNotify) btnPushNotify.classList.add('hidden');
         if (roleSwitcher) roleSwitcher.classList.add('hidden');
         if (btnAccountCenter) btnAccountCenter.classList.add('hidden');
@@ -6009,7 +5120,6 @@
         if (projectSelector) projectSelector.classList.add('hidden');
         if (headerEmailContainer) headerEmailContainer.classList.add('hidden');
         if (btnLanguages) btnLanguages.classList.add('hidden');
-        if (acAdminHubLink) acAdminHubLink.classList.add('hidden');
       } else {
         if (unauthBadge) unauthBadge.classList.add('hidden');
         if (btnAccountCenter) btnAccountCenter.classList.remove('hidden');
@@ -6028,13 +5138,6 @@
           if (projectSelector) projectSelector.classList.add('hidden');
           if (btnPushNotify) btnPushNotify.classList.add('hidden');
           if (btnLanguages) btnLanguages.classList.add('hidden');
-        }
-
-        if (btnAdminHub) {
-          btnAdminHub.classList.toggle('hidden', currentRole !== 'admin');
-        }
-        if (acAdminHubLink) {
-          acAdminHubLink.classList.toggle('hidden', currentRole !== 'admin');
         }
       }
       if (window.lucide) lucide.createIcons();
@@ -6166,16 +5269,7 @@
       updateDailyDigestBannerAndBadge();
       checkAndAutoDispatchDailyDigest();
       fetchAndCacheNeuroooLanguages();
-      syncCustomPriorityUI();
       syncCustomPackageUI();
-
-      const btnAdminHub = document.getElementById('btn-admin-hub');
-      if (btnAdminHub) {
-        btnAdminHub.addEventListener('click', (e) => {
-          e.preventDefault();
-          openAdminHub();
-        });
-      }
     });
 
     window.addEventListener('popstate', () => {
@@ -8068,6 +7162,25 @@
           </button>
         `;
       }
+
+      const viewWebsiteContainer = document.getElementById('axis-view-website-container');
+      if (viewWebsiteContainer) {
+        const rawStagingUrl = (project.stagingSiteUrl || '').trim();
+        let safeStagingHref = '';
+        if (rawStagingUrl && !/^(javascript|data|vbscript):/i.test(rawStagingUrl)) {
+          safeStagingHref = /^https?:\/\//i.test(rawStagingUrl) ? rawStagingUrl : `https://${rawStagingUrl}`;
+        }
+        if (safeStagingHref) {
+          viewWebsiteContainer.innerHTML = `
+            <a href="${escapeHtml(safeStagingHref)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-200 hover:text-white border border-emerald-400/50 hover:border-emerald-300 shadow-sm transition text-xs font-bold cursor-pointer active:scale-95 group" title="Open live staging website in new tab">
+              <i data-lucide="external-link" class="w-3.5 h-3.5 text-emerald-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+              <span>View website</span>
+            </a>
+          `;
+        } else {
+          viewWebsiteContainer.innerHTML = '';
+        }
+      }
       if (window.lucide) lucide.createIcons();
     }
 
@@ -9594,6 +8707,103 @@
       setBlockStatus(null, blockKey, target);
     }
 
+    function markPhaseStepsDone(sectionNumber) {
+      if (![1, 2, 3, 4].includes(sectionNumber)) return;
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project) return;
+      if (!canEditProject(project)) {
+        showUnauthorizedProjectToast(project.name, project.pmName);
+        return;
+      }
+      if (!project.completionStatus) {
+        project.completionStatus = {};
+      }
+
+      const phaseNames = {
+        1: 'Website Structure',
+        2: 'Content Collection',
+        3: 'Revision Phase',
+        4: 'Go-Live'
+      };
+      let stepKeys = [];
+
+      if (sectionNumber === 1) {
+        project.completionStatus.sitemap = 'done';
+        project.sitemapCompleted = true;
+        if (Array.isArray(project.sitemapDocs)) {
+          project.sitemapDocs.forEach(d => {
+            d.completed = true;
+            d.status = 'done';
+          });
+        }
+        if (isSeoPackage(project.packageTier) || project.hasSeoQuestionnaire === true) {
+          project.completionStatus.seoQuestionnaire = 'done';
+        }
+        project.completionStatus.templates = 'done';
+        stepKeys = ['sitemap', 'seoQuestionnaire', 'templates'];
+      } else if (sectionNumber === 2) {
+        stepKeys = ['texts', 'images', 'brandIdentity', 'colors', 'fonts', 'brandFiles', 'domainServices', 'currentDomain', 'finalDomain', 'otherDomains', 'ga4', 'maps'];
+        stepKeys.forEach(k => {
+          project.completionStatus[k] = 'done';
+        });
+        if (Array.isArray(project.textDocs)) {
+          project.textDocs.forEach(d => {
+            d.completed = true;
+            d.status = 'done';
+          });
+        }
+      } else if (sectionNumber === 3) {
+        const rounds = getProjectRevisionRounds(project) || [];
+        stepKeys = Array.from(new Set(['staging', 'firstWaveRevisions', 'secondWaveRevisions', 'thirdParty', ...rounds.map(r => r.id)]));
+        stepKeys.forEach(k => {
+          project.completionStatus[k] = 'done';
+        });
+      } else if (sectionNumber === 4) {
+        project.completionStatus.goLive = 'done';
+        const currentServer = project.serverSelection || 'EMEAWEBFB3';
+        const activeConfig = DNS_SERVERS_CONFIG[currentServer] || DNS_SERVERS_CONFIG['EMEAWEBFB3'];
+        if (!project.dnsRecordsDone) project.dnsRecordsDone = {};
+        if (activeConfig && Array.isArray(activeConfig.records)) {
+          activeConfig.records.forEach((_, idx) => {
+            project.dnsRecordsDone[`${currentServer}_${idx}`] = true;
+          });
+        }
+        project.dnsRecordsDone[`${currentServer}_txt`] = true;
+        stepKeys = ['goLive'];
+      }
+
+      if (Array.isArray(project.steps)) {
+        project.steps.forEach(s => {
+          const meta = getStepBlockMeta(s);
+          if (meta && stepKeys.includes(meta.key)) {
+            s.status = 'completed';
+          }
+        });
+      }
+
+      saveProjectsToStorage();
+      if (sectionNumber === 1) renderSitemapDocs(project);
+      else if (sectionNumber === 2) renderTextDocs(project);
+      else if (sectionNumber === 3) renderRevisionPhaseSection(project);
+      else if (sectionNumber === 4) renderGoLiveSection(project);
+
+      renderTimelineAxis(project);
+      renderAllDoneButtons(project);
+      renderSectionProgressBars(project);
+      triggerMilestoneCardCompletionPulse(sectionNumber);
+      const phaseLabel = phaseNames[sectionNumber];
+      logActivity(
+        'Phase Completed',
+        `Marked all steps in ${phaseLabel} as Done`,
+        'check-check',
+        'milestone',
+        project.id
+      );
+      lucide.createIcons();
+      showSavingToast('Phase Completed', `All steps in ${phaseLabel} marked as Done`);
+    }
+    window.markPhaseStepsDone = markPhaseStepsDone;
+
     function getSectionStats(project, sectionNumber) {
       if (!project) return { isComplete: false, doneCount: 0, totalCount: 0, pct: 0 };
       const status = project.completionStatus || {};
@@ -10032,6 +9242,7 @@
         }
       }
 
+
       // --- SECTION 2: CONTENT COLLECTION ---
       const s2 = getSectionStats(project, 2);
       const ccProgContainer = document.getElementById('content-collection-progress-container');
@@ -10109,6 +9320,33 @@
           `;
         }
       }
+
+      const markAllConfigs = [
+        { section: 1, containerId: 'sitemap-mark-all-done-container', label: 'Website Structure', stats: s1 },
+        { section: 2, containerId: 'content-collection-mark-all-done-container', label: 'Content Collection', stats: s2 },
+        { section: 3, containerId: 'revision-phase-mark-all-done-container', label: 'Revision Phase', stats: s3 },
+        { section: 4, containerId: 'go-live-mark-all-done-container', label: 'Go-Live', stats: s4 }
+      ];
+      const canBulkEdit = (currentRole === 'pm' || currentRole === 'admin') && canEditProject(project);
+      markAllConfigs.forEach(cfg => {
+        const btnContainer = document.getElementById(cfg.containerId);
+        if (!btnContainer) return;
+        if (canBulkEdit && !cfg.stats.isComplete && cfg.stats.pct < 100) {
+          btnContainer.innerHTML = `
+            <button
+              type="button"
+              onclick="markPhaseStepsDone(${cfg.section})"
+              class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200/90 shadow-2xs transition active:scale-95 cursor-pointer"
+              title="Mark all steps in ${cfg.label} as Done"
+            >
+              <i data-lucide="check-check" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
+              <span>Mark all Done</span>
+            </button>
+          `;
+        } else {
+          btnContainer.innerHTML = '';
+        }
+      });
 
       updateSectionWrapping(project);
       lucide.createIcons();
@@ -10577,26 +9815,33 @@
       if (rounds && rounds.length > 0) {
         revisionCardsHtml = `
           <div class="grid grid-cols-1 gap-3">
-            ${rounds.map((r, rIdx) => `
-              <div id="${r.id === 'firstWaveRevisions' ? 'first-wave-card' : r.id === 'secondWaveRevisions' ? 'second-wave-card' : `rev-round-card-${r.id}`}" class="perspective-card p-4 flex items-center justify-between gap-3">
-                <div class="flex items-center space-x-2.5 min-w-0">
-                  <div class="w-8 h-8 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-800 font-bold text-xs shrink-0 shadow-2xs">
-                    ${rIdx + 1}
+            ${rounds.map((r, rIdx) => {
+              const isFirstWave = r.id === 'firstWaveRevisions';
+              const cardId = isFirstWave ? 'first-wave-card' : r.id === 'secondWaveRevisions' ? 'second-wave-card' : `rev-round-card-${r.id}`;
+              return `
+              <div id="${cardId}" class="perspective-card p-4 ${isFirstWave ? 'space-y-3' : 'flex items-center justify-between gap-3'}">
+                <div class="${isFirstWave ? 'flex items-center justify-between gap-3' : 'contents'}">
+                  <div class="flex items-center space-x-2.5 min-w-0">
+                    <div class="w-8 h-8 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-800 font-bold text-xs shrink-0 shadow-2xs">
+                      ${rIdx + 1}
+                    </div>
+                    <div class="min-w-0">
+                      <h4 class="font-bold text-slate-900 text-xs truncate">${formatRevisionTitle(r)}</h4>
+                    </div>
                   </div>
-                  <div class="min-w-0">
-                    <h4 class="font-bold text-slate-900 text-xs truncate">${formatRevisionTitle(r)}</h4>
+                  <div class="flex items-center space-x-2 shrink-0">
+                    ${renderBlockStatusSelectorHtml(r.id)}
+                    ${(currentRole === 'pm' || currentRole === 'admin') ? `
+                      <button type="button" onclick="confirmDeleteRevisionRound(${rIdx}, this, event)" class="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition cursor-pointer" title="Remove Revision">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                      </button>
+                    ` : ''}
                   </div>
                 </div>
-                <div class="flex items-center space-x-2 shrink-0">
-                  ${renderBlockStatusSelectorHtml(r.id)}
-                  ${(currentRole === 'pm' || currentRole === 'admin') ? `
-                    <button type="button" onclick="confirmDeleteRevisionRound(${rIdx}, this, event)" class="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition cursor-pointer" title="Remove Revision">
-                      <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                    </button>
-                  ` : ''}
-                </div>
+                ${isFirstWave ? renderFirstWaveSubmissionHtml(project) : ''}
               </div>
-            `).join('')}
+            `;
+            }).join('')}
             ${(currentRole === 'pm' || currentRole === 'admin') ? `
               <div class="bg-amber-50/20 p-3.5 rounded-xl border border-dashed border-amber-200 flex items-center justify-between gap-3 transition">
                 <div class="flex items-center space-x-2.5 min-w-0">
@@ -10640,6 +9885,378 @@
 
       renderAllDoneButtons(project);
       lucide.createIcons();
+    }
+
+    let firstWaveImportTab = 'file';
+    let pendingFirstWaveDraft = null;
+    let pendingFirstWaveProjectId = null;
+    let firstWaveImportError = '';
+    const FIRST_WAVE_MAX_FILE_BYTES = 2.5 * 1024 * 1024;
+
+    function formatSubmissionBytes(bytes) {
+      if (!bytes || bytes <= 0) return '0 KB';
+      if (bytes < 1024) return `${bytes} B`;
+      if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
+      return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+    }
+
+    function normalizeSubmissionUrl(raw) {
+      const trimmed = (raw || '').trim();
+      if (!trimmed || /^(javascript|data|vbscript):/i.test(trimmed)) return null;
+      const candidate = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+      try {
+        const parsed = new URL(candidate);
+        if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return null;
+        if (!parsed.hostname || !parsed.hostname.includes('.')) return null;
+        return parsed.toString();
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function isSafeDataDownloadUrl(dataUrl) {
+      return typeof dataUrl === 'string' && /^data:(application\/pdf|application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document|application\/octet-stream);base64,[A-Za-z0-9+/=]+$/i.test(dataUrl);
+    }
+
+    function renderFirstWaveSubmissionHtml(project) {
+      if (!project) return '';
+      if (pendingFirstWaveProjectId !== project.id) {
+        pendingFirstWaveProjectId = project.id;
+        pendingFirstWaveDraft = null;
+        firstWaveImportError = '';
+      }
+
+      const sub = project.firstWaveSubmission;
+      const isGuestOrClient = (currentRole === 'client' || currentRole === 'guest');
+
+      // State 1: Already uploaded / submitted -> permanently locked
+      if (sub) {
+        const submittedDate = sub.submittedAt ? new Date(sub.submittedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+        if (sub.type === 'file') {
+          const ext = (sub.fileName || '').toLowerCase().endsWith('.docx') ? 'DOCX' : 'PDF';
+          const badgeClass = ext === 'PDF' ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-sky-50 text-sky-700 border-sky-200';
+          const safeHref = isSafeDataDownloadUrl(sub.fileData) ? sub.fileData : '#';
+          return `
+            <div class="pt-2.5 border-t border-slate-100 space-y-2">
+              <div class="bg-slate-50/90 border border-slate-200 rounded-xl p-3 flex items-center justify-between gap-2.5">
+                <div class="flex items-center space-x-2.5 min-w-0">
+                  <div class="w-8 h-8 rounded-lg border ${badgeClass} flex items-center justify-center font-bold text-[10px] shrink-0">
+                    ${ext}
+                  </div>
+                  <div class="min-w-0">
+                    <div class="text-xs font-bold text-slate-900 truncate" title="${escapeHtml(sub.fileName)}">${escapeHtml(sub.fileName)}</div>
+                    <div class="text-[10.5px] text-slate-500 flex items-center space-x-1.5">
+                      <span>${formatSubmissionBytes(sub.fileSize)}</span>
+                      ${submittedDate ? `<span>•</span><span>Submitted ${escapeHtml(submittedDate)}</span>` : ''}
+                    </div>
+                  </div>
+                </div>
+                ${safeHref !== '#' ? `
+                  <a href="${safeHref}" download="${escapeHtml(sub.fileName)}" class="px-2.5 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-[11px] font-bold flex items-center space-x-1 shrink-0 transition shadow-2xs" title="Download submitted file">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                    <span>Download</span>
+                  </a>
+                ` : ''}
+              </div>
+              <div class="flex items-start space-x-1.5 text-[11px] text-amber-800 bg-amber-50/90 border border-amber-200/80 rounded-lg px-2.5 py-1.5">
+                <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5"></i>
+                <span>Submission locked — this file cannot be changed. Any new requests will require an additional revision phase.</span>
+              </div>
+            </div>
+          `;
+        } else {
+          const safeLink = normalizeSubmissionUrl(sub.url) || '#';
+          return `
+            <div class="pt-2.5 border-t border-slate-100 space-y-2">
+              <div class="bg-slate-50/90 border border-slate-200 rounded-xl p-3 flex items-center justify-between gap-2.5">
+                <div class="flex items-center space-x-2.5 min-w-0">
+                  <div class="w-8 h-8 rounded-lg border bg-amber-50 text-amber-700 border-amber-200 flex items-center justify-center shrink-0">
+                    <i data-lucide="link-2" class="w-4 h-4"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="text-xs font-bold text-slate-900 truncate" title="${escapeHtml(sub.url)}">${escapeHtml(sub.url)}</div>
+                    ${submittedDate ? `<div class="text-[10.5px] text-slate-500">Submitted ${escapeHtml(submittedDate)}</div>` : ''}
+                  </div>
+                </div>
+                ${safeLink !== '#' ? `
+                  <a href="${escapeHtml(safeLink)}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-[11px] font-bold flex items-center space-x-1 shrink-0 transition shadow-2xs" title="Open submitted link">
+                    <span>Open</span>
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                  </a>
+                ` : ''}
+              </div>
+              <div class="flex items-start space-x-1.5 text-[11px] text-amber-800 bg-amber-50/90 border border-amber-200/80 rounded-lg px-2.5 py-1.5">
+                <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5"></i>
+                <span>Submission locked — this link cannot be changed. Any new requests will require an additional revision phase.</span>
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      // State 2: Not submitted yet & PM/Admin view
+      if (!isGuestOrClient) {
+        return `
+          <div class="pt-2.5 border-t border-slate-100">
+            <div class="p-2.5 bg-slate-50/80 border border-dashed border-slate-200 rounded-xl text-[11px] text-slate-500 flex items-center space-x-2">
+              <i data-lucide="upload-cloud" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+              <span>Awaiting guest feedback — client can upload a PDF/DOCX file or submit a link here.</span>
+            </div>
+          </div>
+        `;
+      }
+
+      // State 3: Section 3 already marked Done
+      if (typeof isBlockInSectionComplete === 'function' && isBlockInSectionComplete(project, 'firstWaveRevisions')) {
+        return `
+          <div class="pt-2.5 border-t border-slate-100">
+            <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-500 flex items-center space-x-2">
+              <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+              <span>Revision phase completed — submissions are closed.</span>
+            </div>
+          </div>
+        `;
+      }
+
+      // State 4: Guest import UI (PDF / DOCX or Link)
+      const isFileTab = firstWaveImportTab === 'file';
+      const draft = pendingFirstWaveDraft;
+
+      let importBodyHtml = '';
+      if (isFileTab) {
+        if (draft && draft.type === 'file') {
+          const ext = draft.fileName.toLowerCase().endsWith('.docx') ? 'DOCX' : 'PDF';
+          importBodyHtml = `
+            <div class="bg-slate-50 border border-amber-200 rounded-xl p-3 space-y-2.5">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center space-x-2.5 min-w-0">
+                  <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 font-bold text-[10px] flex items-center justify-center shrink-0">${ext}</div>
+                  <div class="min-w-0">
+                    <div class="text-xs font-bold text-slate-900 truncate">${escapeHtml(draft.fileName)}</div>
+                    <div class="text-[10.5px] text-slate-500">${formatSubmissionBytes(draft.fileSize)} • Ready to submit</div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center justify-end space-x-2">
+                <button type="button" onclick="cancelFirstWaveDraft()" class="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-slate-600 text-[11px] font-semibold transition cursor-pointer">
+                  Change File
+                </button>
+                <button type="button" onclick="confirmFirstWaveSubmission()" class="px-3.5 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-[11px] font-bold flex items-center space-x-1.5 shadow-2xs transition cursor-pointer">
+                  <i data-lucide="lock" class="w-3 h-3"></i>
+                  <span>Confirm &amp; Upload</span>
+                </button>
+              </div>
+            </div>
+          `;
+        } else {
+          importBodyHtml = `
+            <label
+              for="first-wave-file-input"
+              ondragover="event.preventDefault(); this.classList.add('border-amber-500', 'bg-amber-50/70');"
+              ondragleave="this.classList.remove('border-amber-500', 'bg-amber-50/70');"
+              ondrop="handleFirstWaveFileDrop(event)"
+              class="flex flex-col items-center justify-center p-4 border-2 border-dashed border-slate-200 hover:border-amber-400 hover:bg-amber-50/30 rounded-xl cursor-pointer transition text-center space-y-1.5"
+            >
+              <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center">
+                <i data-lucide="upload-cloud" class="w-4 h-4"></i>
+              </div>
+              <div class="text-xs font-bold text-slate-800">Click to import PDF or DOCX, or drag &amp; drop</div>
+              <div class="text-[10.5px] text-slate-400">Accepted formats: .pdf, .docx (max 2.5 MB)</div>
+              <input id="first-wave-file-input" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden" onchange="handleFirstWaveFileInputChange(this)">
+            </label>
+          `;
+        }
+      } else {
+        if (draft && draft.type === 'link') {
+          importBodyHtml = `
+            <div class="bg-slate-50 border border-amber-200 rounded-xl p-3 space-y-2.5">
+              <div class="flex items-center space-x-2 min-w-0">
+                <i data-lucide="link-2" class="w-4 h-4 text-amber-700 shrink-0"></i>
+                <span class="text-xs font-mono text-slate-800 truncate">${escapeHtml(draft.url)}</span>
+              </div>
+              <div class="flex items-center justify-end space-x-2">
+                <button type="button" onclick="cancelFirstWaveDraft()" class="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-slate-600 text-[11px] font-semibold transition cursor-pointer">
+                  Edit Link
+                </button>
+                <button type="button" onclick="confirmFirstWaveSubmission()" class="px-3.5 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-[11px] font-bold flex items-center space-x-1.5 shadow-2xs transition cursor-pointer">
+                  <i data-lucide="lock" class="w-3 h-3"></i>
+                  <span>Confirm &amp; Submit</span>
+                </button>
+              </div>
+            </div>
+          `;
+        } else {
+          importBodyHtml = `
+            <div class="flex items-center space-x-2">
+              <div class="flex-1 flex items-center space-x-2 bg-slate-50/70 border border-slate-200 rounded-xl px-2.5 py-2 focus-within:ring-2 focus-within:ring-amber-500 focus-within:bg-white transition">
+                <i data-lucide="link-2" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+                <input id="first-wave-link-input" type="url" placeholder="https://docs.google.com/... or feedback link" class="w-full text-xs outline-none bg-transparent text-slate-800 placeholder-slate-400" onkeydown="if(event.key==='Enter'){event.preventDefault();stageFirstWaveLink();}">
+              </div>
+              <button type="button" onclick="stageFirstWaveLink()" class="px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold transition shadow-2xs shrink-0 cursor-pointer">
+                Import Link
+              </button>
+            </div>
+          `;
+        }
+      }
+
+      return `
+        <div id="first-wave-import-area" class="pt-2.5 border-t border-slate-100 space-y-2.5">
+          <div class="flex items-center justify-between gap-2">
+            <div class="inline-flex bg-slate-100 p-0.5 rounded-lg border border-slate-200/80 text-[11px] font-semibold">
+              <button type="button" onclick="setFirstWaveImportTab('file')" class="px-2.5 py-1 rounded-md transition cursor-pointer ${isFileTab ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-500 hover:text-slate-800'}">
+                Upload PDF / DOCX
+              </button>
+              <button type="button" onclick="setFirstWaveImportTab('link')" class="px-2.5 py-1 rounded-md transition cursor-pointer ${!isFileTab ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-500 hover:text-slate-800'}">
+                Share Link
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-2 bg-amber-50/90 border border-amber-200 rounded-xl px-3 py-2 text-[11px] text-amber-900 leading-snug">
+            <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5"></i>
+            <span><strong>Please note:</strong> Once uploaded or submitted, your file or link cannot be changed. Any additional requests will require opening a new revision phase.</span>
+          </div>
+
+          ${importBodyHtml}
+
+          ${firstWaveImportError ? `
+            <div class="text-[11px] text-rose-700 bg-rose-50 border border-rose-200 rounded-lg px-2.5 py-1.5 flex items-center space-x-1.5">
+              <i data-lucide="alert-circle" class="w-3.5 h-3.5 shrink-0"></i>
+              <span>${escapeHtml(firstWaveImportError)}</span>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function setFirstWaveImportTab(tab) {
+      firstWaveImportTab = tab === 'link' ? 'link' : 'file';
+      pendingFirstWaveDraft = null;
+      firstWaveImportError = '';
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project) renderRevisionPhaseSection(project);
+    }
+
+    function handleFirstWaveFileDrop(e) {
+      e.preventDefault();
+      const file = e.dataTransfer?.files?.[0];
+      if (file) processFirstWaveFile(file);
+    }
+
+    function handleFirstWaveFileInputChange(inputEl) {
+      const file = inputEl?.files?.[0];
+      if (file) processFirstWaveFile(file);
+    }
+
+    function processFirstWaveFile(file) {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project || project.firstWaveSubmission) return;
+      firstWaveImportError = '';
+
+      const lowerName = (file.name || '').toLowerCase();
+      if (!lowerName.endsWith('.pdf') && !lowerName.endsWith('.docx')) {
+        firstWaveImportError = 'Invalid file format. Please upload a .pdf or .docx file only.';
+        renderRevisionPhaseSection(project);
+        return;
+      }
+      if (file.size <= 0) {
+        firstWaveImportError = 'The selected file is empty.';
+        renderRevisionPhaseSection(project);
+        return;
+      }
+      if (file.size > FIRST_WAVE_MAX_FILE_BYTES) {
+        firstWaveImportError = 'File exceeds the 2.5 MB limit. Please upload a smaller file or share a link instead.';
+        renderRevisionPhaseSection(project);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const result = evt.target?.result;
+        if (typeof result !== 'string' || !result.startsWith('data:')) {
+          firstWaveImportError = 'Unable to read the selected file. Please try again.';
+          renderRevisionPhaseSection(project);
+          return;
+        }
+        const expectedMime = lowerName.endsWith('.pdf')
+          ? 'application/pdf'
+          : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        const base64Part = result.split(',')[1] || '';
+        const normalizedDataUrl = `data:${expectedMime};base64,${base64Part}`;
+        pendingFirstWaveDraft = {
+          type: 'file',
+          fileName: file.name,
+          fileSize: file.size,
+          mimeType: expectedMime,
+          fileData: normalizedDataUrl
+        };
+        pendingFirstWaveProjectId = project.id;
+        renderRevisionPhaseSection(project);
+      };
+      reader.onerror = function() {
+        firstWaveImportError = 'Failed to read file. Please try again.';
+        renderRevisionPhaseSection(project);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function stageFirstWaveLink() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project || project.firstWaveSubmission) return;
+      const input = document.getElementById('first-wave-link-input');
+      const normalized = normalizeSubmissionUrl(input ? input.value : '');
+      if (!normalized) {
+        firstWaveImportError = 'Please enter a valid URL (e.g. https://docs.google.com/...).';
+        renderRevisionPhaseSection(project);
+        return;
+      }
+      firstWaveImportError = '';
+      pendingFirstWaveDraft = {
+        type: 'link',
+        url: normalized
+      };
+      pendingFirstWaveProjectId = project.id;
+      renderRevisionPhaseSection(project);
+    }
+
+    function cancelFirstWaveDraft() {
+      pendingFirstWaveDraft = null;
+      firstWaveImportError = '';
+      const project = projects.find(p => p.id === currentProjectId);
+      if (project) renderRevisionPhaseSection(project);
+    }
+
+    function confirmFirstWaveSubmission() {
+      const project = projects.find(p => p.id === currentProjectId);
+      if (!project || project.firstWaveSubmission || !pendingFirstWaveDraft) return;
+      if (typeof isBlockInSectionComplete === 'function' && isBlockInSectionComplete(project, 'firstWaveRevisions')) {
+        firstWaveImportError = 'Revision phase is already completed.';
+        renderRevisionPhaseSection(project);
+        return;
+      }
+
+      project.firstWaveSubmission = {
+        ...pendingFirstWaveDraft,
+        submittedAt: new Date().toISOString()
+      };
+
+      const saved = saveProjectsToStorage();
+      if (!saved) {
+        delete project.firstWaveSubmission;
+        firstWaveImportError = 'Browser storage limit reached. Please try a smaller file or share a link instead.';
+        renderRevisionPhaseSection(project);
+        return;
+      }
+
+      const summary = project.firstWaveSubmission.type === 'file'
+        ? `Guest uploaded ${project.firstWaveSubmission.fileName}`
+        : `Guest submitted link ${project.firstWaveSubmission.url}`;
+      pendingFirstWaveDraft = null;
+      firstWaveImportError = '';
+      logActivity('Revision Feedback Submitted', summary, 'upload-cloud', 'milestone', project.id);
+      renderRevisionPhaseSection(project);
+      showSavingToast('Submitting feedback...', 'Revision feedback locked');
     }
 
     function getProjectRevisionRounds(project) {
@@ -10802,8 +10419,10 @@
         renderTimelineAxis(project);
       }
 
+      saveProjectsToStorage();
       logActivity('Staging Settings Updated', project.stagingSiteUrl ? `Configured staging preview URL: ${project.stagingSiteUrl}` : 'Updated staging milestone details', 'globe', 'project', project.id);
       renderRevisionPhaseSection(project);
+      renderTimelineShareButton(project);
       lucide.createIcons();
       showSavingToast('Saving staging site...', 'Staging settings saved');
     }
@@ -12181,7 +11800,7 @@ Thank you!`;
           } flex flex-col justify-between">
             <!-- Card Header (Click to toggle collapse) -->
             <div 
-              class="p-3 sm:p-3.5 flex items-center justify-between gap-1.5 cursor-pointer select-none ${isOpen ? 'rounded-t-xl' : 'rounded-xl'} hover:bg-slate-50/60 transition-colors"
+              class="p-3 sm:p-3.5 flex items-center justify-between gap-1.5 cursor-pointer select-none ${(isOpen || step.type === 'TXT' || step.type === 'A') ? 'rounded-t-xl' : 'rounded-xl'} hover:bg-slate-50/60 transition-colors"
               onclick="toggleDnsCardCollapse('${step.key}')"
               title="${isOpen ? 'Click to collapse this DNS parameter' : 'Click to expand this DNS parameter'}"
             >
@@ -12224,6 +11843,18 @@ Thank you!`;
                 </button>
               </div>
             </div>
+
+            ${step.type === 'TXT' ? `
+              <div class="mx-3 mb-2.5 flex items-start space-x-1.5 bg-emerald-50/90 border border-emerald-200/90 text-emerald-950 rounded-lg px-2.5 py-1.5 text-[10.5px] leading-snug">
+                <i data-lucide="clock" class="w-3.5 h-3.5 text-emerald-700 shrink-0 mt-0.5"></i>
+                <span>Please apply this change on your DNS provider platform <strong>before the publication day</strong>.</span>
+              </div>
+            ` : step.type === 'A' ? `
+              <div class="mx-3 mb-2.5 flex items-start space-x-1.5 bg-amber-50/90 border border-amber-200/90 text-amber-950 rounded-lg px-2.5 py-1.5 text-[10.5px] leading-snug">
+                <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5"></i>
+                <span>Please remove all existing A records and implement <strong>only the 2 D-EDGE A records</strong>.</span>
+              </div>
+            ` : ''}
 
             ${isOpen ? `
               <!-- EXPANDED BODY -->
@@ -13620,6 +13251,8 @@ Thank you!`;
         e.preventDefault();
         e.stopPropagation();
       }
+      closeCustomPmDropdown();
+      closeCustomPackageDropdown();
       const menu = document.getElementById('mp-lang-dropdown-menu');
       const chevron = document.getElementById('mp-lang-chevron');
       if (!menu) return;
@@ -13646,38 +13279,81 @@ Thank you!`;
       }
     }
 
-    // --- CUSTOM PRIORITY & PACKAGE DROPDOWN CONTROLS ---
-    const PRIORITY_DROPDOWN_CONFIG = {
-      High: {
-        label: 'High Priority',
-        dotClass: 'bg-rose-500 ring-rose-200',
-        activeClass: 'bg-rose-50/90 text-rose-700 border-rose-200'
-      },
-      Medium: {
-        label: 'Medium Priority',
-        dotClass: 'bg-amber-500 ring-amber-200',
-        activeClass: 'bg-amber-50/90 text-amber-700 border-amber-200'
-      },
-      Low: {
-        label: 'Low Priority',
-        dotClass: 'bg-emerald-500 ring-emerald-200',
-        activeClass: 'bg-emerald-50/90 text-emerald-700 border-emerald-200'
+    function getAvailablePmList(extraName = '') {
+      const pmMap = new Map();
+      users.filter(u => !u.revoked && (u.role === 'pm' || u.role === 'admin')).forEach(u => {
+        const key = (u.name || '').trim().toLowerCase();
+        if (key) pmMap.set(key, { name: u.name.trim(), email: u.email || '', role: u.role || 'pm' });
+      });
+      projects.forEach(p => {
+        const nm = (p.pmName || '').trim();
+        const key = nm.toLowerCase();
+        if (key && !pmMap.has(key)) {
+          pmMap.set(key, { name: nm, email: p.pmEmail || '', role: 'pm' });
+        }
+      });
+      const extra = (extraName || '').trim();
+      if (extra && !pmMap.has(extra.toLowerCase())) {
+        pmMap.set(extra.toLowerCase(), { name: extra, email: '', role: 'pm' });
       }
-    };
+      return Array.from(pmMap.values());
+    }
 
-    function toggleCustomPriorityDropdown(e) {
+    function renderProjectModalPmOptions(selectedName = '') {
+      const menu = document.getElementById('mp-pm-menu');
+      if (!menu) return;
+      const list = getAvailablePmList(selectedName);
+      const selectedLower = (selectedName || document.getElementById('mp-pm-name')?.value || '').trim().toLowerCase();
+
+      const header = `
+        <div class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between border-b border-slate-100 mb-1">
+          <span>Select Project Manager</span>
+          <span class="text-brand-purple font-bold">${list.length} PM${list.length === 1 ? '' : 's'}</span>
+        </div>
+      `;
+
+      const optionsHtml = list.map(pm => {
+        const isMatch = pm.name.toLowerCase() === selectedLower;
+        const safeName = pm.name.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        const initial = (pm.name || 'P').charAt(0).toUpperCase();
+        return `
+          <button
+            type="button"
+            onclick="selectCustomPm(this.getAttribute('data-name'))"
+            data-name="${safeName}"
+            role="option"
+            class="mp-pm-opt w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs text-left transition cursor-pointer group ${isMatch ? 'bg-purple-50/90 text-brand-purple border border-purple-200 font-bold' : 'hover:bg-slate-50 border border-transparent text-slate-700'}"
+          >
+            <div class="flex items-center space-x-2.5 min-w-0 pr-2">
+              <span class="w-6 h-6 rounded-lg bg-linear-to-br from-purple-500 to-indigo-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0 shadow-2xs">${initial}</span>
+              <div class="min-w-0">
+                <div class="font-bold truncate ${isMatch ? 'text-brand-purple' : 'text-slate-800 group-hover:text-brand-purple'}">${pm.name}</div>
+                ${pm.email ? `<div class="text-[10px] text-slate-400 font-mono truncate">${pm.email}</div>` : ''}
+              </div>
+            </div>
+            ${isMatch ? '<i data-lucide="check" class="w-4 h-4 text-brand-purple shrink-0"></i>' : ''}
+          </button>
+        `;
+      }).join('');
+
+      menu.innerHTML = header + optionsHtml;
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function toggleCustomPmDropdown(e) {
       if (e) {
         e.preventDefault();
         e.stopPropagation();
       }
       closeProjectModalLangDropdown();
       closeCustomPackageDropdown();
-      const menu = document.getElementById('mp-priority-menu');
-      const btn = document.getElementById('mp-priority-btn');
-      const chevron = document.getElementById('mp-priority-chevron');
+      const menu = document.getElementById('mp-pm-menu');
+      const btn = document.getElementById('mp-pm-btn');
+      const chevron = document.getElementById('mp-pm-chevron');
       if (!menu) return;
       const isHidden = menu.classList.contains('hidden');
       if (isHidden) {
+        renderProjectModalPmOptions();
         menu.classList.remove('hidden');
         if (chevron) chevron.classList.add('rotate-180');
         if (btn) btn.setAttribute('aria-expanded', 'true');
@@ -13689,10 +13365,10 @@ Thank you!`;
       if (window.lucide) lucide.createIcons();
     }
 
-    function closeCustomPriorityDropdown() {
-      const menu = document.getElementById('mp-priority-menu');
-      const btn = document.getElementById('mp-priority-btn');
-      const chevron = document.getElementById('mp-priority-chevron');
+    function closeCustomPmDropdown() {
+      const menu = document.getElementById('mp-pm-menu');
+      const btn = document.getElementById('mp-pm-btn');
+      const chevron = document.getElementById('mp-pm-chevron');
       if (menu && !menu.classList.contains('hidden')) {
         menu.classList.add('hidden');
         if (chevron) chevron.classList.remove('rotate-180');
@@ -13700,40 +13376,29 @@ Thank you!`;
       }
     }
 
-    function syncCustomPriorityUI(val) {
-      const v = val || document.getElementById('mp-priority')?.value || 'Medium';
-      const conf = PRIORITY_DROPDOWN_CONFIG[v] || PRIORITY_DROPDOWN_CONFIG.Medium;
-      const display = document.getElementById('mp-priority-display');
+    function syncCustomPmUI(val) {
+      const name = (val || document.getElementById('mp-pm-name')?.value || 'Karlo RIVERA VELASQUEZ').trim();
+      const input = document.getElementById('mp-pm-name');
+      if (input && input.value !== name) input.value = name;
+      const display = document.getElementById('mp-pm-display');
       if (display) {
+        const initial = name.charAt(0).toUpperCase() || 'P';
         display.innerHTML = `
-          <span class="w-2.5 h-2.5 rounded-full ${conf.dotClass} ring-2 shrink-0"></span>
-          <span class="truncate">${conf.label}</span>
+          <span class="w-5 h-5 rounded-md bg-linear-to-br from-purple-500 to-indigo-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0">${initial}</span>
+          <span class="truncate">${name}</span>
         `;
       }
-      document.querySelectorAll('.mp-priority-opt').forEach(opt => {
-        const isMatch = opt.getAttribute('data-val') === v;
-        const check = opt.querySelector('.mp-priority-check');
-        if (isMatch) {
-          opt.className = `mp-priority-opt w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs text-left transition border ${conf.activeClass} font-bold group cursor-pointer`;
-          if (check) check.classList.remove('hidden');
-        } else {
-          opt.className = 'mp-priority-opt w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs text-left transition hover:bg-slate-50 border border-transparent text-slate-700 group cursor-pointer';
-          if (check) check.classList.add('hidden');
-        }
-      });
-      if (window.lucide) lucide.createIcons();
+      renderProjectModalPmOptions(name);
     }
 
-    function selectCustomPriority(val) {
-      const sel = document.getElementById('mp-priority');
-      if (sel) {
-        sel.value = val;
-        sel.dispatchEvent(new Event('change', { bubbles: true }));
-      }
-      syncCustomPriorityUI(val);
-      closeCustomPriorityDropdown();
+    function selectCustomPm(val) {
+      const input = document.getElementById('mp-pm-name');
+      if (input) input.value = val;
+      syncCustomPmUI(val);
+      closeCustomPmDropdown();
     }
 
+    // --- CUSTOM PACKAGE DROPDOWN CONTROLS ---
     const PACKAGE_DROPDOWN_CONFIG = {
       seo_essential: {
         shortLabel: 'SEO Essential',
@@ -13763,7 +13428,7 @@ Thank you!`;
         e.stopPropagation();
       }
       closeProjectModalLangDropdown();
-      closeCustomPriorityDropdown();
+      closeCustomPmDropdown();
       const menu = document.getElementById('mp-package-menu');
       const btn = document.getElementById('mp-package-btn');
       const chevron = document.getElementById('mp-package-chevron');
@@ -13797,10 +13462,7 @@ Thank you!`;
       const conf = PACKAGE_DROPDOWN_CONFIG[v] || PACKAGE_DROPDOWN_CONFIG.seo_essential;
       const display = document.getElementById('mp-package-display');
       if (display) {
-        display.innerHTML = `
-          <span class="truncate font-semibold text-slate-800">${conf.shortLabel}</span>
-          <span class="text-[9px] font-bold ${conf.badgeClass} border px-1.5 py-0.5 rounded-full shrink-0">${conf.badge}</span>
-        `;
+        display.innerHTML = `<span class="truncate font-semibold text-slate-800">${conf.shortLabel}</span>`;
       }
       document.querySelectorAll('.mp-package-opt').forEach(opt => {
         const isMatch = opt.getAttribute('data-val') === v;
@@ -14255,21 +13917,29 @@ Thank you!`;
       lucide.createIcons();
     }
 
+    function getPackageTierMeta(tier) {
+      if (tier === 'seo_content') return { label: 'SEO Content', badgeClass: 'bg-indigo-100 text-indigo-700' };
+      if (tier === 'seo_custom') return { label: 'SEO Custom', badgeClass: 'bg-amber-100 text-amber-800' };
+      if (tier === 'no_seo') return { label: 'No SEO', badgeClass: 'bg-slate-200 text-slate-700' };
+      return { label: 'SEO Essential', badgeClass: 'bg-purple-100 text-brand-purple' };
+    }
+
     function renderCustomPackageFilterOptions() {
       const menu = document.getElementById('menu-custom-filter-package');
       if (!menu) return;
       const currentVal = document.getElementById('filter-package')?.value || 'ALL';
       const items = [
-        { val: 'ALL', label: 'All Website Packages', badge: 'ALL' },
-        { val: 'seo_essential', label: 'SEO Essential', badge: 'Essential' },
-        { val: 'seo_content', label: 'SEO Content', badge: 'Content' },
-        { val: 'seo_custom', label: 'SEO Custom', badge: 'Custom' }
+        { val: 'ALL', label: 'All Website Packages' },
+        { val: 'seo_essential', label: 'SEO Essential' },
+        { val: 'seo_content', label: 'SEO Content' },
+        { val: 'seo_custom', label: 'SEO Custom' },
+        { val: 'no_seo', label: 'No SEO' }
       ];
 
       const header = `
         <div class="px-3 py-1.5 flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 mb-1">
           <span>Package Architecture</span>
-          <span class="text-amber-600 font-bold">3 tiers</span>
+          <span class="text-amber-600 font-bold">4 tiers</span>
         </div>
       `;
 
@@ -14277,64 +13947,25 @@ Thank you!`;
         const isSelected = item.val === currentVal;
         const count = item.val === 'ALL'
           ? projects.length
-          : projects.filter(p => p.packageTier === item.val).length;
+          : (item.val === 'no_seo'
+            ? projects.filter(p => p.packageTier === 'no_seo' || !isSeoPackage(p.packageTier) || p.hasSeoQuestionnaire === false).length
+            : projects.filter(p => p.packageTier === item.val).length);
 
-        let badgeStyles = 'bg-slate-100 text-slate-600';
-        if (item.val === 'seo_essential') badgeStyles = 'bg-purple-100 text-brand-purple';
-        if (item.val === 'seo_content') badgeStyles = 'bg-indigo-100 text-indigo-700';
-        if (item.val === 'seo_custom') badgeStyles = 'bg-amber-100 text-amber-800';
-
-        const iconEl = item.val === 'ALL'
-          ? `<span class="w-6 h-6 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 shadow-2xs"><i data-lucide="package" class="w-3.5 h-3.5"></i></span>`
-          : `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${badgeStyles} shrink-0 shadow-2xs">${item.badge}</span>`;
+        const meta = item.val === 'ALL' ? null : getPackageTierMeta(item.val);
+        const contentEl = item.val === 'ALL'
+          ? `<span class="flex items-center space-x-2.5 truncate min-w-0">
+              <span class="w-6 h-6 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 shadow-2xs"><i data-lucide="package" class="w-3.5 h-3.5"></i></span>
+              <span class="truncate">${item.label}</span>
+            </span>`
+          : `<span class="flex items-center truncate min-w-0">
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${meta.badgeClass} shrink-0">${meta.label}</span>
+            </span>`;
 
         return `
           <button type="button" onclick="selectCustomFilter('package', '${item.val}', '${item.label}')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150 cursor-pointer group text-left ${isSelected ? 'bg-purple-50 text-brand-purple font-bold ring-1 ring-purple-200/70 shadow-2xs' : 'text-slate-700 hover:bg-slate-50 hover:text-brand-purple'}">
-            <span class="flex items-center space-x-2.5 truncate min-w-0">
-              ${iconEl}
-              <span class="truncate">${item.label}</span>
-            </span>
+            ${contentEl}
             <div class="flex items-center space-x-1.5 shrink-0 ml-2">
               <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 group-hover:bg-purple-100 group-hover:text-brand-purple px-2 py-0.5 rounded-full transition">${count} ${count === 1 ? 'proj' : 'projs'}</span>
-              ${isSelected ? '<i data-lucide="check" class="w-4 h-4 text-brand-purple stroke-[2.5] ml-1 shrink-0"></i>' : ''}
-            </div>
-          </button>
-        `;
-      }).join('');
-
-      menu.innerHTML = header + options;
-      lucide.createIcons();
-    }
-
-    function renderCustomPriorityFilterOptions() {
-      const menu = document.getElementById('menu-custom-filter-priority');
-      if (!menu) return;
-      const currentVal = document.getElementById('filter-priority')?.value || 'ALL';
-      const accessible = getAccessibleProjects();
-      const items = [
-        { val: 'ALL', label: 'All Priorities', color: 'bg-slate-400', count: accessible.length },
-        { val: 'High', label: 'High Priority', color: 'bg-rose-500', count: accessible.filter(p => (p.priority || 'Medium') === 'High').length },
-        { val: 'Medium', label: 'Medium Priority', color: 'bg-amber-500', count: accessible.filter(p => (p.priority || 'Medium') === 'Medium').length },
-        { val: 'Low', label: 'Low Priority', color: 'bg-emerald-500', count: accessible.filter(p => (p.priority || 'Medium') === 'Low').length }
-      ];
-
-      const header = `
-        <div class="px-3 py-1.5 flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 mb-1">
-          <span>Priority Level</span>
-          <span class="text-rose-600 font-bold">3 tiers</span>
-        </div>
-      `;
-
-      const options = items.map(item => {
-        const isSelected = item.val === currentVal;
-        return `
-          <button type="button" onclick="selectCustomFilter('priority', '${item.val}', '${item.label}')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150 cursor-pointer group text-left ${isSelected ? 'bg-purple-50 text-brand-purple font-bold ring-1 ring-purple-200/70 shadow-2xs' : 'text-slate-700 hover:bg-slate-50 hover:text-brand-purple'}">
-            <span class="flex items-center space-x-2.5 truncate min-w-0">
-              <span class="w-2.5 h-2.5 rounded-full ${item.color} shrink-0"></span>
-              <span class="truncate">${item.label}</span>
-            </span>
-            <div class="flex items-center space-x-1.5 shrink-0 ml-2">
-              <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 group-hover:bg-purple-100 group-hover:text-brand-purple px-2 py-0.5 rounded-full transition">${item.count} ${item.count === 1 ? 'proj' : 'projs'}</span>
               ${isSelected ? '<i data-lucide="check" class="w-4 h-4 text-brand-purple stroke-[2.5] ml-1 shrink-0"></i>' : ''}
             </div>
           </button>
@@ -14357,7 +13988,6 @@ Thank you!`;
         if (type === 'pm') renderCustomPmFilterOptions();
         if (type === 'stage') renderCustomStageFilterOptions();
         if (type === 'package') renderCustomPackageFilterOptions();
-        if (type === 'priority') renderCustomPriorityFilterOptions();
         if (type === 'act-project') renderCustomActProjectFilterOptions();
         menu.classList.remove('hidden');
         if (chevron) chevron.classList.add('rotate-180');
@@ -14367,7 +13997,7 @@ Thank you!`;
 
     function closeAllCustomFilterDropdowns() {
       document.querySelectorAll('.custom-filter-menu').forEach(m => m.classList.add('hidden'));
-      ['pm', 'stage', 'package', 'priority', 'act-project'].forEach(t => {
+      ['pm', 'stage', 'package', 'act-project'].forEach(t => {
         const chevron = document.getElementById(`chevron-custom-filter-${t}`);
         if (chevron) chevron.classList.remove('rotate-180');
       });
@@ -14377,23 +14007,19 @@ Thank you!`;
       const pmVal = document.getElementById('filter-pm')?.value || 'ALL';
       const stageVal = document.getElementById('filter-stage')?.value || 'ALL';
       const pkgVal = document.getElementById('filter-package')?.value || 'ALL';
-      const prioVal = document.getElementById('filter-priority')?.value || 'ALL';
 
       // PM Button
       const btnPm = document.getElementById('btn-custom-filter-pm');
-      const dotPm = document.getElementById('dot-custom-filter-pm');
       const badgePm = document.getElementById('badge-count-filter-pm');
       if (btnPm) {
         if (pmVal !== 'ALL') {
           btnPm.className = 'w-full flex items-center justify-between px-3.5 py-2.5 bg-purple-50/80 border border-purple-300 rounded-xl text-xs font-semibold text-brand-purple shadow-xs ring-1 ring-purple-200/50 transition-all cursor-pointer group';
-          if (dotPm) dotPm.className = 'w-2 h-2 rounded-full bg-purple-600 shrink-0';
           if (badgePm) {
             badgePm.textContent = 'Filtered';
             badgePm.className = 'text-[10px] font-bold text-brand-purple bg-purple-100 px-2 py-0.5 rounded-full transition';
           }
         } else {
           btnPm.className = 'w-full flex items-center justify-between px-3.5 py-2.5 bg-slate-50/90 hover:bg-slate-100/90 border border-slate-200/90 hover:border-purple-300 rounded-xl text-xs font-semibold text-slate-800 transition-all shadow-2xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple group';
-          if (dotPm) dotPm.className = 'w-2 h-2 rounded-full bg-purple-500 shrink-0';
           if (badgePm) {
             badgePm.textContent = 'All team';
             badgePm.className = 'text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full transition';
@@ -14425,44 +14051,19 @@ Thank you!`;
 
       // Package Button
       const btnPkg = document.getElementById('btn-custom-filter-package');
-      const dotPkg = document.getElementById('dot-custom-filter-package');
       const badgePkg = document.getElementById('badge-count-filter-package');
       if (btnPkg) {
         if (pkgVal !== 'ALL') {
           btnPkg.className = 'w-full flex items-center justify-between px-3.5 py-2.5 bg-amber-50/80 border border-amber-300 rounded-xl text-xs font-semibold text-amber-800 shadow-xs ring-1 ring-amber-200/50 transition-all cursor-pointer group';
-          if (dotPkg) dotPkg.className = 'w-2 h-2 rounded-full bg-amber-600 shrink-0';
           if (badgePkg) {
             badgePkg.textContent = 'Filtered';
             badgePkg.className = 'text-[10px] font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full transition';
           }
         } else {
           btnPkg.className = 'w-full flex items-center justify-between px-3.5 py-2.5 bg-slate-50/90 hover:bg-slate-100/90 border border-slate-200/90 hover:border-purple-300 rounded-xl text-xs font-semibold text-slate-800 transition-all shadow-2xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple group';
-          if (dotPkg) dotPkg.className = 'w-2 h-2 rounded-full bg-amber-500 shrink-0';
           if (badgePkg) {
             badgePkg.textContent = 'All tiers';
             badgePkg.className = 'text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full transition';
-          }
-        }
-      }
-
-      // Priority Button
-      const btnPrio = document.getElementById('btn-custom-filter-priority');
-      const dotPrio = document.getElementById('dot-custom-filter-priority');
-      const badgePrio = document.getElementById('badge-count-filter-priority');
-      if (btnPrio) {
-        if (prioVal !== 'ALL') {
-          btnPrio.className = 'w-full flex items-center justify-between px-3.5 py-2.5 bg-rose-50/80 border border-rose-300 rounded-xl text-xs font-semibold text-rose-700 shadow-xs ring-1 ring-rose-200/50 transition-all cursor-pointer group';
-          if (dotPrio) dotPrio.className = 'w-2 h-2 rounded-full bg-rose-600 shrink-0';
-          if (badgePrio) {
-            badgePrio.textContent = prioVal;
-            badgePrio.className = 'text-[10px] font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full transition';
-          }
-        } else {
-          btnPrio.className = 'w-full flex items-center justify-between px-3.5 py-2.5 bg-slate-50/90 hover:bg-slate-100/90 border border-slate-200/90 hover:border-purple-300 rounded-xl text-xs font-semibold text-slate-800 transition-all shadow-2xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple group';
-          if (dotPrio) dotPrio.className = 'w-2 h-2 rounded-full bg-rose-500 shrink-0';
-          if (badgePrio) {
-            badgePrio.textContent = 'All';
-            badgePrio.className = 'text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full transition';
           }
         }
       }
@@ -14478,7 +14079,6 @@ Thank you!`;
       const pmVal = document.getElementById('filter-pm')?.value || 'ALL';
       const stageVal = document.getElementById('filter-stage')?.value || 'ALL';
       const pkgVal = document.getElementById('filter-package')?.value || 'ALL';
-      const prioVal = document.getElementById('filter-priority')?.value || 'ALL';
 
       const chips = [];
       if (pmVal !== 'ALL') {
@@ -14515,24 +14115,14 @@ Thank you!`;
         const pkgLabels = {
           'seo_essential': 'SEO Essential',
           'seo_content': 'SEO Content',
-          'seo_custom': 'SEO Custom'
+          'seo_custom': 'SEO Custom',
+          'no_seo': 'No SEO'
         };
         const pLabel = pkgLabels[pkgVal] || pkgVal;
         chips.push(`
           <span class="inline-flex items-center space-x-1.5 bg-amber-100 text-amber-800 text-[11px] font-bold px-2.5 py-0.5 rounded-lg border border-amber-200/60 shadow-2xs">
             <span>Tier: ${pLabel}</span>
             <button type="button" onclick="selectCustomFilter('package', 'ALL', 'All Website Packages')" class="hover:text-amber-950 cursor-pointer p-0.5">
-              <i data-lucide="x" class="w-3 h-3"></i>
-            </button>
-          </span>
-        `);
-      }
-
-      if (prioVal !== 'ALL') {
-        chips.push(`
-          <span class="inline-flex items-center space-x-1.5 bg-rose-100 text-rose-800 text-[11px] font-bold px-2.5 py-0.5 rounded-lg border border-rose-200/60 shadow-2xs">
-            <span>Priority: ${prioVal}</span>
-            <button type="button" onclick="selectCustomFilter('priority', 'ALL', 'All Priorities')" class="hover:text-rose-950 cursor-pointer p-0.5">
               <i data-lucide="x" class="w-3 h-3"></i>
             </button>
           </span>
@@ -14553,7 +14143,6 @@ Thank you!`;
       selectCustomFilter('pm', 'ALL', 'All Project Managers');
       selectCustomFilter('stage', 'ALL', 'All Stages');
       selectCustomFilter('package', 'ALL', 'All Website Packages');
-      selectCustomFilter('priority', 'ALL', 'All Priorities');
     }
 
     function selectCustomFilter(type, value, label) {
@@ -14567,15 +14156,12 @@ Thank you!`;
       renderBoardsGrid();
     }
 
-    // Close custom filter dropdowns and card stage dropdown on document click
+    // Close custom filter dropdowns on document click
     document.addEventListener('click', (e) => {
-      if (!e.target.closest('#btn-custom-filter-pm, #menu-custom-filter-pm, #btn-custom-filter-stage, #menu-custom-filter-stage, #btn-custom-filter-package, #menu-custom-filter-package, #btn-custom-filter-priority, #menu-custom-filter-priority, #btn-custom-filter-act-project, #menu-custom-filter-act-project, #global-stage-dropdown-portal, [id^="btn-stage-dropdown-"]')) {
+      if (!e.target.closest('#btn-custom-filter-pm, #menu-custom-filter-pm, #btn-custom-filter-stage, #menu-custom-filter-stage, #btn-custom-filter-package, #menu-custom-filter-package, #btn-custom-filter-act-project, #menu-custom-filter-act-project')) {
         closeAllCustomFilterDropdowns();
-        closeCardStageDropdown();
       }
     });
-
-    window.addEventListener('scroll', () => { closeCardStageDropdown(); }, true);
 
     function getProjectCurrentStageInfo(project) {
       if (!project) return { stageName: 'Website Structure', remainingTasks: 0, isAllDone: false, stageNum: 1 };
@@ -14669,212 +14255,6 @@ Thank you!`;
       };
     }
 
-    // --- QUICK CARD STAGE STATUS DROPDOWN CONTROLLER ---
-    let activeCardStageDropdownProjId = null;
-
-    function closeCardStageDropdown() {
-      const portal = document.getElementById('global-stage-dropdown-portal');
-      if (portal) {
-        portal.classList.add('hidden');
-        portal.innerHTML = '';
-      }
-      if (activeCardStageDropdownProjId) {
-        const prevChevron = document.getElementById(`chevron-stage-${activeCardStageDropdownProjId}`);
-        if (prevChevron) prevChevron.classList.remove('rotate-180');
-        const prevKbChevron = document.getElementById(`chevron-stage-kb-${activeCardStageDropdownProjId}`);
-        if (prevKbChevron) prevKbChevron.classList.remove('rotate-180');
-      }
-      activeCardStageDropdownProjId = null;
-    }
-
-    function toggleCardStageDropdown(e, projId, isKanban = false) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-
-      if (activeCardStageDropdownProjId === projId) {
-        closeCardStageDropdown();
-        return;
-      }
-
-      closeCardStageDropdown();
-
-      const project = projects.find(p => p.id === projId);
-      if (!project) return;
-
-      const triggerBtn = isKanban 
-        ? (document.getElementById(`btn-stage-dropdown-kb-${projId}`) || document.getElementById(`btn-stage-dropdown-${projId}`))
-        : (document.getElementById(`btn-stage-dropdown-${projId}`) || document.getElementById(`btn-stage-dropdown-kb-${projId}`));
-      if (!triggerBtn) return;
-
-      activeCardStageDropdownProjId = projId;
-
-      let portal = document.getElementById('global-stage-dropdown-portal');
-      if (!portal) {
-        portal = document.createElement('div');
-        portal.id = 'global-stage-dropdown-portal';
-        portal.className = 'fixed z-[99999] hidden select-none';
-        document.body.appendChild(portal);
-      }
-
-      const stageInfo = getProjectCurrentStageInfo(project);
-      const curNum = stageInfo.isAllDone ? 5 : stageInfo.stageNum;
-
-      const stageOptions = [
-        {
-          val: '1',
-          stageNum: 1,
-          name: '1. Website Structure',
-          shortName: 'Website Structure',
-          colorClasses: 'bg-violet-100 text-violet-800 border-violet-200/80',
-          dotBg: 'bg-violet-600 text-white',
-          isSelected: !stageInfo.isAllDone && curNum === 1
-        },
-        {
-          val: '2',
-          stageNum: 2,
-          name: '2. Content Collection',
-          shortName: 'Content Collection',
-          colorClasses: 'bg-sky-100 text-sky-800 border-sky-200/80',
-          dotBg: 'bg-sky-600 text-white',
-          isSelected: !stageInfo.isAllDone && curNum === 2
-        },
-        {
-          val: '3',
-          stageNum: 3,
-          name: '3. Revision Phase',
-          shortName: 'Revision Phase',
-          colorClasses: 'bg-amber-100 text-amber-800 border-amber-200/80',
-          dotBg: 'bg-amber-600 text-white',
-          isSelected: !stageInfo.isAllDone && curNum === 3
-        },
-        {
-          val: '4',
-          stageNum: 4,
-          name: '4. Go-Live',
-          shortName: 'Go-Live',
-          colorClasses: 'bg-emerald-100 text-emerald-800 border-emerald-200/80',
-          dotBg: 'bg-emerald-600 text-white',
-          isSelected: !stageInfo.isAllDone && curNum === 4
-        },
-        {
-          val: 'completed',
-          stageNum: '✓',
-          name: 'Completed / Finished',
-          shortName: 'Completed',
-          colorClasses: 'bg-teal-100 text-teal-800 border-teal-200/80',
-          dotBg: 'bg-teal-600 text-white',
-          isSelected: stageInfo.isAllDone
-        }
-      ];
-
-      const optionsHtml = stageOptions.map(opt => `
-        <button
-          type="button"
-          onclick="setProjectQuickStage('${projId}', '${opt.val}', event)"
-          class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-left transition-all duration-150 cursor-pointer group text-xs ${
-            opt.isSelected
-              ? 'bg-purple-50 text-brand-purple font-bold border border-purple-200/70 shadow-2xs'
-              : 'hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-semibold border border-transparent'
-          }"
-        >
-          <div class="flex items-center space-x-2 min-w-0 pr-1">
-            <span class="w-5 h-5 rounded-md ${opt.dotBg} flex items-center justify-center font-extrabold text-[10px] shrink-0 shadow-2xs select-none">
-              ${opt.stageNum}
-            </span>
-            <span class="truncate ${opt.isSelected ? 'text-brand-purple' : 'text-slate-800'}">${opt.shortName}</span>
-          </div>
-          ${opt.isSelected ? '<i data-lucide="check" class="w-4 h-4 text-brand-purple shrink-0 ml-1.5"></i>' : ''}
-        </button>
-      `).join('');
-
-      portal.innerHTML = `
-        <div class="w-[215px] bg-white rounded-2xl border border-slate-200 shadow-2xl shadow-purple-950/25 p-2 ring-1 ring-black/5 custom-status-dropdown-animate text-left" onclick="event.stopPropagation()">
-          <div class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between border-b border-slate-100 mb-1">
-            <span>Change Stage Status</span>
-            <i data-lucide="git-commit" class="w-3 h-3 text-brand-purple"></i>
-          </div>
-          <div class="space-y-0.5">
-            ${optionsHtml}
-          </div>
-          ${project.manualStage !== undefined && project.manualStage !== null ? `
-            <div class="mt-1.5 pt-1.5 border-t border-slate-100">
-              <button
-                type="button"
-                onclick="setProjectQuickStage('${projId}', 'auto', event)"
-                class="w-full flex items-center space-x-1.5 px-2 py-1 text-[11px] text-slate-500 hover:text-brand-purple hover:bg-purple-50 rounded-lg transition cursor-pointer font-medium"
-                title="Reset to automatic calculation from completed milestones"
-              >
-                <i data-lucide="refresh-cw" class="w-3 h-3"></i>
-                <span>Reset to Auto (by tasks)</span>
-              </button>
-            </div>
-          ` : ''}
-        </div>
-      `;
-
-      const rect = triggerBtn.getBoundingClientRect();
-      const menuWidth = 215;
-      let left = rect.left;
-      if (left + menuWidth > window.innerWidth - 10) {
-        left = window.innerWidth - menuWidth - 10;
-      }
-      if (left < 10) left = 10;
-
-      const menuHeight = (stageOptions.length * 36) + 70;
-      let top = rect.bottom + 6;
-      if (top + menuHeight > window.innerHeight - 10 && rect.top > menuHeight + 10) {
-        top = rect.top - menuHeight - 6;
-      }
-
-      portal.style.top = `${top}px`;
-      portal.style.left = `${left}px`;
-      portal.classList.remove('hidden');
-
-      const chevron = document.getElementById(`chevron-stage-${projId}`) || document.getElementById(`chevron-stage-kb-${projId}`);
-      if (chevron) chevron.classList.add('rotate-180');
-
-      if (window.lucide) lucide.createIcons();
-    }
-
-    function setProjectQuickStage(projId, newStage, e) {
-      if (e) {
-        if (e.stopPropagation) e.stopPropagation();
-        if (e.preventDefault) e.preventDefault();
-      }
-      closeCardStageDropdown();
-
-      const project = projects.find(p => p.id === projId);
-      if (!project) return;
-
-      const stageLabels = {
-        '1': 'Website Structure',
-        '2': 'Content Collection',
-        '3': 'Revision Phase',
-        '4': 'Go-Live',
-        'completed': 'Completed',
-        'auto': 'Auto (by tasks)'
-      };
-
-      if (newStage === 'auto') {
-        delete project.manualStage;
-        showSavingToast('Updating status...', 'Stage reset to Auto');
-      } else if (newStage === 'completed') {
-        project.manualStage = 'completed';
-        showSavingToast('Updating status...', 'Marked as Completed');
-      } else {
-        project.manualStage = parseInt(newStage, 10);
-        showSavingToast('Updating status...', `Status: ${stageLabels[newStage] || 'Stage ' + newStage}`);
-      }
-
-      saveProjectsToStorage();
-      renderBoardsGrid();
-      if (currentProjectId === projId) {
-        renderApp();
-      }
-    }
-
     function getProjectOverallProgress(project) {
       if (!project) return { pct: 0, done: 0, total: 0 };
       let totalTasks = 0;
@@ -14925,61 +14305,6 @@ Thank you!`;
     }
 
     let boardsViewMode = 'kanban';
-    let currentPrioritySort = 'none';
-
-    function setPrioritySort(mode) {
-      currentPrioritySort = mode;
-      const select = document.getElementById('sort-priority');
-      if (select && select.value !== mode) {
-        select.value = mode;
-      }
-      renderBoardsGrid();
-    }
-
-    function getPriorityWeight(priority) {
-      const p = (priority || 'Medium').toLowerCase();
-      if (p === 'high') return 3;
-      if (p === 'medium') return 2;
-      if (p === 'low') return 1;
-      return 2;
-    }
-
-    function getPriorityBadgeInfo(priority) {
-      const p = (priority || 'Medium').toLowerCase();
-      if (p === 'high') {
-        return {
-          label: 'High Priority',
-          shortLabel: 'High',
-          classes: 'bg-rose-50 text-rose-700 border-rose-200/90',
-          dot: 'bg-rose-500'
-        };
-      }
-      if (p === 'low') {
-        return {
-          label: 'Low Priority',
-          shortLabel: 'Low',
-          classes: 'bg-emerald-50 text-emerald-700 border-emerald-200/90',
-          dot: 'bg-emerald-500'
-        };
-      }
-      return {
-        label: 'Medium Priority',
-        shortLabel: 'Medium',
-        classes: 'bg-amber-50 text-amber-800 border-amber-200/90',
-        dot: 'bg-amber-500'
-      };
-    }
-
-    function sortProjectsByPriority(list, mode) {
-      if (!mode || mode === 'none') return [...list];
-      return [...list].sort((a, b) => {
-        const wa = getPriorityWeight(a.priority);
-        const wb = getPriorityWeight(b.priority);
-        if (mode === 'high-low') return wb - wa;
-        if (mode === 'low-high') return wa - wb;
-        return 0;
-      });
-    }
 
     function setBoardsViewMode(mode) {
       boardsViewMode = mode;
@@ -15003,9 +14328,9 @@ Thank you!`;
       }
       if (filtersGrid) {
         if (mode === 'kanban') {
-          filtersGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5';
+          filtersGrid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-3.5';
         } else {
-          filtersGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5';
+          filtersGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5';
         }
       }
 
@@ -15024,13 +14349,11 @@ Thank you!`;
       const pmFilter = document.getElementById('filter-pm')?.value || 'ALL';
       const stageFilter = (boardsViewMode === 'kanban') ? 'ALL' : (document.getElementById('filter-stage')?.value || 'ALL');
       const pkgFilter = document.getElementById('filter-package')?.value || 'ALL';
-      const prioFilter = document.getElementById('filter-priority')?.value || 'ALL';
 
       const baseProjects = getAccessibleProjects();
-      const filteredProjects = baseProjects.filter(p => {
+      const displayProjects = baseProjects.filter(p => {
         const matchesPm = (pmFilter === 'ALL' || (p.pmName || '') === pmFilter);
-        const matchesPkg = (pkgFilter === 'ALL' || p.packageTier === pkgFilter);
-        const matchesPrio = (prioFilter === 'ALL' || (p.priority || 'Medium') === prioFilter);
+        const matchesPkg = (pkgFilter === 'ALL' || (pkgFilter === 'no_seo' ? (p.packageTier === 'no_seo' || !isSeoPackage(p.packageTier) || p.hasSeoQuestionnaire === false) : p.packageTier === pkgFilter));
 
         let matchesStage = true;
         if (stageFilter !== 'ALL') {
@@ -15041,10 +14364,8 @@ Thank you!`;
             matchesStage = !stageInfo.isAllDone && (String(stageInfo.stageNum) === String(stageFilter) || stageInfo.stageName.toLowerCase().includes(stageFilter.toLowerCase()));
           }
         }
-        return matchesPm && matchesStage && matchesPkg && matchesPrio;
+        return matchesPm && matchesStage && matchesPkg;
       });
-
-      const displayProjects = sortProjectsByPriority(filteredProjects, currentPrioritySort);
 
       if (displayProjects.length === 0) {
         container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
@@ -15142,11 +14463,8 @@ Thank you!`;
             : colProjects.map(p => {
               const stageInfo = getProjectCurrentStageInfo(p);
               const prog = getProjectOverallProgress(p);
-              const prioInfo = getPriorityBadgeInfo(p.priority);
 
-              let pkgLabel = 'SEO Essential';
-              if (p.packageTier === 'seo_content') { pkgLabel = 'SEO Content'; }
-              if (p.packageTier === 'seo_custom') { pkgLabel = 'SEO Custom'; }
+              const pkgMeta = getPackageTierMeta(p.packageTier);
 
               const langBadges = (p.languages && p.languages.length > 0 ? p.languages : ['English']).map(lang => {
                 const meta = getDocLangMeta(lang);
@@ -15156,17 +14474,15 @@ Thank you!`;
                 return `<span class="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-50 text-slate-600 border border-slate-200" title="${meta.name || lang}">${flagImg}<span class="font-mono text-[9px] font-semibold">${meta.code}</span></span>`;
               }).join('');
 
-              const prioBorder = p.priority === 'High' ? 'border-l-rose-500' : (p.priority === 'Low' ? 'border-l-emerald-500' : 'border-l-amber-500');
-
               return `
-                <div onclick="currentProjectId='${p.id}'; switchView('timeline');" class="bg-white rounded-xl border border-slate-200 border-l-[3.5px] ${prioBorder} p-3.5 shadow-xs hover:shadow-md hover:border-slate-300 transition-all cursor-pointer space-y-3 group">
+                <div onclick="currentProjectId='${p.id}'; switchView('timeline');" class="bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs hover:shadow-md hover:border-slate-300 transition-all cursor-pointer space-y-3 group">
                   <!-- HEADER: TITLE + ACTION ICONS -->
                   <div class="flex items-start justify-between gap-2">
                     <div class="min-w-0 flex-1">
                       <h4 class="text-xs font-bold text-slate-900 group-hover:text-brand-purple transition leading-snug line-clamp-1" title="${p.name}">
                         ${p.name}
                       </h4>
-                      <p class="text-[10px] text-slate-400 font-medium truncate mt-0.5">${p.pmName || 'PM'}${p.authorizedPmName ? ` · Co-PM: ${p.authorizedPmName}` : ''}</p>
+                      <p class="text-[10px] text-slate-400 font-medium truncate mt-0.5">${p.pmName || 'PM'}</p>
                     </div>
                     <div class="flex items-center space-x-1 shrink-0 -mt-0.5" onclick="event.stopPropagation()">
                       <button type="button" onclick="copyProjectClientUrl(this, '${p.id}')" title="Copy Client Link" class="p-1 text-slate-400 hover:text-brand-purple hover:bg-slate-100 rounded-md transition cursor-pointer">
@@ -15180,29 +14496,16 @@ Thank you!`;
 
                   <!-- METADATA CHIPS (MINIMALIST) -->
                   <div class="flex items-center flex-wrap gap-1.5 text-[10px]">
-                    <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-600">
-                      ${pkgLabel}
-                    </span>
-                    <span class="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[10px] font-medium text-slate-500 bg-slate-50 border border-slate-200">
-                      <span class="w-1.5 h-1.5 rounded-full ${prioInfo.dot}"></span>
-                      <span>${prioInfo.shortLabel}</span>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${pkgMeta.badgeClass}">
+                      ${pkgMeta.label}
                     </span>
                     ${langBadges}
                   </div>
 
                   <!-- FOOTER: REMAINING TASKS & PROGRESS BAR -->
                   <div class="pt-1 border-t border-slate-100 space-y-1.5">
-                    <div class="flex items-center justify-between text-[10px]" onclick="event.stopPropagation()">
-                      <button
-                        type="button"
-                        id="btn-stage-dropdown-kb-${p.id}"
-                        onclick="toggleCardStageDropdown(event, '${p.id}', true)"
-                        class="inline-flex items-center space-x-1 text-slate-500 hover:text-slate-800 transition cursor-pointer select-none font-medium"
-                        title="Change stage"
-                      >
-                        <span class="truncate max-w-[170px]">${stageInfo.isAllDone ? 'Finished' : `${stageInfo.remainingTasks} task${stageInfo.remainingTasks === 1 ? '' : 's'} remaining`}</span>
-                        <i data-lucide="chevron-down" id="chevron-stage-kb-${p.id}" class="w-2.5 h-2.5 text-slate-400 transition-transform duration-200 shrink-0"></i>
-                      </button>
+                    <div class="flex items-center justify-between text-[10px]">
+                      <span class="text-slate-500 font-medium truncate max-w-[170px]">${stageInfo.isAllDone ? 'Finished' : `${stageInfo.remainingTasks} task${stageInfo.remainingTasks === 1 ? '' : 's'} remaining`}</span>
                       <span class="font-mono font-bold text-slate-700">${prog.pct}%</span>
                     </div>
                     <div class="w-full bg-slate-100 rounded-full h-1 overflow-hidden">
@@ -15248,11 +14551,8 @@ Thank you!`;
         const stageInfo = getProjectCurrentStageInfo(p);
         const stageColor = getStageTimelineColorClasses(stageInfo.stageNum, stageInfo.isAllDone);
         const prog = getProjectOverallProgress(p);
-        const prioInfo = getPriorityBadgeInfo(p.priority);
 
-        let pkgLabel = 'SEO Essential';
-        if (p.packageTier === 'seo_content') { pkgLabel = 'SEO Content'; }
-        if (p.packageTier === 'seo_custom') { pkgLabel = 'SEO Custom'; }
+        const pkgMeta = getPackageTierMeta(p.packageTier);
 
         const langBadges = (p.languages && p.languages.length > 0 ? p.languages : ['English']).map(lang => {
           const meta = getDocLangMeta(lang);
@@ -15262,10 +14562,8 @@ Thank you!`;
           return `<span class="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-50 text-slate-600 border border-slate-200" title="${meta.name || lang}">${flagImg}<span class="font-mono text-[9px] font-semibold">${meta.code}</span></span>`;
         }).join('');
 
-        const prioBorder = p.priority === 'High' ? 'border-l-rose-500' : (p.priority === 'Low' ? 'border-l-emerald-500' : 'border-l-amber-500');
-
         const card = document.createElement('div');
-        card.className = `bg-white rounded-2xl border border-slate-200 border-l-4 ${prioBorder} p-5 shadow-xs hover:border-slate-300 hover:shadow-md transition-all relative group cursor-pointer space-y-3.5`;
+        card.className = 'bg-white rounded-2xl border border-slate-200 p-5 shadow-xs hover:border-slate-300 hover:shadow-md transition-all relative group cursor-pointer space-y-3.5';
         card.onclick = () => { currentProjectId = p.id; switchView('timeline'); };
 
         card.innerHTML = `
@@ -15278,7 +14576,6 @@ Thank you!`;
               <p class="text-xs text-slate-400 font-medium truncate mt-0.5 flex items-center space-x-1.5">
                 <i data-lucide="user" class="w-3 h-3 text-slate-400 shrink-0"></i>
                 <span>${p.pmName || 'PM'}</span>
-                ${p.authorizedPmName ? `<span class="text-slate-300">·</span><span class="text-slate-500">Co-PM: ${p.authorizedPmName}</span>` : ''}
               </p>
             </div>
             <!-- ACTION BUTTONS: LINK & EDIT (DISCREET) -->
@@ -15292,32 +14589,19 @@ Thank you!`;
             </div>
           </div>
 
-          <!-- COMPACT METADATA ROW (PACKAGE, PRIORITY, LANGUAGES) -->
+          <!-- COMPACT METADATA ROW (PACKAGE, LANGUAGES) -->
           <div class="flex items-center flex-wrap gap-1.5 pt-0.5">
-            <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700">
-              ${pkgLabel}
-            </span>
-            <span class="inline-flex items-center space-x-1.5 px-2 py-0.5 rounded text-[11px] font-medium text-slate-600 bg-slate-50 border border-slate-200">
-              <span class="w-1.5 h-1.5 rounded-full ${prioInfo.dot}"></span>
-              <span>${prioInfo.label}</span>
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${pkgMeta.badgeClass}">
+              ${pkgMeta.label}
             </span>
             ${langBadges}
           </div>
 
           <!-- CURRENT STAGE & TASKS REMAINING (CLEAN SINGLE ROW) -->
-          <div class="pt-1 border-t border-slate-100 flex items-center justify-between gap-2 text-xs" onclick="event.stopPropagation()">
+          <div class="pt-1 border-t border-slate-100 flex items-center justify-between gap-2 text-xs">
             <div class="flex items-center space-x-1.5 min-w-0">
               <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Stage:</span>
-              <button
-                type="button"
-                id="btn-stage-dropdown-${p.id}"
-                onclick="toggleCardStageDropdown(event, '${p.id}')"
-                class="inline-flex items-center space-x-1 text-xs font-semibold text-slate-700 hover:text-brand-purple transition cursor-pointer select-none group/st truncate"
-                title="Change stage"
-              >
-                <span class="truncate max-w-[140px]">${stageInfo.stageName}</span>
-                <i data-lucide="chevron-down" id="chevron-stage-${p.id}" class="w-3 h-3 text-slate-400 group-hover/st:text-brand-purple transition-transform duration-200 shrink-0"></i>
-              </button>
+              <span class="text-xs font-semibold text-slate-700 truncate max-w-[140px]">${stageInfo.stageName}</span>
             </div>
             <div class="text-[11px] font-medium text-slate-500 shrink-0">
               ${stageInfo.isAllDone ? 'Finished' : `${stageInfo.remainingTasks} task${stageInfo.remainingTasks === 1 ? '' : 's'} remaining`}
@@ -15603,29 +14887,14 @@ Thank you!`;
       document.getElementById('mp-name').value = '';
       const defaultPm = (currentUser?.name) ? currentUser.name : 'Karlo RIVERA VELASQUEZ';
       document.getElementById('mp-pm-name').value = defaultPm;
+      syncCustomPmUI(defaultPm);
       document.getElementById('mp-client-email').value = '';
       const evoEl = document.getElementById('mp-evolution');
       if (evoEl) evoEl.value = 'Crystal';
       document.getElementById('mp-package').value = 'seo_essential';
       handleProjectModalPackageChange();
       document.getElementById('mp-drive').value = 'https://drive.google.com';
-      if (document.getElementById('mp-priority')) {
-        document.getElementById('mp-priority').value = 'Medium';
-      }
-      syncCustomPriorityUI('Medium');
       syncCustomPackageUI('seo_essential');
-
-      const authPmSelect = document.getElementById('mp-authorized-pm');
-      if (authPmSelect) {
-        const pmUsers = users.filter(u => u.role === 'pm');
-        authPmSelect.innerHTML = `
-          <option value="" selected>-- Aucun PM autorisé (Seul le PM créateur peut modifier) --</option>
-          ${pmUsers.map(u => `<option value="${u.email}">${u.name} (${u.email})</option>`).join('')}
-        `;
-        authPmSelect.disabled = false;
-        const noteEl = document.getElementById('mp-auth-pm-note');
-        if (noteEl) noteEl.textContent = '';
-      }
 
       renderProjectModalLanguages(['English', 'French']);
       const searchInput = document.getElementById('mp-lang-search');
@@ -15652,38 +14921,16 @@ Thank you!`;
       document.getElementById('modal-project-title-text').textContent = 'Edit Project Specificities';
       document.getElementById('mp-project-id').value = project.id;
       document.getElementById('mp-name').value = project.name;
-      document.getElementById('mp-pm-name').value = project.pmName || (currentUser?.name || 'Karlo RIVERA VELASQUEZ');
+      const assignedPm = project.pmName || (currentUser?.name || 'Karlo RIVERA VELASQUEZ');
+      document.getElementById('mp-pm-name').value = assignedPm;
+      syncCustomPmUI(assignedPm);
       document.getElementById('mp-client-email').value = project.clientEmail || '';
       const evoEl = document.getElementById('mp-evolution');
       if (evoEl) evoEl.value = project.evolutionTag || 'Crystal';
       document.getElementById('mp-package').value = project.packageTier || 'seo_essential';
       handleProjectModalPackageChange();
       document.getElementById('mp-drive').value = project.driveUrl;
-      if (document.getElementById('mp-priority')) {
-        document.getElementById('mp-priority').value = project.priority || 'Medium';
-      }
-      syncCustomPriorityUI(project.priority || 'Medium');
       syncCustomPackageUI(project.packageTier || 'seo_essential');
-
-      const authPmSelect = document.getElementById('mp-authorized-pm');
-      if (authPmSelect) {
-        const pmUsers = users.filter(u => u.role === 'pm');
-        const curPmEmail = (project.pmEmail || '').toLowerCase();
-        const currentAuthEmail = (project.authorizedPmEmail || '').toLowerCase();
-        authPmSelect.innerHTML = `
-          <option value="" ${!currentAuthEmail ? 'selected' : ''}>-- Aucun PM autorisé (Seul le PM créateur peut modifier) --</option>
-          ${pmUsers
-            .filter(u => u.email.toLowerCase() !== curPmEmail)
-            .map(u => `<option value="${u.email}" ${u.email.toLowerCase() === currentAuthEmail ? 'selected' : ''}>${u.name} (${u.email})</option>`)
-            .join('')}
-        `;
-        const isOwnerOrAdmin = isProjectOwner(project) || currentRole === 'admin';
-        authPmSelect.disabled = !isOwnerOrAdmin;
-        const noteEl = document.getElementById('mp-auth-pm-note');
-        if (noteEl) {
-          noteEl.textContent = isOwnerOrAdmin ? '' : 'Seul le PM créateur ou un Admin peut modifier la délégation.';
-        }
-      }
 
       const selectedLangs = project.languages || ['English'];
       ensureLanguagesAvailable(selectedLangs);
@@ -15716,35 +14963,24 @@ Thank you!`;
       const evo = document.getElementById('mp-evolution')?.value || 'Crystal';
       const tier = document.getElementById('mp-package').value;
       const drive = document.getElementById('mp-drive').value;
-      const priority = document.getElementById('mp-priority')?.value || 'Medium';
       const hasSeo = isSeoPackage(tier);
 
       const checkedLangs = Array.from(document.querySelectorAll('.mp-lang-checkbox:checked')).map(cb => cb.value);
       const projectLanguages = checkedLangs.length ? checkedLangs : ['English'];
-
-      const authPmSelect = document.getElementById('mp-authorized-pm');
-      let authEmail = '';
-      let authName = '';
-      if (authPmSelect && authPmSelect.value) {
-        authEmail = authPmSelect.value.trim();
-        const authUser = users.find(u => u.email.toLowerCase() === authEmail.toLowerCase());
-        authName = authUser ? authUser.name : authEmail.split('@')[0];
-      }
 
       if (projId) {
         const project = projects.find(p => p.id === projId);
         if (project) {
           project.name = name;
           project.pmName = pmName;
-          const assignedEmail = (currentRole === 'pm' && currentUser && currentUser.name === pmName && currentUser.email)
-            ? currentUser.email
-            : `${(pmName || 'pm').toLowerCase().trim().replace(/[^a-z0-9]/g, '')}@d-edge.com`;
+          const matchedPmUser = users.find(u => !u.revoked && (u.name || '').toLowerCase() === (pmName || '').toLowerCase().trim());
+          const assignedEmail = matchedPmUser?.email
+            || ((currentUser && currentUser.name === pmName && currentUser.email) ? currentUser.email : `${(pmName || 'pm').toLowerCase().trim().replace(/[^a-z0-9]/g, '')}@d-edge.com`);
           project.pmEmail = assignedEmail;
           project.clientEmail = clientEmail;
           project.evolutionTag = evo;
           project.languages = projectLanguages;
           project.hasSeoQuestionnaire = hasSeo;
-          project.priority = priority;
 
           // Automatically ensure sitemapDocs and textDocs exist for all selected languages
           projectLanguages.forEach((lang, idx) => {
@@ -15770,10 +15006,6 @@ Thank you!`;
             }
           });
 
-          if (authPmSelect && !authPmSelect.disabled) {
-            project.authorizedPmEmail = authEmail;
-            project.authorizedPmName = authName;
-          }
           if (project.packageTier !== tier) {
             project.packageTier = tier;
             project.steps = JSON.parse(JSON.stringify(PRD_TEMPLATES[tier] || PRD_TEMPLATES.seo_essential));
@@ -15791,23 +15023,20 @@ Thank you!`;
             }
           }
           project.driveUrl = drive;
-          logActivity('Project Specificities Updated', `Updated setup parameters for ${name} (${evo} / ${tier.toUpperCase()} / Priority: ${priority})`, 'sliders', 'project', project.id);
+          logActivity('Project Specificities Updated', `Updated setup parameters for ${name} (${evo} / ${tier.toUpperCase()})`, 'sliders', 'project', project.id);
         }
       } else {
         const defaultColors = { primary: '#5B1E82', secondary: '#C5A059', tertiary: '#F4F5F9' };
-        const assignedEmail = (currentRole === 'pm' && currentUser?.email)
-          ? currentUser.email
-          : `${(pmName || 'pm').toLowerCase().trim().replace(/[^a-z0-9]/g, '')}@d-edge.com`;
+        const matchedPmUser = users.find(u => !u.revoked && (u.name || '').toLowerCase() === (pmName || '').toLowerCase().trim());
+        const assignedEmail = matchedPmUser?.email
+          || ((currentUser && currentUser.name === pmName && currentUser.email) ? currentUser.email : `${(pmName || 'pm').toLowerCase().trim().replace(/[^a-z0-9]/g, '')}@d-edge.com`);
         const newProj = {
           id: `proj-${Date.now()}`,
           name: name,
           pmName: pmName,
           pmEmail: assignedEmail,
-          authorizedPmName: authName,
-          authorizedPmEmail: authEmail,
           clientEmail: clientEmail,
           evolutionTag: evo,
-          priority: priority,
           guides: JSON.parse(JSON.stringify(globalGuides)),
           tooltips: JSON.parse(JSON.stringify(globalTooltips)),
           sitemapDriveUrl: drive,
@@ -15862,7 +15091,7 @@ Thank you!`;
         projects.push(newProj);
         saveProjectsToStorage();
         currentProjectId = newProj.id;
-        logActivity('Project Board Created', `Initialized new hotel roadmap for "${name}" (${evo} / Priority: ${priority})`, 'plus-circle', 'project', newProj.id);
+        logActivity('Project Board Created', `Initialized new hotel roadmap for "${name}" (${evo})`, 'plus-circle', 'project', newProj.id);
       }
 
       updatePmFilterOptions();
@@ -16000,7 +15229,7 @@ Thank you!`;
       resetActiveInlineConfirm();
       if (id === 'modal-project') {
         closeProjectModalLangDropdown();
-        closeCustomPriorityDropdown();
+        closeCustomPmDropdown();
         closeCustomPackageDropdown();
       }
       const el = document.getElementById(id);
@@ -16010,13 +15239,13 @@ Thank you!`;
 
     // Fermer les listes déroulantes si clic à l'extérieur
     document.addEventListener('click', (e) => {
+      const pmWrap = document.getElementById('mp-pm-wrapper');
+      if (pmWrap && !pmWrap.contains(e.target)) {
+        closeCustomPmDropdown();
+      }
       const wrapper = document.getElementById('mp-lang-dropdown-wrapper');
       if (wrapper && !wrapper.contains(e.target)) {
         closeProjectModalLangDropdown();
-      }
-      const pWrap = document.getElementById('mp-priority-wrapper');
-      if (pWrap && !pWrap.contains(e.target)) {
-        closeCustomPriorityDropdown();
       }
       const pkgWrap = document.getElementById('mp-package-wrapper');
       if (pkgWrap && !pkgWrap.contains(e.target)) {
@@ -16406,6 +15635,98 @@ Thank you!`;
         console.log('[Auto Daily Digest Dispatched]', data);
       }).catch(e => console.warn('Auto digest silent dispatch note:', e));
     }
+  </script>
+
+  <!-- FIREBASE AUTH + GOOGLE PEOPLE WORKSPACE SIGN-IN (IN-MEMORY TOKEN ONLY) -->
+  <script type="module">
+    import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js';
+
+    const SCOPES = [
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/userinfo.profile'
+    ];
+
+    let authInstance = null;
+    let cachedAccessToken = null;
+    let initPromise = null;
+
+    async function ensureAuth() {
+      if (authInstance) return authInstance;
+      if (!initPromise) {
+        initPromise = (async () => {
+          const res = await fetch('/firebase-applet-config.json');
+          if (!res.ok) throw new Error('Unable to load Firebase configuration.');
+          const firebaseConfig = await res.json();
+          const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+          authInstance = getAuth(app);
+          onAuthStateChanged(authInstance, (user) => {
+            if (!user) {
+              cachedAccessToken = null;
+            }
+          });
+          return authInstance;
+        })();
+      }
+      return initPromise;
+    }
+
+    async function googleSignIn() {
+      const auth = await ensureAuth();
+      const provider = new GoogleAuthProvider();
+      SCOPES.forEach(scope => provider.addScope(scope));
+      // Always prompt account chooser so users can switch between Google Workspace accounts
+      provider.setCustomParameters({ prompt: 'select_account' });
+
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      if (!credential?.accessToken) {
+        throw new Error('Failed to get access token from Firebase Auth');
+      }
+      cachedAccessToken = credential.accessToken;
+
+      let displayName = result.user?.displayName || '';
+      let email = result.user?.email || '';
+
+      try {
+        const peopleRes = await fetch('https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses', {
+          headers: { Authorization: `Bearer ${cachedAccessToken}` }
+        });
+        if (peopleRes.ok) {
+          const people = await peopleRes.json();
+          const primaryName = (people.names || []).find(n => n.metadata?.primary) || (people.names || [])[0];
+          const primaryEmail = (people.emailAddresses || []).find(e => e.metadata?.primary) || (people.emailAddresses || [])[0];
+          if (primaryName?.displayName) displayName = primaryName.displayName;
+          if (primaryEmail?.value) email = primaryEmail.value;
+        }
+      } catch (_) {}
+
+      return {
+        user: result.user,
+        accessToken: cachedAccessToken,
+        email,
+        displayName
+      };
+    }
+
+    async function getAccessToken() {
+      return cachedAccessToken;
+    }
+
+    async function logout() {
+      cachedAccessToken = null;
+      if (authInstance) {
+        await authInstance.signOut();
+      }
+    }
+
+    window.__googleWorkspaceAuth = {
+      googleSignIn,
+      getAccessToken,
+      logout
+    };
+
+    ensureAuth().catch(err => console.error('Firebase Auth init error:', err));
   </script>
 </body>
 </html>
